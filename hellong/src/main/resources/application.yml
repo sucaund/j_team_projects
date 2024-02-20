@@ -1,0 +1,53 @@
+server:
+  port: 8484
+
+# Oracle Connect
+spring:
+
+  # File Size
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521/xe
+    username: hellong
+    password: tiger
+
+      # Jpa Setting
+  jpa:
+    show-sql: true
+    # Operation --> create / none / update
+    hibernate:
+      ddl-auto: update
+     # 아직 안만들어졌을때 create로 바꾸고 저장, 실행. 운영단계에선 none으로
+       
+   # view Resolver
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp           
+
+#  메일 전송
+  mail:
+    host: smtp.gmail.com
+    port: 587 
+#    587 고정값?
+    username: woakswoaks@gmail.com
+    password: nnbe klao hucq jdcj
+   #2차비밀번호..즉 '기기용 앱 비밀번호'로 해야한다. 
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+
+# Mybatis
+mybatis:
+  config-location: classpath:configuration.xml
+  mapper-locations: classpath:mappers/*.xml      
+  
+logging.level:
+  org.hibernate.SQL: debug   # logger를 통해 하이버네이트 실행 SQL      

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+	<typeAliases>
+		<typeAlias alias="Board"   	type="team.hellong.model.Board"/> 
+		<typeAlias alias="GS"   	type="team.hellong.model.GS"/> 
+		<typeAlias alias="GSDetail"  type="team.hellong.model.GSDetail"/>
+		<typeAlias alias="Gym"  type="team.hellong.model.Gym"/>
+		<typeAlias alias="GymBoard"  type="team.hellong.model.GymBoard"/>
+		<typeAlias alias="GymOrder"  type="team.hellong.model.GymOrder"/>
+		<typeAlias alias="GymReview"  type="team.hellong.model.GymReview"/>
+		<typeAlias alias="Member"  type="team.hellong.model.Member"/>
+		<typeAlias alias="PointCharge"  type="team.hellong.model.PointCharge"/>
+		<typeAlias alias="Report"  type="team.hellong.model.Report"/>
+		<typeAlias alias="Scrap"  type="team.hellong.model.Scrap"/>
+		<typeAlias alias="Trainer"  type="team.hellong.model.Trainer"/>
+		<typeAlias alias="Zzim"  type="team.hellong.model.Zzim"/>
+		
+	</typeAliases>
+</configuration>
