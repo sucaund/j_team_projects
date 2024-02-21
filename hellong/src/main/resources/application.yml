@@ -11,10 +11,10 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    driver-class-name: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@localhost:1521/xe
     username: hellong
     password: tiger
+    driver-class-name: oracle.jdbc.driver.OracleDriver
 
       # Jpa Setting
   jpa:
@@ -28,7 +28,7 @@ spring:
   mvc:
     view:
       prefix: /WEB-INF/views/
-      suffix: .jsp           
+      suffix: .jsp
 
 #  메일 전송
   mail:
@@ -47,7 +47,8 @@ spring:
 # Mybatis
 mybatis:
   config-location: classpath:configuration.xml
-  mapper-locations: classpath:mappers/*.xml      
+  mapper-locations: classpath:mappers/*.xml
+  
   
 logging.level:
-  org.hibernate.SQL: debug   # logger를 통해 하이버네이트 실행 SQL      
+  org.hibernate.SQL: debug   # logger를 통해 하이버네이트 실행 SQL

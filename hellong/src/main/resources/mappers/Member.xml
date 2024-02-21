@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="team.hellong.MemberMapper">
-	<select id="DYMemCount" parameterType="java.lang.String" resultType="int">
-	<!-- 이렇게 이름으로 구분(Mapper는 같이 쓰니까) -->
-	</select>
-	
-	<select id="HSListMember" parameterType="Member" resultType="Member">
+<mapper namespace="com.oracle.hellong.MemberMapper">
 
-	</select>
-	
-	<select id="JSInsertMember" parameterType="Member">
-	
-	</select>
 
 </mapper>
