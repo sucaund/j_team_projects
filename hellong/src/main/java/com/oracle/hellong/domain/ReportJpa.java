@@ -21,7 +21,7 @@ import lombok.ToString;
 @Setter
 @ToString
 //@SequenceGenerator(name = "report_seq_gen", sequenceName = "report_seq_generate", initialValue = 1, allocationSize = 1) 
-public class ReportJpa { //신고
+public class ReportJpa { //신고 report
 
 	
 	@Id

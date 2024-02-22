@@ -21,7 +21,7 @@ import lombok.ToString;
 @Setter
 @ToString
 //@SequenceGenerator(name = "trainer_seq_gen", sequenceName = "trainer_seq_generate", initialValue = 1, allocationSize = 1) 
-public class TrainerJpa { //트레이너
+public class TrainerJpa { //트레이너 trainer
 
 	
 	  	@Id

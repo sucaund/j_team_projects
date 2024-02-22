@@ -24,7 +24,7 @@ import jakarta.persistence.Transient;
 @Setter
 @ToString
 //@SequenceGenerator(name = "gym_seq_gen", sequenceName = "g_id", initialValue = 1, allocationSize = 1) 
-public class GymJpa {//체육관
+public class GymJpa {//체육관 gym
 	
 	@Id
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gym_seq_gen")	

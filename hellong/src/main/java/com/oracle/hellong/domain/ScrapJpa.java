@@ -17,7 +17,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ScrapJpa { //스크랩(게시물)
+public class ScrapJpa { //스크랩(게시물) scrap
 
 	
 	@Id
