@@ -3,7 +3,7 @@ package com.oracle.hellong.model;
 import lombok.Data;
 
 @Data
-public class GS { //체육관 서비스
+public class GS { //체육관 서비스 g_s
 	 private int g_id;//체육관id //pk //foreign //nn
 	    private int s_number;//서비스번호 //pk nn
 	    private String s_name;//서비스명 //nn

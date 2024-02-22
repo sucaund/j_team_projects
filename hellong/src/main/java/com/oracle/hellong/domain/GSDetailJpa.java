@@ -21,14 +21,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class GSDetailJpa { //체육관 상세서비스
+public class GSDetailJpa { //체육관 상세서비스 g_s_detail
 
 	
 	@Id
 	private int g_id; //체육관id //pk //f //nn 
 	
 	@Id
-    private int s_number; //서비스번호 pk f
+    private int s_number; //서비스번호 pk f //nn?
     
 
 	@Id

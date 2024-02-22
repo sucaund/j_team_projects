@@ -4,7 +4,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class Report { //신고
+public class Report { //신고 report
 	   private int b_number; //게시글id f pk p nn
 	    private int report_id; //신고 id pk nn
 	    private int m_number; //멤버번호 f

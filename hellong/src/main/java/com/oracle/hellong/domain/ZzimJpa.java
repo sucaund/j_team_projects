@@ -17,7 +17,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ZzimJpa { //찜(헬스장)
+public class ZzimJpa { //찜(헬스장) zzim
 	
 	@Id
 	 private int g_id; //체육관id pk nn f

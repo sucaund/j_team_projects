@@ -4,7 +4,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class GSDetail { //체육관 상세서비스
+public class GSDetail { //체육관 상세서비스 g_s_detail
 	   private int g_id; //체육관id //pk //f //nn
 	    private int s_number;//서비스번호 //pk //f //nn
 	    private int s_detail;//서비스상세 //pk //nn

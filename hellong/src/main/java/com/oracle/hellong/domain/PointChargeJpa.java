@@ -22,7 +22,7 @@ import lombok.ToString;
 @Setter
 @ToString
 //@SequenceGenerator(name = "point_charge_seq_gen", sequenceName = "point_charge_seq_generate", initialValue = 1, allocationSize = 1) 
-public class PointChargeJpa { //포인트 충전
+public class PointChargeJpa { //포인트 충전 point_charge
 	
 	
 	@Id

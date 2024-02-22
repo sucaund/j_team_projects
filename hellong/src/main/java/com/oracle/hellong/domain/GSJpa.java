@@ -22,7 +22,7 @@ import lombok.ToString;
 @Setter
 @ToString
 //@SequenceGenerator(name = "gs_seq_gen", sequenceName = "s_number", initialValue = 1, allocationSize = 1) 
-public class GSJpa { //체육관서비스
+public class GSJpa { //체육관서비스 g_s
 	
 	
 	@Id

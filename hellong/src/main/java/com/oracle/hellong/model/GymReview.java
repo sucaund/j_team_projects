@@ -4,7 +4,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class GymReview {
+public class GymReview { //체육관 리뷰 gym_review
 	 private int g_id	; //체육관Id pk nn f
 	    private int s_number; //서비스 번호 pk nn f
 	    private int s_detail; //서비스 상세 pk  nn f

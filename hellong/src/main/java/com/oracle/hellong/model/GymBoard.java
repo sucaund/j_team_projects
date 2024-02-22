@@ -5,8 +5,8 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class GymBoard { //체육관 게시글(등록)
-	  private int g_id; //체육관id f nn
+public class GymBoard { //체육관 게시글(등록) gym_board
+	  private int g_id; //체육관id pk f nn
 	    private String gb_title;//제목 //nn
 	    private Date gb_regdate; //작성날짜 //nn
 	    private String gb_ment;//대표멘트

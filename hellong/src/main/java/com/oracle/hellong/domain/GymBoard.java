@@ -22,7 +22,7 @@ import jakarta.persistence.Table;
 @Getter
 @Setter
 @ToString
-public class GymBoard { //체육관 게시글
+public class GymBoard { //체육관 게시글 gym_board
 	
 
 	@Id

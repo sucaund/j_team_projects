@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class Trainer { //트레이너
+public class Trainer { //트레이너 trainer
 	 private int g_id;//체육관id nn pk f
 	    private int t_id;//트레이너id nn pk
 	    private String t_name;//이름 nn

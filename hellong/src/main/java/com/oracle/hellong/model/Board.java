@@ -6,7 +6,7 @@ import lombok.Data;
 
 
 @Data
-public class Board { //게시판 게시물
+public class Board { //게시판 게시물 board
 	 private int b_number; //게시글id //pk //nnull  
 	  private int m_number; //멤버번호 //foreign
 	    private int b_category; //카테고리

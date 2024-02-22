@@ -22,7 +22,7 @@ import lombok.ToString;
 @Setter
 @ToString																				//초기값				//증가값
 //@SequenceGenerator(name = "member_seq_gen", sequenceName = "m_number", initialValue = 1, allocationSize = 1) // 시퀀스 생성
-public class MemberJpa { //회원
+public class MemberJpa { //회원 member
 
 	@Id 
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq_gen")

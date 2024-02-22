@@ -4,9 +4,9 @@ import java.util.Date;
 
 import lombok.Data;
 @Data
-public class Gym { //체육관
+public class Gym { //체육관 gym
 	 private int g_id; //체육관 id  pk nn
-	    private int m_number; //멤버번호-사장 p
+	    private int m_number; //멤버번호-사장 f
 	    private String g_name; //상호명 //nn
 	    private String g_address; //주소 //nn
 	    private String g_tel; //전화번호

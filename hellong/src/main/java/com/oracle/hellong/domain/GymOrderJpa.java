@@ -22,7 +22,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class GymOrderJpa { //주문( 체육관 서비스 등록)
+public class GymOrderJpa { //주문( 체육관 서비스 등록) gym_order
 	
 	
 	@Id

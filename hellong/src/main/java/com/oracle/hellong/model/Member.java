@@ -4,7 +4,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class Member {
+public class Member { //회원 //member
 	  private int m_number; // pk 멤버번호 nn
 	    private String m_id; //멤버아이디
 	    private String m_pw; //멤버비밀번호

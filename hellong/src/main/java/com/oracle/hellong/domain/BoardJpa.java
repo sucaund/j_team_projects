@@ -21,7 +21,7 @@ import lombok.ToString;
 @Setter
 @ToString
 //@SequenceGenerator(name = "board_seq_gen", sequenceName = "b_number", initialValue = 1, allocationSize = 1) 
-public class BoardJpa { //게시판 게시물
+public class BoardJpa { //게시판 게시물 board
 
 	@Id
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_seq_gen")

@@ -26,7 +26,7 @@ public class ScrapJpa { //스크랩(게시물)
 	
 	
 	@Id
-    private int b_number; //게시글  pk f nn
+    private int b_number; //게시글번호  pk f nn
 	
 //	@ManyToOne
 //	@JoinColumn(name = "m_number")

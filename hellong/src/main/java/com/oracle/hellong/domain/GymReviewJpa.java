@@ -21,7 +21,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class GymReviewJpa { //체육관 리뷰
+public class GymReviewJpa { //체육관 리뷰 gym_review
 
 	
 	@Id
