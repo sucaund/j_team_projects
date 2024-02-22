@@ -13,12 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class JMController {
-	
-	private final JavaMailSender mailSender; // 이것또한 생성자 생성됨 
-
-
 
 	private final JMService jm;
+	
+	private final JavaMailSender mailSender; // 이것또한 생성자 생성됨 
+    //////////0204
 
 
 }
