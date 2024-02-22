@@ -17,7 +17,7 @@ public class JMController {
 	private final JMService jm;
 	
 	private final JavaMailSender mailSender; // 이것또한 생성자 생성됨 
-    //////////0204
+
 
 
 }
