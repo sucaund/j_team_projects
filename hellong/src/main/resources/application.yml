@@ -1,5 +1,5 @@
 server:
-  port: 8897
+  port: 8484
 
 # Oracle Connect
 spring:
