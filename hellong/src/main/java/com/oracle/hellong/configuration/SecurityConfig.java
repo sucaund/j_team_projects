@@ -20,7 +20,7 @@ public class SecurityConfig {
 		    .csrf(csrf -> csrf.disable())
 		    ;
 		
-		return http.build();
+		return http.build(); //0649
 	}
 
 }
