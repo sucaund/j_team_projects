@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<<<<<<< HEAD
 <meta charset="UTF-8">
 <title>Login</title>
 </head>
@@ -23,3 +24,16 @@ PW : <input type="password" name="member_pw"><br />
 </html>
 
 
+=======
+    <meta charset="UTF-8">
+    <title>로그인</title>
+</head>
+<body>
+    <h2>로그인</h2>
+    <form action="loginAction" method="post">
+        사용자 이름: <input type="text" name="member_id"><br>
+        <input type="submit" value="로그인">
+    </form>
+</body>
+</html>
+>>>>>>> a2eb340de3f281bcfb7bc5ae683c3561c9560d47

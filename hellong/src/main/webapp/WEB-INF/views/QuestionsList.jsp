@@ -38,6 +38,7 @@
             <div class="posts-grid"></div>
             <div class="pagination">
 
+<<<<<<< HEAD
 			<c:set var="num" value="${page.total-page.start+1 }"></c:set>
 <table>
 		<tr><th >번호</th><th>제목</th><th>작성일</th><th>답글</th></tr>
@@ -47,6 +48,13 @@
 			<td>${board.b_regdate}</td><p>
 			<td>${board.b_comm_group }</td>
 			</tr>
+=======
+<table>
+		<tr><th >번호</th><th>제목</th><th>작성일</th><th>답글</th></tr>
+		<c:forEach var="Board" items="${listBoard}">
+			<tr><td>${num }</td><td>${Board.B_TITLE }</td>
+			<td>${Board.B_REGDATE}</td><td>${Board.B_COMM_GROUP }</td></tr>
+>>>>>>> a2eb340de3f281bcfb7bc5ae683c3561c9560d47
 			<c:set var="num" value="${num - 1 }"></c:set>
 		</c:forEach>
 	</table>	
