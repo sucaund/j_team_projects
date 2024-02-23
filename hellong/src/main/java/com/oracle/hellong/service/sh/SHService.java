@@ -8,7 +8,7 @@ public interface SHService {
 
 	int totalquestions();
 
-
+	boolean authenticate(String userId, String password);
 
 	int sameId(String member_id);
 
