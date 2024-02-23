@@ -47,12 +47,12 @@ public class QBoarddaoImpl implements QBoarddao {
 
 	//해당아이디 문의글만 가져오기
 	@Override
-	public List<Board> quelist(String member_id) {
+	public List<Board> quelist(Board board) {
 		System.out.println("QBoarddaoImpl quelist start...?");
-		System.out.println("QBoarddaoImpl quelist member_id->"+member_id);
+		System.out.println("QBoarddaoImpl quelist member_id->"+board);
 		List<Board> listque = null;
 		try {
-			listque =session.selectList("samequeboard",member_id);
+			listque =session.selectList("samequeboard",board);
 			System.out.println("QBoarddaoImpl quelist listque.size()-->"+listque.size());
 		} catch (Exception e) {
 			System.out.println("QBoarddaoImpl quelist e.getMessage()->"+e.getMessage());

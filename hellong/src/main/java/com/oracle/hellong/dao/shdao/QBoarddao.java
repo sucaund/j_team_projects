@@ -12,6 +12,6 @@ public interface QBoarddao {
 
 	int sameId(String member_id);
 
-	List<Board> quelist(String member_id);
+	List<Board> quelist(Board board);
 
 }

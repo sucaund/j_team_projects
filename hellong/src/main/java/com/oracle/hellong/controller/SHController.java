@@ -67,16 +67,21 @@ public class SHController {
 		System.out.println("SHController loginAction member_id->"+member_id);
 		int sameId = sh.sameId(member_id);	
 		System.out.println("SHController loginAction sameId"+sameId);
-		List<Board> boardlist = null;
+		
 		if(sameId != 0) {
+			
 			String currentPage = "1";
 			System.out.println("SHController Start questionsList..." );
 			int toalquestions = sh.totalquestions();
+			// Paging 작업
 			Paging   page = new Paging(toalquestions, currentPage);
-			board.setStart(toalquestions);
-			board.setEnd(toalquestions);
-			List<Board> listBoard = sh.quelist(member_id);
-			System.out.println("SHController listBoard size-->" + listBoard.size());
+			// Parameter board --> Page만 추가 Setting
+			board.setStart(page.getStart());
+			board.setEnd(page.getEnd());
+			
+			List<Board> listBoard = sh.quelist(board);
+			System.out.println("SHController loginAction listBoard size-->" + listBoard.size());
+			
 			model.addAttribute("toalquestions",toalquestions);
 			model.addAttribute("listBoard",listBoard);
 			model.addAttribute("page",page);
@@ -85,28 +90,30 @@ public class SHController {
 	}
 	
 	@PostMapping("listque")
-	public String quelist (Board board,Model model,HttpSession session) {
+	public String quelist (HttpSession session,Board board,Model model) {
 		System.out.println("SHController login start...");
 		String member_id = (String) session.getAttribute("m_id");
-		int sameId = sh.sameId(member_id);		
-		List<Board> boardlist = null;
+		System.out.println("SHController loginAction member_id->"+member_id);
+		int sameId = sh.sameId(member_id);	
+		System.out.println("SHController loginAction sameId"+sameId);
+		
 		if(sameId != 0) {
-			String currentPage = "1";
-			System.out.println("SHController Start questionsList..." );
+			
+			System.out.println("SHController Start quelist..." );
 			int toalquestions = sh.totalquestions();
-			Paging   page = new Paging(toalquestions, currentPage);
-			board.setStart(toalquestions);
-			board.setEnd(toalquestions);
-			List<Board> listBoard = sh.quelist(member_id);
+			// Paging 작업
+			Paging   page = new Paging(toalquestions, board.getCurrentPage());
+			// Parameter board --> Page만 추가 Setting
+			board.setStart(page.getStart());
+			board.setEnd(page.getEnd());
+			
+			List<Board> listBoard = sh.quelist(board);
 			System.out.println("SHController listBoard size-->" + listBoard.size());
+			
 			model.addAttribute("toalquestions",toalquestions);
 			model.addAttribute("listBoard",listBoard);
 			model.addAttribute("page",page);
 		}
 		return "QuestionsList";	
-	}
-	
-	
-	
-	
+	}	
 }

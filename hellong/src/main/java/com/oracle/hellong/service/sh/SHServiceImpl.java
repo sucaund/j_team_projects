@@ -45,10 +45,10 @@ public class SHServiceImpl implements SHService {
 	}
 
 	@Override
-	public List<Board> quelist(String member_id) {
+	public List<Board> quelist(Board board) {
 		System.out.println("SHServiceImpl Start quelist..." );
 		List<Board> boardList = null;
-		boardList = qd.quelist(member_id);
+		boardList = qd.quelist(board);
 		System.out.println("SHServiceImpl boardList size-->" + boardList.size());
 		return boardList;
 	}

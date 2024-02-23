@@ -52,13 +52,13 @@
 	</table>	
 	
 	<c:if test="${page.startPage > page.pageBlock }">
-		<a href="listEmp?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
+		<a href="listque?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
 	</c:if>
 	<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-		<a href="listEmp?currentPage=${i}">[${i}]</a>
+		<a href="listque?currentPage=${i}">[${i}]</a>
 	</c:forEach>
 	<c:if test="${page.endPage < page.totalPage }">
-		<a href="listEmp?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
+		<a href="listque?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
 	</c:if>	
 
 

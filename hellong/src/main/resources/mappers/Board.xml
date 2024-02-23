@@ -13,7 +13,7 @@
     WHERE M_ID = #{member_id}
 </select>
  
- <select id="samequeboard"   parameterType="string"   resultType="Board">
+ <select id="samequeboard"   parameterType="Board"   resultType="Board">
 	SELECT *
 	FROM BOARD B
 	JOIN MEMBER M ON B.M_NUMBER = M.M_NUMBER
