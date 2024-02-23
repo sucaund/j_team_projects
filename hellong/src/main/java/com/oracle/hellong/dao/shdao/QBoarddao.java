@@ -1,12 +1,12 @@
-package com.oracle.hellong.service.sh;
+package com.oracle.hellong.dao.shdao;
 
 import java.util.List;
 
 import com.oracle.hellong.model.Board;
 
-public interface SHService {
+public interface QBoarddao {
 
-	int totalquestions();
+	int               totalQue();
 
 
 

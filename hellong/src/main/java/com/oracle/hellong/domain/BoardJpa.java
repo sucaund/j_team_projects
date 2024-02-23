@@ -44,6 +44,8 @@ public class BoardJpa { //게시판 게시물 board
 	    private int b_comm_indent; //indent
 	    private int b_comm_step; //step
 	    
+	    
+	    
 //	    @ManyToOne
 //		@JoinColumn(name = "m_number")
 //		private MemberJpa memberJpa;

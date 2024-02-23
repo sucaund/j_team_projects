@@ -23,4 +23,10 @@ public class Board { //게시판 게시물 board
 	    private int b_comm_indent; //indent
 	    private int b_comm_step; //step
 	    
+	 // 조회용
+		private String search;   	   private String keyword;
+		private String pageNum;  
+		private int start; 		 	   private int end;
+		// Page 정보
+		private String currentPage;
 }

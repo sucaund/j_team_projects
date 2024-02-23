@@ -2,5 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.BoardMapper">
 
+	<select id="boardTotal" resultType="int">
+	SELECT Count(*) FROM BOARD WHERE B_CATEGORY = 3
+	</select>
+     
+     
+<select id="checkMemberIdExists" parameterType="string" resultType="int">
+    SELECT COUNT(*)
+    FROM MEMBER
+    WHERE M_ID = #{member_id}
+</select>
+ 
+ <select id="samequeboard"   parameterType="string"   resultType="Board">
+	SELECT *
+	FROM BOARD B
+	JOIN MEMBER M ON B.M_NUMBER = M.M_NUMBER
+	WHERE M.M_ID = #{member_id}
+	AND B.B_CATEGORY = 3
+</select>
 
 </mapper>
