@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.MemberMapper">
+	<!-- mybatis에서 사용(configuration.xml도 마찬가지) -->
+	<select id="jmMemberTotal" resultType="int"> <!-- 이 타입은 DaoImpl에서 이걸 꺼내 쓰는 타입 -->
+		SELECT Count(*) FROM member
+	</select>
 
+
+	<!-- jmMemberDaoImpl -> jmDetailMember에서 사용 -->			<!-- 이 타입은 configuration에서 alias로 정해준것 -->
+	<select id="jmMemberListAll" parameterType="Member"
+		resultType="Member">
+		<![CDATA[
+		SELECT
+		*
+		FROM
+		(
+		SELECT rownum rn , a.*
+		FROM
+		(select * from member order by m_id) a
+		)			
+		WHERE rn >= #{start} 
+		and rn<=#{end} 
+		]]> 	<!-- # 여기 안에 있는게 파라미터 타입 -->
+	</select>
+
+	<!-- jmMemberDaoImpl -> jmDetailMember에서 사용 -->
+	<select id="jmMemberSelectOne" parameterType="int"
+		resultType="Member">
+		SELECT * FROM member WHERE m_number = #{m_number}
+	</select>
+
+	<update id="jmMemberUpdate" parameterType="Member">
+		UPDATE member SET
+		<if test="#{comm}!=null"> m_id=#{m_id},  </if>
+		m_pw=#{m_pw}, m_name=#{m_name},
+		m_age=#{m_age}, m_gender=#{m_gender},
+		m_phone=#{m_phone},
+		m_email=#{m_email}, m_address=#{m_address}
+		WHERE m_id=#{m_id}
+	</update>
+
+	<insert id="insertMember" parameterType="Member">
+		<selectKey keyProperty="m_number" resultType="int"
+			order="BEFORE">
+			SELECT m_number.NEXTVAL FROM DUAL
+		</selectKey>
+		insert into member (m_number, m_id, m_pw, m_name, m_age, 
+		m_gender, m_phone, m_email, m_address, m_regdate, m_currpoint, m_rank,
+		m_isdeleted )
+		values ( #{m_number}, #{m_id}, #{m_pw}, #{m_pw}, #{m_name}, #{m_age},
+		#{m_gender}, #{m_phone}, #{m_email}, #{m_address}, NOW(), 0, 1,
+		0 )
+	</insert>
 
 </mapper>

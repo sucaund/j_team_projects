@@ -1,4 +1,4 @@
-package com.oracle.hellong.service.jm;
+package com.oracle.hellong.dao.jmdao;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import com.oracle.hellong.model.Member;
 
 import jakarta.validation.Valid;
 
-public interface JMService {
-	
+public interface JmMemberDao {
+
 	int jmTotalMember();
 
 	List<Member> jmListMember(Member member);
@@ -19,9 +19,6 @@ public interface JMService {
 	List<Member> jmListMember();
 
 	int insertMember(@Valid Member member);
-
-	
-
 
 
 }

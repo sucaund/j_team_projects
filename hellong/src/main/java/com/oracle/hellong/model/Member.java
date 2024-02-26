@@ -18,4 +18,12 @@ public class Member { //회원 //member
 	    private int m_currpoint; //포인트잔액
 	    private int m_rank; //멤버등급(권한)
 	    private int m_isdeleted; //삭제여부
+	    
+		// 조회용 -> 실제로 db에 없어도 됨
+		private String search;   	   private String keyword;
+		private String pageNum;  
+		private int start; 		 	   private int end;
+		// Page 정보 -> 실제로 db에 없어도 됨
+		private String currentPage;
+		
 }
