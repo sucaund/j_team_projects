@@ -1,1 +1,3 @@
-static 폴더 안에 index.css index.js 파일 넣었고 포트번호 8897로 변경되어씁니다//황승현 //2024/02/23 /14: 30 갱신
+static 폴더 안에 index.css index.js 파일 들어간 상태 
+포트번호 8484로 재수정
+
