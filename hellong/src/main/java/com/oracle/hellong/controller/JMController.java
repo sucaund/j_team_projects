@@ -5,6 +5,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 
 import com.oracle.hellong.service.jm.JMService;
+import com.oracle.hellong.service.jm.JMServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
