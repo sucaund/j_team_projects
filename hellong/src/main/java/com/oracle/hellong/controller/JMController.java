@@ -28,7 +28,8 @@ public class JMController {
 
 	private final JavaMailSender mailSender; // 이것또한 생성자 생성됨
 
-	@RequestMapping(value = "jmListMember") //인덱스에서 옴, 이후 jmListMember.jsp로 보내기 전..
+	@RequestMapping(value = "jmListMember") // 인덱스에서 옴, 이후 jmListMember.jsp로 보내기 전..
+	// get, post 둘다 받음
 	public String jmListMember(Member member, Model model) {
 
 		System.out.println("jmController Start jmListMember...");
@@ -50,7 +51,7 @@ public class JMController {
 		model.addAttribute("jmTotalMember", jmTotalMember);
 		model.addAttribute("jmListMember", jmListMember);
 		model.addAttribute("page", page);
-		//결국 이 3개를 jsp에 보내기 위함
+		// 결국 이 3개를 jsp에 보내기 위함
 
 		return "jm/jmListMember";
 		// 이후 html로 보냄
@@ -61,7 +62,7 @@ public class JMController {
 		System.out.println("JmController Start jmDetailMember...");
 		Member member = jm.jmDetailMember(member1.getM_number());
 		model.addAttribute("member", member);
-		//이걸 보내기 위함. 보내기 전 작업은 컨트롤러->서비스->dao로 처리하고
+		// 이걸 보내기 위함. 보내기 전 작업은 컨트롤러->서비스->dao로 처리하고
 		return "jm/jmDetailMember";
 	}
 
@@ -107,8 +108,15 @@ public class JMController {
 //	}
 //
 
-	// validation:객체의 제약 조건 참조시->wirteEmp3 사용
-	@PostMapping(value = "jmSignUp") //insert : 쓰는 작업 : 회원가입
+	@RequestMapping(value = "jmSignUpForm") // 폼으로 이동시킴
+	public String wirteFormEmp3(Model model) {
+		System.out.println("jmController jmSignUpForm Start...");
+		return "jm/jmSignUpForm"; // 이 페이지에서 정보입력
+	}
+
+	// validation:객체의 제약 조건 참조시
+	// insert : 쓰는 작업 : 회원가입
+	@RequestMapping(value = "jmSignUp") // 입력한 정보 순수 insert하는 작업 수행
 	public String jmSignUp(@ModelAttribute("member") @Valid Member member, BindingResult result, Model model) {
 		System.out.println("jmController jmSignUp Start...");
 
@@ -116,34 +124,37 @@ public class JMController {
 		if (result.hasErrors()) {
 			System.out.println("jmController jmSignUp hasErrors..");
 			model.addAttribute("msg", "BindingResult 입력 실패. 확인해보세요");
-			return "forward:jmSignUp";
+			return "forward:/jm/jmSignUpForm";
 		}
 		// service, dao, mapper명(insertEmp)까지->insert
-		int insertResult = jm.insertMember(member);
+		int insertResult = jm.jmInsertMember(member);
 		if (insertResult > 0) {
-			return "redirect:jmListMember"; //가입성공시
+			return "redirect:jmListMember"; // 가입성공시
+			// redirect나 foward:같은 컨트롤러 안에 매핑으로 이동하는 것..
 		} else {
 			model.addAttribute("msg", "가입 실패. 가입 화면으로 되돌아갑니다");
-			return "forward:jmSignUp";
+			return "forward:jmSignUpForm";
 		}
 
 	}
-//
-//	@GetMapping(value = "confirm")
-//	public String confirm(Emp emp1, Model model) {
-//		Emp emp = es.detailEmp(emp1.getEmpno());
-//		model.addAttribute("empno", emp1.getEmpno());
-//		if (emp != null) {
-//			System.out.println("empCOntroller confirm 중복된 사번..");
-//			model.addAttribute("msg", "중복된 사번입니다");
-//			return "forward:writeFormEmp";
-//		} else {
-//			System.out.println("empController confirm 사용 가능한 사번");
-//			model.addAttribute("msg", "사용 가능한 사번입니다");
-//			return "forward:writeFormEmp";
-//		}
-//
-//	}
+
+	// 회원가입시 id 중복 체크 목적 : m_id를 기반으로 member 가져옴
+	@GetMapping(value = "jmConfirmMemberId")
+	public String jmConfirmMemberId(Member member1, Model model) {
+			Member member = jm.jmGetMemberFromId(member1.getM_id());
+			model.addAttribute("m_id", member1.getM_id());
+			if (member != null) { // 입력한 m_id와 같은 member가 있다면
+				System.out.println("jmController jmConfirmMemberId 중복된 m_id");
+				model.addAttribute("msg", "중복된 아이디입니다");
+				return "forward:jmSignUpForm";
+			} else {
+				System.out.println("jmController jmConfirmMemberId 사용 가능한 m_id");
+				model.addAttribute("msg", "사용 가능한 아이디입니다");
+				return "forward:jmSignUpForm";
+			
+		}
+
+	}
 //
 //	@RequestMapping(value = "deleteEmp")
 //	public String deleteEmp(Emp emp, Model model) {

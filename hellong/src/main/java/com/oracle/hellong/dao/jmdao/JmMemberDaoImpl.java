@@ -49,14 +49,13 @@ public class JmMemberDaoImpl implements JmMemberDao {
 	@Override
 	public Member jmDetailMember(int m_number) { //멤버 상세정보 detail 보는 목적
 		System.out.println("JmMemberDaoImpl jmDetailMember start..");
-		// Emp emp = null;
 		Member member = new Member();
 		try {
 			// mapper ID , Parameter
 			member = session.selectOne("jmMemberSelectOne", m_number);
-			System.out.println("EmpDaoImpl detail getEname->" + member.getM_number());
+			System.out.println("JmMemberDaoImpl jmDetailMember getM_number->" + member.getM_number());
 		} catch (Exception e) {
-			System.out.println("EmpDaoImpl detail Exception->" + e.getMessage());
+			System.out.println("JmMemberDaoImpl jmDetailMember Exception->" + e.getMessage());
 		}
 		return member;
 	}
@@ -81,21 +80,34 @@ public class JmMemberDaoImpl implements JmMemberDao {
 			// emp 관리자만 Select           Naming Rule 
 			empList = session.selectList("tkSelectManager");
 		} catch (Exception e) {
-			System.out.println("EmpDaoImpl listManager Exception->"+e.getMessage());
+			System.out.println("jmMemberDaoImpl jmListManager Exception->"+e.getMessage());
 		}
 		return empList;	
 	}
 
 	@Override
-	public int insertMember(@Valid Member member) {
+	public int jmInsertMember(@Valid Member member) {
 		int result = 0;
-		System.out.println("jmMemberDaoImpl insertMember Start..." );
+		System.out.println("jmMemberDaoImpl jmInsertMember Start..." );
 		try {
-			result = session.insert("insertMember",member);
+			result = session.insert("jmInsertMember",member);
 		} catch (Exception e) {
-			System.out.println("jmMemberDaoImpl insertMember Exception->"+e.getMessage());
+			System.out.println("jmMemberDaoImpl jmInsertMember Exception->"+e.getMessage());
 		}
 		return result;
 	}
+	
+	//회원가입시 아이디 중복체크용. m_id가 같은 멤버를 가져옴
+		public Member jmGetMemberFromId(String m_id) { 
+			System.out.println("JmMemberDaoImpl jmGetMemberFromId start..");
+			Member member = new Member();
+			try {
+				member = session.selectOne("jmGetMemberFromId", m_id);
+				System.out.println("JmMemberDaoImpl jmGetMemberFromId getM_id->" + member.getM_id());
+			} catch (Exception e) {
+				System.out.println("동일한 m_id 없음");
+			}
+			return member;
+		}
 
 }

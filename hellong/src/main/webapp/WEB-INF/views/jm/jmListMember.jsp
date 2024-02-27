@@ -8,17 +8,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>회원관리</h1>
-			<!-- jmcontroller -->
-	<h3>사원수 : ${jmTotalMember }</h3>
-	<p>
-		uptCnt 수정시 전달 EMssage : ${uptCnt} <br>
-	<p>
-		kk3 수정시 전달 Message" ${kk3} <br>
+	<h1>회원 리스트</h1>
+			<!-- jmcontroller에서 attribute로 쏨 -->
+	<h3>회원수 : ${jmTotalMember}</h3>
 
 
 	<c:set var="num" value="${page.total-page.start+1 }"></c:set>
-
+					<!-- page도 jmcontroller에서 attribute로 쏨 -->
 	<table>
 		<tr>
 			<th>멤버번호</th>
@@ -38,7 +34,7 @@
 																								
 		</tr>					
 		<c:forEach var="member" items="${jmListMember}">
-			<tr>
+			<tr>					<!-- jmcontroller에서 attribute로 쏨 -->
 				<td>${member.m_number}</td>
 				<td>${member.m_id}</td>
 				<td>${member.m_pw}</td>                     <!-- 멤버 이름 클릭시 멤버detail로 링크 걸리게.. -->

@@ -40,6 +40,7 @@ public class JMServiceImpl implements JMService {
 	}
 
 	@Override
+	//m_number를 기반으로 해당 유저의 상세 정보 보기 위함 (jmDetailMember에서 사용)
 	public Member jmDetailMember(int m_number) {
 		//유저이름 클릭시 상세정보 보여줌 -> 마이페이지, 회원정보 수정에 활용가능할듯
 		System.out.println("JmServiceImpl jmDetailMember...");
@@ -66,11 +67,19 @@ public class JMServiceImpl implements JMService {
 	}
 
 	@Override
-	public int insertMember(@Valid Member member) {
+	public int jmInsertMember(@Valid Member member) {
 		int result = 0;
-		System.out.println("jmServiceImpl insert Start..." );
-		result = jmmd.insertMember(member);
+		System.out.println("jmServiceImpl jmInsertMember Start..." );
+		result = jmmd.jmInsertMember(member);
 		return result;
+	}
+	
+	//m_id가 같은 멤버를 가져옴, 회원가입시 아이디 중복체크용. 
+	public Member jmGetMemberFromId(String m_id) {
+		System.out.println("JmServiceImpl jmGetMemberFromId...");
+		Member member = null;
+		member = jmmd.jmGetMemberFromId(m_id);
+		return member;
 	}
 
 }

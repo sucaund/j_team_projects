@@ -18,7 +18,9 @@ public interface JMService {
 
 	List<Member> jmListMember();
 
-	int insertMember(@Valid Member member);
+	int jmInsertMember(@Valid Member member);
+
+	Member jmGetMemberFromId(String m_id);
 
 	
 
