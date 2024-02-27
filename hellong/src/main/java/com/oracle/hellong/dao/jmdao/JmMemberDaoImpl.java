@@ -110,4 +110,32 @@ public class JmMemberDaoImpl implements JmMemberDao {
 			return member;
 		}
 
+		@Override
+		public int jmDeleteMemberReal(int m_number) {
+			System.out.println("JmMemberDaoImpl jmDeleteMemberReal start..");
+			int result = 0;
+			System.out.println("JmMemberDaoImpl jmDeleteMemberReal m_id->"+m_number);
+			try {
+				result  = session.delete("jmDeleteMember",m_number);
+				System.out.println("JmMemberDaoImpl jmDeleteMemberReal result->"+result);
+			} catch (Exception e) {
+				System.out.println("JmMemberDaoImpl jmDeleteMemberReal Exception->"+e.getMessage());
+			}
+
+			// TODO Auto-generated method stub
+			return result;
+		}
+
+		@Override
+		public int jmDeleteMemberFake(Member member) {
+			System.out.println("JmMemberDaoImpl jmDeleteMemberFake start..");
+			int deleteCount= 0;
+			try {
+				deleteCount = session.update("jmDeleteMemberFake",member);
+			} catch (Exception e) {
+				System.out.println("JmMemberDaoImpl jmDeleteMemberFake Exception->"+e.getMessage());
+			}
+			return deleteCount;
+		}
+
 }

@@ -9,11 +9,12 @@ import lombok.Data;
 public class Board { //게시판 게시물 board
 	 private int b_number; //게시글id //pk //nnull  
 	  private int m_number; //멤버번호 //foreign
-	    private int b_category; //카테고리
+	  private int common_bcd; //글유형대분류 //foreign 200
+	  private int common_mcd; //글유형중분류 //foreign ex.10  20
 	    private String b_title; //제목
 	    private String b_content; //내용
 	    private int b_readcount; //조회수
-	    private Date b_regdate; //생성일자
+	    private Date b_regdate; //생성일자(등록일자)
 	    private Date b_update; //수정일자
 	    private int b_isreported; //신고여부
 	    private int b_recomm_count; //추천수

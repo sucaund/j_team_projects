@@ -19,7 +19,7 @@
 		<tr><th>성별</th><td>${member.m_gender}</td></tr>
 		<tr><th>전화번호</th><td>${member.m_phone}</td></tr>
 		<tr><th>이메일</th><td>${member.m_email}</td></tr>
-		<tr><th>주소</th>${member.m_address}</tr>
+		<tr><th>주소</th><td>${member.m_address}</td></tr>
 		<tr><th>가입일자</th><td>${member.m_regdate}</td></tr>
 		<tr><th>포인트잔액<td>${member.m_currpoint}</td></tr>
 		<tr><th>멤버등급(권한)</th><td>${member.m_rank}</td></tr>
@@ -27,11 +27,14 @@
 		
 		<tr><td colspan="2">
 		    <input type="button" value="회원목록" 
-				onclick="location.href='jmListMember'"> <!-- jsp -->
+				onclick="location.href='jmListMember'"> <!-- 컨트롤러 -->
 			<input type="button" value="수정" 
-				onclick="location.href='updateFormEmp?empno=${member.m_number}'">
-			<input type="button" value="삭제" 
-				onclick="location.href='deleteEmp?empno=${member.m_number}'"></td>
+				onclick="location.href='jmUpdateMemberForm?m_number=${member.m_number}'">
+			<input type="button" value="진짜삭제" 			
+				onclick="location.href='jmDeleteMemberReal?m_number=${member.m_number}'">
+			<input type="button" value="가짜삭제" 			
+				onclick="location.href='jmDeleteMemberFake?m_number=${member.m_number}'"></td>
+									<!-- 그냥 여기서 임의로 m_number 쓰기로 정한 것 -->
 		</tr>
 	</table>
 </body>

@@ -3,6 +3,7 @@ package com.oracle.hellong.controller;
 import java.util.List;
 
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,8 @@ import com.oracle.hellong.model.Member;
 import com.oracle.hellong.service.jm.JMService;
 import com.oracle.hellong.service.jm.JmPaging;
 
+import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +60,8 @@ public class JMController {
 		// 이후 html로 보냄
 	}
 
-	@GetMapping(value = "jmDetailMember")
+	//멤버 조회시, 입력한 number와 동일한 member 가져옴
+	@RequestMapping(value = "jmDetailMember") 
 	public String detailEmp(Member member1, Model model) {
 		System.out.println("JmController Start jmDetailMember...");
 		Member member = jm.jmDetailMember(member1.getM_number());
@@ -66,47 +70,35 @@ public class JMController {
 		return "jm/jmDetailMember";
 	}
 
-//	@GetMapping(value = "updateFormMember")
-//	public String updateFormEmp(Member member1, Model model) {
-//		System.out.println("JmController Start updateForm...");
-//
-//		Member member = jm.jmDetailMember(member1.getM_number());
-//		System.out.println("member.getM_name()->" + member.getM_name());
-//		System.out.println("emp.getHiredate()->" + member.getM_regdate());
-//		// System.out.println("hiredate->"+hiredate);
-//		// 문제
-//		// 1. DTO String hiredate
-//		// 2.View : 단순조회 OK ,JSP에서 input type="date" 문제 발생
-//		// 3.해결책 : 년월일만 짤라 넣어 주어야 함
-//		String regdate = "";
-//		if (member.getM_regdate() != null) {
-//			regdate = member.getM_regdate().toString();
-//		}
-//		System.out.println("regdate->" + regdate);
-//
-//		model.addAttribute("member", member);
-//		return "jm/jmUpdateFormMember";
-//
-//	}
+	//멤버 정보 수정
+	@RequestMapping(value = "jmUpdateMemberForm")
+	public String jmUpdateMemberForm(Member member1, Model model) {
+		System.out.println("JmController Start jmUpdateMemberForm...");
+		//
+		Member member = jm.jmDetailMember(member1.getM_number());
+		System.out.println("member.getM_name()->" + member.getM_name());
+		System.out.println("emp.getHiredate()->" + member.getM_regdate());
+		model.addAttribute("member", member);
+		return "jm/jmUpdateMemberForm";
+	} //멤버 수정 폼으로 이동
 
-//	@PostMapping(value = "updateEmp")
-//	public String updateMem(Member member, Model model) {
-//		log.info("updateMem Start...");
-////      1. EmpService안에 updateEmp method 선언
-////      1) parameter : Emp
-////      2) Return      updateCount (int)
-////
-////   2. EmpDao updateEmp method 선언
-//////                              mapper ID   ,    Parameter
-//		int updateCount = jm.jmUpdateMem(member);
-//		System.out.println("empController es.updateEmp updateCount-->" + updateCount);
-//		model.addAttribute("uptCnt", updateCount); // test code
-//		model.addAttribute("kk3", "Message Test"); // test code
-//		// return "forward:listEmp": model.addAttribute를 데리고 감
-//		return "redirect:listEmp";
-//		// 단순히 페이지간의 이동
-//	}
-//
+	//updateForm에 넣은 것 순수 Update
+	@RequestMapping(value = "jmUpdateMember")
+	public String jmUpdateMember(Member member1, Model model) {
+		//member1 : jmUpdateMemberForm 에서의 선택된 Member
+		log.info("jmUpdateMember Start...");
+
+		int updateCount = jm.jmUpdateMember(member1);
+		System.out.println("jmController jmUpdateMember updateCount-->" + updateCount);
+		//수정
+		
+		//수정 후 수정한 member의 jmDetailMember.jsp로 이동하려면..
+		Member member = jm.jmDetailMember(member1.getM_number());
+		model.addAttribute("member", member);
+		 return "forward:jmDetailMember";
+		 //업데이트 후 그 멤버의 detail 화면으로 즉시 이동
+	}
+
 
 	@RequestMapping(value = "jmSignUpForm") // 폼으로 이동시킴
 	public String wirteFormEmp3(Model model) {
@@ -124,13 +116,17 @@ public class JMController {
 		if (result.hasErrors()) {
 			System.out.println("jmController jmSignUp hasErrors..");
 			model.addAttribute("msg", "BindingResult 입력 실패. 확인해보세요");
-			return "forward:/jm/jmSignUpForm";
+			return "forward:jmSignUpForm";
 		}
 		// service, dao, mapper명(insertEmp)까지->insert
 		int insertResult = jm.jmInsertMember(member);
 		if (insertResult > 0) {
 			return "redirect:jmListMember"; // 가입성공시
-			// redirect나 foward:같은 컨트롤러 안에 매핑으로 이동하는 것..
+			// redirect나 foward:같은 컨트롤러 안에 매핑한 메서드로 이동하는 것..
+			//redirect는 단순 이동
+			//forward는 model.addAttribute로 지정한걸 데리고 가는거고
+			//그래서 로그인이 필요한 화면에 들어갔을 때 사용하기 적합
+			//반드시 로그인이 필요하다면 로그인 페이지로 forward 시키는 식
 		} else {
 			model.addAttribute("msg", "가입 실패. 가입 화면으로 되돌아갑니다");
 			return "forward:jmSignUpForm";
@@ -139,7 +135,7 @@ public class JMController {
 	}
 
 	// 회원가입시 id 중복 체크 목적 : m_id를 기반으로 member 가져옴
-	@GetMapping(value = "jmConfirmMemberId")
+	@RequestMapping(value = "jmConfirmMemberId")
 	public String jmConfirmMemberId(Member member1, Model model) {
 			Member member = jm.jmGetMemberFromId(member1.getM_id());
 			model.addAttribute("m_id", member1.getM_id());
@@ -155,13 +151,30 @@ public class JMController {
 		}
 
 	}
-//
-//	@RequestMapping(value = "deleteEmp")
-//	public String deleteEmp(Emp emp, Model model) {
-//		System.out.println("EmpController Start delete...");
-//		int result = es.deleteEmp(emp.getEmpno());
-//		return "redirect:listEmp";
-//	}
+	//실제 멤버 db에서 멤버 행 삭제 (권장 x, 테스트용)
+	@RequestMapping(value = "jmDeleteMemberReal")
+	public String jmDeleteMember(Member member, Model model) {
+		System.out.println("jmController Start jmDeleteMemberReal...");
+		int result = jm.jmDeleteMemberReal(member.getM_number());
+		return "redirect:jmListMember";
+	}
+	
+	@RequestMapping(value = "jmDeleteMemberFake")
+	public String jmDeleteMemberFake(Member member1, Model model) {
+		//member1 : jmUpdateMemberForm 에서의 선택된 Member
+		log.info("jmDeleteMemberFake Start...");
+
+		int deleteCount = jm.jmDeleteMemberFake(member1);
+		System.out.println("jmController jmDeleteMemberFake deleteCount-->" + deleteCount);
+		//수정
+		
+		//수정 후 수정한 member의 jmDetailMember.jsp로 이동하려면..
+		Member member = jm.jmDetailMember(member1.getM_number());
+		model.addAttribute("member", member);
+		 return "forward:jmDetailMember";
+		 //업데이트 후 그 멤버의 detail 화면으로 즉시 이동
+	}
+	
 //
 //	@GetMapping(value = "listEmpDept")
 //	public String listEmpDept(Model model) {
@@ -174,32 +187,32 @@ public class JMController {
 //
 //	}
 //
-//	@RequestMapping(value = "mailTransport")
-//	public String mailTransport(HttpServletRequest request, Model model) {
-//		System.out.println("mailSending..");
-//		String tomail = "ujm1jaman@gmail.com"; // 받는사람 이메일
-//		System.out.println(tomail);
-//		String setfrom = "woakswoaks@gmail.com"; // 보내는사람 이메일
-//		String title = "mailTransport입니다"; // 제목
-//		try {
-//			// Mime : 전자우편 인터넷 표준 format
-//			MimeMessage message = mailSender.createMimeMessage();
-//			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-//			messageHelper.setFrom(setfrom); // 보내는 사람 생략하면 정삭자동하지않음
-//			messageHelper.setTo(tomail); // 받는사람 이메일
-//			messageHelper.setSubject(title); // 메일제목은 생략 가능함
-//			String tempPassword = (int) (Math.random() * 999999) + 1 + "";
-//			messageHelper.setText("임시비밀번호입니다" + tempPassword); // 메일 내용
-//			System.out.println("임시 비밀번호입니다:" + tempPassword);
-//			mailSender.send(message);
-//			model.addAttribute("check", 1); // 정상 전달
-//			// 이 아래에는 db logic 구성이 들어가야한다.
-//		} catch (Exception e) {
-//			System.out.println("mailTransport e.getMessage()" + e.getMessage());
-//			model.addAttribute("check", 2);
-//		}
-//		return "mailResult";
-//	}
+	@RequestMapping(value = "jmMailTransport")
+	public String mailTransport(HttpServletRequest request, Model model) {
+		System.out.println("mailSending..");
+		String tomail = "ujm1jaman@gmail.com"; // 받는사람 이메일
+		System.out.println(tomail);
+		String setfrom = "woakswoaks@gmail.com"; // 보내는사람 이메일
+		String title = "mailTransport입니다"; // 제목
+		try {
+			// Mime : 전자우편 인터넷 표준 format
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setFrom(setfrom); // 보내는 사람 생략하면 정삭자동하지않음
+			messageHelper.setTo(tomail); // 받는사람 이메일
+			messageHelper.setSubject(title); // 메일제목은 생략 가능함
+			String tempPassword = (int) (Math.random() * 999999) + 1 + "";
+			messageHelper.setText("임시비밀번호입니다" + tempPassword); // 메일 내용
+			System.out.println("임시 비밀번호입니다:" + tempPassword);
+			mailSender.send(message);
+			model.addAttribute("check", 1); // 정상 전달
+			// 이 아래에는 db logic 구성이 들어가야한다.
+		} catch (Exception e) {
+			System.out.println("mailTransport e.getMessage()" + e.getMessage());
+			model.addAttribute("check", 2);
+		}
+		return "jm/jmMailResult";
+	}
 //
 //	// interCeptor 시작화면
 //	@RequestMapping(value = "interCeptorForm")

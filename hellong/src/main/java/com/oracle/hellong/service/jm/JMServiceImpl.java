@@ -82,4 +82,20 @@ public class JMServiceImpl implements JMService {
 		return member;
 	}
 
+	@Override
+	public int jmDeleteMemberReal(int m_number) {
+		int result = 0;
+		System.out.println("JmServiceImpl jmDeleteMemberReal Start..." );
+		result =  jmmd.jmDeleteMemberReal(m_number);
+		return result;
+	}
+
+	@Override
+	public int jmDeleteMemberFake(Member member) {
+		System.out.println("JmServiceImpl jmDeleteMemberFake ...");
+		int deleteCount = 0;
+		deleteCount = jmmd.jmDeleteMemberFake(member);
+		return deleteCount;
+	}
+
 }

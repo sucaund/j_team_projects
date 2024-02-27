@@ -36,9 +36,10 @@
 		<c:forEach var="member" items="${jmListMember}">
 			<tr>					<!-- jmcontroller에서 attribute로 쏨 -->
 				<td>${member.m_number}</td>
-				<td>${member.m_id}</td>
-				<td>${member.m_pw}</td>                     <!-- 멤버 이름 클릭시 멤버detail로 링크 걸리게.. -->
-				<td><a href="jmDetailMember?m_number=${member.m_number}">${member.m_name}</a></td>
+				<td><a href="jmDetailMember?m_number=${member.m_number}">${member.m_id}</td>
+				 <!-- 멤버 이름 클릭시 멤버detail로 링크 걸리게.. -->
+				<td>${member.m_name}</a></td>
+				<td>${member.m_pw}</td>                    
 				<td>${member.m_name}</td>
 				<td>${member.m_age}</td>
 				<td>${member.m_gender}</td>

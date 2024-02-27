@@ -12,9 +12,9 @@ public class Trainer { //트레이너 trainer
 	    private String t_gender;//성별 nn
 	    private int t_age;//연령 nn
 	    private Date t_regdate; //계약일자
-	    private Date t_period; //계약기간
 	    private String t_tel; //전화번호 nn
 	    private String t_address; //주소
 	    private int t_sal; //급여 nn
 	    private String t_matters; //특이사항
+	    private String t_email; //이메일
 }

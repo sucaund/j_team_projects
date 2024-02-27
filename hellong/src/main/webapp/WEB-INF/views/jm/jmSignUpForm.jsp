@@ -73,5 +73,6 @@
 
 		</table>
 	</form:form>
+	<br> <br> <a href="jmMailTransport">이메일 테스트(클릭시 즉시 전송, 추후 가입 인증 시 사용)</a>
 </body>
 </html>

@@ -33,13 +33,14 @@
 
 	<update id="jmMemberUpdate" parameterType="Member">
 		UPDATE member SET
-		<if test="#{comm}!=null"> m_id=#{m_id},  </if>
+		<if test="#{m_id}!=null"> m_id=#{m_id},  </if>
 		m_pw=#{m_pw}, m_name=#{m_name},
 		m_age=#{m_age}, m_gender=#{m_gender},
 		m_phone=#{m_phone},
 		m_email=#{m_email}, m_address=#{m_address}
 		WHERE m_id=#{m_id}
 	</update>
+
 
 	<insert id="jmInsertMember" parameterType="Member">
 		<selectKey keyProperty="m_number" resultType="int"
@@ -57,5 +58,15 @@
 		resultType="Member">
 		SELECT * FROM member WHERE m_id = #{m_id}
 	</select>
+	
+	<delete id="jmDeleteMemberReal" parameterType="int">
+		delete from member where m_number=#{m_number}
+	</delete>
+	
+	<update id="jmDeleteMemberFake" parameterType="int">
+		UPDATE member SET
+		m_isdeleted=1
+		WHERE m_number=#{m_number}
+	</update>
 
 </mapper>

@@ -22,6 +22,10 @@ public interface JMService {
 
 	Member jmGetMemberFromId(String m_id);
 
+	int jmDeleteMemberReal(int m_number);
+
+	int jmDeleteMemberFake(Member member1);
+
 	
 
 
