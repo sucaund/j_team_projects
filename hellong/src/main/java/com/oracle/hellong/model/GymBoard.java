@@ -14,7 +14,6 @@ public class GymBoard { //체육관 게시글(등록) gym_board
 	    private String gb_time; //운영사진및기타
 	    private String gb_machine;//운동기구
 	    private String gb_amen;//편의시설
-	    private String gb_photo;//헬스장사진
 	    private String gb_map;//지도및주소
 	    private int gb_hit; //nn //조회수
 }

@@ -11,12 +11,14 @@ public interface JMService {
 	int jmTotalMember();
 
 	List<Member> jmListMember(Member member);
+	
+	int jmTotalMemberReal();
+
+	List<Member> jmListMemberReal(Member member);
 
 	Member jmDetailMember(int m_number);
 
 	int jmUpdateMember(Member member);
-
-	List<Member> jmListMember();
 
 	int jmInsertMember(@Valid Member member);
 
@@ -25,6 +27,9 @@ public interface JMService {
 	int jmDeleteMemberReal(int m_number);
 
 	int jmDeleteMemberFake(Member member1);
+
+
+
 
 	
 

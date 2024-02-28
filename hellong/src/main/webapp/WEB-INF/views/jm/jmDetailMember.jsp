@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="header.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
 <!DOCTYPE html>
 <html>
@@ -20,14 +21,14 @@
 		<tr><th>전화번호</th><td>${member.m_phone}</td></tr>
 		<tr><th>이메일</th><td>${member.m_email}</td></tr>
 		<tr><th>주소</th><td>${member.m_address}</td></tr>
-		<tr><th>가입일자</th><td>${member.m_regdate}</td></tr>
+		<tr><th>가입일자</th><td><fmt:formatDate value="${member.m_regdate}" pattern="yyyy/MM/dd"></fmt:formatDate></td></tr>
+		
 		<tr><th>포인트잔액<td>${member.m_currpoint}</td></tr>
-		<tr><th>멤버등급(권한)</th><td>${member.m_rank}</td></tr>
 		<tr><th>삭제여부</th><td>${member.m_isdeleted}</td></tr>
 		
 		<tr><td colspan="2">
-		    <input type="button" value="회원목록" 
-				onclick="location.href='jmListMember'"> <!-- 컨트롤러 -->
+		    <input type="button" value="회원목록(isDeleted 0인것만)" 
+				onclick="location.href='jmListMemberReal'"> <!-- 컨트롤러 -->
 			<input type="button" value="수정" 
 				onclick="location.href='jmUpdateMemberForm?m_number=${member.m_number}'">
 			<input type="button" value="진짜삭제" 			

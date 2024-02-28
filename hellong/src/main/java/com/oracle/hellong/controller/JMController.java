@@ -59,10 +59,39 @@ public class JMController {
 		return "jm/jmListMember";
 		// 이후 html로 보냄
 	}
+	@RequestMapping(value = "jmListMemberReal")
+		public String jmListMemberReal(Member member, Model model) {
 
-	//멤버 조회시, 입력한 number와 동일한 member 가져옴
-	@RequestMapping(value = "jmDetailMember") 
-	public String detailEmp(Member member1, Model model) {
+			System.out.println("jmController Start jmListMemberReal...");
+			if (member.getCurrentPage() == null)
+				member.setCurrentPage("1");
+				System.out.println(member.getCurrentPage()); //첫시작은 1
+
+			int jmTotalMember = jm.jmTotalMemberReal(); //이걸 바꿔줘야..
+			System.out.println("JmController Start totalMemberReal->" + jmTotalMember);
+
+			// Paging 작업
+			JmPaging page = new JmPaging(jmTotalMember, member.getCurrentPage());
+			// Parameter emp --> Page만 추가 Setting
+			member.setStart(page.getStart()); // 시작시 1
+			member.setEnd(page.getEnd()); // 시작시 10
+
+			List<Member> jmListMember = jm.jmListMemberReal(member);
+			System.out.println("JmController jmListMemberReal jmListMember.size()=>" + jmListMember.size());
+
+			model.addAttribute("jmTotalMemberReal", jmTotalMember);
+			model.addAttribute("jmListMemberReal", jmListMember);
+			model.addAttribute("page", page);
+			// 결국 이 3개를 jsp에 보내기 위함
+
+			return "jm/jmListMemberReal";
+			// 이후 html로 보냄
+		}
+	
+
+	// 멤버 조회시, 입력한 number와 동일한 member 가져옴
+	@RequestMapping(value = "jmDetailMember")
+	public String jmDetailMember(Member member1, Model model) {
 		System.out.println("JmController Start jmDetailMember...");
 		Member member = jm.jmDetailMember(member1.getM_number());
 		model.addAttribute("member", member);
@@ -70,7 +99,7 @@ public class JMController {
 		return "jm/jmDetailMember";
 	}
 
-	//멤버 정보 수정
+	// 멤버 정보 수정
 	@RequestMapping(value = "jmUpdateMemberForm")
 	public String jmUpdateMemberForm(Member member1, Model model) {
 		System.out.println("JmController Start jmUpdateMemberForm...");
@@ -80,28 +109,27 @@ public class JMController {
 		System.out.println("emp.getHiredate()->" + member.getM_regdate());
 		model.addAttribute("member", member);
 		return "jm/jmUpdateMemberForm";
-	} //멤버 수정 폼으로 이동
+	} // 멤버 수정 폼으로 이동
 
-	//updateForm에 넣은 것 순수 Update
+	// updateForm에 넣은 것 순수 Update
 	@RequestMapping(value = "jmUpdateMember")
 	public String jmUpdateMember(Member member1, Model model) {
-		//member1 : jmUpdateMemberForm 에서의 선택된 Member
+		// member1 : jmUpdateMemberForm 에서의 선택된 Member
 		log.info("jmUpdateMember Start...");
 
 		int updateCount = jm.jmUpdateMember(member1);
 		System.out.println("jmController jmUpdateMember updateCount-->" + updateCount);
-		//수정
-		
-		//수정 후 수정한 member의 jmDetailMember.jsp로 이동하려면..
+		// 수정
+
+		// 수정 후 수정한 member의 jmDetailMember.jsp로 이동하려면..
 		Member member = jm.jmDetailMember(member1.getM_number());
 		model.addAttribute("member", member);
-		 return "forward:jmDetailMember";
-		 //업데이트 후 그 멤버의 detail 화면으로 즉시 이동
+		return "forward:jmDetailMember";
+		// 업데이트 후 그 멤버의 detail 화면으로 즉시 이동
 	}
 
-
 	@RequestMapping(value = "jmSignUpForm") // 폼으로 이동시킴
-	public String wirteFormEmp3(Model model) {
+	public String jmSignUpForm(Model model) {
 		System.out.println("jmController jmSignUpForm Start...");
 		return "jm/jmSignUpForm"; // 이 페이지에서 정보입력
 	}
@@ -123,11 +151,12 @@ public class JMController {
 		if (insertResult > 0) {
 			return "redirect:jmListMember"; // 가입성공시
 			// redirect나 foward:같은 컨트롤러 안에 매핑한 메서드로 이동하는 것..
-			//redirect는 단순 이동
-			//forward는 model.addAttribute로 지정한걸 데리고 가는거고
-			//그래서 로그인이 필요한 화면에 들어갔을 때 사용하기 적합
-			//반드시 로그인이 필요하다면 로그인 페이지로 forward 시키는 식
+			// redirect는 단순 이동
+			// forward는 model.addAttribute로 지정한걸 데리고 가는거고
+			// 그래서 로그인이 필요한 화면에 들어갔을 때 사용하기 적합
+			// 반드시 로그인이 필요하다면 로그인 페이지로 forward 시키는 식
 		} else {
+			System.out.println("jmController jmSignUp insertResult->" + insertResult);
 			model.addAttribute("msg", "가입 실패. 가입 화면으로 되돌아갑니다");
 			return "forward:jmSignUpForm";
 		}
@@ -147,34 +176,58 @@ public class JMController {
 				System.out.println("jmController jmConfirmMemberId 사용 가능한 m_id");
 				model.addAttribute("msg", "사용 가능한 아이디입니다");
 				return "forward:jmSignUpForm";
-			
+			}
 		}
-
+	
+	
+	@RequestMapping(value = "jmSignUpFormAjax") // 폼으로 이동시킴
+	public String jmSignUpFormAjax(Model model) {
+		System.out.println("jmController jmSignUpFormAjax Start...");
+		return "jm/jmSignUpFormAjax"; // 이 페이지에서 정보입력
 	}
-	//실제 멤버 db에서 멤버 행 삭제 (권장 x, 테스트용)
+
+//	//가입/수정 시 이름 체크(중복 체크만)
+//	@RequestMapping(value = "jmConfirmMemberName")
+//	public String jmConfirmMemberName(Member member1, Model model) {
+//		Member member = jm.jmConfirmMemberName(member1.getM_name());
+//		model.addAttribute("m_name", member1.getM_name());
+//		if (member != null) { // 입력한 m_id와 같은 member가 있다면
+//			System.out.println("jmController jmConfirmMemberName 중복된 m_name");
+//			model.addAttribute("msg", "중복된 아이디입니다");
+//			return "forward:jmSignUpForm";
+//		} else {
+//			System.out.println("jmController jmConfirmMemberName 사용 가능한 m_name");
+//			model.addAttribute("msg", "사용 가능한 닉네임입니다");
+//			return "forward:jmSignUpForm";
+//
+//		}
+//
+//	}
+
+	// 실제 멤버 db에서 멤버 행 삭제 (권장 x, 테스트용)
 	@RequestMapping(value = "jmDeleteMemberReal")
 	public String jmDeleteMember(Member member, Model model) {
 		System.out.println("jmController Start jmDeleteMemberReal...");
 		int result = jm.jmDeleteMemberReal(member.getM_number());
 		return "redirect:jmListMember";
 	}
-	
+
 	@RequestMapping(value = "jmDeleteMemberFake")
 	public String jmDeleteMemberFake(Member member1, Model model) {
-		//member1 : jmUpdateMemberForm 에서의 선택된 Member
+		// member1 : jmUpdateMemberForm 에서의 선택된 Member
 		log.info("jmDeleteMemberFake Start...");
 
 		int deleteCount = jm.jmDeleteMemberFake(member1);
 		System.out.println("jmController jmDeleteMemberFake deleteCount-->" + deleteCount);
-		//수정
-		
-		//수정 후 수정한 member의 jmDetailMember.jsp로 이동하려면..
+		// 수정
+
+		// 수정 후 수정한 member의 jmDetailMember.jsp로 이동하려면..
 		Member member = jm.jmDetailMember(member1.getM_number());
 		model.addAttribute("member", member);
-		 return "forward:jmDetailMember";
-		 //업데이트 후 그 멤버의 detail 화면으로 즉시 이동
+		return "forward:jmDetailMember";
+		// 업데이트 후 그 멤버의 detail 화면으로 즉시 이동
 	}
-	
+
 //
 //	@GetMapping(value = "listEmpDept")
 //	public String listEmpDept(Model model) {

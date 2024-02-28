@@ -5,6 +5,10 @@
 	<select id="jmMemberTotal" resultType="int"> <!-- 이 타입은 DaoImpl에서 이걸 꺼내 쓰는 타입 -->
 		SELECT Count(*) FROM member
 	</select>
+	
+	<select id="jmMemberTotalReal" resultType="int"> <!-- 이 타입은 DaoImpl에서 이걸 꺼내 쓰는 타입 -->
+		SELECT Count(*) FROM member where m_isDeleted=0
+	</select>
 
 
 	<!-- jmMemberDaoImpl -> jmDetailMember에서 사용 -->			<!-- 이 타입은 configuration에서 alias로 정해준것 -->
@@ -23,6 +27,25 @@
 		and rn<=#{end} 
 		]]> 	<!-- # 여기 안에 있는게 파라미터 타입 -->
 	</select>
+	
+	<!-- jmMemberDaoImpl -> jmDetailMember에서 사용 -->			<!-- 이 타입은 configuration에서 alias로 정해준것 -->
+	<select id="jmMemberListAllReal" parameterType="Member"
+		resultType="Member">
+		<![CDATA[
+		SELECT
+		*
+		FROM
+		(
+		SELECT rownum rn , a.*
+		FROM
+		(select * from member where m_isdeleted=0 order by m_id) a
+		)			
+		WHERE rn >= #{start} 
+		and rn<=#{end} 
+		]]> 	<!-- # 여기 안에 있는게 파라미터 타입 -->
+	</select>
+	
+	
 
 	<!-- jmMemberDaoImpl -> jmDetailMember에서 사용 -->
 	<select id="jmMemberSelectOne" parameterType="int"
@@ -38,7 +61,8 @@
 		m_age=#{m_age}, m_gender=#{m_gender},
 		m_phone=#{m_phone},
 		m_email=#{m_email}, m_address=#{m_address}
-		WHERE m_id=#{m_id}
+		WHERE
+		m_id=#{m_id}
 	</update>
 
 
@@ -47,10 +71,13 @@
 			order="BEFORE">
 			SELECT m_number_seq.NEXTVAL FROM DUAL
 		</selectKey>
-		insert into member (m_number, m_id, m_pw, m_name, m_age, 
+
+		insert into member (m_number, m_id, m_pw, m_name, m_age,
 		m_gender, m_phone, m_email, m_address, m_regdate )
-		values ( #{m_number}, #{m_id}, #{m_pw}, #{m_name}, #{m_age},
-		#{m_gender}, #{m_phone}, #{m_email}, #{m_address}, sysdate) 
+		values ( #{m_number},
+		#{m_id}, #{m_pw}, #{m_name}, #{m_age},
+		#{m_gender}, #{m_phone},
+		#{m_email}, #{m_address}, sysdate)
 	</insert>
 	
 		<!-- jmMemberDaoImpl -> jmGetMemberFromId에서 사용 -->

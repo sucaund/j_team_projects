@@ -24,7 +24,7 @@
 		<tr><th>나이</th><td>
 		    <input type="number"   name="m_age"   required="required" value="${member.m_age}"></td></tr>
 		<tr><th>성별</th><td>
-		    <input type="number"   name="m_gender"   required="required" value="${member.m_gender}"></td></tr>
+		    <input type="string"   name="m_gender"   required="required" value="${member.m_gender}"></td></tr>
 		<tr><th>연락처</th><td>
 		    <input type="string" name="m_phone"   required="required" value="${member.m_phone}"></td></tr>
 		<tr><th>이메일</th><td>
@@ -34,7 +34,6 @@
 		
 		<tr><th>가입일</th><td>${member.m_regdate} </td></tr>
 		<tr><th>현재 포인트</th><td>${member.m_currpoint} </td></tr>
-		<tr><th>유저 등급</th><td>${member.m_rank} </td></tr>
 		<tr><th>삭제 여부</th><td>${member.m_isdeleted} </td></tr>
 		<tr><td colspan="2">
 		   <input type="submit" value="확인">

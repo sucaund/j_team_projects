@@ -52,7 +52,7 @@
 			</tr>
 			<tr>
 				<th>성별</th>
-				<td><input type="number" name="m_gender" required="required"></td>
+				<td><input type="string" name="m_gender" required="required"></td>
 			</tr>
 			<tr>
 				<th>연락처</th>

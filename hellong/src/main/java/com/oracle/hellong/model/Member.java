@@ -8,7 +8,8 @@ public class Member { //회원 //member
 	  private int m_number; // pk 멤버번호 nn
 	  private int common_bcd; // f 멤버권한대분류 100
 	  private int common_mcd; // f 멤버권한중분류 ex 10 일반
-	    private String m_id; //멤버아이디
+	  
+	   private String m_id; //멤버아이디
 	    private String m_pw; //멤버비밀번호
 	    private String m_name; //멤버이름(닉네임)
 	    private int m_age; //나이

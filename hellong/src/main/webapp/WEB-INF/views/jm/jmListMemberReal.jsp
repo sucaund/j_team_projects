@@ -8,9 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>회원 리스트</h1>
+	<h1>회원 리스트(isDeleted가 0인 것만)</h1>
 			<!-- jmcontroller에서 attribute로 쏨 -->
-	<h3>회원수 : ${jmTotalMember}</h3>
+	<h3>회원수 : ${jmTotalMemberReal}</h3>
 
 
 	<c:set var="num" value="${page.total-page.start+1 }"></c:set>
@@ -32,7 +32,7 @@
 																					
 																								
 		</tr>					
-		<c:forEach var="member" items="${jmListMember}">
+		<c:forEach var="member" items="${jmListMemberReal}">
 			<tr>					<!-- jmcontroller에서 attribute로 쏨 -->
 				<td>${member.m_number}</td>
 				<td><a href="jmDetailMember?m_number=${member.m_number}">${member.m_id}</td>
@@ -53,13 +53,13 @@
 	</table>
 
 	<c:if test="${page.startPage > page.pageBlock }">
-		<a href="jmListMember?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
+		<a href="jmListMemberReal?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
 	</c:if>
 	<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-		<a href="jmListMember?currentPage=${i}">[${i}]</a>
+		<a href="jmListMemberReal?currentPage=${i}">[${i}]</a>
 	</c:forEach>
 	<c:if test="${page.endPage < page.totalPage }">
-		<a href="jmListMember?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
+		<a href="jmListMemberReal?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
 	</c:if>
 
 

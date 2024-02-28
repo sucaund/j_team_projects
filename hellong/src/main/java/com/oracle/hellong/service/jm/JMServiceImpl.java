@@ -29,6 +29,17 @@ public class JMServiceImpl implements JMService {
 		System.out.println("JmServiceImpl totalMember totMemCnt->" + totalMemberCount);
 		return totalMemberCount;
 	}
+	
+	@Override
+	public int jmTotalMemberReal() { // 전체수 구하기
+		System.out.println("JmServiceImpl Start jmTotalMember...");
+		int totalMemberCount = jmmd.jmTotalMemberReal();
+		System.out.println("JmServiceImpl totalMember totMemCnt->" + totalMemberCount);
+		return totalMemberCount;
+	}
+	
+	
+	
 
 	@Override
 	public List<Member> jmListMember(Member member) {
@@ -38,6 +49,18 @@ public class JMServiceImpl implements JMService {
 		System.out.println("JmServiceImpl jmListMember memberList.size()->" + memberList.size());
 		return memberList;
 	}
+	
+	
+	@Override
+	public List<Member> jmListMemberReal(Member member) {
+		List<Member> memberList = null; //리스트 뿌려주기
+		System.out.println("JmServiceImpl jmListMemberReal Start...");
+		memberList = jmmd.jmListMemberReal(member);
+		System.out.println("JmServiceImpl jmListMemberReal memberList.size()->" + memberList.size());
+		return memberList;
+	}
+
+
 
 	@Override
 	//m_number를 기반으로 해당 유저의 상세 정보 보기 위함 (jmDetailMember에서 사용)
@@ -57,14 +80,7 @@ public class JMServiceImpl implements JMService {
 		updateCount = jmmd.jmUpdateMember(member);
 		return updateCount;
 	}
-	
-	public List<Member> jmListMember() {
-		List<Member> memberList = null;
-		System.out.println("JMServiceImpl jmlistMember() Start..." );
-		memberList =  jmmd.jmListMember();  
-		System.out.println("JMServiceImpl jmlistMember() memberList.size()->" +memberList.size());
-		return memberList;
-	}
+
 
 	@Override
 	public int jmInsertMember(@Valid Member member) {
@@ -97,5 +113,8 @@ public class JMServiceImpl implements JMService {
 		deleteCount = jmmd.jmDeleteMemberFake(member);
 		return deleteCount;
 	}
+
+
+
 
 }

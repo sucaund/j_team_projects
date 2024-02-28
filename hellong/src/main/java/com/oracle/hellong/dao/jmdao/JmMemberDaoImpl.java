@@ -31,7 +31,22 @@ public class JmMemberDaoImpl implements JmMemberDao {
 		}
 		return totalMemberCount;
 	}
+	
+	@Override
+	public int jmTotalMemberReal() { //총 멤버수
+		int totalMemberCount = 0;
+		System.out.println("JmMemberDaoImpl Start jmTotalMember...");
 
+		try { // 매퍼 사용. yml -> mappers/Emp->네임스페이스.select id
+			totalMemberCount = session.selectOne("com.oracle.hellong.MemberMapper.jmMemberTotalReal");
+			//null이 아니라 0으로 찾긴 찾았는데.. -> 데이터 넣고 커밋을 안해서 
+			System.out.println("JmMemberDaoImpl jmTotalMember totMemberCount->" + totalMemberCount);
+		} catch (Exception e) {
+			System.out.println("JmMemberDaoImpl jmTotalMember Exception->" + e.getMessage());
+		}
+		return totalMemberCount;
+	}
+	
 	@Override
 	public List<Member> jmListMember(Member member) { //멤버 리스트로 뽑아 출력용
 		List<Member> memberList = null;
@@ -45,6 +60,22 @@ public class JmMemberDaoImpl implements JmMemberDao {
 		}
 		return memberList;
 	}
+	
+	@Override
+	public List<Member> jmListMemberReal(Member member) { //멤버 리스트로 뽑아 출력용
+		List<Member> memberList = null;
+		System.out.println("JmMemberDaoImpl jmListMemberReal Start ...");
+		try { // Map Id : member.xml에서의 id
+			// parameter=그냥 이 메서드의 인자
+			memberList = session.selectList("jmMemberListAllReal", member); //리스트 멤버
+			System.out.println("JmMemberDaoImpl jmListMemberReal memberList.size()->" + memberList.size());
+		} catch (Exception e) {
+			System.out.println("JmMemberDaoImpl jmListMemberReal e.getMessage()->" + e.getMessage());
+		}
+		return memberList;
+	}
+	
+
 
 	@Override
 	public Member jmDetailMember(int m_number) { //멤버 상세정보 detail 보는 목적
@@ -70,19 +101,6 @@ public class JmMemberDaoImpl implements JmMemberDao {
 			System.out.println("JmMemberDaoImpl jmUpdateMember Exception->"+e.getMessage());
 		}
 		return updateCount;
-	}
-	
-	@Override
-	public List<Member> jmListMember() {
-		List<Member> empList = null;
-		System.out.println("jmMemberDaoImpl jmListMember() Start ..." );
-		try {
-			// emp 관리자만 Select           Naming Rule 
-			empList = session.selectList("tkSelectManager");
-		} catch (Exception e) {
-			System.out.println("jmMemberDaoImpl jmListManager Exception->"+e.getMessage());
-		}
-		return empList;	
 	}
 
 	@Override
