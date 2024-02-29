@@ -134,7 +134,7 @@ public class JmMemberDaoImpl implements JmMemberDao {
 			int result = 0;
 			System.out.println("JmMemberDaoImpl jmDeleteMemberReal m_id->"+m_number);
 			try {
-				result  = session.delete("jmDeleteMember",m_number);
+				result  = session.delete("jmDeleteMemberReal",m_number);
 				System.out.println("JmMemberDaoImpl jmDeleteMemberReal result->"+result);
 			} catch (Exception e) {
 				System.out.println("JmMemberDaoImpl jmDeleteMemberReal Exception->"+e.getMessage());

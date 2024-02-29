@@ -206,12 +206,14 @@ public class JMController {
 
 	// 실제 멤버 db에서 멤버 행 삭제 (권장 x, 테스트용)
 	@RequestMapping(value = "jmDeleteMemberReal")
-	public String jmDeleteMember(Member member, Model model) {
+	public String jmDeleteMemberReal(Member member, Model model) {
 		System.out.println("jmController Start jmDeleteMemberReal...");
 		int result = jm.jmDeleteMemberReal(member.getM_number());
 		return "redirect:jmListMember";
-	}
+	} //현재 작동 안됨 : integrity constraint (HELLONG.FK_MEMBER_TO_POINT_CHARGE) violated 
+	//- child record found 로, 즉 연결된 거 있어서 무결성 해쳐서 삭제 안되는.. 어차피 안 쓸거니.
 
+	//멤버 삭제 로직 : member의 isDeleted를 0으로 변경
 	@RequestMapping(value = "jmDeleteMemberFake")
 	public String jmDeleteMemberFake(Member member1, Model model) {
 		// member1 : jmUpdateMemberForm 에서의 선택된 Member
