@@ -40,16 +40,34 @@
 
 			<c:set var="num" value="${page.total-page.start+1 }"></c:set>
 <table>
+
 		<tr><th >번호</th><th>제목</th><th>작성일</th><th>답글</th></tr>
+			
+	<c:choose>
+		<c:when test='${listBoard == null or empty listBoard}'>
+			<td colspan="4">
+				<p align="center">
+					<b><span style='font-size=9pt;'>등록된 글이 없습니다.</span></b>
+					<td colspan="5"> <a href="write_view?M_NUMBER=${board.m_number}">글작성</a> </td>
+				</p>
+			</td>
+		</c:when>
+		
+		<c:when test="${listBoard != null }">
 			<c:forEach var="board" items="${listBoard}">
-			<tr><td>${num}</td><p> 
-			<td>${board.b_title }</td><p>
-			<td>${board.b_regdate}</td><p>
+			<tr><td>${num}</td>
+			<td><a href="QuestionContent?B_NUMBER=${board.b_number}">${board.b_title }</td>
+			<td>${board.b_regdate}</td>
 			<td>${board.b_comm_group }</td>
 			</tr>
 			<c:set var="num" value="${num - 1 }"></c:set>
-		</c:forEach>
-	</table>	
+			</c:forEach>
+				<td colspan="5"> <a href="write_view?M_NUMBER=${board.m_number}">글작성</a> </td>
+		</c:when>
+		
+	</c:choose>
+	
+</table>	
 	
 	<c:if test="${page.startPage > page.pageBlock }">
 		<a href="listque?currentPage=${page.startPage-page.pageBlock}">[이전]</a>

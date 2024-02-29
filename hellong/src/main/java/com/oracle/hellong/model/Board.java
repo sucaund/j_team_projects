@@ -2,16 +2,18 @@ package com.oracle.hellong.model;
 
 import java.util.Date;
 
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 
 @Data
 public class Board { //게시판 게시물 board
-	 private int b_number; //게시글id //pk //nnull  
-	  private int m_number; //멤버번호 //foreign
-	    private int b_category; //카테고리
-	    private String b_title; //제목
-	    private String b_content; //내용
+	    private int b_number; //게시글id //pk //not null  1
+	    private int m_number; //멤버번호 //foreign1
+	    private int b_category; //카테고리1
+	    private String b_title; //제목1
+	    private String b_content; //내용1
 	    private int b_readcount; //조회수
 	    private Date b_regdate; //생성일자
 	    private Date b_update; //수정일자
@@ -27,6 +29,7 @@ public class Board { //게시판 게시물 board
 		private String search;   	   private String keyword;
 		private String pageNum;  
 		private int start; 		 	   private int end;
+		private String m_id; //멤버id
 		// Page 정보
 		private String currentPage;
 }

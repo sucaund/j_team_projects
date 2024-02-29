@@ -10,7 +10,6 @@
 <h1>Login</h1>
 <form action="authenticate" method="post">
 ID : <input type="text" name="member_id"><br />
-PW : <input type="password" name="member_pw"><br />
 <input type="submit" value="Login">
 </form>
 <% if(request.getAttribute("loginError") != null && (boolean) request.getAttribute("loginError")) { %>
