@@ -3,82 +3,104 @@
 <mapper namespace="com.oracle.hellong.BoardMapper">
 
 	<select id="boardTotal" parameterType="int" resultType="int">
-		SELECT Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND B_CATEGORY = 3 
+		SELECT
+		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND B_CATEGORY = 3
 	</select>
-	
+
 	<select id="ContentBoard" parameterType="int" resultType="Board">
-		SELECT * FROM BOARD where B_NUMBER = #{b_NUMBER}
+		SELECT
+		* FROM BOARD where B_NUMBER = #{b_NUMBER}
 	</select>
-     
-     
-	
-	<select id="NumChangeNum" parameterType="string" resultType="int">
-	  	SELECT M_NUMBER
+
+
+
+	<select id="NumChangeNum" parameterType="string"
+		resultType="int">
+		SELECT M_NUMBER
 		FROM MEMBER
 		WHERE M_ID = #{member_id}
 	</select>
- 
-	 <select id="samequeboard"   parameterType="Board"   resultType="Board">
-		 SELECT *
-		 FROM
-		 (
-			    SELECT  rownum rn ,B.*     
-	            FROM    BOARD B    
-	            WHERE M_NUMBER = #{m_number}     
-	            AND B_CATEGORY = 3   
-	            ORDER BY B_NUMBER DESC
-		 )
-		WHERE  rn BETWEEN #{start} and #{end} 
-	</select>
-	 <select id="Queinsert"   parameterType="Board" >
-	INSERT INTO BOARD (B_NUMBER, B_CATEGORY, B_TITLE, B_CONTENT,M_NUMBER)
-    VALUES (B_NUMBER_SEQ.NEXTVAL, #{b_category}, #{b_title}, #{b_content},#{m_number})
-	</select>
 	
-	 <delete id="SCRAP_delete"   parameterType="int" >
-		DELETE FROM "HELLONG"."SCRAP" WHERE "B_NUMBER" = #{bId}
-	 </delete>	
-	 <delete id="REPORT_delete"   parameterType="int" >
-		DELETE FROM "HELLONG"."REPORT" WHERE "B_NUMBER" = #{bId}	
-	 </delete>
-	 <delete id="COMM_delete"   parameterType="int" >
-		DELETE FROM BOARD  WHERE B_COMM_GROUP = #{bId}	
-	 </delete>
-	 <delete id="que_delete"   parameterType="int" >
-		DELETE FROM BOARD WHERE B_NUMBER = #{bId}
-	 </delete>
+	<select id="countCommentsByBNumber" parameterType="int" resultType="int">
+    SELECT COUNT(*) FROM BOARD
+    WHERE B_COMM_GROUP = #{bNumber}
+	</select>
+
+	<select id="samequeboard" parameterType="Board"
+		resultType="Board">
+		SELECT *
+		FROM
+		(
+		SELECT rownum rn ,B.*
+		FROM BOARD B
+		WHERE M_NUMBER = #{m_number}
+		AND B_CATEGORY = 3
+		ORDER BY B_NUMBER DESC
+		)
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+	<select id="Queinsert" parameterType="Board">
+		INSERT INTO BOARD (B_NUMBER, B_CATEGORY, B_TITLE, B_CONTENT,M_NUMBER)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{b_category}, #{b_title},#{b_content},#{m_number})
+	</select>
+
+	<delete id="SCRAP_delete" parameterType="int">
+		DELETE FROM
+		"HELLONG"."SCRAP" WHERE "B_NUMBER" = #{bId}
+	</delete>
+	<delete id="REPORT_delete" parameterType="int">
+		DELETE FROM
+		"HELLONG"."REPORT" WHERE "B_NUMBER" = #{bId}
+	</delete>
+	<delete id="COMM_delete" parameterType="int">
+		DELETE FROM BOARD
+		WHERE B_COMM_GROUP = #{bId}
+	</delete>
+	<delete id="que_delete" parameterType="int">
+		DELETE FROM BOARD
+		WHERE B_NUMBER = #{bId}
+	</delete>
 
 
-		<insert id="addComment" parameterType="Board">
-   				INSERT INTO BOARD (B_NUMBER, B_CATEGORY, B_CONTENT, M_NUMBER, B_COMM_GROUP)
-    			VALUES (B_NUMBER_SEQ.NEXTVAL, #{b_category}, #{b_content}, #{m_number}, #{b_comm_group})
-		</insert>
+	<insert id="addComment" parameterType="Board">
+		INSERT INTO BOARD (B_NUMBER, B_CATEGORY, B_CONTENT, M_NUMBER, B_COMM_GROUP)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{b_category}, #{b_content},#{m_number}, #{b_comm_group})
+	</insert>
 
-		
-	    
-		<select id="callComment" parameterType="Board" resultType="Board" >
-	        SELECT *
-	        FROM BOARD
-	        WHERE B_COMM_GROUP = #{b_comm_group}
-	          AND M_NUMBER = #{m_number}
-	          AND B_CATEGORY = #{b_category}
-	          AND B_CONTENT = #{b_content}
-	          AND B_NUMBER = (
-	                           SELECT MAX(B_NUMBER) FROM  BOARD
-	                         )
-	          
-	          
-	    </select>
-		
-		<select id="getComments" parameterType="int" resultType="Board">
+
+
+	<select id="callComment" parameterType="Board"
+		resultType="Board">
+		SELECT *
+		FROM BOARD
+		WHERE B_COMM_GROUP = #{b_comm_group}
+		AND M_NUMBER = #{m_number}
+		AND B_CATEGORY = #{b_category}
+		AND B_CONTENT = #{b_content}
+		AND B_NUMBER = (
+		SELECT MAX(B_NUMBER) FROM BOARD
+		)
+
+
+	</select>
+
+	<select id="getComments" parameterType="int" resultType="Board">
 		SELECT * FROM BOARD WHERE B_CATEGORY = 5
-							AND B_COMM_GROUP = #{B_NUMBER}
-							ORDER BY B_NUMBER DESC
-	
-	    </select>
+		AND B_COMM_GROUP = #{B_NUMBER}
+		ORDER BY B_NUMBER DESC
 
-		<delete id="deleteComment"   parameterType="int" >
+	</select>
+
+	<delete id="deleteComment" parameterType="int">
 		DELETE FROM BOARD WHERE B_NUMBER = #{b_number}
-	 	</delete>
+	</delete>
+
+	<update id="updateAttribute" parameterType="Board">
+		UPDATE BOARD
+		SET B_TITLE = #{b_title},
+		B_CONTENT = #{b_content}
+		WHERE B_NUMBER = #{b_number}
+	</update>
+
 
 </mapper>

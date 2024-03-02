@@ -3,6 +3,7 @@ package com.oracle.hellong.service.sh;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -96,7 +97,7 @@ public class SHServiceImpl implements SHService {
 
 	}
 
-//댓글 입력
+//댓글 입력+댓글 카운터 증가
 	@Transactional
 	@Override
 	public void addComment(Board board) {
@@ -105,7 +106,7 @@ public class SHServiceImpl implements SHService {
 		qd.addComment(board);
 
 	}
-
+//입력하자마자 입력한댓글 출력
 	@Override
 	public Board callComment(Board board) {
 		System.out.println("SHServiceImpl Start callComment...");
@@ -130,6 +131,24 @@ public class SHServiceImpl implements SHService {
 	public void deleteComment(int b_number) {
 		System.out.println("SHServiceImpl deleteComment Start...");
 		qd.deleteComment(b_number);
+	}
+//글수정
+	@Override
+	public void updateAttribute(Board board) {
+		System.out.println("SHServiceImpl updateAttribute Start...");
+		System.out.println("SHServiceImpl updateAttribute board->" + board);
+		qd.updateAttribute(board);
+	}
+//댓글수 확인
+	@Override
+	public Map<Integer, Integer> getCommentCountsForPosts(List<Board> listBoard) {
+		 Map<Integer, Integer> commentCounts = new HashMap<>();
+		    for (Board board : listBoard) {
+		        int bNumber = board.getB_number();
+		        int count = qd.countCommentsByBNumber(bNumber);
+		        commentCounts.put(bNumber, count);
+		    }
+		    return commentCounts;
 	}
 
 }

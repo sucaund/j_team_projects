@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -91,12 +93,15 @@ public class SHController {
 //가져올 보드의 정보를 기입...
 
 		List<Board> listBoard = sh.quelist(board);
+		Map<Integer, Integer> commentCounts = sh.getCommentCountsForPosts(listBoard);
 //입력한 보드 정보를 모델에 넣고 프론트로 전송!
 		System.out.println("SHController loginAction1 listBoard size-->" + listBoard.size());
 
 		model.addAttribute("toalquestions", toalquestions);
 		model.addAttribute("listBoard", listBoard);
 		model.addAttribute("page", page);
+		model.addAttribute("commentCounts", commentCounts); // 댓글 수 정보 모델에 추가
+
 		return "questionsList";
 	}
 
@@ -110,6 +115,7 @@ public class SHController {
 
 		System.out.println("SHController Start questionsList...");
 		int toalquestions = sh.totalquestions(M_NUMBER);
+		
 		// Paging 작업
 		Paging page = new Paging(toalquestions, board.getCurrentPage());
 		// Parameter board --> Page만 추가 Setting
@@ -121,11 +127,14 @@ public class SHController {
 		board.setEnd(page.getEnd());
 //가져올 보드의 정보를 기입...
 		List<Board> listBoard = sh.quelist(board);
+		Map<Integer, Integer> commentCounts = sh.getCommentCountsForPosts(listBoard);
 //입력한 보드 정보를 모델에 넣고 프론트로 전송!
 		System.out.println("SHController loginAction listBoard size-->" + listBoard.size());
+		System.out.println("여기여기!!!!"+commentCounts);
 		model.addAttribute("toalquestions", toalquestions);
 		model.addAttribute("listBoard", listBoard);
 		model.addAttribute("page", page);
+		model.addAttribute("commentCounts", commentCounts); // 댓글 수 정보 모델에 추가
 		return "questionsList";
 	}
 
@@ -163,6 +172,7 @@ public class SHController {
 		board.setStart(page.getStart());
 		board.setEnd(page.getEnd());
 		List<Board> listBoard = sh.quelist(board);
+		Map<Integer, Integer> commentCounts = sh.getCommentCountsForPosts(listBoard);
 
 		System.out.println("SHController list listBoard size-->" + listBoard.size());
 	
@@ -170,6 +180,8 @@ public class SHController {
 		model.addAttribute("toalquestions", toalquestions);
 		model.addAttribute("listBoard", listBoard);
 		model.addAttribute("page", page);
+		model.addAttribute("commentCounts", commentCounts); // 댓글 수 정보 모델에 추가
+
 		return "questionsList";
 
 	}
@@ -217,7 +229,7 @@ public class SHController {
 		return "forward:listque";
 	}
 
-//댓글입력 과동시에 신규 댓글 단일객체만 등록 Board!
+//댓글입력 과동시에 신규 댓글 단일객체만 등록 Board!+원글댓글 카운터 증가
 	@ResponseBody
 	@PostMapping("commentInsert")
 	public Board commentInsert(@RequestParam("comment_body") String comment, @RequestParam("mId") int M_NUMBER,
@@ -242,10 +254,49 @@ public class SHController {
 
 //댓글 삭제
 @RequestMapping("/deleteComment")
-public String deleteComment(@RequestParam("Comm_number") int b_number) {
+public String deleteComment(@RequestParam("Comm_number") int Comm_number,
+							@RequestParam("bId")int bId	) {
 	System.out.println("SHController deleteComment start...");
-	sh.deleteComment(b_number);
-    return "forward:QuestionContent";
+	sh.deleteComment(Comm_number);
+	System.out.println("SHController deleteComment succes...");
+	
+    return "redirect:/QuestionContent?B_NUMBER="+bId;
 }
+//글수정 뷰이동
+@RequestMapping("/modify")
+public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
+	System.out.println("SHController modify start...");
+	System.out.println("SHController modify B_NUMBER->"+B_NUMBER);
+	Board boardContent = sh.boardContent(B_NUMBER);
+	model.addAttribute("board",boardContent);
+    return "modifyView";
+}
+
+//수정 실행
+	@PostMapping("modifyaction")
+	public String modifyaction(HttpSession session, 
+							   HttpServletRequest request, 
+							   @RequestParam("bId") int B_NUMBER, 
+							   Board board,
+							   Model model) {
+		System.out.println("SHController write start...");
+		String bTitle = (String) request.getParameter("bTitle");
+		String bContent = (String) request.getParameter("bContent");
+		System.out.println(B_NUMBER);
+		System.out.println(bTitle);
+		System.out.println(bContent);
+		int category = 3;
+
+		board.setB_number(B_NUMBER);
+		board.setB_category(category);
+		board.setB_title(bTitle);
+		board.setB_content(bContent);
+		System.out.println("SHController write board" + board);
+
+		sh.updateAttribute(board);
+
+		return "redirect:/QuestionContent?B_NUMBER="+B_NUMBER;
+	}
+
 
 }

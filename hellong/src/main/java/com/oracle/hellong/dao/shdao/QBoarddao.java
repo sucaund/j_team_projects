@@ -36,4 +36,10 @@ public interface QBoarddao {
 	void deleteComment(int b_number);
 
 
+	void updateAttribute(Board board);
+
+
+	int countCommentsByBNumber(int bNumber);
+
+
 }

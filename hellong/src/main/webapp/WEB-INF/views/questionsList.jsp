@@ -58,7 +58,7 @@
 			<tr><td>${num}</td>
 			<td><a href="QuestionContent?B_NUMBER=${board.b_number}">${board.b_title }</td>
 			<td>${board.b_regdate}</td>
-			<td>${board.b_comm_group }</td>
+			<td>${commentCounts[board.b_number]}</td>
 			</tr>
 			<c:set var="num" value="${num - 1 }"></c:set>
 			</c:forEach>

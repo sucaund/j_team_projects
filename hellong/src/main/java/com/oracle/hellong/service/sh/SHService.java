@@ -1,6 +1,7 @@
 package com.oracle.hellong.service.sh;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.ui.Model;
 
@@ -29,6 +30,10 @@ public interface SHService {
 	Board callComment(Board board);
 
 	void deleteComment(int b_number);
+
+	void updateAttribute(Board board);
+
+	Map<Integer, Integer> getCommentCountsForPosts(List<Board> listBoard);
 
 
 	

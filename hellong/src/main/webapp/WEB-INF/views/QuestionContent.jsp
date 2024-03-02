@@ -33,8 +33,8 @@
 									frmData,
 									function(board) {
 										var newCommentHtml = 
-											'<li>댓글 : ' + board.b_content + 
-									        ' <button type="button" class="deleteComment" data-id="' + board.b_number + '">삭제</button></li>';
+											 '<li>댓글 : ' + board.b_content + 
+									         ' <a href="/deleteComment?Comm_number=' + board.b_number + '&bId=' + board.b_comm_group + '" onclick="return confirm(\'댓글을 삭제하시겠습니까?\');">삭제</a></li>';
 										$('.list_comments').prepend(
 												newCommentHtml); // 새로운 <li>를 list_comments ul에 추가
 										$('[name="comment_body"]').val(''); // 댓글 입력란을 비웁니다.
@@ -54,6 +54,7 @@
 
 	<form action="modify" method="post">
 		<input type="hidden" name="mId" value="${board.m_number}">
+		<input type="hidden" name="bId" value="${board.b_number}">
 		<table border="1" style="width: 50%;">
 			<tr>
 				<td>번호</td>
@@ -104,7 +105,7 @@
 							items="${boardCommList}">
 							<td>
 								<li>댓글 : ${CommList.b_content }
-								<a href="/deleteComment?Comm_number=${CommList.b_number }" onclick="return confirm('댓글을 삭제하시겠습니까?');">삭제</a>
+								<a href="/deleteComment?Comm_number=${CommList.b_number }&bId=${board.b_number}" onclick="return confirm('댓글을 삭제하시겠습니까?');">삭제</a>
 								</li>
 							<p>
 							</td>

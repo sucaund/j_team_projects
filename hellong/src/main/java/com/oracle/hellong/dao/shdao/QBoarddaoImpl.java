@@ -151,4 +151,27 @@ public class QBoarddaoImpl implements QBoarddao {
 			System.out.println("QBoarddaoImpl deleteComment e.getMessage()->" + e.getMessage());
 		}
 	}
+//질문글 수정하기
+	@Override
+	public void updateAttribute(Board board) {
+		System.out.println("QBoarddaoImpl updateAttribute board ->" + board);
+		try {
+			session.update("updateAttribute", board);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl updateAttribute e.getMessage()->" + e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public int countCommentsByBNumber(int bNumber) {
+		System.out.println("QBoarddaoImpl countCommentsByBNumber bNumber ->" + bNumber);
+		int count = 0;
+		try {
+			count =  session.selectOne("countCommentsByBNumber", bNumber);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl countCommentsByBNumber e.getMessage()->" + e.getMessage());
+		}
+		return count;
+	}
 }
