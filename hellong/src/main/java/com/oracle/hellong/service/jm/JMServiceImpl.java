@@ -1,5 +1,6 @@
 package com.oracle.hellong.service.jm;
 
+import java.util.List;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional //jpa에서 사용
+@Transactional // jpa에서 사용
 public class JMServiceImpl implements JMService {
 
 	private final JmMemberDao jmmd;

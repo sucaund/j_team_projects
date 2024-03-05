@@ -6,6 +6,65 @@
 		SELECT
 		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200 AND COMMON_MCD = 120
 	</select>
+	
+	<select id="jjBoardListAll" parameterType="Board" resultType="Board">
+		<![CDATA[
+		SELECT *
+		FROM
+		(
+			SELECT rownum rn, a.*
+			FROM
+						(select * from board order by b_number desc) a
+		)
+		WHERE rn >= #{start}
+		and   rn <= #{end}
+		]]>
+	</select>
+	
+	<select id="jjBoardOne" parameterType="int" resultType="Board">
+		SELECT  b_number, b_title, b_regdate,
+			    b_recomm_count, b_readcount, b_content
+			  , board_min_max(b_number,1)  prevPage
+			  , board_min_max(b_number,2)  nextPage
+		FROM board 
+		WHERE b_number = #{b_number}
+		
+	</select>
+	
+	<update id="plusCnt" parameterType="int">
+		UPDATE board SET b_readcount = b_readcount + 1
+		WHERE b_number = #{b_number}
+	</update>
+	
+	<update id="hitCnt" parameterType="int">
+		UPDATE board SET b_recomm_count = b_recomm_count + 1
+		WHERE b_number = #{b_number}
+	</update>
+	
+	<update id="jjBoardUpdate" parameterType="Board">
+		UPDATE board SET b_title   = #{b_title},
+						 b_content = #{b_content},
+						 b_update  = sysdate
+		WHERE b_number = #{b_number}
+	</update>
+	
+	<select id="jjSelectManager" resultType="Board">
+		SELECT 	*
+		FROM 	board
+	</select>
+	
+	<insert id="jjinsertBoard" parameterType="Board">
+		<selectKey keyProperty="b_number" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(b_number), 0) + 1 FROM board
+			<!-- SELECT b_number_seq.NEXTVAL FROM DUAL -->
+		</selectKey>
+		INSERT INTO board ( b_number, b_title, b_content )
+					values( #{b_number}, #{b_title}, #{b_content} )
+	</insert>
+	
+	<delete id="deleteBoard" parameterType="Board">
+		DELETE FROM board where b_number = #{b_number}
+	</delete>
 
 	<select id="ContentBoard" parameterType="int" resultType="Board">
 		SELECT

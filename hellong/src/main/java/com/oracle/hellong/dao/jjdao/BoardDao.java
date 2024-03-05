@@ -1,10 +1,10 @@
-package com.oracle.hellong.service.jj;
+package com.oracle.hellong.dao.jjdao;
 
 import java.util.List;
 
 import com.oracle.hellong.model.Board;
 
-public interface JJService {
+public interface BoardDao {
 
 	int 		totalBoard();
 	List<Board> listBoard(Board board);
@@ -13,6 +13,6 @@ public interface JJService {
 	List<Board> listManager();
 	int 		insertBoard(Board board);
 	int 		deleteBoard(int b_number);
-	int 		HitCnt(int b_number);
+	int 		hitCnt(int b_number);
 
 }

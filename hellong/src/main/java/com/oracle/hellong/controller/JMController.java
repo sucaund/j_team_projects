@@ -1,5 +1,6 @@
 package com.oracle.hellong.controller;
 
+import java.util.List;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class JMController {
-	
+
 	private final JMService jm;
 
 	private final JavaMailSender mailSender; // 이것또한 생성자 생성됨
@@ -94,6 +95,15 @@ public class JMController {
 		// 이후 html로 보냄
 	}
 
+	// 멤버 조회시, 입력한 number와 동일한 member 가져옴
+	@RequestMapping(value = "jmDetailMember")
+	public String jmDetailMember(Member member1, Model model) {
+		System.out.println("JmController Start jmDetailMember...");
+		Member member = jm.jmDetailMember(member1.getM_number());
+		model.addAttribute("member", member);
+		// 이걸 보내기 위함. 보내기 전 작업은 컨트롤러->서비스->dao로 처리하고
+		return "jm/jmDetailMember";
+	}
 
 	// 멤버 정보 수정
 	@RequestMapping(value = "jmUpdateMemberForm")
@@ -517,7 +527,6 @@ public class JMController {
 		}
 		return "jm/jmMailResult";
 	}
-
 //
 //	// interCeptor 시작화면
 //	@RequestMapping(value = "interCeptorForm")
