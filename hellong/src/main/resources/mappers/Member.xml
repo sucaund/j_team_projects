@@ -113,9 +113,6 @@
 	</select>
 	
 
- 	 
-	
-
 
 	<select id="getMember" resultType="Member" parameterType="int">
 		SELECT*
