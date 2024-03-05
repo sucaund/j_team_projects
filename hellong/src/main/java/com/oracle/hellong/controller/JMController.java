@@ -1,9 +1,7 @@
 package com.oracle.hellong.controller;
 
-import java.util.List;
 
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.oracle.hellong.model.Member;
 import com.oracle.hellong.service.jm.JMService;
-import com.oracle.hellong.service.jm.JmPaging;
 
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class JMController {
-
+	
 	private final JMService jm;
 
 	private final JavaMailSender mailSender; // 이것또한 생성자 생성됨
@@ -94,15 +90,6 @@ public class JMController {
 		// 이후 html로 보냄
 	}
 
-	// 멤버 조회시, 입력한 number와 동일한 member 가져옴
-	@RequestMapping(value = "jmDetailMember")
-	public String jmDetailMember(Member member1, Model model) {
-		System.out.println("JmController Start jmDetailMember...");
-		Member member = jm.jmDetailMember(member1.getM_number());
-		model.addAttribute("member", member);
-		// 이걸 보내기 위함. 보내기 전 작업은 컨트롤러->서비스->dao로 처리하고
-		return "jm/jmDetailMember";
-	}
 
 	// 멤버 정보 수정
 	@RequestMapping(value = "jmUpdateMemberForm")

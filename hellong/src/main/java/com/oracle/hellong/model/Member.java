@@ -1,4 +1,5 @@
 package com.oracle.hellong.model;
+
 import java.util.Date;
 
 import org.hibernate.validator.constraints.Email;

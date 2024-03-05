@@ -103,5 +103,97 @@
 		WHERE B_NUMBER = #{b_number}
 	</update>
 
+	<select id="dyBoardTotal" resultType="int">
+		SELECT Count(*) FROM board
+	</select>
 
+	<select id="dyBodyProfileListAll" parameterType="Board"
+		resultType="Board">
+	 <![CDATA[
+		SELECT *
+		FROM
+		(
+		        SELECT rownum rn , a.*
+		        FROM
+		                   (select * from board order by b_number desc) a
+		 )  
+		 WHERE  rn  >= #{start} 
+ 		and    rn  <= #{end} 
+		]]>
+	</select>
+
+	<select id="dyBoardSelect" parameterType="int"
+		resultType="Board">
+		SELECT * FROM board WHERE b_number = #{b_number}
+	</select>
+
+	<update id="dyBodyProfileUpdate" parameterType="Board">
+		UPDATE board SET
+		b_title=#{b_title},
+		b_content=#{b_content},
+		b_regdate=sysdate
+		WHERE
+		b_number = #{b_number}
+	</update>
+
+	<select id="dySelectManager" resultType="Board">
+		SELECT * FROM board
+	</select>
+
+	<insert id="dyInsertBodyProfile" parameterType="Board">
+		<selectKey keyProperty="b_number" resultType="int"
+			order="BEFORE">
+			SELECT NVL(MAX(b_number), 0) + 1 FROM board
+		</selectKey>
+		INSERT INTO board ( b_number, b_title, b_content, b_images )
+		values( #{b_number}, #{b_title}, #{b_content}, #{b_images} )
+	</insert>
+
+	<delete id="dyDeleteBodyProfile" parameterType="int">
+		delete from board
+		where b_number = #{b_number}
+	</delete>
+
+	<select id="dyCondBodyProfileTotal" parameterType="Board"
+		resultType="int">
+		SELECT Count(*) FROM board
+		<choose>
+			<when test="search == 'all'">
+				WHERE b_title like '%' || #{keyword} || '%' OR
+				b_content like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 'title'">
+				WHERE b_title like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 'content'">
+				WHERE b_content like '%' || #{keyword} || '%'
+			</when>
+		</choose>
+	</select>
+
+	<select id="dyBoardSearchList" parameterType="Board"
+		resultType="Board">
+		SELECT *
+		FROM
+		(
+		SELECT rownum rn, a.*
+		FROM
+				(select * from board
+				<choose>
+					<when test="search == 'all'">
+						WHERE b_title like '%' || #{keyword} || '%' OR
+						b_content like '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'title'">
+						WHERE b_title like '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'content'">
+						WHERE b_content like '%' || #{keyword} || '%'
+					</when>
+				</choose>
+				order by b_number
+				) a
+		)
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
 </mapper>

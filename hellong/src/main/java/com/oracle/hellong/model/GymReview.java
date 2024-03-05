@@ -1,4 +1,5 @@
 package com.oracle.hellong.model;
+
 import java.util.Date;
 
 import lombok.Data;

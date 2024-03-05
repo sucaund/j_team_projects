@@ -6,6 +6,7 @@ import com.oracle.hellong.model.Member;
 
 import jakarta.validation.Valid;
 
+
 public interface JMService {
 	
 	int jmTotalMember();

@@ -10,7 +10,6 @@
 		<typeAlias alias="GSDetail"  type="com.oracle.hellong.model.GSDetail"/>
 		<typeAlias alias="Gym"  type="com.oracle.hellong.model.Gym"/>
 		<typeAlias alias="GymBoard"  type="com.oracle.hellong.model.GymBoard"/>
-		<typeAlias alias="GymBoardFile" type="com.oracle.hellong.model.GymBoardFile"/>
 		<typeAlias alias="GymOrder"  type="com.oracle.hellong.model.GymOrder"/>
 		<typeAlias alias="GymReview"  type="com.oracle.hellong.model.GymReview"/>
 		<typeAlias alias="Member"  type="com.oracle.hellong.model.Member"/>

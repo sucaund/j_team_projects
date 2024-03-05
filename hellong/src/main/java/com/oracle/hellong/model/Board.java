@@ -4,7 +4,6 @@ import java.util.Date;
 
 import lombok.Data;
 
-
 @Data
 public class Board { //게시판 게시물 board
     private int b_number; //게시글id //pk //nnull  

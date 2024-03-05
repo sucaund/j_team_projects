@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.MemberMapper">
-	<!-- mybatis에서 사용(configuration.xml도 마찬가지) -->
-	<select id="jmMemberTotal" resultType="int"> <!-- 이 타입은 DaoImpl에서 이걸 꺼내 쓰는 타입 -->
-		SELECT Count(*) FROM member
-	</select>
-	
-	<select id="jmMemberTotalReal" resultType="int"> <!-- 이 타입은 DaoImpl에서 이걸 꺼내 쓰는 타입 -->
-		SELECT Count(*) FROM member where m_isDeleted=0
-	</select>
 
 	<select id="getAllMember" resultType="Member">
 		SELECT*

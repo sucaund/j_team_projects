@@ -1,10 +1,10 @@
-package com.oracle.hellong.service.dy;
+package com.oracle.hellong.dao.dydao;
 
 import java.util.List;
 
 import com.oracle.hellong.model.Board;
 
-public interface DYService {
+public interface DYBoardDao {
 
 	int totalBodyProfile();
 
@@ -22,12 +22,8 @@ public interface DYService {
 
 	int condTotalBodyProfile(Board board);
 
-	List<Board> listSearchBoard(Board board);
+	List<Board> boardSearchList(Board board);
 
 
 
-
-
-
-	
 }
