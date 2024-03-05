@@ -2,12 +2,15 @@ package com.oracle.hellong.service.jm;
 
 import java.util.List;
 
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oracle.hellong.dao.jmdao.JmMemberDao;
 import com.oracle.hellong.model.Member;
 
+import jakarta.mail.internet.MimeMessage;
 import jakarta.validation.Valid;
 
 //import com.oracle.hellong.model.Emp;
@@ -21,6 +24,8 @@ import lombok.RequiredArgsConstructor;
 public class JMServiceImpl implements JMService {
 
 	private final JmMemberDao jmmd;
+	private final JavaMailSender mailSender;
+	private static int authNumber;
 
 	@Override
 	public int jmTotalMember() { // 전체수 구하기
@@ -112,6 +117,47 @@ public class JMServiceImpl implements JMService {
 		int deleteCount = 0;
 		deleteCount = jmmd.jmDeleteMemberFake(member);
 		return deleteCount;
+	}
+
+	@Override
+	public int checkId(String m_id) {
+		System.out.println("JmServiceImpl checkId ...");
+		int checkIdCount=0;
+		checkIdCount=jmmd.jmCheckId(m_id);
+		return checkIdCount;
+	}
+
+	@Override
+	public int sendMail(String mail) {
+		System.out.println("sendMail..");
+		System.out.println(mail);
+		String setfrom = "woakswoaks@gmail.com"; // 보내는사람 이메일
+		String title = "Hellong 회원가입 인증 이메일입니다"; // 제목
+		
+		try {
+			// Mime : 전자우편 인터넷 표준 format
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setFrom(setfrom); // 보내는 사람 생략하면 정삭자동하지않음
+			messageHelper.setTo(mail); // 받는사람 이메일
+			messageHelper.setSubject(title); // 메일제목은 생략 가능함
+			authNumber = (int) (Math.random() * 999999) + 1;
+			messageHelper.setText("인증번호입니다" + authNumber); // 메일 내용
+			System.out.println("인증번호입니다" + authNumber);
+			mailSender.send(message);
+//			model.addAttribute("check", 1); // 정상 전달
+
+		} catch (Exception e) {
+			System.out.println("sendMail e.getMessage()" + e.getMessage());
+//			model.addAttribute("check", 2);
+		}
+		return authNumber;
+	}
+
+	@Override
+	public int jmLogin(String m_id, String m_pw) {
+		System.out.println("jmServiceImpl jmLogin");
+		return jmmd.jmLogin(m_id, m_pw);
 	}
 
 

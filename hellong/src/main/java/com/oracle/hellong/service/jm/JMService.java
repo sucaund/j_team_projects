@@ -28,6 +28,12 @@ public interface JMService {
 
 	int jmDeleteMemberFake(Member member1);
 
+	int checkId(String m_id);
+
+	int sendMail(String mail);
+
+	int jmLogin(String m_id, String m_pw);
+
 
 
 

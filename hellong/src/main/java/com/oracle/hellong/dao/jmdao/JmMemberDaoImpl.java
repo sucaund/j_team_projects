@@ -3,6 +3,8 @@ package com.oracle.hellong.dao.jmdao;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.eclipse.jdt.internal.compiler.lookup.TypeSystem.HashedParameterizedTypes;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.hellong.model.Member;
@@ -108,6 +110,8 @@ public class JmMemberDaoImpl implements JmMemberDao {
 		int result = 0;
 		System.out.println("jmMemberDaoImpl jmInsertMember Start..." );
 		try {
+			String hashedPassword = BCrypt.hashpw(member.getM_pw(), BCrypt.gensalt());
+		    member.setM_pw(hashedPassword);
 			result = session.insert("jmInsertMember",member);
 		} catch (Exception e) {
 			System.out.println("jmMemberDaoImpl jmInsertMember Exception->"+e.getMessage());
@@ -154,6 +158,52 @@ public class JmMemberDaoImpl implements JmMemberDao {
 				System.out.println("JmMemberDaoImpl jmDeleteMemberFake Exception->"+e.getMessage());
 			}
 			return deleteCount;
+		}
+
+		@Override
+		public int jmCheckId(String m_id) {
+			System.out.println("JmMemberDaoImpl jmCheckId start..");
+			int checkIdCount= 0;
+			try {
+				checkIdCount = session.selectOne("jmCheckId",m_id);
+			} catch (Exception e) {
+				System.out.println("JmMemberDaoImpl jmCheckId Exception->"+e.getMessage());
+			}
+			return checkIdCount;
+		}
+
+		@Override
+		public int jmLogin(String m_id, String m_pw) {
+			int result=0;
+			System.out.println("JmMemberDaoImpl jmLogin start..");
+			try {
+				System.out.println("JmMemberDaoImpl jmLogin m_id:"+m_id);
+				System.out.println("JmMemberDaoImpl jmLogin m_pw:"+m_pw);
+				String hashPw= session.selectOne("jmLogin", m_id);
+				System.out.println("JmMemberDaoImpl jmLogin hashPw->"+hashPw);
+				Member member=new Member();
+				member = session.selectOne("jmGetMemberFromId", m_id);
+				Boolean pwSameCheck=BCrypt.checkpw(m_pw, hashPw);
+				System.out.println(pwSameCheck);
+				 if ( member!= null) {
+			            if (pwSameCheck==true) {
+			                System.out.println("로그인 성공!");
+			                result=1;
+			            } else {
+			                System.out.println("비밀번호가 일치하지 않습니다.");
+			                result=0;
+			            }
+				 }
+			         else {
+			            System.out.println("해당 유저 정보를 찾을 수 없습니다.");
+			            result=-1;
+			        }
+			} catch (Exception e) {
+				System.out.println("jmMemberDaoImpl jmLogin Exception->"+e.getMessage());
+			}
+			
+			return result;		
+					
 		}
 
 }

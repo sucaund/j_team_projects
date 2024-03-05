@@ -96,5 +96,20 @@
 		m_isdeleted=1
 		WHERE m_number=#{m_number}
 	</update>
+	
+	 <select id="jmCheckId" parameterType = "String" resultType = "int">
+ 	 	SELECT COUNT(*) FROM MEMBER WHERE m_id = #{m_id} and m_isdeleted=0
+ 	 </select>
+ 	 
+ 	 <!-- 로그인 체크 위해 비밀번호 꺼내오기 -->
+ 	 <select id="jmLogin" parameterType="String" resultType="String">
+		select m_pw
+		  from member
+		 where m_id=#{m_id} and m_isdeleted=0
+	</select>
+	
+
+ 	 
+	
 
 </mapper>

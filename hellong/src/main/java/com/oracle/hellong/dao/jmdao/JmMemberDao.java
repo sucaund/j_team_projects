@@ -27,6 +27,10 @@ public interface JmMemberDao {
 	int jmDeleteMemberReal(int m_number);
 
 	int jmDeleteMemberFake(Member member);
+
+	int jmCheckId(String m_id);
+
+	int jmLogin(String m_id, String m_pw);
 	
 	
 

@@ -1,6 +1,9 @@
 package com.oracle.hellong.model;
 import java.util.Date;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import lombok.Data;
 
 @Data
@@ -15,7 +18,12 @@ public class Member { //회원 //member
 	    private int m_age; //나이
 	    private String m_gender; //성별
 	    private String m_phone; //전화번호
+	    
+	    @NotEmpty(message = "이메일은 필수 입력 값입니다.")
+	    @Email(message = "이메일 형식으로 입력해주세요.")
 	    private String m_email; //이메일
+	    
+	    
 	    private String m_address; //위치(주소)
 	    private Date m_regdate; //멤버가입일(등록일자)
 	    private Date m_update; //수정일자

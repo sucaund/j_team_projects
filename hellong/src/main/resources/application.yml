@@ -34,7 +34,6 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587 
-#    587 고정값?
     username: woakswoaks@gmail.com
     password: nnbe klao hucq jdcj
    #2차비밀번호..즉 '기기용 앱 비밀번호'로 해야한다. 
@@ -42,8 +41,10 @@ spring:
       mail:
         smtp:
           auth: true
+          timeout: 5000
+          writetimeout: 5000
           starttls.enable: true
-
+    auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
 # Mybatis
 mybatis:
   config-location: classpath:configuration.xml
