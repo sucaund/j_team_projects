@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 
 import com.oracle.hellong.dao.shdao.QBoarddao;
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.Member;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -113,8 +115,7 @@ public class SHServiceImpl implements SHService {
 
 		Board board2 = qd.callComment(board);
 		System.out.println(
-				"@SHServiceImpl callComment board2()->" + board2.getB_number() + "     " + board2.getB_category() + "  "
-						+ board2.getB_content() + "  " + board2.getM_number() + "  " + board2.getB_comm_group());
+				"@SHServiceImpl callComment board2()->" + board2);
 		return board2;
 	}
 
@@ -149,6 +150,39 @@ public class SHServiceImpl implements SHService {
 		        commentCounts.put(bNumber, count);
 		    }
 		    return commentCounts;
+	}
+//관리자 페이지=======================================
+	//모든멤버 가져오기
+	@Override
+	public List<Member> getAllMember() {
+		List<Member> getAllMember = qd.getAllMember();
+		return getAllMember;
+	}
+	//모든헬스장 가져오기
+	@Override
+	public List<Gym> getAllGym() {
+		List<Gym> getAllGym= qd.getAllGym();
+		return getAllGym;
+	}
+//모달에 모든멤버 정보를 추가
+	@Override
+	public Member getMember(int id) {
+		Member member =qd.getMember(id);
+		return member;
+	}
+//멤버 등급변경
+	@Override
+	public void updateMember(int m_number, int admin) {
+		System.out.println("SHServiceImpl updateMember  m_number->"+m_number);
+		System.out.println("SHServiceImpl updateMember  admin->"+admin);
+		qd.updateMember(m_number,admin);
+		
+	}
+//멤저제거
+	@Override
+	public void deleteMember(int m_number) {
+		System.out.println("SHServiceImpl updateMember  m_number->"+m_number);
+		qd.deleteMember(m_number);
 	}
 
 }

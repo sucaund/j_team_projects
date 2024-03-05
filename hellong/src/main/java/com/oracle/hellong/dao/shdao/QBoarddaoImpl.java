@@ -2,7 +2,9 @@ package com.oracle.hellong.dao.shdao;
 
 import static org.hamcrest.CoreMatchers.nullValue;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -11,6 +13,8 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.Member;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -113,15 +117,16 @@ public class QBoarddaoImpl implements QBoarddao {
 	@Override
 	public void addComment(Board board) {
 		System.out.println("QBoarddaoImpl addComment start...");
-		System.out.println("QBoarddaoImpl addComment board ->" + board.getB_number() + "     " + board.getB_category()
-				+ "  " + board.getB_content() + "  " + board.getM_number() + "  " + board.getB_comm_group());
+		System.out.println("QBoarddaoImpl addComment board ->" + board);
 		try {
+			
 			session.insert("addComment", board);
 			System.out.println("QBoarddaoImpl addComment board insert!!!");
 		} catch (Exception e) {
 			System.out.println("QBoarddaoImpl addComment e.getMessage()->" + e.getMessage());
-		}
-	}
+		}	
+		} 
+
 
 	@Override
 	public Board callComment(Board board) {
@@ -174,4 +179,63 @@ public class QBoarddaoImpl implements QBoarddao {
 		}
 		return count;
 	}
+
+//관리자 페이지!!!!==============================================
+	@Override
+	public List<Member> getAllMember() {
+		List<Member> getAllMember = null;
+		try {
+			getAllMember =session.selectList("getAllMember");
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl getAllMember e.getMessage()->" + e.getMessage());
+		}
+		return getAllMember;
+	}
+//특정멤버 정보 취득
+	@Override
+	public Member getMember(int id) {
+		Member member = null;
+		System.out.println("QBoarddaoImpl getMember id ->" + id);
+		try {
+			member = session.selectOne("getMember", id);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl getMember e.getMessage()->" + e.getMessage());
+		}
+		return member;
+	}
+	@Override
+	public List<Gym> getAllGym() {
+		List<Gym> getAllGym = null;
+		try {
+			getAllGym =session.selectList("getAllGym");
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl getAllMember e.getMessage()->" + e.getMessage());
+		}
+		return getAllGym;
+	}
+
+	@Override
+	public void updateMember(int m_number, int admin) {
+		try {
+			Map<String, Object> params = new HashMap<>();
+	        params.put("m_number", m_number);
+	        params.put("admin", admin);
+			session.update("updateMember",params);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl updateMember e.getMessage()->" + e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public void deleteMember(int m_number) {
+		try {
+			session.update("deleteMember", m_number);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl updateMember e.getMessage()->" + e.getMessage());
+
+		}
+		
+	}
+
 }

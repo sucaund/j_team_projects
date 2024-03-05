@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.service.sh.Paging;
 import com.oracle.hellong.service.sh.SHService;
@@ -168,6 +169,7 @@ public class SHController {
 		int toalquestions = sh.totalquestions(M_NUMBER);
 		System.out.println("SHController list toalquestions->" + toalquestions);
 		Paging page = new Paging(toalquestions, currentPage);
+		
 		board.setM_number(M_NUMBER);
 		board.setStart(page.getStart());
 		board.setEnd(page.getEnd());
@@ -206,10 +208,12 @@ public class SHController {
 		System.out.println(M_NUMBER);
 		System.out.println(bTitle);
 		System.out.println(bContent);
-		int category = 3;
+		int Common_bcd = 200;
+		int Common_mcd = 120;
 
 		board.setM_number(M_NUMBER);
-		board.setB_category(category);
+		board.setCommon_bcd(Common_bcd);
+		board.setCommon_mcd(Common_mcd);
 		board.setB_title(bTitle);
 		board.setB_content(bContent);
 		System.out.println("SHController write board" + board);
@@ -237,10 +241,13 @@ public class SHController {
 
 		System.out.println("SHController commentInsert M_NUMBER" + " => " + M_NUMBER);
 		System.out.println("SHController commentInsert B_NUMBER" + " => " + B_NUMBER);
-		int category = 5;// 임시 댓글 카테고리
+		int Common_bcd = 200;
+		int Common_mcd = 121;
+
 		board.setB_comm_group(B_NUMBER);
 		board.setM_number(M_NUMBER);
-		board.setB_category(category);
+		board.setCommon_bcd(Common_bcd);
+		board.setCommon_mcd(Common_mcd);
 		board.setB_content(comment);
 
 		sh.addComment(board);
@@ -285,10 +292,13 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		System.out.println(B_NUMBER);
 		System.out.println(bTitle);
 		System.out.println(bContent);
-		int category = 3;
+		int Common_bcd = 200;
+		int Common_mcd = 120;
+
 
 		board.setB_number(B_NUMBER);
-		board.setB_category(category);
+		board.setCommon_bcd(Common_bcd);
+		board.setCommon_mcd(Common_mcd);
 		board.setB_title(bTitle);
 		board.setB_content(bContent);
 		System.out.println("SHController write board" + board);
@@ -298,5 +308,77 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		return "redirect:/QuestionContent?B_NUMBER="+B_NUMBER;
 	}
 
+//=================================================관리자 폼===========================================
+	
+	
+	
+//메인 인덱스에서 관리자 창으로 넘어가기
+	@RequestMapping("/manger")
+	public String manger(Model model) {
+		System.out.println("SHController manger start...");
+		List<Member> allMember =sh.getAllMember();
+		List<Gym> allGym =sh.getAllGym();
+		
+		model.addAttribute("allMember", allMember);
+		model.addAttribute("allGym", allGym);
+		return "manger";
+	}
+//모달에 회원정보저장
+	@ResponseBody
+	@RequestMapping("getMemberDetails")
+	public Member requestMethodName(@RequestParam("id") int id) {
+		System.out.println("SHController requestMethodName start...");
+		System.out.println("SHController requestMethodName id"+id);
 
+		Member member = sh.getMember(id);//멤버 객체의 모든 정보를 담아놓는다
+		
+		
+		return member;
+	}
+//회원 등급변경
+	@ResponseBody
+	@PostMapping("updateMemberAdmin")
+	public void updateMemberAdmin(@RequestParam("m_number") int m_number, @RequestParam("admin")int admin) {
+		System.out.println("SHController updateMemberAdmin start...");
+		System.out.println("SHController updateMemberAdmin m_number"+m_number);
+		System.out.println("SHController updateMemberAdmin admin"+admin);
+		
+		sh.updateMember(m_number,admin);//멤버 객체의 모든 정보를 담아놓는다
+
+	}
+//모달에서 회원 삭제
+	
+	@RequestMapping("deleteMember")
+	public String deleteMember(@RequestParam("m_number") int m_number) {
+		System.out.println("SHController deleteMember start...");
+		System.out.println("SHController deleteMember m_number"+m_number);
+		sh.deleteMember(m_number);
+		return "manger";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

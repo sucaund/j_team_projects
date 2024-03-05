@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.ui.Model;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.Member;
 
 public interface SHService {
 
@@ -34,6 +36,17 @@ public interface SHService {
 	void updateAttribute(Board board);
 
 	Map<Integer, Integer> getCommentCountsForPosts(List<Board> listBoard);
+
+	List<Member> getAllMember();
+
+	List<Gym> getAllGym();
+
+	Member getMember(int id);
+
+	void updateMember(int m_number, int admin);
+
+	void deleteMember(int m_number);
+
 
 
 	

@@ -3,6 +3,8 @@ package com.oracle.hellong.dao.shdao;
 import java.util.List;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.Member;
 
 public interface QBoarddao {
 
@@ -40,6 +42,23 @@ public interface QBoarddao {
 
 
 	int countCommentsByBNumber(int bNumber);
+
+
+	List<Member> getAllMember();
+
+
+	List<Gym> getAllGym();
+
+
+	Member getMember(int id);
+
+
+	void updateMember(int m_number, int m_number2);
+
+
+	void deleteMember(int m_number);
+
+
 
 
 }
