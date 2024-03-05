@@ -268,7 +268,7 @@ public String deleteComment(@RequestParam("Comm_number") int Comm_number,
 	sh.deleteComment(Comm_number);
 	System.out.println("SHController deleteComment succes...");
 	
-    return "SH-Views/redirect:/QuestionContent?B_NUMBER="+bId;
+    return "redirect:/QuestionContent?B_NUMBER="+bId;
 }
 //글수정 뷰이동
 @RequestMapping("/modify")
@@ -306,7 +306,7 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 
 		sh.updateAttribute(board);
 
-		return "SH-Views/redirect:/QuestionContent?B_NUMBER="+B_NUMBER;
+		return "redirect:/QuestionContent?B_NUMBER="+B_NUMBER;
 	}
 
 //=================================================관리자 폼===========================================
