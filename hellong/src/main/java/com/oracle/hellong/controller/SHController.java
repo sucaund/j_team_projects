@@ -43,7 +43,7 @@ public class SHController {
 	@RequestMapping("/login")
 	public String login() {
 		System.out.println("SHController login start...");
-		return "login";
+		return "SH-Views/login";
 
 	}
 
@@ -63,7 +63,7 @@ public class SHController {
 		} else {
 			System.out.println("SHController authenticate else...");
 			model.addAttribute("loginError", true);
-			return "login";
+			return "SH-Views/login";
 		}
 
 		return "forward:loginAction1";
@@ -104,7 +104,7 @@ public class SHController {
 		model.addAttribute("page", page);
 		model.addAttribute("commentCounts", commentCounts); // 댓글 수 정보 모델에 추가
 
-		return "questionsList";
+		return "SH-Views/questionsList";
 	}
 
 	@GetMapping("listque")
@@ -137,7 +137,7 @@ public class SHController {
 		model.addAttribute("listBoard", listBoard);
 		model.addAttribute("page", page);
 		model.addAttribute("commentCounts", commentCounts); // 댓글 수 정보 모델에 추가
-		return "questionsList";
+		return "SH-Views/questionsList";
 	}
 
 	// 작성글 열람
@@ -159,7 +159,7 @@ public class SHController {
 		model.addAttribute("board", boardContent);
 		model.addAttribute("boardCommList", boardCommList);
 		System.out.println("SHController QuestionContent boardContent ->" + boardContent);
-		return "QuestionContent";
+		return "SH-Views/QuestionContent";
 	}
 
 //목록보기
@@ -185,7 +185,7 @@ public class SHController {
 		model.addAttribute("page", page);
 		model.addAttribute("commentCounts", commentCounts); // 댓글 수 정보 모델에 추가
 
-		return "questionsList";
+		return "SH-Views/questionsList";
 
 	}
 
@@ -195,7 +195,7 @@ public class SHController {
 		System.out.println("SHController write_view start...");
 		board.setM_number(M_NUMBER);
 		model.addAttribute("board", board);
-		return "write_view";
+		return "SH-Views/write_view";
 	}
 
 //글작성 실행
@@ -268,7 +268,7 @@ public String deleteComment(@RequestParam("Comm_number") int Comm_number,
 	sh.deleteComment(Comm_number);
 	System.out.println("SHController deleteComment succes...");
 	
-    return "redirect:/QuestionContent?B_NUMBER="+bId;
+    return "SH-Views/redirect:/QuestionContent?B_NUMBER="+bId;
 }
 //글수정 뷰이동
 @RequestMapping("/modify")
@@ -277,7 +277,7 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 	System.out.println("SHController modify B_NUMBER->"+B_NUMBER);
 	Board boardContent = sh.boardContent(B_NUMBER);
 	model.addAttribute("board",boardContent);
-    return "modifyView";
+    return "SH-Views/modifyView";
 }
 
 //수정 실행
@@ -306,7 +306,7 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 
 		sh.updateAttribute(board);
 
-		return "redirect:/QuestionContent?B_NUMBER="+B_NUMBER;
+		return "SH-Views/redirect:/QuestionContent?B_NUMBER="+B_NUMBER;
 	}
 
 //=================================================관리자 폼===========================================
@@ -322,7 +322,7 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		
 		model.addAttribute("allMember", allMember);
 		model.addAttribute("allGym", allGym);
-		return "manger";
+		return "SH-Views/manger";
 	}
 //모달에 회원정보저장
 	@ResponseBody
@@ -354,7 +354,7 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		System.out.println("SHController deleteMember start...");
 		System.out.println("SHController deleteMember m_number"+m_number);
 		sh.deleteMember(m_number);
-		return "manger";
+		return "SH-Views/manger";
 	}
 //헬스장 페이지 회원등록
 	@PostMapping("registerGym")
@@ -377,7 +377,7 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		//sh.registerGym();
 			
 		
-		return "manger";
+		return "SH-Views/manger";
 	}
 	
 	
