@@ -10,6 +10,10 @@
 		SELECT Count(*) FROM member where m_isDeleted=0
 	</select>
 
+	<select id="getAllMember" resultType="Member">
+		SELECT*
+		FROM MEMBER WHERE M_ISDELETED = 0
+	</select>
 
 	<!-- jmMemberDaoImpl -> jmDetailMember에서 사용 -->			<!-- 이 타입은 configuration에서 alias로 정해준것 -->
 	<select id="jmMemberListAll" parameterType="Member"
@@ -111,5 +115,22 @@
 
  	 
 	
+
+
+	<select id="getMember" resultType="Member" parameterType="int">
+		SELECT*
+		FROM MEMBER WHERE M_NUMBER = #{id}
+	</select>
+
+	<update id="updateMember">
+    UPDATE MEMBER
+    SET COMMON_MCD = #{admin}
+    WHERE M_NUMBER = #{m_number}
+	</update>
+	<update id="deleteMember" parameterType="int">
+    UPDATE MEMBER
+    SET M_ISDELETED = 1
+    WHERE M_NUMBER =#{m_number}
+	</update>
 
 </mapper>

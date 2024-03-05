@@ -38,23 +38,45 @@
             <div class="posts-grid"></div>
             <div class="pagination">
 
+			<c:set var="num" value="${page.total-page.start+1 }"></c:set>
 <table>
+
 		<tr><th >번호</th><th>제목</th><th>작성일</th><th>답글</th></tr>
-		<c:forEach var="Board" items="${listBoard}">
-			<tr><td>${num }</td><td>${Board.B_TITLE }</td>
-			<td>${Board.B_REGDATE}</td><td>${Board.B_COMM_GROUP }</td></tr>
+			
+	<c:choose>
+		<c:when test='${listBoard == null or empty listBoard}'>
+			<td colspan="4">
+				<p align="center">
+					<b><span style='font-size=9pt;'>등록된 글이 없습니다.</span></b>
+					<td colspan="5"> <a href="write_view?M_NUMBER=${board.m_number}">글작성</a> </td>
+				</p>
+			</td>
+		</c:when>
+		
+		<c:when test="${listBoard != null }">
+			<c:forEach var="board" items="${listBoard}">
+			<tr><td>${num}</td>
+			<td><a href="QuestionContent?B_NUMBER=${board.b_number}">${board.b_title }</td>
+			<td>${board.b_regdate}</td>
+			<td>${commentCounts[board.b_number]}</td>
+			</tr>
 			<c:set var="num" value="${num - 1 }"></c:set>
-		</c:forEach>
-	</table>	
+			</c:forEach>
+				<td colspan="5"> <a href="write_view?M_NUMBER=${board.m_number}">글작성</a> </td>
+		</c:when>
+		
+	</c:choose>
+	
+</table>	
 	
 	<c:if test="${page.startPage > page.pageBlock }">
-		<a href="listEmp?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
+		<a href="listque?currentPage=${page.startPage-page.pageBlock}">[이전]</a>
 	</c:if>
 	<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-		<a href="listEmp?currentPage=${i}">[${i}]</a>
+		<a href="listque?currentPage=${i}">[${i}]</a>
 	</c:forEach>
 	<c:if test="${page.endPage < page.totalPage }">
-		<a href="listEmp?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
+		<a href="listque?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
 	</c:if>	
 
 

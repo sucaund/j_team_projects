@@ -19,8 +19,6 @@ public class Member { //회원 //member
 	    private String m_gender; //성별
 	    private String m_phone; //전화번호
 	    
-	    @NotEmpty(message = "이메일은 필수 입력 값입니다.")
-	    @Email(message = "이메일 형식으로 입력해주세요.")
 	    private String m_email; //이메일
 	    
 	    

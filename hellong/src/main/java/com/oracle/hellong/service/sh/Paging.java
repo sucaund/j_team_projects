@@ -2,9 +2,11 @@ package com.oracle.hellong.service.sh;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class Paging {
 	//                        2
 	private int currentPage = 1;	private int rowPage   = 10;

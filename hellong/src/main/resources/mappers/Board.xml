@@ -2,23 +2,106 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.BoardMapper">
 
-	<select id="boardTotal" resultType="int">
-	SELECT Count(*) FROM BOARD WHERE B_CATEGORY = 3
+	<select id="boardTotal" parameterType="int" resultType="int">
+		SELECT
+		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200 AND COMMON_MCD = 120
 	</select>
-     
-     
-<select id="checkMemberIdExists" parameterType="string" resultType="int">
-    SELECT COUNT(*)
-    FROM MEMBER
-    WHERE M_ID = #{member_id}
-</select>
- 
- <select id="samequeboard"   parameterType="string"   resultType="Board">
-	SELECT *
-	FROM BOARD B
-	JOIN MEMBER M ON B.M_NUMBER = M.M_NUMBER
-	WHERE M.M_ID = #{member_id}
-	AND B.B_CATEGORY = 3
-</select>
+
+	<select id="ContentBoard" parameterType="int" resultType="Board">
+		SELECT
+		* FROM BOARD where B_NUMBER = #{b_NUMBER}
+	</select>
+
+
+
+	<select id="NumChangeNum" parameterType="string"
+		resultType="int">
+		SELECT M_NUMBER
+		FROM MEMBER
+		WHERE M_ID = #{member_id}
+	</select>
+	
+	<select id="countCommentsByBNumber" parameterType="int" resultType="int">
+    SELECT COUNT(*) FROM BOARD
+    WHERE B_COMM_GROUP = #{bNumber}
+	</select>
+
+	<select id="samequeboard" parameterType="Board"
+		resultType="Board">
+		SELECT *
+		FROM
+		(
+		SELECT rownum rn ,B.*
+		FROM BOARD B
+		WHERE M_NUMBER = #{m_number}
+		AND COMMON_BCD = 200 AND COMMON_MCD = 120
+		ORDER BY B_NUMBER DESC
+		)
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+	<select id="Queinsert" parameterType="Board">
+		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD , B_TITLE, B_CONTENT,M_NUMBER)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_title},#{b_content},#{m_number})
+	</select>
+
+	<delete id="SCRAP_delete" parameterType="int">
+		DELETE FROM
+		"HELLONG"."SCRAP" WHERE "B_NUMBER" = #{bId}
+	</delete>
+	<delete id="REPORT_delete" parameterType="int">
+		DELETE FROM
+		"HELLONG"."REPORT" WHERE "B_NUMBER" = #{bId}
+	</delete>
+	<delete id="COMM_delete" parameterType="int">
+		DELETE FROM BOARD
+		WHERE B_COMM_GROUP = #{bId}
+	</delete>
+	<delete id="que_delete" parameterType="int">
+		DELETE FROM BOARD
+		WHERE B_NUMBER = #{bId}
+	</delete>
+
+
+	<insert id="addComment" parameterType="Board">
+		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_content},#{m_number}, #{b_comm_group})
+	</insert>
+
+
+
+	<select id="callComment" parameterType="Board"
+		resultType="Board">
+		SELECT *
+		FROM BOARD
+		WHERE B_COMM_GROUP = #{b_comm_group}
+		AND M_NUMBER = #{m_number}
+		AND COMMON_BCD = #{common_bcd}
+		AND common_mcd = #{common_mcd}
+		AND B_CONTENT = #{b_content}
+		AND B_NUMBER = (
+		SELECT MAX(B_NUMBER) FROM BOARD
+		)
+
+
+	</select>
+
+	<select id="getComments" parameterType="int" resultType="Board">
+		SELECT * FROM BOARD WHERE COMMON_BCD = 200 AND COMMON_MCD = 121
+		AND B_COMM_GROUP = #{B_NUMBER}
+		ORDER BY B_NUMBER DESC
+
+	</select>
+
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM BOARD WHERE B_NUMBER = #{b_number}
+	</delete>
+
+	<update id="updateAttribute" parameterType="Board">
+		UPDATE BOARD
+		SET B_TITLE = #{b_title},
+		B_CONTENT = #{b_content}
+		WHERE B_NUMBER = #{b_number}
+	</update>
+
 
 </mapper>

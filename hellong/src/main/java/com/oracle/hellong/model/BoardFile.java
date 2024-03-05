@@ -1,9 +1,6 @@
 package com.oracle.hellong.model;
 
-
 import lombok.Data;
-
-
 @Data
 public class BoardFile {
 	private final int b_number; // 게시판 ID

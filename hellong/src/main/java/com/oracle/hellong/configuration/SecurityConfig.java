@@ -57,7 +57,7 @@ public class SecurityConfig{
 		    
 		    ;
 		
-		return http.build();
+		return http.build(); //0649
 	}
 	
 	
