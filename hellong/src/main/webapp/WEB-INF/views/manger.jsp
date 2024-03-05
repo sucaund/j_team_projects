@@ -112,6 +112,42 @@
 								}
 							});
 						});
+			
+			
+			
+			
+				 $('#submitGym').click(function() {
+				        var formData = new FormData();
+
+				        // 모든 텍스트 필드 데이터 추가
+				        formData.append('m_number', $('input[name="m_number"]').val());//파트너넘
+				        formData.append('g_name', $('input[name="g_name"]').val());    //상호명
+				        formData.append('g_address', $('input[name="g_address"]').val()); // 주소
+				        formData.append('g_tel', $('input[name="g_tel"]').val()); // 전화번호
+				        formData.append('g_companynumber', $('input[name="g_companynumber"]').val()); // 사업자 등록번호
+
+				        // 파일 데이터 추가
+				        var imageFile = $('#imageInput')[0].files[0]; //사업자 등록서류
+				        formData.append('image', imageFile);
+
+				        $.ajax({
+				            url: 'registerGym', // 서버 엔드포인트 URL
+				            type: 'POST',
+				            data: formData,
+				            processData: false,
+				            contentType: false,
+				            success: function(response) {
+				                alert('헬스장 정보가 성공적으로 등록되었습니다.');
+				                $('#insertGym').modal('hide'); // 모달 숨기기
+				                location.reload(); // 페이지 새로 고침 또는 목록 업데이트
+				            },
+				            error: function(xhr, status, error) {
+				                alert('등록 실패: ' + error);
+				            }
+				        });
+				    });
+			
+			
 			});
 	
 	 $(document).on('click','#applyChanges', function() {
@@ -204,6 +240,8 @@
 	        });
 	    }
 	});
+	
+	
 </script>
 
 </head>
@@ -308,9 +346,6 @@
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form method="POST"
-						action="${pageContext.request.contextPath }/memberUpdate.do"
-						name="joinform">
 						<table>
 
 							<tr>
@@ -401,81 +436,47 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">회원정보</h5>
+					<h5 class="modal-title" id="exampleModalLabel">헬스장 추가 </h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form method="POST"
-						action="${pageContext.request.contextPath }/memberUpdate.do"
-						name="joinform">
+
 						<table>
 							<tr>
-								<td>이름</td>
-								<td><input type="text" name="name" readonly="readonly"
-									value="${mVo.name }"></td>
+								<td>파트너번호</td>
+								<td><input type="text" name="m_number" readonly="readonly"></td>
 							</tr>
 							<tr>
-								<td>아이디</td>
-								<td><input type="text" name="userid" readonly="readonly"
-									value="${mVo.userid }"></td>
+								<td>상호명</td>
+								<td><input type="text" name="g_name" readonly="readonly"></td>
 							</tr>
 							<tr>
-								<td>암호</td>
-								<td><input type="password" name="pwd"></td>
-							</tr>
-
-							<tr>
-								<td>보유보인트</td>
-								<td><input type="email" name="email" value="${mVo.email }"></td>
-							</tr>
-							<tr>
-								<td>가입일</td>
-								<td><input type="email" name="email" value="${mVo.email }"></td>
-							</tr>
-							<tr>
-								<td>생년월일</td>
-								<td><input type="email" name="email" value="${mVo.email }"></td>
-							</tr>
-							<tr>
-								<td>지역</td>
-								<td><input type="email" name="email" value="${mVo.email }"></td>
-							</tr>
-							<tr>
-								<td>이메일</td>
-								<td><input type="email" name="email" value="${mVo.email }"></td>
+								<td>주소</td>
+								<td><input type="text" name="g_address" readonly="readonly"></td>
 							</tr>
 							<tr>
 								<td>전화번호</td>
-								<td><input type="text" name="phone" value="${mVo.phone }"></td>
+								<td><input type="text" name="g_tel"></td>
+							</tr>
+
+							<tr>
+								<td>사업자 등록번호</td>
+								<td><input type="text" name="g_companynumber" value="${mVo.email }"></td>
 							</tr>
 							<tr>
-								<td>등급</td>
-
-								<td><c:choose>
-										<c:when test="${mVo.admin == 0 }">
-											<input type="radio" name="admin" value="0" checked="checked">일반회원
-									<input type="radio" name="admin" value="2">헬스장
-									<input type="radio" name="admin" value="3">관리자
-								</c:when>
-										<c:otherwise>
-											<input type="radio" name="admin" value="0" checked="checked">일반회원
-									<input type="radio" name="admin" value="2">헬스장
-									<input type="radio" name="admin" value="3">관리자
-								</c:otherwise>
-									</c:choose></td>
+								<td>등록신청서류</td>
+								<td><input type="file" id="imageInput" name="image" /></td>
 							</tr>
 							<tr>
 								<td colspan="2">${message }</td>
 							</tr>
 						</table>
-					</form>
-					<a href="" onclick="return confirm('댓글을 삭제하시겠습니까?');">회원삭제</a>
-				</div>
+					</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary">적용</button>
+					<button type="button" id="submitGym" class="btn btn-primary">등록</button>
 				</div>
 			</div>
 		</div>

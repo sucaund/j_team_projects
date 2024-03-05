@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
@@ -353,6 +354,29 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		System.out.println("SHController deleteMember start...");
 		System.out.println("SHController deleteMember m_number"+m_number);
 		sh.deleteMember(m_number);
+		return "manger";
+	}
+//헬스장 페이지 회원등록
+	@PostMapping("registerGym")
+	public String postMethodName(
+			@RequestParam("m_number") int m_number,
+			@RequestParam("g_name") String g_name,
+			@RequestParam("g_address") String g_address,
+			@RequestParam("g_tel") String g_tel,
+	        @RequestParam("g_companynumber") int g_companynumber,
+	        @RequestParam("image") MultipartFile imageFile,
+	        Gym gym){
+		
+		gym.setM_number(m_number);
+		gym.setG_name(g_name);
+		gym.setG_address(g_address);
+		gym.setG_tel(g_tel);
+		gym.setG_companynumber(g_companynumber);
+		//gym.setG_document(imageFile);
+		
+		//sh.registerGym();
+			
+		
 		return "manger";
 	}
 	
