@@ -19,7 +19,7 @@
 		<typeAlias alias="Scrap"  type="com.oracle.hellong.model.Scrap"/>
 		<typeAlias alias="Trainer"  type="com.oracle.hellong.model.Trainer"/>
 		<typeAlias alias="Zzim"  type="com.oracle.hellong.model.Zzim"/>
-		
+		<typeAlias alias="BoardFile" type="com.oracle.hellong.model.BoardFile" />
 	</typeAliases>
 	
 	
