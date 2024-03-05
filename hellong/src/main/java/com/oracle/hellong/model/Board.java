@@ -29,6 +29,7 @@ public class Board { //게시판 게시물 board
       private String search;         private String keyword;
       private String pageNum;  
       private int start;              private int end;
+  	private int prevPage;			private int nextPage;
       // Page 정보
       private String currentPage;
 }
