@@ -481,6 +481,58 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 	헬스장 페이지 정보  -->
+	<div class="modal fade" id="Gym_Content" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">헬스장 추가 </h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+						<table>
+							<tr>
+								<td>파트너번호</td>
+								<td><input type="text" name="m_number" readonly="readonly"></td>
+							</tr>
+							<tr>
+								<td>상호명</td>
+								<td><input type="text" name="g_name" readonly="readonly"></td>
+							</tr>
+							<tr>
+								<td>주소</td>
+								<td><input type="text" name="g_address" readonly="readonly"></td>
+							</tr>
+							<tr>
+								<td>전화번호</td>
+								<td><input type="text" name="g_tel"></td>
+							</tr>
+
+							<tr>
+								<td>사업자 등록번호</td>
+								<td><input type="text" name="g_companynumber" value="${mVo.email }"></td>
+							</tr>
+							<tr>
+								<td>등록신청서류</td>
+								<td><input type="file" id="imageInput" name="image" /></td>
+							</tr>
+							<tr>
+								<td colspan="2">${message }</td>
+							</tr>
+						</table>
+					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" id="submitGym" class="btn btn-primary">등록</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 
 
