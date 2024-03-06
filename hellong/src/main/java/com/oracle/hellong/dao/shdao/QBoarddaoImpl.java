@@ -213,7 +213,7 @@ public class QBoarddaoImpl implements QBoarddao {
 		}
 		return getAllGym;
 	}
-
+//멤버 등급변경
 	@Override
 	public void updateMember(int m_number, int admin) {
 		try {
@@ -226,16 +226,61 @@ public class QBoarddaoImpl implements QBoarddao {
 		}
 		
 	}
-
+//멤버제거
 	@Override
 	public void deleteMember(int m_number) {
 		try {
 			session.update("deleteMember", m_number);
 		} catch (Exception e) {
 			System.out.println("QBoarddaoImpl updateMember e.getMessage()->" + e.getMessage());
+		}
+	}
 
+//헬스장 제거
+	@Override
+	public void deleteGym(int g_id) {
+		try {
+			session.update("deleteGym", g_id);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl deleteGym e.getMessage()->" + e.getMessage());
 		}
 		
 	}
-
+//헬스장 정보 가져오기
+	@Override
+	public Gym getGym(int g_id) {
+		System.out.println("QBoarddaoImpl getGym g_id"+"   "+g_id);
+		Gym gym = null;
+		try {
+			gym= session.selectOne("getGym", g_id);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl getGym e.getMessage()->" + e.getMessage());
+		}
+		System.out.println("QBoarddaoImpl sucess! gym"+ " "+ gym);
+		return gym;
+	}
+//헬스장 등록
+	@Override
+	public void registerGym(Gym gym) {
+		try {
+			System.out.println("QBoarddaoImpl registerGym gym"+"   "+gym);
+			session.insert("shregisterGym", gym);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl registerGym e.getMessage()->" + e.getMessage());
+		}
+		
+	}
+//헬스장 오픈등급변경
+	@Override
+	public void updateOpenGym(int g_id, int common_mcd) {
+		try {
+			Map<String, Object> params = new HashMap<>();
+	        params.put("g_id", g_id);
+	        params.put("common_mcd", common_mcd);
+			session.update("OpenGym",params);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl OpenGym e.getMessage()->" + e.getMessage());
+		}
+		
+	}
 }

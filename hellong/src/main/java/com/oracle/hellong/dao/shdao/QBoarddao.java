@@ -59,6 +59,18 @@ public interface QBoarddao {
 	void deleteMember(int m_number);
 
 
+	Gym getGym(int g_id);
+
+
+	void registerGym(Gym gym);
+
+
+	void deleteGym(int g_id);
+
+
+	void updateOpenGym(int g_id, int common_mcd);
+
+
 
 
 }

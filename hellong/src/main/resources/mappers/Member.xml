@@ -124,6 +124,7 @@
     SET COMMON_MCD = #{admin}
     WHERE M_NUMBER = #{m_number}
 	</update>
+	
 	<update id="deleteMember" parameterType="int">
     UPDATE MEMBER
     SET M_ISDELETED = 1
