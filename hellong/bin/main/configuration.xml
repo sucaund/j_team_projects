@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+	<typeAliases>
+		<typeAlias alias="Board"   	type="com.oracle.hellong.model.Board"/> 
+		<typeAlias alias="GS"   	type="com.oracle.hellong.model.GS"/> 
+		<typeAlias alias="GSDetail"  type="com.oracle.hellong.model.GSDetail"/>
+		<typeAlias alias="Gym"  type="com.oracle.hellong.model.Gym"/>
+		<typeAlias alias="GymBoard"  type="com.oracle.hellong.model.GymBoard"/>
+		<typeAlias alias="GymBoardFile" type="com.oracle.hellong.model.GymBoardFile"/>
+		<typeAlias alias="GymOrder"  type="com.oracle.hellong.model.GymOrder"/>
+		<typeAlias alias="GymReview"  type="com.oracle.hellong.model.GymReview"/>
+		<typeAlias alias="Member"  type="com.oracle.hellong.model.Member"/>
+		<typeAlias alias="PointCharge"  type="com.oracle.hellong.model.PointCharge"/>
+		<typeAlias alias="Report"  type="com.oracle.hellong.model.Report"/>
+		<typeAlias alias="Scrap"  type="com.oracle.hellong.model.Scrap"/>
+		<typeAlias alias="Trainer"  type="com.oracle.hellong.model.Trainer"/>
+		<typeAlias alias="Zzim"  type="com.oracle.hellong.model.Zzim"/>
+		<typeAlias alias="GymBoardFile" type="com.oracle.hellong.model.GymBoardFile"/>
+		<typeAlias alias="BoardFile" type="com.oracle.hellong.model.BoardFile" />
+	</typeAliases>
+	
+	
+</configuration>
