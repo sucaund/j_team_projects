@@ -255,4 +255,86 @@
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
+	
+	<select id="hsNoticeBoardTotal" resultType="int">
+		SELECT count(*) FROM board WHERE common_mcd = 110
+
+	</select>
+	
+	<select id="hsNoticeBoardListAll" parameterType="Member" resultType="Board">
+		<![CDATA[
+			SELECT *
+			FROM
+			(
+				SELECT rownum rn, a.*
+				FROM
+					(SELECT m.m_name, b.* 
+					 FROM member m, board b
+					 WHERE m.m_number = b.m_number
+					 AND b.common_mcd = 110
+				     ORDER BY b_update) a
+			)
+			WHERE rn >= #{start}
+			AND rn <= #{end}
+		]]>
+	</select>
+	
+	<select id="hsNoticeBoardSelOne" parameterType="Board" resultType="Board">
+		SELECT m.m_name, b.* 
+		FROM member m, board b 
+		WHERE m.m_number = b.m_number
+		AND b.common_mcd=110 
+		AND b.b_number= #{b_number}
+	</select>
+	
+	<insert id="hsCreateNoticeBoard" parameterType="Board">
+		INSERT INTO board VALUES (b_number_seq.nextval, 30, 200, 110, #{b_title}, #{b_content}, 0, TO_DATE(SYSDATE, 'YYYY-MM-DD'), 
+									TO_DATE(SYSDATE, 'YYYY-MM-DD'), 0, 0, 0, 'image', null, null, null)
+	</insert>
+	
+	<update id="hsUpdateNoticeBoard" parameterType="Board">
+		UPDATE board SET b_title=#{b_title}, b_content=#{b_content}, b_update=TO_DATE(SYSDATE, 'YYYY-MM-DD')
+		WHERE b_number=#{b_number}
+	</update>
+	
+	<delete id="hsDeleteScrap" parameterType="Board">
+		DELETE FROM scrap WHERE b_number=#{b_number}
+	</delete>
+	
+	<delete id="hsDeleteNoticeBoard" parameterType="Board">
+		DELETE FROM board WHERE b_number=#{b_number}
+	</delete>
+	
+	<select id="hsCondTotalNoticeBoardCnt" parameterType="Board" resultType="int">
+		SELECT Count(*) FROM board WHERE common_mcd=110
+		<choose>
+			<when test="search == 'b_title'">
+				AND b_title like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 'b_content">
+				AND b_content like '%' || #{keyword} || '%'
+			</when>
+		</choose>
+	</select>
+	
+	<select id="hsSearchNoticeBoard" parameterType="Board" resultType="Board">
+		SELECT *
+		FROM
+		(
+			SELECT rownum rn, a.*
+			FROM
+				(SELECT m.m_name, b.* FROM member m, board b WHERE m.m_number = b.m_number AND b.common_mcd=110
+				<choose>
+					<when test="search == 'b_title'">
+						AND b.b_title like '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'b_content'">
+						AND b.b_content like '%' || #{keyword} || '%'
+					</when>
+				</choose>
+				ORDER BY b.b_update) a
+		)
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+	
 </mapper>

@@ -2,4 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GymOrderMapper">
 
+	<select id="hsTotalListGymOrderDealCnt" resultType="int">
+		SELECT count(*)
+		FROM member m, gym_order g
+		WHERE m.m_number = g.m_number
+		AND m.m_number = 40
+		AND g.refund_date IS NULL
+	</select>
+	
+	<select id="hsListGymOrderDeal" parameterType="Member" resultType="GymOrder">
+		SELECT *
+		FROM
+			(SELECT rownum rn, a.*
+			 FROM
+			 	(SELECT *
+			 	 FROM member m, gym_order g 
+			 	 WHERE m.m_number = g.m_number
+			 	 AND m.m_number = 40
+			 	 AND g.refund_date IS NULL
+			 	 ORDER BY g.deal_date DESC
+			 	) a
+			)
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+	
+		<select id="hsTotalListGymOrderRefundCnt" parameterType="Member" resultType="int">
+		SELECT count(*)
+		FROM member m, gym_order g
+		WHERE m.m_number = g.m_number
+		AND m.m_number = 40
+		AND g.refund_date IS NOT NULL
+	</select>
+	
+	<select id="hsListGymOrderRefund" parameterType="Member" resultType="GymOrder">
+		SELECT *
+		FROM
+			(SELECT rownum rn, a.*
+			 FROM
+			 	(SELECT *
+			 	 FROM member m, gym_order g 
+			 	 WHERE m.m_number = g.m_number
+			 	 AND m.m_number = 40
+			 	 AND g.refund_date IS NOT NULL
+			 	 ORDER BY g.refund_date DESC
+			 	) a
+			)
+		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+	
+	<select id="hsListGymOrder" parameterType="int" resultType="GymOrder">
+		SELECT *
+		FROM gym_order
+		WHERE m_number = ${m_number}
+	</select>
 </mapper>

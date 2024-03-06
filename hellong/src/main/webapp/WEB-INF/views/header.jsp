@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link href="css/board.css" rel="stylesheet" type="text/css">
 
 <!DOCTYPE html>
 <html>

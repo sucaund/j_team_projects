@@ -32,4 +32,7 @@ public class Board { //게시판 게시물 board
   	private int prevPage;			private int nextPage;
       // Page 정보
       private String currentPage;
+      
+      //0306임시
+	   private String m_name;
 }
