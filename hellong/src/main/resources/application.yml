@@ -45,6 +45,11 @@ spring:
           writetimeout: 5000
           starttls.enable: true
     auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
+    
+# 사진 업로드 경로
+upload:
+  path: /upload/**
+    
 # Mybatis
 mybatis:
   config-location: classpath:configuration.xml

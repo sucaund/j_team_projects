@@ -16,5 +16,15 @@ public class Gym { //체육관 gym
        private int g_isdeleted; //삭제여부
        private int g_companynumber; //사업자등록번호
        private String g_document; //등록신청서류
+       
+   	//조회용
+   	private String search;
+   	private	String keyword;
+   	private	String pageNum;
+   	private int	start;
+   	private	int end;
+   	
+   	//page 정보
+   	private String currentPage;
 
 }

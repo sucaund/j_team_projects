@@ -1,10 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GymMapper">
-
+	<select id="gymTotal" resultType="int">
+		SELECT Count(*) FROM gym
+	</select>
+	<select id="jhGymListAll" parameterType="Gym" resultType="Gym">
+		select*
+		from
+		(
+			select rownum rn, a.*
+			from
+				(select*from gym order by g_id)a
+		)
+		where rn between #{start} and #{end}
+		
+	</select>
+	
+	<select id="jhGymListManage" parameterType="Gym" resultType="Gym">
+		select*
+		from gym
+		where m_number = #{m_number}
+	
+	</select>
+	
+	
+	<select id="jhGymListManager" parameterType="Gym" resultType="Gym">
+		select*
+		from gym
+		where m_number = #{m_number}
+	</select>
+	
+	<select id="jhcreateGymPost" parameterType="int" resultType="Gym">
+		select*
+		from gym
+		where g_id = #{g_id}
+	</select>
+	
+	<select id="gymIdTrainer" parameterType="int" resultType="int">
+		select g_id
+		from gym
+		where g_id = #{g_id}
+	</select>
+	
 
 	<select id="getAllGym" resultType="Gym">
 		SELECT*
 		FROM GYM 
 	</select>
+	
+	
+	
 </mapper>
