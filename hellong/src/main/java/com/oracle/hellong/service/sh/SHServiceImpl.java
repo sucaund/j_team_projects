@@ -97,7 +97,7 @@ public class SHServiceImpl implements SHService {
 
 	}
 
-//글삭제
+//글삭제!
 	@Override
 	public void delete_que(int bId) {
 		System.out.println("SHServiceImpl Start delete_que...");
