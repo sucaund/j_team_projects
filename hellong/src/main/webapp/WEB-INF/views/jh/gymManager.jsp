@@ -70,10 +70,10 @@ h1, h2 {
                 <h1>${gym.g_name}</h1>
                 <div class="menu">
                     <a href="createGymForm?g_id=${gym.g_id}" class="menu-item">헬스장 글 등록/수정</a>
+                    <a href="gymPostDetail?g_id=${gym.g_id}" class="menu-item">홍보 글 이동</a>
                     <a href="serviceList?g_id=${gym.g_id}" class="menu-item">서비스 관리</a>
                     <a href="detailGym?g_id=${gym.g_id}" class="menu-item">회원 관리</a>
                     <a href="trainerList?g_id=${gym.g_id}" class="menu-item">트레이너 관리</a>
-                 <%--    <a href="detailGym?g_id=${gym.g_id}" class="menu-item">장비 관리</a> --%>
                 </div>
             </div>
         </c:forEach>
