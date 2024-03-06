@@ -379,7 +379,7 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		
 		return "SH-Views/manger";
 	}
-	
+	//헬스장 페이지 정보
 	
 	
 	
