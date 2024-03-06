@@ -61,7 +61,7 @@ public interface JHService {
 	int gymId(int g_id);
 	
 	// 트레이너 리스트 추가
-	int saveTrainer(Trainer trainer);
+	int saveTrainer(Trainer trainer) throws IOException;
 	List<Trainer> gymIdTrainerId(Trainer trainer);	//트레이너 들어간 결과
 
 	// 체육관 서비스 리스트***************************************************************************

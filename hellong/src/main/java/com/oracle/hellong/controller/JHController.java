@@ -182,7 +182,7 @@ public class JHController { ////
 	}
 	
 	@PostMapping(value = "/jh/saveTrainerForm")
-	public String trainerSave(Gym gym,Trainer trainer, Model model) {
+	public String trainerSave(Gym gym,Trainer trainer, Model model) throws IOException {
 		System.out.println(gym.getG_id());
 		int saveTrainer = jh.saveTrainer(trainer);
 		List<Trainer> trainerId = jh.gymIdTrainerId(trainer);

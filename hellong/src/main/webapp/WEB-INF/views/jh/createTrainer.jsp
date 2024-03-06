@@ -28,13 +28,14 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 my-4">
-            <form action="${pageContext.request.contextPath}/jh/saveTrainerForm" method="post" id="trainerForm">
+        	<c:if test="${msg!=null}">${msg}</c:if>
+            <form action="${pageContext.request.contextPath}/jh/saveTrainerForm" method="post" id="trainerForm" enctype="multipart/form-data" >
                 <input type="hidden" name="g_id" value="${gym}" required>
 
                 <div class="form-group">
                     <label for="photo"><i class="fas fa-camera"></i> 트레이너 사진:</label>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="photo" name="t_photo" onchange="previewImage(event)">
+                        <input type="file" class="custom-file-input" id="photo" name="trainerPhotoFile" onchange="previewImage(event)">
                         <label class="custom-file-label" for="photo">사진 선택</label>
                     </div>
                 </div>

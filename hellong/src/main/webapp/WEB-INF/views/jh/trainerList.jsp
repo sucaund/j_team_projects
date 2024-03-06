@@ -19,6 +19,41 @@
         .long-column {
             width: 30%; /* 이메일 열의 가로 길이를 늘림 */
         }
+
+        /* 모달 스타일 */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.4); 
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -63,7 +98,7 @@
 	                <td class="py-2 px-4 text-center long-column">${trainer.t_email}</td>
 	                <td class="py-2 px-4 text-center">
 	                    <div class="flex justify-center">
-	                        <a href="trainerDetail?trainer_id=${trainer.t_id}" class="text-blue-500 hover:underline"><i class="fas fa-info-circle"></i> 상세정보</a>
+	                        <a href="#" class="text-blue-500 hover:underline detail-icon"><i class="fas fa-info-circle"></i> 상세정보</a>
 	                    </div>
 	                </td>
 	                <td class="py-2 px-4 text-center">
@@ -100,5 +135,64 @@
         </div>
     </div>
 </div>
+
+
+<div id="myModal" class="modal">
+  <div class="modal-content" style="width: 60%;"> <!-- 모달 가로 크기 조절 -->
+    <span class="close">&times;</span>
+    <!-- 트레이너 정보 관련 내용 추가 -->
+    <h2 class="text-xl font-bold mb-4">트레이너 정보</h2>
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <p><strong>이름:</strong> 트레이너 이름</p>
+            <p><strong>나이:</strong> 트레이너 나이</p>
+            <p><strong>전화번호:</strong> 트레이너 전화번호</p>
+        </div>
+        <div>
+            <p><strong>이메일:</strong> 트레이너 이메일</p>
+            <!-- 추가 필요한 정보 -->
+        </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 모달 열기
+function openModal() {
+  var modal = document.getElementById("myModal");
+  modal.style.display = "block";
+}
+
+// 모달 닫기
+function closeModal() {
+  var modal = document.getElementById("myModal");
+  modal.style.display = "none";
+}
+
+// 모달이 닫히도록 x 버튼 및 모달 외부를 클릭하면 실행
+var modal = document.getElementById("myModal");
+window.onclick = function(event) {
+  if (event.target == modal) {
+    closeModal();
+  }
+}
+
+// 상세정보 아이콘 클릭 시 모달 열기
+var detailIcons = document.querySelectorAll(".detail-icon");
+detailIcons.forEach(function(icon) {
+  icon.addEventListener("click", function() {
+    openModal();
+  });
+});
+
+// 닫기 버튼 클릭 시 모달 닫기
+var closeButtons = document.querySelectorAll(".close");
+closeButtons.forEach(function(button) {
+  button.addEventListener("click", function() {
+    closeModal();
+  });
+});
+</script>
+
 </body>
 </html>
