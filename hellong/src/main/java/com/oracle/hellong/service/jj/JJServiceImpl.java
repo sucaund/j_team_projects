@@ -81,4 +81,13 @@ public class JJServiceImpl implements JJService {
 		return result;
 	}
 
+	@Override
+	public List<Board> listSearchBoard(Board board) {
+		List<Board> boardSearchList = null;
+		System.out.println("JJServiceImpl listSearchBoard Start...");
+		boardSearchList = bd.boardSearchList(board);
+		System.out.println("JJServiceImpl boardSearchList.()->" + boardSearchList.size());
+		return boardSearchList;
+	}
+
 }

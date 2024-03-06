@@ -19,14 +19,22 @@
 	</ul>
 	<table style="text-align:center">
 		<tr>
-			<th>번호</th><th>카테고리</th><th>제목</th><th>아이디</th><th>작성일</th><th>추천수</th><th>조회수</th>
+			<th>번호</th><th>카테고리</th><th>제목</th><th>작성자</th><th>작성일</th><th>추천수</th><th>조회수</th>
 		</tr>
 		<c:forEach var="board" items="${listBoard}">
 			<tr>
 				<td>${board.b_number}</td>
-				<td>카테고리 값</td>
+				<td>
+					<c:choose>
+						<c:when test="${board.common_mcd == 10}">자유글</c:when>
+						<c:when test="${board.common_mcd == 20}">바디프로필</c:when>
+						<c:when test="${board.common_mcd == 110}">공지</c:when>
+						<c:when test="${board.common_mcd == 120}">문의</c:when>
+						<c:otherwise>기타</c:otherwise>
+					</c:choose>
+				</td>
 				<td><a href="detailBoard?b_number=${board.b_number}" >${board.b_title}</a></td> 
-				<td>${member.m_name}</td>
+				<td>${board.m_name}</td>
 				<td>${board.b_regdate}</td>
  				<td>${board.b_recomm_count}</td>
 				<td>${board.b_readcount}</td>
@@ -44,6 +52,13 @@
 		<c:if test="${page.endPage < page.totalPage}">
 			<a href="communityBoard?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
 		</c:if>
+	</div>
+	<p>
+	<div style="text-align:center">
+	  <form class="d-inline-flex p-2" role="search">
+	    <input class="form-control" id="ex3" type="search" placeholder="검색어를 입력하세요" aria-label="Search">
+	    <button class="btn btn-primary" type="submit">검색</button>
+	  </form>
 	</div>
 	<p>
 	<div style="text-align:center">

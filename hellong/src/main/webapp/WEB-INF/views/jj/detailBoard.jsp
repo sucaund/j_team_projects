@@ -12,29 +12,25 @@
 	<h1>상세게시판</h1>
 	<table>
 		<tr>
-			<th>글제목</th>
-			<td>${board.b_title}</td>
+			<th>글번호</th><td>${board.b_number}</td>
+		</tr>
+		<tr>
+			<th>글제목</th><td>${board.b_title}</td>
 		</tr>
  		<tr>
-			<th>작성일자</th>
-			<td>${board.b_regdate}</td>
+			<th>작성일자</th><td>${board.b_regdate}</td>
 		</tr>
 		<tr>
-			<th>작성자</th>
-			<td>${member.m_name}</td>
+			<th>작성자</th><td>${board.m_name}</td>
 		</tr>
 		<tr>
-			<th>추천수</th>
-			<td>${board.b_recomm_count}</td>
-			
+			<th>추천수</th><td>${board.b_recomm_count}</td>
 		</tr>
 		<tr>
-			<th>조회수</th>
-			<td>${board.b_readcount}</td>
+			<th>조회수</th><td>${board.b_readcount}</td>
 		</tr>
 		<tr>
-			<th>내용</th>
-			<td>${board.b_content}</td>
+			<th>내용</th><td>${board.b_content}</td>
 		</tr>
 	</table>
 	<p>

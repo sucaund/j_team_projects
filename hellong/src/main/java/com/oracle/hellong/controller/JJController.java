@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Member;
 import com.oracle.hellong.service.jj.JJPaging;
 import com.oracle.hellong.service.jj.JJService;
 
@@ -31,7 +32,7 @@ public class JJController {
 	
 	// 게시판 메인페이지
 	@RequestMapping(value = "communityBoard")
-	public String communityBoard(Board board, Model model) {
+	public String communityBoard(Board board, Member member, Model model) {
 		System.out.println("JJController Start communityBoard...");
 		int totalBoard = js.totalBoard();
 		System.out.println("JJController Start totalBoard->"+totalBoard);
@@ -132,6 +133,17 @@ public class JJController {
 		System.out.println("JJController HitCnt Start...");
 		int result = js.HitCnt(board.getB_number());
 		return "redirect:jj/communityBoard";
+	}
+	
+	// 게시판 내 검색
+	@RequestMapping(value = "jjBoardSearch")
+	public String jjBoardSearch(Board board, Model model) {
+		System.out.println("JJController jjBoardSearch Start...");
+		List<Board> listSearchBoard = js.listSearchBoard(board);
+		System.out.println("JJController jjBoardSearch listSearchBoard.size()->" + listSearchBoard.size());
+		
+		model.addAttribute("listSearchBoard", listSearchBoard);
+		return "jj/communityBoard";
 	}
 
 }

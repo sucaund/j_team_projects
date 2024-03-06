@@ -14,5 +14,6 @@ public interface BoardDao {
 	int 		insertBoard(Board board);
 	int 		deleteBoard(int b_number);
 	int 		hitCnt(int b_number);
+	List<Board> boardSearchList(Board board);
 
 }

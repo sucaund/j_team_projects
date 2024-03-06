@@ -12,26 +12,31 @@
 	<h1>수정페이지</h1>
 	<form action="updateBoard" method="post">
 	    <input type="hidden" name="b_number" value="${board.b_number}">
-		<input type="hidden" name="m_name" value="${member.m_name}">
+		<input type="hidden" name="m_name" value="${board.m_name}">
 		<table>
 			<tr>
+				<th>글번호</th><td>${board.b_number}</td>
+			</tr>
+			<tr>
 				<th>글제목</th>
-				<td><input type="text" name="b_title" required="required"
-					value="${board.b_title}"></td>
+				<td><input type="text" name="b_title"
+				required="required" value="${board.b_title}"></td>
 			</tr>
  			<tr>
-				<th>작성일자</th>
-				<td>${board.b_regdate}</td>
+				<th>작성일자</th><td>${board.b_regdate}</td>
 			</tr>
  			<tr>
-				<th>작성자</th>
-				<td>${member.m_name}</td>
+				<th>작성자</th><td>${board.m_name}</td>
+			</tr>
+			<tr>
+				<th>추천수</th><td>${board.b_recomm_count}</td>
+			</tr>
+			<tr>
+				<th>조회수</th><td>${board.b_readcount}</td>
 			</tr>
 			<tr>
 				<th>글내용</th>
-				<td>
-					<input type="text" name="b_content" required="required" value="${board.b_content}">
-				</td>
+				<td><input type="text" name="b_content" required="required" value="${board.b_content}"></td>
 			</tr>
 			<tr>
 				<td colspan="2">

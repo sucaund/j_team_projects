@@ -21,7 +21,7 @@
 			</tr>
 			<tr>
 				<td>아이디</td>
-				<td>${member.m_name}</td>
+				<td>${board.m_name}</td>
 			</tr>
 			<tr>
 				<td>첨부파일</td>
