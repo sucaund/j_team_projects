@@ -1,6 +1,9 @@
 package com.oracle.hellong.model;
 
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -18,7 +21,9 @@ public class Board { //게시판 게시물 board
        private int b_isreported; //신고여부
        private int b_recomm_count; //추천수
        private int b_isrecomm; //추천여부
-       private String b_images; //첨부이미지
+       
+       private List<MultipartFile> b_images; //첨부이미지
+       
        private int b_comm_group; //그룹(댓글)
        private int b_comm_indent; //indent
        private int b_comm_step; //step
@@ -27,6 +32,8 @@ public class Board { //게시판 게시물 board
       private String search;         private String keyword;
       private String pageNum;  
       private int start;              private int end;
+      private int prevPage;			private int nextPage;
+      
       // Page 정보
       private String currentPage;
 }

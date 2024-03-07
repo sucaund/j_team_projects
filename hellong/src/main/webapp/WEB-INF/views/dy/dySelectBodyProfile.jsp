@@ -27,6 +27,20 @@
 			<!--  여기에 사진첨부 ${board.b_images}-->
 			<p>${board.b_content }</p>
 			<!-- 게시글 내용을 적절히 표시할 것(조회수, 추천수, 댓글) -->
+			<h3>댓글</h3>
+        <%-- 댓글 목록을 표시하는 부분 --%>
+        <ul>
+            <%-- 댓글을 반복문을 통해 표시 --%>
+            <c:forEach var="comment" items="${comment.comment_content}">
+                <li>${comment.comment_content}</li>
+            </c:forEach>
+        </ul>
+        <!-- 댓글 작성 폼 -->
+        <form action="addComment" method="post">
+            <textarea name="comment_content" rows="4" cols="50"></textarea><br>
+            <input type="hidden" name="b_number" value="${board.b_number}">
+            <input type="submit" value="댓글 작성">
+        </form>
 			<button id="list-btn" onclick="location.href='listBodyProfile'">게시판
 				목록</button>
 			<button id="update-btn"

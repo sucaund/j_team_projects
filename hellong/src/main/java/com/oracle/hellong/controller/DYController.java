@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,12 +16,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.BoardFile;
+import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymBoard;
+import com.oracle.hellong.model.GymReview;
 import com.oracle.hellong.service.dy.DYPaging;
 import com.oracle.hellong.service.dy.DYService;
 import com.oracle.hellong.service.hs.HSService;
 
+import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
 import lombok.RequiredArgsConstructor;
@@ -110,15 +118,49 @@ public class DYController {
 
 	// 게시글쓰기
 	@PostMapping(value = "dyWriteBodyProfile")
-	public String dyWriteBodyProfile(Board board, Model model) {
-		System.out.println("DYController dyWriteBodyProfile Start..");
-
+	public String dyWriteBodyProfile( 
+									 Board board, BoardFile boardFile) throws IllegalStateException, IOException {
+		
+		System.out.println("dyWriteBodyProfile*************************"+board);
 		int insertResult = dys.insertBodyProfile(board);
+		
+
+		
+		//service insert메서드
+		System.out.println("dyWriteBodyProfile*************************"+board.getB_images());
+		
+		for (MultipartFile b_images : board.getB_images()) {
+			String fileName = b_images.getOriginalFilename();
+			UUID uid = UUID.randomUUID();
+			String storedFileName = uid + "-" + fileName;
+			
+			boardFile.setB_number(board.getB_number());
+			boardFile.setBf_originalName(fileName);
+			boardFile.setBf_savedName(storedFileName);
+			
+			String folderName = "C:/backup/";
+			File backupFolderName = new File(folderName);
+			if (!backupFolderName.exists()) {
+				try {
+					Files.createDirectories(Paths.get(folderName));
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("Error message: " + e.getMessage());
+					return "forward:/dy/dyWriteFormBodyProfile";
+				}	
+			}
+			
+			String savePath = folderName + storedFileName;
+			b_images.transferTo(new File(savePath));
+			int insertFileResult = dys.insertFileBodyProfile(boardFile);
+		}
+		// boardFile 서비스 메서드
+		
+
 		System.out.println("DYController insertResult -> " + insertResult);
 		if (insertResult > 0)
 			return "redirect:/listBodyProfile";
 		else {
-			model.addAttribute("msg", "입력 실패 확인해 보세요");
 			return "forward:/dy/dyWriteFormBodyProfile";
 		}
 	}
@@ -155,73 +197,48 @@ public class DYController {
 		return "dy/dyBodyProfile";
 	}
 
+	// 헤더 통합검색
+//	@GetMapping(value = "dyTotalSearch")
+//	public String dyTotalSearch(Board board, GymReview gymReview, GymBoard gymBoard, Gym gym, Model model) {
+//		System.out.println("DYController dyTotalSearch Start..");
+//		int totalSearch = dys.condTotalSearch(board, gymReview, gymBoard, gym);
+//
+//		List<Board> listTotSearchBodyProfile = dys.listTotSearchBodyProfile(board);
+//		List<GymReview> listTotSearchGymReview = dys.listTotSearchGymReview(gymReview);
+//		List<GymBoard> listTotSearchGymBoard = dys.listTotSearchGymBoard(gymBoard);
+//		List<Gym> listTotSearchGym = dys.listTotSearchGym(gym);
+//
+//		model.addAttribute("")
+//		return "dy/dyTotalSearchResult";
+//	}
+
 	// 이미지 업로드
-	@RequestMapping(value = "dyUploadForm", method = RequestMethod.POST)
-	public String dyUploadForm(HttpServletRequest request, Model model) throws IOException, Exception {
+//	@RequestMapping(value = "dyUploadForm", method = RequestMethod.POST)
+//	public String dyUploadForm(HttpServletRequest request, Model model) throws IOException, Exception {
+//
+//		Part image = request.getPart("b_images");
+//		InputStream inputStream = image.getInputStream();
+//		// 파일 확장자 구하기
+//		String fileName = image.getSubmittedFileName();
+//		System.out.println("fileName -> " + fileName);
+//
+//		String[] split = fileName.split("\\.");
+//		String originalName = split[split.length - 2];
+//		String suffix = split[split.length - 1];
+//
+//		System.out.println("originalName -> " + originalName);
+//		System.out.println("suffix -> " + suffix);
+//
+//		// Servlet 상속 받지 못했을 때 realPath 불러오는 방법
+//		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
+//		System.out.println("uploadForm POST Start..");
+//		String savedName = uploadFile(originalName, inputStream, uploadPath, suffix);
+//
+//		log.info("Return savedName : " + savedName);
+//		model.addAttribute("savedName", savedName);
+//
+//		return "dyUploadResult";
+//	}
 
-		Part image = request.getPart("b_images");
-		InputStream inputStream = image.getInputStream();
-		// 파일 확장자 구하기
-		String fileName = image.getSubmittedFileName();
-		System.out.println("fileName -> " + fileName);
-
-		String[] split = fileName.split("\\.");
-		String originalName = split[split.length - 2];
-		String suffix = split[split.length - 1];
-
-		System.out.println("originalName -> " + originalName);
-		System.out.println("suffix -> " + suffix);
-
-		// Servlet 상속 받지 못했을 때 realPath 불러오는 방법
-		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
-		System.out.println("uploadForm POST Start..");
-		String savedName = uploadFile(originalName, inputStream, uploadPath, suffix);
-
-		
-		
-		
-		
-		log.info("Return savedName : " + savedName);
-		model.addAttribute("savedName", savedName);
-
-		return "dyUploadResult";
-	}
-
-	private String uploadFile(String originalName, 
-							InputStream inputStream, 
-							String uploadPath, 
-							String suffix) throws IOException {
-		UUID uid = UUID.randomUUID();
-		System.out.println("uploadPath -> " + uploadPath);
-		
-		File fileDirectory = new File(uploadPath);
-		if (!fileDirectory.exists()) {
-			// 신규폴더(Directory) 생성
-			fileDirectory.mkdirs();
-			System.out.println("업로드용 폴더 생성 : " + uploadPath);
-		}
-		
-		String savedName = uid.toString() + "_" + originalName + "." + suffix;
-		log.info("savedName: " + savedName);
-		
-		
-		File tempFile = new File(uploadPath+savedName);
-		File tempFile3 = new File("c:/backup/" + savedName);
-		FileOutputStream outputStream3 = new FileOutputStream(tempFile3);
-		// 생성된 임시파일에 요청으로 넘어온 file의 inputStream 복사
-		try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
-			int read;
-			byte[] bytes = new byte[1024];
-			while ((read = inputStream.read(bytes)) != -1) {
-				outputStream.write(bytes, 0, read);
-				outputStream3.write(bytes, 0, read);
-			}
-		}
-		inputStream.close();
-		outputStream3.close();
-		
-		return savedName;
-		
-	}
 
 }

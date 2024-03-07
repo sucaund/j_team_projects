@@ -86,6 +86,7 @@ public class DYBoardDaoImpl implements DYBoardDao {
 		System.out.println("DYBoardDaoImpl Insert Start...");
 		try {
 			result = session.insert("dyInsertBodyProfile", board);
+			System.out.println("DYBoardDaoImpl dyInsertBodyProfile"+ board);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

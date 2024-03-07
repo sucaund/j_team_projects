@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.oracle.hellong.dao.dydao.DYBoardDao;
+import com.oracle.hellong.dao.dydao.DYBoardFileDao;
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.BoardFile;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class DYServiceImpl implements DYService {
 	
 	private final DYBoardDao dybd;
+	private final DYBoardFileDao dybfd;
 
 	@Override
 	public int totalBodyProfile() {
@@ -63,6 +66,14 @@ public class DYServiceImpl implements DYService {
 		result = dybd.insertBodyProfile(board);
 		return result;
 	}
+	
+	@Override
+	public int insertFileBodyProfile(BoardFile boardFile) {
+		int result = 0;
+		System.out.println("DYServiceImpl Insert BoardFile Start.." + boardFile);
+		result = dybfd.insertFileBodyProfile(boardFile);
+		return result;
+	}
 
 	@Override
 	public int deleteBodyProfile(int b_number) {
@@ -88,6 +99,8 @@ public class DYServiceImpl implements DYService {
 		System.out.println("DYServiceImpl boardSearchList.size() -> " + boardSearchList.size());
 		return boardSearchList;
 	}
+
+	
 
 
 

@@ -3,6 +3,7 @@ package com.oracle.hellong.service.dy;
 import java.util.List;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.BoardFile;
 
 public interface DYService {
 
@@ -23,6 +24,8 @@ public interface DYService {
 	int condTotalBodyProfile(Board board);
 
 	List<Board> listSearchBoard(Board board);
+
+	int insertFileBodyProfile(BoardFile boardFile);
 
 
 
