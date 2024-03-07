@@ -91,6 +91,17 @@
 		SELECT * FROM member WHERE m_id = #{m_id}
 	</select>
 	
+	<select id="jmGetIdFromMail" parameterType="String"
+		resultType="String">
+		SELECT m_id FROM member WHERE m_email = #{mail} and m_isdeleted=0
+	</select>
+	
+	<select id="jmGetM_numberFromIdAndEmail" parameterType="String"
+		resultType="int">
+		SELECT m_number FROM member WHERE m_id= #{m_id} and m_email = #{m_email} and m_isdeleted=0
+	</select>
+	
+		
 	<delete id="jmDeleteMemberReal" parameterType="int">
 		delete from member where m_number=#{m_number}
 	</delete>

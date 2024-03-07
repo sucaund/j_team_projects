@@ -6,26 +6,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>아이디 찾기</title>
-<script type="text/javascript" src="js/findId.js"></script>
+<title>비밀번호 찾기</title>
+<script type="text/javascript" src="js/findPw.js"></script>
 </head>
 <body>
-아이디 찾기
+비밀번호 찾기
  <c:if test="${m_number!=null}">
 <p>로그아웃을 먼저 해주세요</p>
 
  </c:if>
   <c:if test="${m_number==null}">
+	<form action="jmFindPw" method="post" name="frm">
 <br>
-		<div id="form-check-id-with-mail"> <!-- 결과 성공할 시 사라짐 -->
-		가입시 사용한 이메일을 입력해주세요.
+		아이디를 입력해주세요
 		<br>
+			<div class="form-floating mb-3">
+				<label for="floatingInput">아이디</label> <input type="text"
+					class="form-control" id="m_id" placeholder="아이디를 입력해주세요"
+					name="m_id" autocomplete='off'>
+			</div>
+		<br>
+		가입시 사용한 이메일을 입력해주세요. <br>
 			<div class="form-floating mb-3">
 				<label for="floatingInput">이메일</label> <input type="text"
 					class="form-control" id="m_email" placeholder="이메일을 입력해주세요"
 					name="m_email" oninput="checkMailReg()" autocomplete='off'>
 					<button type="button" id="sendMailBtn" name="sendMailBtn" onclick="sendMailNumber()">인증번호 받기</button>
-
 			</div>
 			
 			<div class="form-floating mb-3" id="mail_check" name="mail_check" style="display: none">
@@ -33,16 +39,10 @@
 				<button type="button" name="confirmMailBtn" id="confirmMailBtn" onclick="confirmMailNumber()">인증</button>
 			</div>
 		</div>
-		
-		<div id="form-view-id-with-mail"  style="display: none"> <!-- 결과 성공할 시 드러남 -->
-			<div class="view-id" id="view-id" name="view-id">
-			
-			</div>
-			<div class="view-sign" id="view-sign" name="view-sign">
-				<a href="jmLoginForm">로그인</a> <a href="jmMainPage">메인화면으로 이동</a>
-			</div>
-		</div>
-		
+	
+			<button type="submit" class="btn btn-secondary"
+			id="checkpwbtn" disabled >비밀번호 찾기</button>
+		</form>
 	</c:if>
 </body>
 </html>

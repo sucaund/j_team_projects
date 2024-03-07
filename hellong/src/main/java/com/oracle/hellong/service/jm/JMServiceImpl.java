@@ -144,8 +144,8 @@ public class JMServiceImpl implements JMService {
 			messageHelper.setTo(mail); // 받는사람 이메일
 			messageHelper.setSubject(title); // 메일제목은 생략 가능함
 			authNumber = (int) (Math.random() * 999999) + 1;
-			messageHelper.setText("인증번호입니다" + authNumber); // 메일 내용
-			System.out.println("인증번호입니다" + authNumber);
+			messageHelper.setText("Hellong 회원가입 인증번호입니다\n" + authNumber); // 메일 내용
+			System.out.println("Hellong 회원가입 인증번호입니다: " + authNumber);
 			mailSender.send(message);
 //			model.addAttribute("check", 1); // 정상 전달
 
@@ -161,6 +161,26 @@ public class JMServiceImpl implements JMService {
 		System.out.println("jmServiceImpl jmLogin");
 		return jmmd.jmLogin(m_id, m_pw);
 	}
+
+
+	@Override
+	public String jmGetIdFromMail(String mail) {
+		System.out.println("JmServiceImpl getIdFromMail mail "+mail);
+		String id = null;
+		id = jmmd.jmGetIdFromMail(mail);
+		System.out.println("JmServiceImpl getIdFromMail id "+id);
+		return id;
+	}
+
+	@Override
+	public int jmGetM_numberFromIdAndEmail(String m_id, String m_email) {
+		System.out.println("JmServiceImpl jmGetM_numberFromIdAndEmail..."+m_id+" "+ m_email);
+		int m_number = 0;
+		m_number = jmmd.jmGetM_numberFromIdAndEmail(m_id, m_email);
+		return m_number;
+	}
+
+
 
 
 

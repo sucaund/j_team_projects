@@ -34,6 +34,11 @@ public interface JMService {
 
 	int jmLogin(String m_id, String m_pw);
 
+	String jmGetIdFromMail(String mail);
+
+	int jmGetM_numberFromIdAndEmail(String m_id, String m_email);
+
+
 
 
 

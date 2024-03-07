@@ -206,4 +206,33 @@ public class JmMemberDaoImpl implements JmMemberDao {
 					
 		}
 
+		@Override
+		public String jmGetIdFromMail(String mail) {
+			System.out.println("JmMemberDaoImpl jmGetIdFromMail start..");
+			String id= null;
+			try {
+				id = session.selectOne("jmGetIdFromMail", mail);
+				System.out.println("JmMemberDaoImpl jmGetIdFromMail id->" + id);
+			} catch (Exception e) {
+				System.out.println("해당 이메일로 가입된 계정(아이디) 없읍");
+			}
+			return id;
+		}
+
+		@Override
+		public int jmGetM_numberFromIdAndEmail(String m_id, String m_email) {
+			System.out.println("JmMemberDaoImpl jmGetM_numberFromIdAndEmail start..");
+			System.out.println(m_id);
+			System.out.println(m_email);
+			int m_number= 0;
+			try {
+				m_number = session.selectOne("com.oracle.hellong.MemberMapper", m_id, m_email);
+				System.out.println("JmMemberDaoImpl jmGetM_numberFromIdAndEmail m_number->" + m_number);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				System.out.println("해당 아이디와 이메일로 가입된 계정(m_number) 없음");
+			}
+			return m_number;
+		}
+
 }

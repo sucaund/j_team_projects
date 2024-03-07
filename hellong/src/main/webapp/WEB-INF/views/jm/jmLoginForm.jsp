@@ -12,11 +12,11 @@
 로그인 페이지.. <br>
 <c:if test="${msg!=null}">${msg}</c:if>
 
- <c:if test="${m_id!=null}">
+ <c:if test="${m_bumber!=null}">
 <p>로그아웃을 먼저 해주세요</p>
 
  </c:if>
-  <c:if test="${m_id==null}">
+  <c:if test="${m_number==null}">
   <form method="post" action="jmLoginCheck">
 	아이디 : <input type="text" name="m_id" id="m_id">
 	비밀번호 : <input type="password" name="m_pw" id="m_pw">

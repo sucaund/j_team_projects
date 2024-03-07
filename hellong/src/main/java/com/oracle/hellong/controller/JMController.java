@@ -28,6 +28,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -388,12 +389,7 @@ public class JMController {
 		System.out.println("jmController jmFindIdForm");
 		return "jm/jmFindIdForm";
 	}
-
-
-	/*
-	 * @RequestMapping("jmFindId") public String jmFindId(Model model) {
-	 * System.out.println("jmController jmFindIdForm"); return "jm/jmFindId"; }
-	 */
+	
 
 	// 비밀번호 찾기 폼
 	@RequestMapping("jmFindPwForm")
@@ -401,6 +397,49 @@ public class JMController {
 		System.out.println("jmController jmFindPwForm");
 		return "jm/jmFindPwForm";
 	}
+	
+	// 
+	@RequestMapping(value = "jmFindPw")
+	public String jmFindPw(@RequestParam("m_id") String m_id, @RequestParam("m_email") String m_email, HttpSession session) {
+		System.out.println("jmController jmFindPw Start...");
+		System.out.println(m_id);
+		System.out.println(m_email);
+		int findM_number = jm.jmGetM_numberFromIdAndEmail(m_id, m_email);
+		System.out.println("jmController jmFindPw findM_number: "+findM_number);
+		session.setAttribute("findM_number", findM_number);
+		if (findM_number ==1) { // 가입된 계정 찾음
+			System.out.println("jmController jmFindPw findM_number "+findM_number);
+			return "jmResetPwForm";
+		} else {
+			return "jm/jmFindPwFail"; //따로 매핑 없이 즉시 이동.. 가능?
+		}
+	}
+	
+	// 비밀번호 재설정 폼
+	@RequestMapping("jmResetPwForm")
+	public String jmResetPwForm(HttpSession session) {
+		return "jm/jmResetPwForm";
+	}
+	
+//	 //비밀번호 재설정->비밀번호 정규식, 일치 여부 체크 후 순수하게 재설정만 하는
+//	  @RequestMapping(value = "jmResetPw") 
+//	  public String jmFindPw(@RequestParam("pw1") String pw, HttpSession session) {
+//	  System.out.println("jmController jmResetPw start..");
+//	  System.out.println("jmController jmResetPw pw: "+pw); int
+//	  m_number=(int)session.getAttribute("findM_number"); System.out.println();
+//	  Member member = jm.jmResetPw(m_number);
+//	  
+//	  
+//	  
+//	  if (member != null) { // 가입된 계정 찾음
+//	  System.out.println("jmController jmFindPw mem"); 
+//	  return "jm/jmResetPwCorrect"; 
+//	  } else {
+//	  System.out.println("jmController jmConfirmMemberId 사용 가능한 m_id");
+//	  model.addAttribute("msg", "사용 가능한 아이디입니다"); return "forward:jmSignUpForm"; }
+//	  }
+//	}
+	 
 
 	// 더미페이지(로그인->세션 조회 테스트)
 	@GetMapping(value = "jmDummy")
@@ -496,7 +535,7 @@ public class JMController {
 //
 //	}
 //
-	@ResponseBody
+	@ResponseBody //모든 이메일 인증에 사용
 	@RequestMapping(value = "jmMailCheck", method = RequestMethod.POST)
 	public String jmMailCheck(@RequestParam("m_email") String m_email) {
 		System.out.println("jmMailCheck..");
@@ -506,33 +545,62 @@ public class JMController {
 		return num; // 즉 메일을 보내서 인증번호를 받는 꼴
 
 	}
+	
+	 
+	    @ResponseBody
+	    @RequestMapping(value = "jmFindIdWithMail", method = RequestMethod.POST)
+	    public String jmFindIdWithMail(@RequestParam("mail") String mail, HttpSession session, Model model) {
+	        
+		 System.out.println("jmController jmFindIdWithMail ajax에서 받은 mail: "+mail);
+		 
+		 String getIdFromMail=jm.jmGetIdFromMail(mail); //이메일로 가져온 아이디
+		 
+//		 session.setAttribute("MailAtFindId", mail);
+		 
+	        if (getIdFromMail!=null) { //아이디를 가져오는데에 성공했을 경우
+	            System.out.println("jmController jmFindIdWithMail 해당 이메일로 가입된 아이디는 "+getIdFromMail);
+	            // 값이 같을 경우 입력값과 true를 반환
+	            
+	            session.setAttribute("getIdFromMail", getIdFromMail);
+//	            return "jmFindIdSuccess";
+	            return mail+"로 가입된 아이디는 \n"+getIdFromMail+"입니다.";
+	        } else { 
+	            System.out.println("jmController jmFindIdWithMail 해당 이메일로 가입된 아이디가 없음");
+	            return mail+"로 가입된 아이디가 없습니다."; 
+	        }
+	    }
+	 
 
-	@RequestMapping(value = "jmMailTransport")
-	public String mailTransport(HttpServletRequest request, Model model) {
-		System.out.println("mailSending..");
-		String tomail = "ujm1jaman@gmail.com"; // 받는사람 이메일
-		System.out.println(tomail);
-		String setfrom = "woakswoaks@gmail.com"; // 보내는사람 이메일
-		String title = "mailTransport입니다"; // 제목
-		try {
-			// Mime : 전자우편 인터넷 표준 format
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-			messageHelper.setFrom(setfrom); // 보내는 사람 생략하면 정삭자동하지않음
-			messageHelper.setTo(tomail); // 받는사람 이메일
-			messageHelper.setSubject(title); // 메일제목은 생략 가능함
-			String tempPassword = (int) (Math.random() * 999999) + 1 + "";
-			messageHelper.setText("임시비밀번호입니다" + tempPassword); // 메일 내용
-			System.out.println("임시 비밀번호입니다:" + tempPassword);
-			mailSender.send(message);
-			model.addAttribute("check", 1); // 정상 전달
-			// 이 아래에는 db logic 구성이 들어가야한다.
-		} catch (Exception e) {
-			System.out.println("mailTransport e.getMessage()" + e.getMessage());
-			model.addAttribute("check", 2);
-		}
-		return "jm/jmMailResult";
-	}
+
+
+	 
+
+//	@RequestMapping(value = "jmMailTransport")
+//	public String mailTransport(HttpServletRequest request, Model model) {
+//		System.out.println("mailSending..");
+//		String tomail = "ujm1jaman@gmail.com"; // 받는사람 이메일
+//		System.out.println(tomail);
+//		String setfrom = "woakswoaks@gmail.com"; // 보내는사람 이메일
+//		String title = "mailTransport입니다"; // 제목
+//		try {
+//			// Mime : 전자우편 인터넷 표준 format
+//			MimeMessage message = mailSender.createMimeMessage();
+//			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+//			messageHelper.setFrom(setfrom); // 보내는 사람 생략하면 정삭자동하지않음
+//			messageHelper.setTo(tomail); // 받는사람 이메일
+//			messageHelper.setSubject(title); // 메일제목은 생략 가능함
+//			String tempPassword = (int) (Math.random() * 999999) + 1 + "";
+//			messageHelper.setText("임시비밀번호입니다" + tempPassword); // 메일 내용
+//			System.out.println("임시 비밀번호입니다:" + tempPassword);
+//			mailSender.send(message);
+//			model.addAttribute("check", 1); // 정상 전달
+//			// 이 아래에는 db logic 구성이 들어가야한다.
+//		} catch (Exception e) {
+//			System.out.println("mailTransport e.getMessage()" + e.getMessage());
+//			model.addAttribute("check", 2);
+//		}
+//		return "jm/jmMailResult";
+//	}
 //
 //	// interCeptor 시작화면
 //	@RequestMapping(value = "interCeptorForm")
