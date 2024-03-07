@@ -389,6 +389,12 @@ public class JMController {
 		return "jm/jmFindIdForm";
 	}
 
+
+	/*
+	 * @RequestMapping("jmFindId") public String jmFindId(Model model) {
+	 * System.out.println("jmController jmFindIdForm"); return "jm/jmFindId"; }
+	 */
+
 	// 비밀번호 찾기 폼
 	@RequestMapping("jmFindPwForm")
 	public String jmFindPwForm(Model model) {
@@ -429,7 +435,7 @@ public class JMController {
 			}
 		} else {
 			System.out.println("로그인되지 않았음. 로그인 화면으로 이동합니다..");
-			model.addAttribute("msg", "로그인되지 않았음. 로그인 화면으로 이동합니다..");
+			model.addAttribute("msg", "로그인되었으나 관리자 계정이 아님, 메인페이지로 이동합니다");
 			return "jm/jmLoginForm";
 		}
 	}

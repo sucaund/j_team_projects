@@ -16,7 +16,12 @@
 </head>
 <body>
 	<h2>회원가입 ajax2</h2>
+	 <c:if test="${m_id!=null}">
+<p>로그아웃을 먼저 해주세요</p>
 
+ </c:if>
+
+  <c:if test="${m_id==null}">
 	<form action="jmSignUpAjax2" method="post" name="frm"
 		modelAttribute="member">
 
@@ -111,12 +116,8 @@
 		</div>
 		</div>
 	</form>
+</c:if>
 
 
-
-
-	<br>
-	<br>
-	<a href="jmMailTransport">이메일 테스트(클릭시 즉시 전송, 추후 가입 인증 시 사용)</a>
 </body>
 </html>
