@@ -13,7 +13,9 @@ public interface JJService {
 	List<Board> listManager();
 	int 		insertBoard(Board board);
 	int 		deleteBoard(int b_number);
-	int 		HitCnt(int b_number);
+	int 		hitCnt(int b_number);
+	int 		totalSearchCnt(Board board);
 	List<Board> listSearchBoard(Board board);
+	int 		jjReported(int b_number);
 
 }

@@ -126,17 +126,47 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public List<Board> boardSearchList(Board board) {
-		System.out.println("BoardDaoImpl boardSearchList Start");
-		List<Board> boardSearchList = null;
-		System.out.println("BoardDaoImpl boardSearchList board->" + board);
+	public int totalSearchCnt(Board board) {
+		int totalSearchCnt = 0;
+		System.out.println("BoardDaoImpl totalSearchCnt Start...");
+		
 		try {
-			boardSearchList = session.selectList("jjBoardSearch", board);
-			System.out.println("BoardDaoImpl boardSearchList.size()->"+boardSearchList.size());
+			totalSearchCnt = session.selectOne("totalSearchCnt", board);
+			System.out.println("BoardDaoImpl totalSearchCnt ->" + totalSearchCnt);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl totalSearchCnt Exception ->" + e.getMessage());
+		}
+		return totalSearchCnt;
+	}
+	
+	@Override
+	public List<Board> boardSearchList(Board board) {
+		List<Board> boardSearchList = null;
+		System.out.println("BoardDaoImpl boardSearchList Start");
+		System.out.println("BoardDaoImpl boardSearchList board->"+board);
+		try {
+			boardSearchList = session.selectList("jjBoardSearchList", board);
+			System.out.println("BoardDaoImpl boardSearchList->" + boardSearchList);
 		} catch (Exception e) {
 			System.out.println("BoardDaoImpl boardSearchList Exception ->" + e.getMessage());
 		}
 		return boardSearchList;
 	}
 
+	@Override
+	public int jjReported(int b_number) {
+		System.out.println("BoardDaoImpl jjReported Start...");
+		int result = 0;
+		System.out.println("BoardDaoImpl jjReported b_number->" + b_number);
+		try {
+			result = session.update("jjReported", b_number);
+			System.out.println("BoardDaoImpl jjReported result->"+result);
+		} catch(Exception e) {
+			System.out.println("BoardDaoImpl jjReported Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+
+	
 }

@@ -74,13 +74,21 @@ public class JJServiceImpl implements JJService {
 	}
 
 	@Override
-	public int HitCnt(int b_number) {
+	public int hitCnt(int b_number) {
 		int result = 0;
 		System.out.println("JJServiceImpl HitCnt Start...");
 		result = bd.hitCnt(b_number);
 		return result;
 	}
 
+	@Override
+	public int totalSearchCnt(Board board) {
+		System.out.println("JJServiceImpl totalSearchCnt Start...");
+		int totalSearchCnt = bd.totalSearchCnt(board);
+		System.out.println("JJServiceImpl totalSearchCnt ->" + totalSearchCnt);
+		return totalSearchCnt;
+	}
+	
 	@Override
 	public List<Board> listSearchBoard(Board board) {
 		List<Board> boardSearchList = null;
@@ -89,5 +97,14 @@ public class JJServiceImpl implements JJService {
 		System.out.println("JJServiceImpl boardSearchList.()->" + boardSearchList.size());
 		return boardSearchList;
 	}
+
+	@Override
+	public int jjReported(int b_number) {
+		int result = 0;
+		System.out.println("JJServiceImpl jjReported Start...");
+		result = bd.jjReported(b_number);
+		return result;
+	}
+
 
 }

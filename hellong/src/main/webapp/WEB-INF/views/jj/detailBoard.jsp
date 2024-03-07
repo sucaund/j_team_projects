@@ -10,29 +10,16 @@
 <body>
 
 	<h1>상세게시판</h1>
-	<table>
-		<tr>
-			<th>글번호</th><td>${board.b_number}</td>
-		</tr>
-		<tr>
-			<th>글제목</th><td>${board.b_title}</td>
-		</tr>
- 		<tr>
-			<th>작성일자</th><td>${board.b_regdate}</td>
-		</tr>
-		<tr>
-			<th>작성자</th><td>${board.m_name}</td>
-		</tr>
-		<tr>
-			<th>추천수</th><td>${board.b_recomm_count}</td>
-		</tr>
-		<tr>
-			<th>조회수</th><td>${board.b_readcount}</td>
-		</tr>
-		<tr>
-			<th>내용</th><td>${board.b_content}</td>
-		</tr>
-	</table>
+		<table>
+			<tr><th>글번호</th><td>${board.b_number}</td></tr>
+			<tr><th>글제목</th><td>${board.b_title}</td></tr>
+	 		<tr><th>작성일자</th><td>${board.b_regdate}</td></tr>
+			<tr><th>작성자</th><td>${board.m_name}</td></tr>
+			<tr><th>추천수</th><td>${board.b_recomm_count}</td></tr>
+			<tr><th>신고수</th><td>${board.b_isreported}</td></tr>
+			<tr><th>조회수</th><td>${board.b_readcount}</td></tr>
+			<tr><th>내용</th><td>${board.b_content}</td></tr>
+		</table>
 	<p>
 	<!-- 이전글, 다음글 링크 수정 -->
 	<div style="text-align:center">
@@ -52,7 +39,7 @@
 	  	<button type="button" class="btn btn-primary" 
 	  		  onclick="location.href='hitCnt?b_number=${board.b_number}'">추천</button>
 	  	<button type="button" class="btn btn-primary" 
-	  		  onclick="location.href='신고'">신고</button>
+	  		  onclick="location.href='jjReported?b_number=${board.b_number}'">신고</button>
 	  	<button type="button" class="btn btn-primary" 
 	  		  onclick="location.href='communityBoard'">목록</button>
 	</div>

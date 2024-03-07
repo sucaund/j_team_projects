@@ -152,6 +152,7 @@ public class DYController {
 		model.addAttribute("totalBodyProfile", totalBodyProfile);
 		model.addAttribute("listBodyProfile", listSearchBoard);
 		model.addAttribute("page", page);
+		
 		return "dy/dyBodyProfile";
 	}
 
