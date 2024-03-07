@@ -22,8 +22,14 @@
 	</delete>
 	
 	<select id="JHgymBoardFileList"  resultType="GymBoardFile">
-		select *from gym_board_file
-	
+		SELECT g_id, gbf_storedfilename
+		FROM (
+		    SELECT g_id, gbf_storedfilename, 
+		           ROW_NUMBER() OVER (PARTITION BY g_id ORDER BY gbf_storedfilename DESC) AS rn
+		    FROM gym_board_file
+		) 
+		WHERE rn = 1
+		ORDER BY g_id
 	</select>
 	
 	<select id="gymBoardFileListRead" parameterType="int" resultType="GymBoardFile">

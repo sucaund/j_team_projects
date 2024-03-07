@@ -130,14 +130,14 @@ public class JHController { ////
 	@GetMapping(value = "/GymPostList")
 	public String gymPostList(GymBoard gymboard,GymBoardFile gymBoardFile ,Model model) {
 		List <GymBoard> gymBoardList = jh.gymBoardList();
-		List <GymBoardJoin> gymAddress = jh.gymAddress();
+		List <GymBoardJoin> gymImformation = jh.gymAddress();
 		System.out.println(gymBoardList);
 		System.out.println(gymBoardFile);
-		/* List <GymBoardFile> gymBoardFileList = jh.gymBoardFileList(); */
-		/* System.out.println(gymBoardFileList); */
-		model.addAttribute("gymAddress",gymAddress);
+		List <GymBoardFile> gymBoardFileList = jh.gymBoardFileList(); 
+		System.out.println(gymBoardFileList); 
+		model.addAttribute("gymImformation",gymImformation);
 		model.addAttribute("gymBoardList",gymBoardList);
-		/* model.addAttribute("gymBoardFileList",gymBoardFileList); */
+		model.addAttribute("gymBoardFileList",gymBoardFileList); 
 		return "jh/gymPostList";
 	}
 	

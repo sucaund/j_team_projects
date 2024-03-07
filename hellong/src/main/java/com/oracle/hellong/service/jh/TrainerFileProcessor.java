@@ -38,7 +38,7 @@ public class TrainerFileProcessor {
 		trPhotoFile.setT_photostoredname(storedFileName);
 
 		// 백업 폴더가 없으면 생성
-		String backupFolderPath = "C:/backup/";
+		String backupFolderPath = "C:/trbackup/";
 		File backupFolder = new File(backupFolderPath);
 		if (!backupFolder.exists()) {
 			try {
