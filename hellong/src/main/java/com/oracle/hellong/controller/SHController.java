@@ -315,16 +315,15 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 	
 	
 //메인 인덱스에서 관리자 창으로 넘어가기
-	@RequestMapping("/manger")
+	@RequestMapping("/manager")
 	public String manger(Model model) {
 		System.out.println("SHController manger start...");
-		List<Member> allMember =sh.getAllMember();
-		List<Gym> allGym =sh.getAllGym();
-		//List<Report> allReport =sh.getAllReport();
-		
-		
+		List<Member> allMember =sh.getAllMember();//모든멤버
+		List<Gym> allGym =sh.getAllGym();//모든 헬스장
+		List<Report> allReport = sh.getAllReport();//신고글
 		model.addAttribute("allMember", allMember);
 		model.addAttribute("allGym", allGym);
+		model.addAttribute("allReport", allReport);
 		return "SH-Views/manger";
 	}
 //모달에 회원정보저장
@@ -425,7 +424,17 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		
 		return gym;
 	}
-	
+//신고글 삭제	
+	@RequestMapping("/delReport")
+	public String delReport(@RequestParam("b_number") int b_number) {
+		System.out.println("SHController delReport start...");
+		
+		sh.delReport(b_number);
+		System.out.println("SHController delReport END...");
+
+		
+		return "redirect:manager";
+	}
 	
 	
 	

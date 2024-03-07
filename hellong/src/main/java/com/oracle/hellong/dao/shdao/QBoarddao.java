@@ -5,6 +5,7 @@ import java.util.List;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.Report;
 
 public interface QBoarddao {
 
@@ -69,6 +70,12 @@ public interface QBoarddao {
 
 
 	void updateOpenGym(int g_id, int common_mcd);
+
+
+	List<Report> getAllReport();
+
+
+	void delReport(int b_number);
 
 
 

@@ -23,6 +23,7 @@ import com.oracle.hellong.dao.shdao.QBoarddao;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.Report;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -170,6 +171,15 @@ public class SHServiceImpl implements SHService {
 		List<Gym> getAllGym= qd.getAllGym();
 		return getAllGym;
 	}
+	// 신고 정보 가져오기
+	
+	@Override
+	public List<Report> getAllReport() {
+		List<Report> AllReport = qd.getAllReport();
+		return AllReport;
+	}
+	
+	
 //모달에 멤버 정보를 추가
 	@Override
 	public Member getMember(int id) {
@@ -250,6 +260,14 @@ public class SHServiceImpl implements SHService {
 		qd.updateOpenGym(g_id,common_mcd);
 		
 	}
+//신고글 삭제
+	@Override
+	public void delReport(int b_number) {
+		System.out.println("SHServiceImpl delReport b_number"+b_number);
+		qd.delReport(b_number);
+	}
+
+
 	
 
 }

@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.Report;
 
 public interface SHService {
 
@@ -57,6 +58,10 @@ public interface SHService {
 	void deleteGym(int g_id);
 
 	void updateOpenGym(int g_id, int common_mcd);
+
+	List<Report> getAllReport();
+
+	void delReport(int b_number);
 
 
 

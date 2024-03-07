@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.ReportMapper">
-
+	<select id="getAllReport" resultType="Report">
+		SELECT 
+			
+		    r.B_NUMBER AS b_number,
+		    b.B_TITLE AS b_title,
+		    r.REPORT_DATE AS report_date,
+		    c.COMMON_MCD AS common_mcd, 
+		    COUNT(r.REPORT_ID) OVER (PARTITION BY r.B_NUMBER) AS report_count
+		FROM 
+		    HELLONG.REPORT r
+		INNER JOIN 
+		    HELLONG.BOARD b ON r.B_NUMBER = b.B_NUMBER
+		INNER JOIN 
+		    HELLONG.COMMON c ON r.COMMON_BCD = c.COMMON_BCD AND r.COMMON_MCD = c.COMMON_MCD
+		ORDER BY 
+		    r.REPORT_DATE DESC
+		
+	</select>
 </mapper>
