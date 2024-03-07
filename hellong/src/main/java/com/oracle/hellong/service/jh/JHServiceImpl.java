@@ -40,7 +40,8 @@ public class JHServiceImpl implements JHService {
 	private final GSDao gsd;
 	
 	private final GymBoardFileProcessor gymBoardFileProcessor;
-
+	private final TrainerFileProcessor trainerFileProcessor;
+	
 	@Override
 	public int totalGym() {
 		int totalGmpCnt = gd.totalGym();
@@ -205,8 +206,10 @@ public class JHServiceImpl implements JHService {
 
 	// 트레이너 리스트 추가
 	@Override
-	public int saveTrainer(Trainer trainer) {
-		int insertTrainer = td.insertTrainer(trainer);
+	public int saveTrainer(Trainer trainer) throws IOException {
+		MultipartFile trainerPhotoFile = trainer.getTrainerPhotoFile();
+		Trainer trPhotoFile = trainerFileProcessor.processFile(trainerPhotoFile, trainer);
+		int insertTrainer = td.insertTrainer(trPhotoFile);
 		return insertTrainer;
 	}
 

@@ -14,5 +14,6 @@ public interface JJService {
 	int 		insertBoard(Board board);
 	int 		deleteBoard(int b_number);
 	int 		HitCnt(int b_number);
-
+	List<Board> listSearchBoard(Board board);
+	
 }

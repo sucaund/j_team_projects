@@ -5,9 +5,6 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	<title>글쓰기</title>
 </head>
 <body>
@@ -24,7 +21,7 @@
 			</tr>
 			<tr>
 				<td>아이디</td>
-				<td>${member.m_name}</td>
+				<td>${board.m_name}</td>
 			</tr>
 			<tr>
 				<td>첨부파일</td>

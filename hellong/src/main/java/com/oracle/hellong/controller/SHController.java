@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.Report;
 import com.oracle.hellong.service.sh.Paging;
 import com.oracle.hellong.service.sh.SHService;
 
@@ -319,6 +320,8 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		System.out.println("SHController manger start...");
 		List<Member> allMember =sh.getAllMember();
 		List<Gym> allGym =sh.getAllGym();
+		//List<Report> allReport =sh.getAllReport();
+		
 		
 		model.addAttribute("allMember", allMember);
 		model.addAttribute("allGym", allGym);
@@ -336,17 +339,6 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		
 		return member;
 	}
-//회원 등급변경
-	@ResponseBody
-	@PostMapping("updateMemberAdmin")
-	public void updateMemberAdmin(@RequestParam("m_number") int m_number, @RequestParam("admin")int admin) {
-		System.out.println("SHController updateMemberAdmin start...");
-		System.out.println("SHController updateMemberAdmin m_number"+m_number);
-		System.out.println("SHController updateMemberAdmin admin"+admin);
-		
-		sh.updateMember(m_number,admin);//멤버 객체의 모든 정보를 담아놓는다
-
-	}
 //모달에서 회원 삭제
 	
 	@RequestMapping("deleteMember")
@@ -356,9 +348,44 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		sh.deleteMember(m_number);
 		return "SH-Views/manger";
 	}
-//헬스장 페이지 회원등록
-	@PostMapping("registerGym")
-	public String postMethodName(
+//회원 등급변경
+	@ResponseBody
+	@PostMapping("updateMemberAdmin")
+	public void updateMemberAdmin(@RequestParam("m_number") int m_number, @RequestParam("admin")int admin) {
+		System.out.println("SHController updateMemberAdmin start...");
+		System.out.println("SHController updateMemberAdmin m_number"+m_number);
+		System.out.println("SHController updateMemberAdmin admin"+admin);
+		
+		sh.updateMember(m_number,admin);//멤버 객체의 모든 정보를 담아놓는다
+	}
+//헬스장 오픈 변경
+	@ResponseBody
+	@PostMapping("updateOpenGym")
+	public void updateOpenGym(@RequestParam("g_id") int g_id, @RequestParam("common_mcd")int common_mcd) {
+		System.out.println("SHController updateMemberAdmin start...");
+		System.out.println("SHController updateOpenGym m_number"+g_id);
+		System.out.println("SHController updateOpenGym common_mcd"+common_mcd);
+		
+		sh.updateOpenGym(g_id,common_mcd);//멤버 객체의 모든 정보를 담아놓는다
+	}
+	
+//모달에서 헬스장 삭제
+	@RequestMapping("deleteGym")
+	public String deleteGym(@RequestParam("g_id") int g_id) {
+		System.out.println("SHController deleteGym start...");
+		System.out.println("SHController deleteGym g_id"+g_id);
+		sh.deleteGym(g_id);
+		return "SH-Views/manger";
+	}
+	
+	
+	
+//모달에서 헬스장 페이지 등록
+
+	
+	@ResponseBody
+	@PostMapping("/registerGym")
+	public String registerGym3(
 			@RequestParam("m_number") int m_number,
 			@RequestParam("g_name") String g_name,
 			@RequestParam("g_address") String g_address,
@@ -366,24 +393,38 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 	        @RequestParam("g_companynumber") int g_companynumber,
 	        @RequestParam("image") MultipartFile imageFile,
 	        Gym gym){
-		
+		System.out.println("SHController registerGym start...");
+
 		gym.setM_number(m_number);
 		gym.setG_name(g_name);
 		gym.setG_address(g_address);
 		gym.setG_tel(g_tel);
 		gym.setG_companynumber(g_companynumber);
-		//gym.setG_document(imageFile);
+		//파일저장및 경로추출
+		String g_document = sh.storeFile(imageFile);
+		gym.setG_document(g_document);
+		System.out.println("SHController registerGym gym"+"   "+gym);
+
 		
-		//sh.registerGym();
-			
+		sh.registerGym(gym);
+			return "1";
 		
-		return "SH-Views/manger";
+		
 	}
-	//헬스장 페이지 정보
+//헬스장 페이지 정보
 	
 	
-	
-	
+	@ResponseBody
+	@RequestMapping("getGymDetails")
+	public Gym getGymDetails(@RequestParam("id") int g_id) {
+		System.out.println("SHController getGymDetails start...");
+		System.out.println("SHController getGymDetails id"+"   "+g_id);
+
+		Gym gym= sh.getGym(g_id);//멤버 객체의 모든 정보를 담아놓는다
+		
+		
+		return gym;
+	}
 	
 	
 	

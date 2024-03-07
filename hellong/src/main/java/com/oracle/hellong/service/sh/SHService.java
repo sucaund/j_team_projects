@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
@@ -46,6 +47,16 @@ public interface SHService {
 	void updateMember(int m_number, int admin);
 
 	void deleteMember(int m_number);
+
+	Gym getGym(int g_id);
+
+	String storeFile(MultipartFile imageFile);
+
+	void registerGym(Gym gym);
+
+	void deleteGym(int g_id);
+
+	void updateOpenGym(int g_id, int common_mcd);
 
 
 

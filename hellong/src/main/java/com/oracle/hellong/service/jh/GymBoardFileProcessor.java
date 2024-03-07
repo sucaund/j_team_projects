@@ -38,9 +38,9 @@ public class GymBoardFileProcessor {
 			try {
 				Files.createDirectories(Paths.get(backupFolderPath));
 			} catch (IOException e) {
-				// 폴더 생성 실패 시 예외 처리
+				
 				e.printStackTrace();
-				// 여기에 적절한 예외 처리 로직을 추가하세요.
+				
 			}
 		}
 

@@ -20,8 +20,10 @@
 	    ]]>	
 	</select>
 	<insert id="trainerInsert" parameterType="Trainer">
-		insert into trainer(g_id, t_id,t_name, t_gender, t_age, t_regdate, t_tel, t_address, t_sal, t_matters,t_email)
-				 values(#{g_id},t_id_seq.nextval,#{t_name},#{t_gender},#{t_age},#{t_regdate},#{t_tel},#{t_address},#{t_sal},#{t_matters},#{t_email})
+		insert into trainer(g_id, t_id,t_name, t_gender, t_age, t_regdate, t_tel, t_address, 
+							t_sal, t_matters, t_email, t_qualifications, t_experience, t_photoname, t_photostoredname )
+				 values(#{g_id},t_id_seq.nextval,#{t_name},#{t_gender},#{t_age},#{t_regdate},#{t_tel},#{t_address},
+				 		#{t_sal},#{t_matters},#{t_email},#{t_qualifications},#{t_experience},#{t_photoname},#{t_photostoredname})
 	</insert>
 	
 	<select id="gymIdTrainerId" parameterType="Trainer" resultType="Trainer">

@@ -2,33 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.BoardMapper">
 
+
+<!-- 재준 mappers 시작 -->
+
 	<select id="boardTotal" parameterType="int" resultType="int">
-		SELECT
-		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200 AND COMMON_MCD = 120
+		SELECT Count(*)
+		FROM BOARD
+		WHERE common_bcd = 200 AND common_mcd != 20
+		<!-- where M_NUMBER = #{M_NUMBER}
+		AND COMMON_BCD = 200 AND COMMON_MCD = 120 -->
 	</select>
 	
 	<select id="jjBoardListAll" parameterType="Board" resultType="Board">
 		<![CDATA[
-		SELECT *
-		FROM
-		(
-			SELECT rownum rn, a.*
-			FROM
-						(select * from board order by b_number desc) a
+		SELECT * 
+		FROM (
+		    SELECT ROWNUM rn, b.*, m.m_name
+		    FROM (
+		    	select *
+		    	from board
+		    	where common_bcd = 200 AND common_mcd != 20
+		    	order by b_number desc) b
+		    JOIN member m ON b.m_number = m.m_number 
 		)
-		WHERE rn >= #{start}
-		and   rn <= #{end}
+		WHERE rn >= #{start} 
+		AND rn <= #{end}
 		]]>
 	</select>
 	
 	<select id="jjBoardOne" parameterType="int" resultType="Board">
 		SELECT  b_number, b_title, b_regdate,
-			    b_recomm_count, b_readcount, b_content
+			    b_recomm_count, b_readcount, b_content,
+			    m.m_name
 			  , board_min_max(b_number,1)  prevPage
 			  , board_min_max(b_number,2)  nextPage
-		FROM board 
-		WHERE b_number = #{b_number}
-		
+		FROM board b, member m
+		WHERE b.m_number = m.m_number 
+		AND b_number = #{b_number}
+
 	</select>
 	
 	<update id="plusCnt" parameterType="int">
@@ -65,6 +76,13 @@
 	<delete id="deleteBoard" parameterType="Board">
 		DELETE FROM board where b_number = #{b_number}
 	</delete>
+	
+	
+	<select id="jjBoardSearch" parameterType="Board" resultType="int">
+
+	</select>
+
+<!-- 재준 mappers 끝 -->
 
 	<select id="ContentBoard" parameterType="int" resultType="Board">
 		SELECT

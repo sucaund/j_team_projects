@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Member;
 import com.oracle.hellong.service.jj.JJPaging;
 import com.oracle.hellong.service.jj.JJService;
 
@@ -31,7 +32,7 @@ public class JJController {
 	
 	// 게시판 메인페이지
 	@RequestMapping(value = "communityBoard")
-	public String communityBoard(Board board, Model model) {
+	public String communityBoard(Board board, Member member, Model model) {
 		System.out.println("JJController Start communityBoard...");
 		int totalBoard = js.totalBoard();
 		System.out.println("JJController Start totalBoard->"+totalBoard);
@@ -47,7 +48,7 @@ public class JJController {
 		model.addAttribute("listBoard", listBoard);
 		model.addAttribute("page", page);
 		
-		return "communityBoard";
+		return "jj/communityBoard";
 		
 	}
 	
@@ -58,7 +59,7 @@ public class JJController {
 		Board board = js.detailBoard(pboard.getB_number());
 		System.out.println("JJController detailBoard board->"+board);
 		model.addAttribute("board", board);
-		return "detailBoard";
+		return "jj/detailBoard";
 	}
 	
 	// 게시글 수정페이지
@@ -78,7 +79,7 @@ public class JJController {
 		System.out.println("b_regdate->"+b_regdate);
 		
 		model.addAttribute("board", board);
-		return "updateFormBoard";
+		return "jj/updateFormBoard";
 	}
 	
 	// 게시글 수정 적용
@@ -90,7 +91,7 @@ public class JJController {
 		System.out.println("JJController js.updateBoard updateCount--->" + updateCount);
 		model.addAttribute("uptCnt",updateCount);
 		
-		return "redirect:communityBoard";
+		return "redirect:jj/communityBoard";
 	}
 	
 	// 글쓰기 페이지
@@ -102,7 +103,7 @@ public class JJController {
 		System.out.println("JJController writeFormBoard boardList.size--->" + boardList.size());
 		model.addAttribute("boardList", boardList);
 		
-		return "writeFormBoard";
+		return "jj/writeFormBoard";
 	}
 	
 	// 글쓰기 입력 적용
@@ -114,7 +115,7 @@ public class JJController {
 		if (insertResult > 0) return "redirect:communityBoard";
 		else {
 			model.addAttribute("msg", "입력 실패, 확인해 보세요");
-			return "foward:writeFormBoard";
+			return "foward:jj/writeFormBoard";
 		}	
 	}
 	
@@ -123,7 +124,7 @@ public class JJController {
 	public String deleteBoard(Board board, Model model) {
 		System.out.println("JJController deleteBoard Start...");
 		int result = js.deleteBoard(board.getB_number());
-		return "redirect:communityBoard";
+		return "redirect:jj/communityBoard";
 	}
 	
 	// 게시글 추천수 카운트
@@ -131,7 +132,18 @@ public class JJController {
 	public String HitCnt(Board board, Model model) {
 		System.out.println("JJController HitCnt Start...");
 		int result = js.HitCnt(board.getB_number());
-		return "redirect:communityBoard";
+		return "redirect:jj/communityBoard";
+	}
+	
+	// 게시판 내 검색
+	@RequestMapping(value = "jjBoardSearch")
+	public String jjBoardSearch(Board board, Model model) {
+		System.out.println("JJController jjBoardSearch Start...");
+		List<Board> listSearchBoard = js.listSearchBoard(board);
+		System.out.println("JJController jjBoardSearch listSearchBoard.size()->" + listSearchBoard.size());
+
+		model.addAttribute("listSearchBoard", listSearchBoard);
+		return "jj/communityBoard";
 	}
 
 }
