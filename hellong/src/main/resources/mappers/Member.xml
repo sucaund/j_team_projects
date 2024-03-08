@@ -121,5 +121,7 @@
     SET M_ISDELETED = 1
     WHERE M_NUMBER =#{m_number}
 	</update>
+	
+
 
 </mapper>

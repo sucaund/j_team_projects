@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
+import javax.naming.directory.SearchResult;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,8 @@ import com.oracle.hellong.model.BoardFile;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymReview;
+import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.SearchResults;
 import com.oracle.hellong.service.dy.DYPaging;
 import com.oracle.hellong.service.dy.DYService;
 import com.oracle.hellong.service.hs.HSService;
@@ -41,7 +45,7 @@ public class DYController {
 
 	// 바디프로필 게시글 목록 조회창
 	@GetMapping(value = "listBodyProfile")
-	public String bodyProfileList(Board board, Model model) {
+	public String bodyProfileList(Board board, /* BoardFile boardFile, */ Model model) {
 		System.out.println("DYController Start listBoard...");
 		// if (emp.getCurrentPage() == null ) emp.setCurrentPage("1");
 		// Emp 전체 Count 15
@@ -55,10 +59,12 @@ public class DYController {
 		board.setEnd(page.getEnd()); // 시작시 10
 
 		List<Board> listBodyProfile = dys.listBodyProfile(board);
+//		List<BoardFile> listFileBodyProfile = dys.listFileBodyProfile(boardFile);
 		System.out.println("DYController list listBodyProfile.size()=>" + listBodyProfile.size());
 
 		model.addAttribute("totalBodyProfile", totalBodyProfile);
 		model.addAttribute("listBodyProfile", listBodyProfile);
+//		model.addAttribute("listFileBodyProfile", listFileBodyProfile);
 		model.addAttribute("page", page);
 
 		return "dy/dyBodyProfile";
@@ -119,7 +125,7 @@ public class DYController {
 	// 게시글쓰기
 	@PostMapping(value = "dyWriteBodyProfile")
 	public String dyWriteBodyProfile( 
-									 Board board, BoardFile boardFile) throws IllegalStateException, IOException {
+									 Board board, BoardFile boardFile) throws IOException {
 		
 		System.out.println("dyWriteBodyProfile*************************"+board);
 		int insertResult = dys.insertBodyProfile(board);
@@ -197,20 +203,15 @@ public class DYController {
 		return "dy/dyBodyProfile";
 	}
 
-	// 헤더 통합검색
-//	@GetMapping(value = "dyTotalSearch")
-//	public String dyTotalSearch(Board board, GymReview gymReview, GymBoard gymBoard, Gym gym, Model model) {
-//		System.out.println("DYController dyTotalSearch Start..");
-//		int totalSearch = dys.condTotalSearch(board, gymReview, gymBoard, gym);
-//
-//		List<Board> listTotSearchBodyProfile = dys.listTotSearchBodyProfile(board);
-//		List<GymReview> listTotSearchGymReview = dys.listTotSearchGymReview(gymReview);
-//		List<GymBoard> listTotSearchGymBoard = dys.listTotSearchGymBoard(gymBoard);
-//		List<Gym> listTotSearchGym = dys.listTotSearchGym(gym);
-//
-//		model.addAttribute("")
-//		return "dy/dyTotalSearchResult";
-//	}
+	//헤더 통합검색 
+	@GetMapping(value = "dyTotalSearch")
+	public String dyTotalSearch(Board board, Gym gym, GymBoard gymBoard, GymReview gymReview, Model model) {
+		System.out.println("DYController dyTotalSearch Start..");
+		SearchResults results = dys.totalSearch(board, gym, gymBoard, gymReview);
+		model.addAttribute("results", results);
+				
+		return "dy/dyTotalSearchResult";
+	}
 
 	// 이미지 업로드
 //	@RequestMapping(value = "dyUploadForm", method = RequestMethod.POST)

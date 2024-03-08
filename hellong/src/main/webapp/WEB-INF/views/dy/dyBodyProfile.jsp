@@ -40,7 +40,7 @@
 	<div class="grid-container">
 		<c:forEach items="${listBodyProfile}" var="board" begin="0" end="9">
 			<div class="grid-item">
-				<img src="${board.b_images}" alt="이미지">
+				<img src="${board.b_images}"  alt="이미지">
 				<p>
 					<a href="dySelectBodyProfile?b_number=${board.b_number}">${board.b_title}</a>
 				</p>

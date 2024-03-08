@@ -1,5 +1,7 @@
 package com.oracle.hellong.dao.dydao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +26,14 @@ public class DYBoardFileDaoImpl implements DYBoardFileDao {
 		}
 		return result;
 	}
+
+//	@Override
+//	public List<BoardFile> listFileBodyProfile(BoardFile boardFile) {
+//		List<BoardFile> bodyProfileFileList = null;
+//		System.out.println("DYBoardFileDaoImpl FileList Start...");
+//		bodyProfileFileList = session.selectList("dyBodyProfileFileListAll", boardFile);
+//		
+//		return bodyProfileFileList;
+//	}
 	
 }

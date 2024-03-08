@@ -145,8 +145,8 @@
 			order="BEFORE">
 			SELECT NVL(MAX(b_number), 0) + 1 FROM board
 		</selectKey>
-		INSERT INTO board ( b_number, b_title, b_content )
-		values( #{b_number}, #{b_title}, #{b_content} )
+		INSERT INTO board ( b_number, b_title, b_content)
+		values( #{b_number}, #{b_title}, #{b_content})
 	</insert>
 
 	<delete id="dyDeleteBodyProfile" parameterType="int">
@@ -195,5 +195,13 @@
 				) a
 		)
 		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+	
+	<select id="dySearchBoards" parameterType="Board" resultType="Board">
+		SELECT
+		b_title, b_content, b_readcount, b_recomm_count
+		FROM board
+		WHERE b_title LIKE '%' || #{totKeyword} || '%'
+		OR b_content LIKE '%' || #{totKeyword} || '%'
 	</select>
 </mapper>

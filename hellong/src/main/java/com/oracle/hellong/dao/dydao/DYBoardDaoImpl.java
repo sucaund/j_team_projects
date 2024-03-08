@@ -134,5 +134,15 @@ public class DYBoardDaoImpl implements DYBoardDao {
 		}
 		return boardSearchList;
 	}
+	
+	// 통합검색 (게시판)
+	@Override
+	public List<Board> searchBoards(Board board) {
+		List<Board> searchBoards = null;
+		
+		searchBoards = session.selectList("dySearchBoards", board);
+		
+		return searchBoards;
+	}
 
 }
