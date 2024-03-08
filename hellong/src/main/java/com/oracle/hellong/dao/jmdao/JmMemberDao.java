@@ -35,6 +35,10 @@ public interface JmMemberDao {
 	String jmGetIdFromMail(String mail);
 
 	int jmGetM_numberFromIdAndEmail(String m_id, String m_email);
+
+	String jmCheckPwDuple(int m_number, String m_pw);
+
+	int jmResetPw(int m_number, String m_pw);
 	
 	
 

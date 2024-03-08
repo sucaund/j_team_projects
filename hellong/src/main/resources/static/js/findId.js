@@ -30,7 +30,7 @@ var mailauthnumber=0; //이메일 인증번호
 function sendMailNumber(){ //인증번호받기 버튼 눌렀을 때
     $("#mail_check").css("display","block"); //버튼 보내는 순간 메일체크 div가 드러남
     $.ajax({
-        url:"/jmMailSendAtFindId",
+        url:"/jmMailCheck",
         type:"post",
         crossDomain: true,
         headers: {  'Access-Control-Allow-Origin': 'http://The web site allowed to access' },
@@ -57,7 +57,7 @@ function confirmMailNumber(){
     if (input_number == mailauthnumber) {
         $.ajax({
                  type: "POST",
-                 url: "jmMailCheck",
+                 url: "jmFindIdWithMail",
                  data: { mail: check_mail },
                  success: function(response) {
 /*				console.log(response);*/

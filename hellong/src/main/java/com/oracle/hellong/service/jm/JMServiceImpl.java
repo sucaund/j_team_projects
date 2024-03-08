@@ -134,7 +134,7 @@ public class JMServiceImpl implements JMService {
 		System.out.println("sendMail..");
 		System.out.println(mail);
 		String setfrom = "woakswoaks@gmail.com"; // 보내는사람 이메일
-		String title = "Hellong 회원가입 인증 이메일입니다"; // 제목
+		String title = "Hellong 인증 이메일입니다"; // 제목
 		
 		try {
 			// Mime : 전자우편 인터넷 표준 format
@@ -144,8 +144,8 @@ public class JMServiceImpl implements JMService {
 			messageHelper.setTo(mail); // 받는사람 이메일
 			messageHelper.setSubject(title); // 메일제목은 생략 가능함
 			authNumber = (int) (Math.random() * 999999) + 1;
-			messageHelper.setText("Hellong 회원가입 인증번호입니다\n" + authNumber); // 메일 내용
-			System.out.println("Hellong 회원가입 인증번호입니다: " + authNumber);
+			messageHelper.setText("Hellong 인증번호입니다.\n" + authNumber); // 메일 내용
+			System.out.println("Hellong 인증번호입니다: " + authNumber);
 			mailSender.send(message);
 //			model.addAttribute("check", 1); // 정상 전달
 
@@ -178,6 +178,24 @@ public class JMServiceImpl implements JMService {
 		int m_number = 0;
 		m_number = jmmd.jmGetM_numberFromIdAndEmail(m_id, m_email);
 		return m_number;
+	}
+
+	@Override
+	public String checkPwDuple(int m_number, String m_pw) {
+		System.out.println("JmServiceImpl checkPwDuple ...");
+		System.out.println(m_number+" "+m_pw);
+		String checkPw=null;
+		checkPw=jmmd.jmCheckPwDuple(m_number, m_pw);
+		return checkPw;
+	}
+
+	@Override
+	public int jmResetPw(int m_number, String m_pw) {
+		System.out.println("JmServiceImpl jmResetPw start.. ...");
+		System.out.println(m_number+" "+m_pw);
+		int resetPwCheck=0;
+		resetPwCheck=jmmd.jmResetPw(m_number, m_pw);
+		return resetPwCheck;
 	}
 
 

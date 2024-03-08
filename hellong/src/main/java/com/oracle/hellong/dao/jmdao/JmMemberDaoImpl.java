@@ -3,7 +3,6 @@ package com.oracle.hellong.dao.jmdao;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import org.eclipse.jdt.internal.compiler.lookup.TypeSystem.HashedParameterizedTypes;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Repository;
 
@@ -67,9 +66,11 @@ public class JmMemberDaoImpl implements JmMemberDao {
 	public List<Member> jmListMemberReal(Member member) { //멤버 리스트로 뽑아 출력용
 		List<Member> memberList = null;
 		System.out.println("JmMemberDaoImpl jmListMemberReal Start ...");
-		try { // Map Id : member.xml에서의 id
-			// parameter=그냥 이 메서드의 인자
+		try { 
 			memberList = session.selectList("jmMemberListAllReal", member); //리스트 멤버
+			//controller에서 멤버 안에 있는 start와 end를 설정하고, 멤버를 보내 여기까지 가져와
+			// 그걸 넣어서 출력된 멤버들을 리스트에 넣음
+			
 			System.out.println("JmMemberDaoImpl jmListMemberReal memberList.size()->" + memberList.size());
 		} catch (Exception e) {
 			System.out.println("JmMemberDaoImpl jmListMemberReal e.getMessage()->" + e.getMessage());
@@ -224,15 +225,90 @@ public class JmMemberDaoImpl implements JmMemberDao {
 			System.out.println("JmMemberDaoImpl jmGetM_numberFromIdAndEmail start..");
 			System.out.println(m_id);
 			System.out.println(m_email);
+			Member member=new Member();
+			member.setM_id(m_id);
+			member.setM_email(m_email);
 			int m_number= 0;
 			try {
-				m_number = session.selectOne("com.oracle.hellong.MemberMapper", m_id, m_email);
+				m_number = session.selectOne("jmGetM_numberFromIdAndEmail", member);
 				System.out.println("JmMemberDaoImpl jmGetM_numberFromIdAndEmail m_number->" + m_number);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				System.out.println("해당 아이디와 이메일로 가입된 계정(m_number) 없음");
+				m_number=0;
 			}
 			return m_number;
 		}
+
+		@Override 
+		public String jmCheckPwDuple(int m_number, String m_pw) {
+			System.out.println("JmMemberDaoImpl jmcheckPwDuple start..");
+			System.out.println(m_number+" "+ m_pw);
+//			Member member=new Member();
+//			member.setM_number(m_number);
+//			member.setM_pw(m_pw);
+			String hashPw=null;
+			Boolean pwSameCheck=false;
+			String result=null;
+			try {
+				hashPw = session.selectOne("jmGetMemberPwFromNumber", m_number);
+				System.out.println("jmMemberDaoImpl jmCheckPwDuple hashPw: "+hashPw);
+				pwSameCheck=BCrypt.checkpw(m_pw, hashPw);
+				System.out.println("jmMembeDaoImpl jmCheckPwDuple pwSameCheck: "+pwSameCheck);
+				if(pwSameCheck==true) { //중복시
+					result="duple"; 
+				} else if(pwSameCheck==false) { //중복이 아닐 떄
+					result="ok"; 
+				}
+				
+			} catch (Exception e) {
+				System.out.println("jmMembeDaoImpl jmCheckPwDuple pwSameCheck: "+pwSameCheck);
+				System.out.println("JmMemberDaoImpl jmCheckPwDuple Exception->"+e.getMessage());
+				result="error"; //오류시
+			}
+			return result; 
+			
+		}
+
+		@Override
+		public int jmResetPw(int m_number, String m_pw) {
+			System.out.println("JmMemberDaoImpl jmResetPw start..");
+			Member member=new Member();
+			member.setM_number(m_number);
+	
+			String hashedPassword = BCrypt.hashpw(m_pw, BCrypt.gensalt());
+			System.out.println(hashedPassword);
+		    member.setM_pw(hashedPassword);
+			
+			System.out.println(member.getM_number());
+			System.out.println(member.getM_pw());
+			
+			int updateCount= 0;
+			try {
+				updateCount = session.update("jmResetPw",member);
+				//Member 를 보냄 : model의 Member를 의미 : 안에 멋대로 추가한 것들도 받음
+				System.out.println("jmMembeDaoImpl jmResetPw updateCount: "+updateCount);
+			} catch (Exception e) {
+				System.out.println("jmMembeDaoImpl jmResetPw updateCount: "+updateCount);
+				System.out.println("JmMemberDaoImpl jmResetPw Exception->"+e.getMessage());
+			}
+			return updateCount;
+		}
+		
+//		@Override
+//		public List<Member> jmListMemberReal(Member member) { //멤버 리스트로 뽑아 출력용
+//			List<Member> memberList = null;
+//			System.out.println("JmMemberDaoImpl jmListMemberReal Start ...");
+//			try { 
+//				memberList = session.selectList("jmMemberListAllReal", member); //리스트 멤버
+//				//controller에서 멤버 안에 있는 start와 end를 설정하고, 멤버를 보내 여기까지 가져와
+//				// 그걸 넣어서 출력된 멤버들을 리스트에 넣음
+//				
+//				System.out.println("JmMemberDaoImpl jmListMemberReal memberList.size()->" + memberList.size());
+//			} catch (Exception e) {
+//				System.out.println("JmMemberDaoImpl jmListMemberReal e.getMessage()->" + e.getMessage());
+//			}
+//			return memberList;
+//		}
 
 }

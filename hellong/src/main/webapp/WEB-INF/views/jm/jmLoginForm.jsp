@@ -12,7 +12,7 @@
 로그인 페이지.. <br>
 <c:if test="${msg!=null}">${msg}</c:if>
 
- <c:if test="${m_bumber!=null}">
+ <c:if test="${m_number!=null}">
 <p>로그아웃을 먼저 해주세요</p>
 
  </c:if>

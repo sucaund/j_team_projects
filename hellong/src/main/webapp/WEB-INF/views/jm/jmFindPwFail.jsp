@@ -6,20 +6,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>아이디 찾기</title>
-<script type="text/javascript" src="js/findId.js"></script>
+<title>비밀번호 찾기</title>
+
 </head>
 <body>
-아이디 찾기
+비밀번호 찾기
  <c:if test="${m_number!=null}">
 <p>로그아웃을 먼저 해주세요</p>
 
  </c:if>
   <c:if test="${m_number==null}">
 <br>
-${MailAtFindId} 이메일 계정으로 가입된 계정이 없습니다.
+해당 아이디나 이메일로 가입된 계정이 없습니다.
 <br>
-<a href="/jmFindIdForm">아이디 찾기로 돌아가기</a><p>
+<a href="/jmFindIdForm">비밀번호 찾기</a><p></p>
+<a href="/jmFindPwForm">아이디 찾기</a><p>
 <a href="/jmLoginForm">로그인</a><p>
 <a href="/jmMainPage">메인페이지로 이동</a><p>
 </c:if>

@@ -18,7 +18,7 @@
   <c:if test="${m_number==null}">
 <br>
 		<div id="form-check-id-with-mail"> <!-- 결과 성공할 시 사라짐 -->
-		가입시 사용한 이메일을 입력해주세요.
+		등록되어있는 이메일을 입력해주세요.
 		<br>
 			<div class="form-floating mb-3">
 				<label for="floatingInput">이메일</label> <input type="text"
@@ -36,7 +36,7 @@
 		
 		<div id="form-view-id-with-mail"  style="display: none"> <!-- 결과 성공할 시 드러남 -->
 			<div class="view-id" id="view-id" name="view-id">
-			
+					<!-- 여기에 아이디체크 결과값 드러남 -->
 			</div>
 			<div class="view-sign" id="view-sign" name="view-sign">
 				<a href="jmLoginForm">로그인</a> <a href="jmMainPage">메인화면으로 이동</a>

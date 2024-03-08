@@ -38,6 +38,10 @@ public interface JMService {
 
 	int jmGetM_numberFromIdAndEmail(String m_id, String m_email);
 
+	String checkPwDuple(int m_number, String m_pw);
+
+	int jmResetPw(int m_number, String m_pw);
+
 
 
 
