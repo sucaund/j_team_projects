@@ -58,6 +58,7 @@ public class JJController {
 	@GetMapping(value = "detailBoard")
 	public String detailBoard(Board pboard, Model model) {
 		System.out.println("JJController detailBoard Start...");
+		System.out.println("JJController detailBoard pboard->"+pboard);
 		Board board = js.detailBoard(pboard.getB_number());
 		System.out.println("JJController detailBoard board->"+board);
 		model.addAttribute("board", board);
@@ -112,6 +113,7 @@ public class JJController {
 	@PostMapping(value = "writeBoard")
 	public String writeBoard(Board board, Model model) {
 		System.out.println("JJController writeBoard Start...");
+		System.out.println("JJController writeBoard board->"+board);
 		
 		int insertResult = js.insertBoard(board);
 		if (insertResult > 0) return "redirect:communityBoard";
@@ -123,7 +125,7 @@ public class JJController {
 	
 	// 게시글 삭제 적용
 	@RequestMapping(value = "deleteBoard")
-	public String deleteBoard(Board board, Model model) {
+	public String deleteBoard(Board board) {
 		System.out.println("JJController deleteBoard Start...");
 		int result = js.deleteBoard(board.getB_number());
 		return "redirect:communityBoard";
@@ -131,7 +133,7 @@ public class JJController {
 	
 	// 게시글 추천수 카운트
 	@RequestMapping(value = "hitCnt")
-	public String hitCnt(Board board, Model model) {
+	public String hitCnt(Board board) {
 		System.out.println("JJController HitCnt Start...");
 		int result = js.hitCnt(board.getB_number());
 		return "redirect:communityBoard";
@@ -139,12 +141,14 @@ public class JJController {
 	
 	// 게시글 신고
 	@RequestMapping(value = "jjReported")
-	public String jjReported(Board board, Model model) {
+	public String jjReported(Board board) {
 		System.out.println("JJController jjReported Start...");
-		int result = js.jjReported(board.getB_number());
+		System.out.println("JJController jjReported board->"+board);
+
+		int result = js.jjReported(board);
+		
 		return "redirect:communityBoard";
 	}
-	
 	
 	// 게시판 내 검색
 	@RequestMapping(value = "jjBoardSearch")

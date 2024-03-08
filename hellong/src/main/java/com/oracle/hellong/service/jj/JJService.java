@@ -16,6 +16,6 @@ public interface JJService {
 	int 		hitCnt(int b_number);
 	int 		totalSearchCnt(Board board);
 	List<Board> listSearchBoard(Board board);
-	int 		jjReported(int b_number);
+	int 		jjReported(Board board);
 
 }

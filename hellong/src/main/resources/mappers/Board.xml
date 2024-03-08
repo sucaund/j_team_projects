@@ -8,21 +8,19 @@
 	<select id="boardTotal" parameterType="int" resultType="int">
 		SELECT Count(*)
 		FROM BOARD
-		WHERE common_bcd = 200 AND common_mcd != 20
 		<!-- where M_NUMBER = #{M_NUMBER}
 		AND COMMON_BCD = 200 AND COMMON_MCD = 120 -->
 	</select>
 	
-	<!-- 자유게시판의 글들을 불러오는 쿼리 / 대분류 200 중 20을 제외한 글을 불러온다. -->
+	<!-- 자유게시판의 글들을 불러오는 쿼리. -->
 	<select id="jjBoardListAll" parameterType="Board" resultType="Board">
 		<![CDATA[
 		SELECT * 
 		FROM (
-		    SELECT ROWNUM rn, b.*, m.m_name
+		    SELECT ROWNUM rn, b.*, m.m_name 
 		    FROM (
 		    	select *
 		    	from board
-		    	where common_bcd = 200 AND common_mcd != 20
 		    	order by b_number desc) b
 		    JOIN member m ON b.m_number = m.m_number 
 		)
@@ -72,10 +70,22 @@
 	<insert id="jjinsertBoard" parameterType="Board">
 		<selectKey keyProperty="b_number" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(b_number), 0) + 1 FROM board
-			<!-- SELECT b_number_seq.NEXTVAL FROM DUAL -->
 		</selectKey>
-		INSERT INTO board ( b_number, b_title, b_content )
-					values( #{b_number}, #{b_title}, #{b_content} )
+		
+		INSERT INTO board ( b_number, b_title, b_content, 
+							common_bcd, common_mcd, b_comm_group )
+		values
+		(
+			#{b_number}, #{b_title}, #{b_content},
+			200,
+			<choose>
+				<when test="jjcategory == 'jjfree'">10</when>
+				<when test="jjcategory == 'jjbody'">20</when>
+				<when test="jjcategory == 'jjnotice'">110</when>
+				<when test="jjcategory == 'jjquestion'">120</when>
+			</choose>,
+			#{b_number}
+		)
 	</insert>
 	
 	<!-- 글을 삭제하는 쿼리 -->
@@ -94,46 +104,46 @@
 				<when test="search == 'title'">
 					b_title like '%' || #{keyword} || '%'
 				</when>
+				<when test="search == 'name'">
+                    m.m_name LIKE '%' || #{keyword} || '%'
+                </when>
 				<when test="search == 'content'">
 					b_content like '%' || #{keyword} || '%'
 				</when>
 			</choose>
-			AND common_bcd = 200 AND common_mcd != 20
 		</where>
 	</select>
 	
 	<!-- 게시글의 내용을 조회하는 쿼리 -->
 	<select id="jjBoardSearchList" parameterType="Board" resultType="Board">
-	    SELECT * FROM (
-	        SELECT rownum rn, innerQuery.* FROM (
-	            SELECT b.*, m.m_name
-	            FROM board b
-	            JOIN member m ON b.m_number = m.m_number
-	            <where>
-	                <choose>
-	                    <when test="search == 'all'">
-	                        (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
-	                    </when>
-	                    <when test="search == 'title'">
-	                        b.b_title LIKE '%' || #{keyword} || '%'
-	                    </when>
-	                    <when test="search == 'name'">
-	                        m.m_name LIKE '%' || #{keyword} || '%'
-	                    </when>
-	                    <when test="search == 'content'">
-	                        b.b_content LIKE '%' || #{keyword} || '%'
-	                    </when>
-	                </choose>
-	                AND b.common_bcd = 200 AND b.common_mcd != 20
-	            </where>
-	            ORDER BY b.b_number DESC
-	        ) innerQuery
+	    SELECT *
+	    FROM (
+	        SELECT b.*, m.m_name, ROWNUM rn
+	        FROM board b
+	        JOIN member m ON b.m_number = m.m_number
+	        <where>
+	            <choose>
+	                <when test="search == 'all'">
+	                    (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
+	                </when>
+	                <when test="search == 'title'">
+	                    b.b_title LIKE '%' || #{keyword} || '%'
+	                </when>
+	                <when test="search == 'name'">
+	                    m.m_name LIKE '%' || #{keyword} || '%'
+	                </when>
+	                <when test="search == 'content'">
+	                    b.b_content LIKE '%' || #{keyword} || '%'
+	                </when>
+	            </choose>
+	        </where>
+	        ORDER BY b.b_number DESC
 	    )
-	    WHERE rn BETWEEN #{start} AND #{end}
+		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
 	<!-- 신고여부 쿼리 -->
-	<update id="jjReported" parameterType="int">
+	<update id="jjUpReported" parameterType="int">
 		UPDATE board
 		SET b_isreported = CASE 
 		                     WHEN b_isreported = 0 THEN 1 

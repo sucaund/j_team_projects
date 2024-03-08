@@ -99,10 +99,10 @@ public class JJServiceImpl implements JJService {
 	}
 
 	@Override
-	public int jjReported(int b_number) {
+	public int jjReported(Board board) {
 		int result = 0;
 		System.out.println("JJServiceImpl jjReported Start...");
-		result = bd.jjReported(b_number);
+		result = bd.jjReported(board);
 		return result;
 	}
 

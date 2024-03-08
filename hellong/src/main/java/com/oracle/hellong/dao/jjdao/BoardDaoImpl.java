@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Report;
 
 import lombok.RequiredArgsConstructor;
 
@@ -89,8 +90,11 @@ public class BoardDaoImpl implements BoardDao {
 	public int insertBoard(Board board) {
 		int result = 0;
 		System.out.println("BoardDaoImpl insertBoard Start...");
+		System.out.println("BoardDaoImpl insertBoard board->"+board);
+
 		try {
 			result = session.insert("jjinsertBoard", board);
+			System.out.println(result);
 		} catch (Exception e) {
 			System.out.println("BoardDaoImpl insertBoard Exception--->" + e.getMessage());
 		}
@@ -154,13 +158,15 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public int jjReported(int b_number) {
+	public int jjReported(Board board) {
 		System.out.println("BoardDaoImpl jjReported Start...");
 		int result = 0;
-		System.out.println("BoardDaoImpl jjReported b_number->" + b_number);
+		System.out.println("BoardDaoImpl jjReported board->" + board);
 		try {
-			result = session.update("jjReported", b_number);
+			result = session.update("jjUpReported", board.getB_number());
 			System.out.println("BoardDaoImpl jjReported result->"+result);
+			int insertReported = session.insert("jjInReported", board);
+			System.out.println("BoardDaoImpl jjReported insertReported->" + insertReported);
 		} catch(Exception e) {
 			System.out.println("BoardDaoImpl jjReported Exception->"+e.getMessage());
 		}

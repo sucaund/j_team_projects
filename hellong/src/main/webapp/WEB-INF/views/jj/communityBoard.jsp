@@ -33,7 +33,7 @@
 						<c:otherwise>기타</c:otherwise>
 					</c:choose>
 				</td>
-				<td><a href="detailBoard?b_number=${board.b_number}" >${board.b_title}</a></td> 
+				<td><a href="detailBoard?b_number=${board.b_number}">${board.b_title}</a></td> 
 				<td>${board.m_name}</td>
 				<td>${board.b_regdate}</td>
  				<td>${board.b_recomm_count}</td>

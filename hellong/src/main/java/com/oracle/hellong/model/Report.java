@@ -12,4 +12,5 @@ public class Report { // 신고 report
 	private int 	common_bcd; // 신고유형대분류 400 f
 	private int 	common_mcd; // 신고유형중분류 ex.10 f
 	private Date 	report_date; // 신고일자
+
 }

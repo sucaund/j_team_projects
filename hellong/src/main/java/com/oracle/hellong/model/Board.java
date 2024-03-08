@@ -23,10 +23,11 @@ public class Board { //게시판 게시물 board
        
     // 조회용
     private String 	search;        		private String 	keyword;
-    private String 	pageNum;  
+    private String 	pageNum;			private String	jjcategory;
     private int 	start;              private int 	end;
   	private int 	prevPage;			private int 	nextPage;
-  	private String 	m_name;
+  	private String 	m_name;	  // member
+  	private int 	report_id;// report				
     
   	// Page 정보
     private String currentPage;
