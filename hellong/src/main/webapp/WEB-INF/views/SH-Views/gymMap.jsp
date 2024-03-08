@@ -76,25 +76,7 @@ function displayMarker(locPosition, message) {
 }    
 </script>
 
-<script>
-// 버튼 클릭 이벤트 핸들러 함수
-document.getElementById('btnCurrentLocation').addEventListener('click', function() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var lat = position.coords.latitude, // 위도
-                lon = position.coords.longitude; // 경도
-            var locPosition = new kakao.maps.LatLng(lat, lon), // 현재 위치를 나타내는 좌표 객체 생성
-                message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우 내용
-            
-            // 지도 중심을 현재 위치로 변경하고, 마커와 인포윈도우 표시
-            displayMarker(locPosition, message);
-        });
-    } else {
-        alert("브라우저가 Geolocation을 지원하지 않습니다.");
-    }
-});
-</script>
-<button id="btnCurrentLocation" style="position: absolute; top: 20px; left: 20px; z-index: 1;">현재 위치로 돌아가기</button>
+
 
 </body>
 </html>
