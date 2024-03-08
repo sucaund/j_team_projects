@@ -63,6 +63,10 @@ public interface SHService {
 
 	void delReport(int b_number);
 
+	List<Board> getallQnA();
+
+	void delThisTable(int b_number);
+
 
 
 	

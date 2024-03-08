@@ -150,7 +150,10 @@ public class SHServiceImpl implements SHService {
 //댓글수 확인
 	@Override
 	public Map<Integer, Integer> getCommentCountsForPosts(List<Board> listBoard) {
-		 Map<Integer, Integer> commentCounts = new HashMap<>();
+		System.out.println("SHServiceImpl getCommentCountsForPosts Start...");
+		System.out.println("SHServiceImpl getCommentCountsForPosts listBoard->"+listBoard);
+
+		Map<Integer, Integer> commentCounts = new HashMap<>();
 		    for (Board board : listBoard) {
 		        int bNumber = board.getB_number();
 		        int count = qd.countCommentsByBNumber(bNumber);
@@ -266,7 +269,23 @@ public class SHServiceImpl implements SHService {
 		System.out.println("SHServiceImpl delReport b_number"+b_number);
 		qd.delReport(b_number);
 	}
+//모든 문의글 가져오기
+	@Override
+	public List<Board> getallQnA() {
+		System.out.println("SHServiceImpl getallQnA start...");
+		List<Board> boardList = null;
+		boardList = qd.getallQnA();
+		System.out.println("SHServiceImpl boardList size-->" + boardList.size());
+		return boardList;
+	}
 
+//문의글 테이블에서만 삭제
+	@Override
+	public void delThisTable(int b_number) {
+		System.out.println("SHServiceImpl delThisTable b_number"+b_number);
+		qd.delThisTable(b_number);
+		
+	}
 
 	
 

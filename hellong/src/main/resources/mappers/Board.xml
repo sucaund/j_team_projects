@@ -104,4 +104,14 @@
 	</update>
 
 
+ 	<select id="SHgetallQnA" resultType="Board">
+		SELECT
+		* FROM BOARD where COMMON_MCD = 120 AND B_ISRECOMM !=3
+	</select>
+
+	<update id="delThisTable" parameterType="int">
+		UPDATE BOARD
+		SET B_ISRECOMM = 3
+		WHERE B_NUMBER = #{b_number}
+	</update>
 </mapper>

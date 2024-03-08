@@ -355,8 +355,15 @@
         document.getElementById('deleteReportId').value = bNumber; // 신고 ID 설정
         document.getElementById('deleteReportForm').submit(); // 폼 제출
     }
- 
 	}
+	//=========================문의글 관리창에서만 지우기==================================
+    function deleteThisTable(bNumber) {
+    if(confirm('정말로 삭제하시겠습니까?')) {
+        document.getElementById('ThisTableId').value = bNumber; // 신고 ID 설정
+        document.getElementById('ThisTableForm').submit(); // 폼 제출
+    }
+	}
+	
 	
 </script>
 
@@ -473,7 +480,7 @@
 		<thead>
 			<tr>
 				<th>신고사유</th>
-				<th>글제목</th>
+				<th>글제목(클릭시 링크이동 필요"<"" a")</th>
 				<th>신고일자</th>
 				<th>신고누적횟수</th>
 				<th>삭제</th>
@@ -507,6 +514,43 @@
 						
 						<td><button type="button" class="btn btn-primary"
 							onclick="deleteReport(${report.b_number})">신고글 삭제</button></td>
+				</c:forEach>
+
+		</tbody>
+	</table>
+	
+	<!-- =====================문의글 관리======================= -->
+	
+	
+	<form id="ThisTableForm" action="/delThisTable" method="post" style="display: none;">
+    	<input type="hidden" name="b_number" id="ThisTableId">
+	</form>
+	
+	<h2>문의글</h2>
+	<table class="scrollable-table" id=scrollable-Report>
+		<thead>
+			<tr>
+				<th>글제목</th>
+				<th>작성일</th>
+				<th>작성자</th>
+				<th>댓글</th>
+				<th>목록에서 삭제</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<c:forEach var="QnA" items="${allQnA}">
+					<tr>
+						<td><a href="QuestionContent?B_NUMBER=${QnA.b_number}">${QnA.b_title }</td>
+						<td>${QnA.b_regdate }</td>
+						<td>${QnA.m_number }</td>
+						<td>${commentCounts[QnA.b_number]}</td>
+						
+						<td>
+							<button type="button" class="btn btn-primary"
+							onclick="deleteThisTable(${QnA.b_number})">목록에서 삭제
+							</button>
+						</td>
 				</c:forEach>
 
 		</tbody>

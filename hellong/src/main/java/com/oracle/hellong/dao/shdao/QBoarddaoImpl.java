@@ -314,4 +314,29 @@ public class QBoarddaoImpl implements QBoarddao {
 			transactionManager.rollback(txStatus);
 		}
 	}
+//문의글 가져오기
+	@Override
+	public List<Board> getallQnA() {
+		List<Board> getallQnA=null;
+		try {
+			getallQnA =session.selectList("SHgetallQnA");
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl getallQnA e.getMessage()->" + e.getMessage());
+
+		}
+		return getallQnA;
+	}
+//문의글 테이블에서만 삭제
+	@Override
+	public void delThisTable(int b_number) {
+
+		try {
+			session.update("delThisTable",b_number);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl delThisTable e.getMessage()->" + e.getMessage());
+
+		}
+	}
+
+
 }
