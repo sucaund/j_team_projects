@@ -269,7 +269,7 @@ public class SHServiceImpl implements SHService {
 		System.out.println("SHServiceImpl delReport b_number"+b_number);
 		qd.delReport(b_number);
 	}
-//모든 문의글 가져오기!
+//모든 문의글 가져오기
 	@Override
 	public List<Board> getallQnA() {
 		System.out.println("SHServiceImpl getallQnA start...");
