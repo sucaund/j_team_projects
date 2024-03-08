@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oracle.hellong.model.Board;
@@ -73,10 +74,12 @@ public class DYController {
 
 	// 클릭한 게시글 조회
 	@GetMapping(value = "dySelectBodyProfile")
-	public String dySelectBodyProfile(Board board1, Model model) {
+	public String dySelectBodyProfile(Board board1, BoardFile boardFile1, Model model) {
 		System.out.println("DYController dySelectBodyProfile Start...");
 		Board board = dys.selectBodyProfile(board1.getB_number());
+		List<BoardFile> boardFile = dys.selectBodyProfileFileList(boardFile1.getB_number());
 		model.addAttribute("board", board);
+		model.addAttribute("boardFile", boardFile);
 
 		return "dy/dySelectBodyProfile";
 	}
@@ -124,26 +127,23 @@ public class DYController {
 
 	// 게시글쓰기
 	@PostMapping(value = "dyWriteBodyProfile")
-	public String dyWriteBodyProfile( 
-									 Board board, BoardFile boardFile) throws IOException {
-		
-		System.out.println("dyWriteBodyProfile*************************"+board);
-		int insertResult = dys.insertBodyProfile(board);
-		
+	public String dyWriteBodyProfile(Board board, BoardFile boardFile) throws IOException {
 
-		
-		//service insert메서드
-		System.out.println("dyWriteBodyProfile*************************"+board.getB_images());
-		
+		System.out.println("dyWriteBodyProfile*************************" + board);
+		int insertResult = dys.insertBodyProfile(board);
+
+		// service insert메서드
+		System.out.println("dyWriteBodyProfile*************************" + board.getB_images());
+
 		for (MultipartFile b_images : board.getB_images()) {
 			String fileName = b_images.getOriginalFilename();
 			UUID uid = UUID.randomUUID();
 			String storedFileName = uid + "-" + fileName;
-			
+
 			boardFile.setB_number(board.getB_number());
 			boardFile.setBf_originalName(fileName);
 			boardFile.setBf_savedName(storedFileName);
-			
+
 			String folderName = "C:/backup/";
 			File backupFolderName = new File(folderName);
 			if (!backupFolderName.exists()) {
@@ -153,15 +153,14 @@ public class DYController {
 					e.printStackTrace();
 					System.out.println("Error message: " + e.getMessage());
 					return "forward:/dy/dyWriteFormBodyProfile";
-				}	
+				}
 			}
-			
+
 			String savePath = folderName + storedFileName;
 			b_images.transferTo(new File(savePath));
 			int insertFileResult = dys.insertFileBodyProfile(boardFile);
 		}
 		// boardFile 서비스 메서드
-		
 
 		System.out.println("DYController insertResult -> " + insertResult);
 		if (insertResult > 0)
@@ -203,13 +202,13 @@ public class DYController {
 		return "dy/dyBodyProfile";
 	}
 
-	//헤더 통합검색 
+	// 헤더 통합검색
 	@GetMapping(value = "dyTotalSearch")
 	public String dyTotalSearch(Board board, Gym gym, GymBoard gymBoard, GymReview gymReview, Model model) {
 		System.out.println("DYController dyTotalSearch Start..");
 		SearchResults results = dys.totalSearch(board, gym, gymBoard, gymReview);
 		model.addAttribute("results", results);
-				
+
 		return "dy/dyTotalSearchResult";
 	}
 
@@ -240,6 +239,5 @@ public class DYController {
 //
 //		return "dyUploadResult";
 //	}
-
 
 }

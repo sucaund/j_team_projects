@@ -8,6 +8,8 @@ public interface DYBoardFileDao {
 
 	int insertFileBodyProfile(BoardFile boardFile);
 
+	List<BoardFile> selectBodyProfileFileList(int b_number);
+
 //	List<BoardFile> listFileBodyProfile(BoardFile boardFile);
 
 }

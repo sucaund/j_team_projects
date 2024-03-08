@@ -26,34 +26,35 @@
 			<h2>${board.b_title }</h2>
 			<!--  여기에 사진첨부 ${board.b_images}-->
 			<%-- 이미지를 여러 개 첨부할 수 있다고 가정하고 이미지 리스트를 반복하여 표시 --%>
-            <c:forEach var="imagePath" items="${board.b_images}">
-                <img src="<%=request.getContextPath()%>/upload/${imagePath}" alt="Body Profile Image">
-            </c:forEach>
+			<c:forEach items="${boardFile}" var="boardFile">
+        <img src="<%=request.getContextPath()%>/upload/${boardFile.bf_savedName}" alt="Board Image">
+   	 		</c:forEach>
 			<p>${board.b_content }</p>
 			<!-- 게시글 내용을 적절히 표시할 것(조회수, 추천수, 댓글) -->
 			<h4>댓글</h4>
-        <%-- 댓글 목록을 표시하는 부분 --%>
-        <ul>
-            <%-- 댓글을 반복문을 통해 표시 --%>
-            <c:forEach var="comment" items="${comment.comment_content}">
-                <li>${comment.comment_content}</li>
-            </c:forEach>
-        </ul>
-        <!-- 댓글 작성 폼 -->
-        <form action="addComment" method="post">
-            <textarea name="comment_content" rows="4" cols="50"></textarea><br>
-            <input type="hidden" name="b_number" value="${board.b_number}">
-            <input type="submit" value="댓글 작성">
-        </form>
+			<%-- 댓글 목록을 표시하는 부분 --%>
+			<ul>
+				<%-- 댓글을 반복문을 통해 표시 --%>
+				<c:forEach var="comment" items="${comment.comment_content}">
+					<li>${comment.comment_content}</li>
+				</c:forEach>
+			</ul>
+			<!-- 댓글 작성 폼 -->
+			<form action="addComment" method="post">
+				<textarea name="comment_content" rows="4" cols="50"></textarea>
+				<br> <input type="hidden" name="b_number"
+					value="${board.b_number}"> <input type="submit"
+					value="댓글 작성">
+			</form>
 			<button id="list-btn" onclick="location.href='listBodyProfile'">게시판
 				목록</button>
 			<button id="update-btn"
 				onclick="location.href='dyUpdateFormBodyProfile?b_number=${board.b_number}'">수정하기</button>
-				<button id="hit-btn">추천하기</button>
+			<button id="hit-btn">추천하기</button>
 			<button id="delete-btn"
 				onclick="location.href='dyDeleteBodyProfile?b_number=${board.b_number}'">게시글
 				삭제</button>
-		</div>		
+		</div>
 	</div>
 
 

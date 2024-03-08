@@ -199,7 +199,7 @@
 	
 	<select id="dySearchBoards" parameterType="Board" resultType="Board">
 		SELECT
-		b_title, b_content, b_readcount, b_recomm_count
+		b_number, b_title, b_content, b_readcount, b_recomm_count
 		FROM board
 		WHERE b_title LIKE '%' || #{totKeyword} || '%'
 		OR b_content LIKE '%' || #{totKeyword} || '%'

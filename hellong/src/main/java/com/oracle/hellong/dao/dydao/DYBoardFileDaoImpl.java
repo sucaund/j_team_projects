@@ -14,7 +14,17 @@ import lombok.RequiredArgsConstructor;
 public class DYBoardFileDaoImpl implements DYBoardFileDao {
 
 	private final SqlSession session;
+
+	// 게시판 업로드파일 조회
+	@Override
+	public List<BoardFile> selectBodyProfileFileList(int b_number) {
+		System.out.println("DYBoardFileDaoImpl select start...");
+		List<BoardFile> boardFileList = null;
+		boardFileList = session.selectList("dyBodyProfileFileList", b_number);
+		return boardFileList;
+	}
 	
+	// 게시판 파일 업로드
 	@Override
 	public int insertFileBodyProfile(BoardFile boardFile) {
 		int result = 0;
@@ -27,13 +37,4 @@ public class DYBoardFileDaoImpl implements DYBoardFileDao {
 		return result;
 	}
 
-//	@Override
-//	public List<BoardFile> listFileBodyProfile(BoardFile boardFile) {
-//		List<BoardFile> bodyProfileFileList = null;
-//		System.out.println("DYBoardFileDaoImpl FileList Start...");
-//		bodyProfileFileList = session.selectList("dyBodyProfileFileListAll", boardFile);
-//		
-//		return bodyProfileFileList;
-//	}
-	
 }

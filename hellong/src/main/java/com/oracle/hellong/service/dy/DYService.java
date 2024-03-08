@@ -34,6 +34,10 @@ public interface DYService {
 
 	SearchResults totalSearch(Board board, Gym gym, GymBoard gymBoard, GymReview gymReview);
 
+	List<BoardFile> selectBodyProfileFileList(int b_number);
+
+	
+
 
 
 //	List<BoardFile> listFileBodyProfile(BoardFile boardFile);

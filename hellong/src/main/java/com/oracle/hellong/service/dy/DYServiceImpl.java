@@ -60,6 +60,15 @@ public class DYServiceImpl implements DYService {
 		board = dybd.selectBodyProfile(b_number);
 		return board;
 	}
+	
+	@Override
+	public List<BoardFile> selectBodyProfileFileList(int b_number) {
+		List<BoardFile> boardFileList = null;
+		boardFileList = dybfd.selectBodyProfileFileList(b_number);
+		return boardFileList;
+	}
+
+
 
 	@Override
 	public int dyUpdateBodyProfile(Board board) {
@@ -142,4 +151,6 @@ public class DYServiceImpl implements DYService {
 		return result;
 	}
 
+	
+	
 }
