@@ -81,15 +81,14 @@ public class JmMemberDaoImpl implements JmMemberDao {
 
 
 	@Override
-	public Member jmDetailMember(int m_number) { //멤버 상세정보 detail 보는 목적
-		System.out.println("JmMemberDaoImpl jmDetailMember start..");
+	public Member jmGetMemberFromNumber(int m_number) { //가져온 m_number로 Member를 가져옴
+		System.out.println("JmMemberDaoImpl jmGetMemberFromNumber start..");
 		Member member = new Member();
 		try {
-			// mapper ID , Parameter
 			member = session.selectOne("jmMemberSelectOne", m_number);
-			System.out.println("JmMemberDaoImpl jmDetailMember getM_number->" + member.getM_number());
+			System.out.println("JmMemberDaoImpl jmGetMemberFromNumber getM_number->" + member.getM_number());
 		} catch (Exception e) {
-			System.out.println("JmMemberDaoImpl jmDetailMember Exception->" + e.getMessage());
+			System.out.println("JmMemberDaoImpl jmGetMemberFromNumber Exception->" + e.getMessage());
 		}
 		return member;
 	}

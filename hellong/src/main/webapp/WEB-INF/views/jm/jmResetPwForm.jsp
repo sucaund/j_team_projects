@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="header.jsp"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ include file="header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +24,7 @@
 		새 비밀번호
 		<br>
 			<div class="form-floating mb-3">
-				<input type="text"
+				<input type="password"
 					class="form-control" id="m_pw" placeholder="새 비밀번호 입력"
 					name="m_pw" oninput="checkPw()" autocomplete='off'>
 					<font color="red" id="failPwReg"
@@ -37,7 +37,7 @@
 		<br>
 		
 			<div class="form-floating mb-3">
-				<input type="text"
+				<input type="password"
 					class="form-control" id="m_pw_check" placeholder="비밀번호 확인"
 					name="m_pw_check" oninput="checkPw()" autocomplete='off'>
 		</div>

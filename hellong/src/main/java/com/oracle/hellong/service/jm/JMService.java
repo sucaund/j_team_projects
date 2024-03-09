@@ -16,7 +16,7 @@ public interface JMService {
 
 	List<Member> jmListMemberReal(Member member);
 
-	Member jmDetailMember(int m_number);
+	Member jmGetMemberFromNumber(int m_number);
 
 	int jmUpdateMember(Member member);
 

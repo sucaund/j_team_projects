@@ -101,10 +101,6 @@
 		SELECT m_number FROM member WHERE m_id= #{m_id} and m_email = #{m_email} and m_isdeleted=0
 	</select>
 	
-		
-	<delete id="jmDeleteMemberReal" parameterType="int">
-		delete from member where m_number=#{m_number}
-	</delete>
 	
 	<update id="jmDeleteMemberFake" parameterType="int">
 		UPDATE member SET

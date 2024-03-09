@@ -70,12 +70,11 @@ public class JMServiceImpl implements JMService {
 
 
 	@Override
-	//m_number를 기반으로 해당 유저의 상세 정보 보기 위함 (jmDetailMember에서 사용)
-	public Member jmDetailMember(int m_number) {
-		//유저이름 클릭시 상세정보 보여줌 -> 마이페이지, 회원정보 수정에 활용가능할듯
-		System.out.println("JmServiceImpl jmDetailMember...");
+	//m_number를 기반으로 Member 가져옴
+	public Member jmGetMemberFromNumber(int m_number) {
+		System.out.println("JmServiceImpl jmGetMemberFromNumber...");
 		Member member = null;
-		member = jmmd.jmDetailMember(m_number);
+		member = jmmd.jmGetMemberFromNumber(m_number);
 		return member;
 	}
 
