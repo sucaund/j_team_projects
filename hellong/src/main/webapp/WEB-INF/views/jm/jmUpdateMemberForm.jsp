@@ -15,8 +15,8 @@
 	  <input type="hidden" name="m_number" value="${member.m_number}">
 	  <input type="hidden" name="m_id" value="${member.m_id}">
 	  <table>  
-		<tr><th>멤버번호</th><td>${member.m_number}</td></tr> <!-- 수정불가 -->
-		<tr><th>아이디</th><td>${member.m_id}</td></tr> <!-- 수정불가 -->
+		<tr><th>멤버번호</th><td>${m_number}</td></tr> <!-- 수정불가 -->
+		<tr><th>아이디</th><td>${m_id}</td></tr> <!-- 수정불가 -->
 		<tr><th>비밀번호</th><td>										<!-- 끌어오기(기본값) -->
 		    <input type="text"   name="m_pw" required="required" value="${member.m_pw}" ></td></tr>
 		<tr><th>이름(닉네임)</th><td>

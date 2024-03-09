@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oracle.hellong.GymBoardFileMapper">
+	
+	<select id="gbf_idList" parameterType="int" resultType="GymBoardFile">
+		select * from gym_board_file
+		where g_id=#{g_id}
+	</select>
+
+
+	<insert id="saveGymFile" parameterType="GymBoardFile">
+		insert into gym_board_file(gbf_id,g_id,gbf_originalFileName,gbf_storedFileName) 
+								values(GYM_BOARD_FILE_SEQ.nextval,#{g_id},#{gbf_originalFileName},#{gbf_storedFileName})
+	</insert>
+	
+	<select id="getFilesByGymId" parameterType="int" resultType="GymBoardFile">
+		select gbf_storedfilename from gym_board_file where g_id=#{g_id}
+	</select>
+
+	<delete id="deleteGymFile" parameterType="int">
+		delete from gym_board_file where g_id=#{g_id}
+	</delete>
+	
+	<select id="JHgymBoardFileList"  resultType="GymBoardFile">
+		select *from gym_board_file
+	
+	</select>
+	
+	<select id="gymBoardFileListRead" parameterType="int" resultType="GymBoardFile">
+		select * 
+		from gym_board_file
+		where g_id = #{g_id} 
+	</select>
+
+
+
+</mapper>

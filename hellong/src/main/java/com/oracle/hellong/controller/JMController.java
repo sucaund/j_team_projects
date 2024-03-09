@@ -22,6 +22,7 @@ import com.oracle.hellong.model.Member;
 import com.oracle.hellong.service.jm.JMService;
 import com.oracle.hellong.service.jm.JmPaging;
 
+import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -317,13 +318,13 @@ public class JMController {
 		if (result == 1) { // 아이디, 비번 모두 일치 시...
 			System.out.println("jmController jmLoginCheck 로그인 성공");
 			member = jm.jmGetMemberFromId(m_id); // m_id 같은 member 전체 가져옴
-//			session.setAttribute("member", member);
-			session.setAttribute("m_id", member.getM_id());
-			System.out.println("member.getM_id()" + member.getM_id());
 			session.setAttribute("m_number", member.getM_number());
 			System.out.println("member.getM_number()" + member.getM_number());
+			session.setAttribute("m_id", member.getM_id());
+			System.out.println("member.getM_id()" + member.getM_id());
 			session.setAttribute("m_name", member.getM_name());
 			System.out.println("member.getM_name()" + member.getM_name());
+			
 			session.setAttribute("member_common_bcd", member.getCommon_bcd());
 			System.out.println("member_common_bcd" + member.getCommon_bcd());
 			session.setAttribute("member_common_mcd", member.getCommon_mcd());
@@ -356,8 +357,21 @@ public class JMController {
 
 	// 마이페이지
 	@RequestMapping("jmMyPage")
-	public String jmMyPage() {
+	public String jmMyPage(HttpSession session, Model model) {
+		if(session.getAttribute("m_id")!=null) { //세션에 등록되어있을때=로그인했을때
+			Member member=new Member();
+			member=jm.jmGetMemberFromId("m_id");
+			//member에서 등록헬스장, 찜한 헬스장 몇개, 현재 서비스, 현재 서비스 기간, 현재 서비스 가격,
+			// 작성글 몇개, 스크랩 몇개, 현재 포인트, 결제내역 가져오고
+			//모두 model로 보낸뒤
+			//나머지는 페이지에서 링크로..
+			//null일 때 msg같은거 보냄 
+			//몇개씩 보내는건 ListMember 참고해서 보내면 될 것 같은데. List 보내는 식
+//			session.getAttribute(null)
 		return "jm/jmMyPage";
+		} else { //로그인 되지 않았을 때
+			return "forward:jmLoginForm";
+		}
 	}
 
 	// 아이디 찾기 폼

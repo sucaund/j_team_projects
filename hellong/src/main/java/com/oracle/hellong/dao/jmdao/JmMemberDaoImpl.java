@@ -215,7 +215,7 @@ public class JmMemberDaoImpl implements JmMemberDao {
 				id = session.selectOne("jmGetIdFromMail", mail);
 				System.out.println("JmMemberDaoImpl jmGetIdFromMail id->" + id);
 			} catch (Exception e) {
-				System.out.println("해당 이메일로 가입된 계정(아이디) 없읍");
+				System.out.println("해당 이메일로 가입된 계정(아이디) 없음");
 			}
 			return id;
 		}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oracle.hellong.GSMapper">
+	<select id="totalService" parameterType="int" resultType="int">
+		SELECT Count(*) FROM G_S where g_id = #{g_id}
+	</select>
+
+	<select id="serviceList" parameterType="GS" resultType="GS">
+		select*
+		from
+		(
+			select rownum rn, a.*
+			from
+				(select*from G_S where g_id = #{g_id} order by s_number desc)a
+		)
+		where rn between #{start} and #{end}
+		
+	</select>
+	
+	<insert id="createService" parameterType="GS">
+		insert into G_S(g_id, s_number, s_name, s_detail, s_price, s_period, s_matters)
+					values(#{g_id},s_number_seq.nextval,#{s_name},#{s_detail},#{s_price},#{s_period},#{s_matters})
+	
+	</insert>
+	
+	<select id="fetchServiceDetails" parameterType="int" resultType="GS">
+		select * from g_s where s_number=#{s_number}
+	</select>
+	
+	
+	<update id="updateService" parameterType="GS">
+		update G_S 
+		set s_name=#{s_name},s_detail=#{s_detail},s_price=#{s_price},s_period=#{s_period},s_matters=#{s_matters}
+		where s_number=#{s_number}
+	</update>
+	
+	
+	<delete id="deleteService" parameterType="int">
+		delete from G_S where s_number = #{s_number}
+	</delete>
+	
+</mapper>
