@@ -206,7 +206,6 @@
 									}
 								});
 							});
-			
 			});
 	//=========================헬스장 권리 변경==================================
 	 $(document).on('click','#OpenGym', function() {
@@ -350,6 +349,21 @@
 	        });
 	    }
 	});
+	//=========================신고글 삭제==================================
+	function deleteReport(bNumber) {
+    if(confirm('정말로 삭제하시겠습니까?')) {
+        document.getElementById('deleteReportId').value = bNumber; // 신고 ID 설정
+        document.getElementById('deleteReportForm').submit(); // 폼 제출
+    }
+	}
+	//=========================문의글 관리창에서만 지우기==================================
+    function deleteThisTable(bNumber) {
+    if(confirm('정말로 삭제하시겠습니까?')) {
+        document.getElementById('ThisTableId').value = bNumber; // 신고 ID 설정
+        document.getElementById('ThisTableForm').submit(); // 폼 제출
+    }
+	}
+	
 	
 </script>
 
@@ -456,11 +470,17 @@
 		</tbody>
 	</table>
 	<!-- ===================================신고관리======================================= -->
-	<table class="scrollable-table" id=scrollable-gym>
+		
+	<form id="deleteReportForm" action="/delReport" method="post" style="display: none;">
+    	<input type="hidden" name="b_number" id="deleteReportId">
+	</form>
+	
+	<h2>신고관리</h2>
+	<table class="scrollable-table" id=scrollable-Report>
 		<thead>
 			<tr>
 				<th>신고사유</th>
-				<th>글제목</th>
+				<th>글제목(클릭시 링크이동 필요"<"" a")</th>
 				<th>신고일자</th>
 				<th>신고누적횟수</th>
 				<th>삭제</th>
@@ -468,30 +488,69 @@
 		</thead>
 		<tbody>
 			<tr>
-				<c:forEach var="board" items="${allGym}">
+				<c:forEach var="report" items="${allReport}">
 					<tr>
-						<td>${gym.g_name}</td>
-						<td>${gym.m_number }</td>
-						<td>${gym.g_regdate }</td>
 						<td>
-						<c:choose>
-							<c:when test="${gym.common_mcd == 10}">
-                   				 대기
+							<c:choose>
+								<c:when test="${report.common_mcd == 10}">
+                   				 		 광고
                						</c:when>
-							<c:when test="${gym.common_mcd == 20}">
-                   				 승인
+								<c:when test="${report.common_mcd == 20}">
+                   						 욕설
               						</c:when>
-							<c:when test="${gym.common_mcd == 30}">
-                   			 	 노출
+								<c:when test="${report.common_mcd == 30}">
+                   			 			 분쟁
                 					</c:when>
-							<c:otherwise>
-                    			알 수 없음
-                			</c:otherwise>
-						</c:choose></td>
+								<c:otherwise>
+                    					알 수 없음
+                				</c:otherwise>
+							</c:choose>
+							</td>
+						<td>${report.b_title }</td>
+						<td>${report.report_date }</td>
+						<td>${report.report_count }</td>
+						<td>${report.b_number}</td>
 						
-						<td><button type="button" class="btn btn-primary GymEdit-btn"
-							data-bs-toggle="modal" data-bs-target="#Gym_Content"
-							data-memberid="${gym.g_id}">헬스장 정보</button></td>
+						
+						<td><button type="button" class="btn btn-primary"
+							onclick="deleteReport(${report.b_number})">신고글 삭제</button></td>
+				</c:forEach>
+
+		</tbody>
+	</table>
+	
+	<!-- =====================문의글 관리======================= -->
+	
+	
+	<form id="ThisTableForm" action="/delThisTable" method="post" style="display: none;">
+    	<input type="hidden" name="b_number" id="ThisTableId">
+	</form>
+	
+	<h2>문의글</h2>
+	<table class="scrollable-table" id=scrollable-Report>
+		<thead>
+			<tr>
+				<th>글제목</th>
+				<th>작성일</th>
+				<th>작성자</th>
+				<th>댓글</th>
+				<th>목록에서 삭제</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<c:forEach var="QnA" items="${allQnA}">
+					<tr>
+						<td><a href="QuestionContent?B_NUMBER=${QnA.b_number}">${QnA.b_title }</td>
+						<td>${QnA.b_regdate }</td>
+						<td>${QnA.m_number }</td>
+						<td>${commentCounts[QnA.b_number]}</td>
+						
+						<td>
+							<button type="button" class="btn btn-primary"
+							onclick="deleteThisTable(${QnA.b_number})">목록에서 삭제
+							</button>
+						</td>
 				</c:forEach>
 
 		</tbody>

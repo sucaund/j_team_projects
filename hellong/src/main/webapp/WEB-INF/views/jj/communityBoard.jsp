@@ -19,7 +19,7 @@
 	</ul>
 	<table style="text-align:center">
 		<tr>
-			<th>번호</th><th>카테고리</th><th>제목</th><th>작성자</th><th>작성일</th><th>추천수</th><th>조회수</th>
+			<th>번호</th><th>카테고리</th><th>제목</th><th>작성자</th><th>작성일</th><th>추천수</th><th>신고수</th><th>조회수</th>
 		</tr>
 		<c:forEach var="board" items="${listBoard}">
 			<tr>
@@ -33,10 +33,11 @@
 						<c:otherwise>기타</c:otherwise>
 					</c:choose>
 				</td>
-				<td><a href="detailBoard?b_number=${board.b_number}" >${board.b_title}</a></td> 
+				<td><a href="detailBoard?b_number=${board.b_number}">${board.b_title}</a></td>
 				<td>${board.m_name}</td>
 				<td>${board.b_regdate}</td>
  				<td>${board.b_recomm_count}</td>
+ 				<td>${board.b_isreported}</td>
 				<td>${board.b_readcount}</td>
 			</tr>
 			<c:set var="num" value="${num - 1 }"></c:set>
@@ -55,10 +56,16 @@
 	</div>
 	<p>
 	<div style="text-align:center">
-	  <form class="d-inline-flex p-2" role="search">
-	    <input class="form-control" id="ex3" type="search" placeholder="검색어를 입력하세요" aria-label="Search">
-	    <button class="btn btn-primary" type="submit">검색</button>
-	  </form>
+		<form action="jjBoardSearch" method="get">
+			<select name="search">
+				<option value="all">제목+내용</option>
+				<option value="title">제목</option>
+				<option value="name">작성자</option>
+				<option value="content">내용</option>
+			</select>
+			<input type="text" name="keyword" placeholder="게시글 검색">
+			<input type="submit" value="검색">
+		</form>
 	</div>
 	<p>
 	<div style="text-align:center">

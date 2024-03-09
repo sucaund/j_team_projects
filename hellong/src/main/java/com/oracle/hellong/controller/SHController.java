@@ -315,18 +315,29 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 	
 	
 //메인 인덱스에서 관리자 창으로 넘어가기
-	@RequestMapping("/manger")
+	@RequestMapping("/manager")
 	public String manger(Model model) {
 		System.out.println("SHController manger start...");
-		List<Member> allMember =sh.getAllMember();
-		List<Gym> allGym =sh.getAllGym();
-		//List<Report> allReport =sh.getAllReport();
-		
-		
+		List<Member> allMember =sh.getAllMember();//모든멤버
+		List<Gym> allGym =sh.getAllGym();//모든 헬스장
+		List<Report> allReport = sh.getAllReport();//신고글
+		System.out.println("SHController manger allReport"+"  "+allReport);
+
+		List<Board> allQnA = sh.getallQnA();//문의글
+		System.out.println("SHController manger allQnA"+"  "+allQnA);
+
+		Map<Integer, Integer> commentCounts = sh.getCommentCountsForPosts(allQnA);
+
 		model.addAttribute("allMember", allMember);
 		model.addAttribute("allGym", allGym);
+		model.addAttribute("allReport", allReport);
+		model.addAttribute("allQnA", allQnA);
+		model.addAttribute("commentCounts", commentCounts);
 		return "SH-Views/manger";
 	}
+//문의글 에 필요한 객체들을 저장해놓은  private 메소드
+	
+	
 //모달에 회원정보저장
 	@ResponseBody
 	@RequestMapping("getMemberDetails")
@@ -425,16 +436,42 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		
 		return gym;
 	}
+//신고글 삭제	
+	@RequestMapping("/delReport")
+	public String delReport(@RequestParam("b_number") int b_number) {
+		System.out.println("SHController delReport start...");
+		
+		sh.delReport(b_number);
+		System.out.println("SHController delReport END...");
+
+		
+		return "redirect:manager";
+	}
+	
+	
+	//문의글 목록에서 삭제
+	
+	@RequestMapping("/delThisTable")
+	public String delThisTable(@RequestParam("b_number") int b_number) {
+		System.out.println("SHController delReport start...");
+		
+		sh.delThisTable(b_number);
+		System.out.println("SHController delReport END...");
+		
+		
+		return "redirect:manager";
+	}
+	
+	//===============================맵 검색=================================
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
+	@RequestMapping("/gymMap")
+	public String gymMap() {
+		System.out.println("SHController gymMap start...");
+		return "SH-Views/gymMap";
+
+	}
 	
 	
 	

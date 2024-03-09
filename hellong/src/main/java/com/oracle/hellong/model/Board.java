@@ -13,6 +13,7 @@ public class Board { //게시판 게시물 board
 	private int 	b_readcount; //조회수
 	private String  b_regdate; //생성일자(등록일자)
 	private String  b_update; //수정일자
+	private int report_count; //신고수
     private int 	b_isreported; //신고여부
     private int 	b_recomm_count; //추천수
     private int 	b_isrecomm; //추천여부
@@ -23,9 +24,11 @@ public class Board { //게시판 게시물 board
 
     // 조회용
     private String 	search;        		private String 	keyword;
-    private String 	pageNum;  
+    private String 	pageNum;  			private String jjcategory;
     private int 	start;              private int 	end;
   	private int 	prevPage;			private int 	nextPage;
+
+  	private int report_id;// report
 
   	// Page 정보
     private String currentPage;

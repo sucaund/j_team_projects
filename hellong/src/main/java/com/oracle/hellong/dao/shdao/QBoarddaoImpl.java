@@ -15,6 +15,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.Report;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -283,4 +284,59 @@ public class QBoarddaoImpl implements QBoarddao {
 		}
 		
 	}
+//신고글 가져오기
+	@Override
+	public List<Report> getAllReport() {
+		List<Report> getAllReport = null;
+
+		try {
+			getAllReport = session.selectList("getAllReport");
+			
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl getAllReport e.getMessage()->" + e.getMessage());
+		}
+		return getAllReport;
+	}
+//신고글 삭제하기
+	@Override
+	public void delReport(int bId) {
+		System.out.println("QBoarddaoImpl delReport delete_que ->" + bId);
+		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+		try {
+			session.delete("SCRAP_delete", bId);
+			session.delete("REPORT_delete", bId);
+			session.delete("COMM_delete", bId);
+			session.delete("que_delete", bId);
+			transactionManager.commit(txStatus);
+
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl delete_que e.getMessage()->" + e.getMessage());
+			transactionManager.rollback(txStatus);
+		}
+	}
+//문의글 가져오기
+	@Override
+	public List<Board> getallQnA() {
+		List<Board> getallQnA=null;
+		try {
+			getallQnA =session.selectList("SHgetallQnA");
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl getallQnA e.getMessage()->" + e.getMessage());
+
+		}
+		return getallQnA;
+	}
+//문의글 테이블에서만 삭제
+	@Override
+	public void delThisTable(int b_number) {
+
+		try {
+			session.update("delThisTable",b_number);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl delThisTable e.getMessage()->" + e.getMessage());
+
+		}
+	}
+
+
 }

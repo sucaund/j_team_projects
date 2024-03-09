@@ -6,6 +6,28 @@
 <head>
 	<meta charset="UTF-8">
 	<title>글쓰기</title>
+<!-- <script type="text/javascript">
+function changeCategory() {
+	const category = document.getElementById("jjcategory").value;
+	const commonBcd = document.getElementById("common_bcd");
+	const commonMcd = document.getElementById("common_mcd");
+	
+	switch (category) {
+		case "jjfree":
+			commonBcd.value = 200;
+			commonMcd.value = 10;
+			break;
+		case "jjnotice";
+			commonBcd.value = 200;
+			commonMcd.value = 110;
+			break;
+		case "jjquestion";
+			commonBcd.value = 200;
+			commonMcd.value = 120;
+			break;
+	}
+}
+</script> -->
 </head>
 <body>
 	<h1>글쓰기</h1>
@@ -13,7 +35,15 @@
 		<table>
 			<tr>
 				<td>카테고리</td>
-				<td></td>
+				<td>
+					<select name="jjcategory">
+						<option value="999">글유형</option>
+						<option value="jjfree">자유글</option>
+						<option value="jjbody">바디프로필</option>
+						<option value="jjnotice">공지</option>
+						<option value="jjquestion">문의</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td>제목</td>

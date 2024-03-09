@@ -23,6 +23,7 @@ import com.oracle.hellong.dao.shdao.QBoarddao;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.Report;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -149,7 +150,10 @@ public class SHServiceImpl implements SHService {
 //댓글수 확인
 	@Override
 	public Map<Integer, Integer> getCommentCountsForPosts(List<Board> listBoard) {
-		 Map<Integer, Integer> commentCounts = new HashMap<>();
+		System.out.println("SHServiceImpl getCommentCountsForPosts Start...");
+		System.out.println("SHServiceImpl getCommentCountsForPosts listBoard->"+listBoard);
+
+		Map<Integer, Integer> commentCounts = new HashMap<>();
 		    for (Board board : listBoard) {
 		        int bNumber = board.getB_number();
 		        int count = qd.countCommentsByBNumber(bNumber);
@@ -170,6 +174,15 @@ public class SHServiceImpl implements SHService {
 		List<Gym> getAllGym= qd.getAllGym();
 		return getAllGym;
 	}
+	// 신고 정보 가져오기
+	
+	@Override
+	public List<Report> getAllReport() {
+		List<Report> AllReport = qd.getAllReport();
+		return AllReport;
+	}
+	
+	
 //모달에 멤버 정보를 추가
 	@Override
 	public Member getMember(int id) {
@@ -250,6 +263,30 @@ public class SHServiceImpl implements SHService {
 		qd.updateOpenGym(g_id,common_mcd);
 		
 	}
+//신고글 삭제
+	@Override
+	public void delReport(int b_number) {
+		System.out.println("SHServiceImpl delReport b_number"+b_number);
+		qd.delReport(b_number);
+	}
+	//모든 문의글 가져오기
+		@Override
+		public List<Board> getallQnA() {
+			System.out.println("SHServiceImpl getallQnA start...");
+			List<Board> boardList = null;
+			boardList = qd.getallQnA();
+			System.out.println("SHServiceImpl boardList size-->" + boardList.size());
+			return boardList;
+		}
+
+	//문의글 테이블에서만 삭제
+		@Override
+		public void delThisTable(int b_number) {
+			System.out.println("SHServiceImpl delThisTable b_number"+b_number);
+			qd.delThisTable(b_number);
+
+		}
+
 	
 
 }

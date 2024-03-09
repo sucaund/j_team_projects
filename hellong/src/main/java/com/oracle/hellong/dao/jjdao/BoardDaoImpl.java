@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Report;
 
 import lombok.RequiredArgsConstructor;
 
@@ -89,8 +90,11 @@ public class BoardDaoImpl implements BoardDao {
 	public int insertBoard(Board board) {
 		int result = 0;
 		System.out.println("BoardDaoImpl insertBoard Start...");
+		System.out.println("BoardDaoImpl insertBoard board->"+board);
+
 		try {
 			result = session.insert("jjinsertBoard", board);
+			System.out.println(result);
 		} catch (Exception e) {
 			System.out.println("BoardDaoImpl insertBoard Exception--->" + e.getMessage());
 		}
@@ -124,19 +128,51 @@ public class BoardDaoImpl implements BoardDao {
 		}
 		return result;
 	}
+
+	@Override
+	public int totalSearchCnt(Board board) {
+		int totalSearchCnt = 0;
+		System.out.println("BoardDaoImpl totalSearchCnt Start...");
+		
+		try {
+			totalSearchCnt = session.selectOne("totalSearchCnt", board);
+			System.out.println("BoardDaoImpl totalSearchCnt ->" + totalSearchCnt);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl totalSearchCnt Exception ->" + e.getMessage());
+		}
+		return totalSearchCnt;
+	}
 	
 	@Override
 	public List<Board> boardSearchList(Board board) {
-		System.out.println("BoardDaoImpl boardSearchList Start");
 		List<Board> boardSearchList = null;
-		System.out.println("BoardDaoImpl boardSearchList board->" + board);
+		System.out.println("BoardDaoImpl boardSearchList Start");
+		System.out.println("BoardDaoImpl boardSearchList board->"+board);
 		try {
-			boardSearchList = session.selectList("jjBoardSearch", board);
-			System.out.println("BoardDaoImpl boardSearchList.size()->"+boardSearchList.size());
+			boardSearchList = session.selectList("jjBoardSearchList", board);
+			System.out.println("BoardDaoImpl boardSearchList->" + boardSearchList);
 		} catch (Exception e) {
 			System.out.println("BoardDaoImpl boardSearchList Exception ->" + e.getMessage());
 		}
 		return boardSearchList;
 	}
 
+	@Override
+	public int jjReported(Board board) {
+		System.out.println("BoardDaoImpl jjReported Start...");
+		int result = 0;
+		System.out.println("BoardDaoImpl jjReported board->" + board);
+		try {
+			result = session.update("jjUpReported", board.getB_number());
+			System.out.println("BoardDaoImpl jjReported result->"+result);
+			int insertReported = session.insert("jjInReported", board);
+			System.out.println("BoardDaoImpl jjReported insertReported->" + insertReported);
+		} catch(Exception e) {
+			System.out.println("BoardDaoImpl jjReported Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+
+	
 }

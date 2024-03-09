@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 public class Report { //신고 report
 	private int 	b_number; // 게시글id f pk p nn
+	private String b_title; //신고글 제목
+	private int report_count; //신고횟수
 	private int 	report_id; // 신고 id pk nn
 	private int 	m_number; // 멤버번호 f
 	private int 	common_bcd; // 신고유형대분류 400 f
