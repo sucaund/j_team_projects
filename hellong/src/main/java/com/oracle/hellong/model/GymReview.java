@@ -16,4 +16,6 @@ public class GymReview { //체육관 리뷰 gym_review
 	private String 	review_comment; // 점장댓글
 	private int 	review_star; // 별점
        
+	// 통합검색용
+	private String totKeyword;
 }

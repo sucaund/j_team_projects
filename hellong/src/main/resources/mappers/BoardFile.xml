@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.BoardFileMapper">
+
+	 <!-- <select id="dyBodyProfileFileListAll" parameterType="BoardFile"
+		resultType="BoardFile">
+		
+	</select>  -->
+	
+	<!-- <select id="dyBoardFileSelect" parameterType="int" resultType="BoardFile">
+		SELECT * FROM board_file WHERE b_number = #{b_number}
+	</select> -->
+
+	<select id="dyBodyProfileFileList" parameterType="int" resultType="BoardFile">
+		SELECT * FROM board_file WHERE b_number = #{b_number}
+	</select>
+
+	<insert id="dyInsertFileBodyProfile" parameterType="BoardFile">
+		<selectKey keyProperty="bf_id" resultType="int"
+			order="BEFORE">
+			SELECT NVL(MAX(bf_id), 0) + 1 FROM board_file
+		</selectKey>
+		INSERT INTO board_file ( bf_id, b_number, bf_originalName, bf_savedName )
+		values( #{bf_id}, #{b_number}, #{bf_originalName}, #{bf_savedName} )
+	</insert>
 </mapper>

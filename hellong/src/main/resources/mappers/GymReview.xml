@@ -2,4 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GymReviewMapper">
 
+<select id="dySearchGymReviews" parameterType="GymReview" resultType="GymReview">
+		SELECT
+		review_title, review_content, review_star
+		FROM gym_review
+		WHERE review_title LIKE '%' || #{totKeyword} || '%'
+		OR review_content LIKE '%' || #{totKeyword} || '%'
+	</select>
+	
 </mapper>

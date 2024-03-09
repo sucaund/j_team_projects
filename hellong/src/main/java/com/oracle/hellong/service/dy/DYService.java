@@ -3,6 +3,12 @@ package com.oracle.hellong.service.dy;
 import java.util.List;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.BoardFile;
+import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymBoard;
+import com.oracle.hellong.model.GymReview;
+import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.SearchResults;
 
 public interface DYService {
 
@@ -23,6 +29,14 @@ public interface DYService {
 	int condTotalBodyProfile(Board board);
 
 	List<Board> listSearchBoard(Board board);
+
+	int insertFileBodyProfile(BoardFile boardFile);
+
+	SearchResults totalSearch(Board board, Gym gym, GymBoard gymBoard, GymReview gymReview);
+
+	List<BoardFile> selectBodyProfileFileList(int b_number);
+
+//	List<BoardFile> listFileBodyProfile(BoardFile boardFile);
 
 
 

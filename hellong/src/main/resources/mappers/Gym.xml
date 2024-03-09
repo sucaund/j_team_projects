@@ -47,6 +47,14 @@
 		FROM GYM 
 	</select>
 	
+	<select id="dySearchGyms" parameterType="Gym" resultType="Gym">
+		SELECT
+		g_name, g_address, g_tel
+		FROM gym
+		WHERE g_name LIKE '%' || #{totKeyword} || '%'
+		OR g_address LIKE '%' || #{totKeyword} || '%'
+	</select>
+	
 		<select id="getGym" parameterType="int" resultType="Gym">
 		SELECT*
 		FROM GYM WHERE G_ID = #{g_id}

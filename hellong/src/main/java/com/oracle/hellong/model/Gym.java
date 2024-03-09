@@ -25,5 +25,8 @@ public class Gym { //체육관 gym
    	
    	//page 정보
    	private String currentPage;
+   	
+	// 통합검색용
+	private String totKeyword;
 
 }

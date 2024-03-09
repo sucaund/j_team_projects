@@ -130,14 +130,14 @@ public class JHController { ////
 	@GetMapping(value = "/GymPostList")
 	public String gymPostList(GymBoard gymboard,GymBoardFile gymBoardFile ,Model model) {
 		List <GymBoard> gymBoardList = jh.gymBoardList();
-		List <GymBoardJoin> gymAddress = jh.gymAddress();
+		List <GymBoardJoin> gymImformation = jh.gymAddress();
 		System.out.println(gymBoardList);
 		System.out.println(gymBoardFile);
-		/* List <GymBoardFile> gymBoardFileList = jh.gymBoardFileList(); */
-		/* System.out.println(gymBoardFileList); */
-		model.addAttribute("gymAddress",gymAddress);
+		List <GymBoardFile> gymBoardFileList = jh.gymBoardFileList(); 
+		System.out.println(gymBoardFileList); 
+		model.addAttribute("gymImformation",gymImformation);
 		model.addAttribute("gymBoardList",gymBoardList);
-		/* model.addAttribute("gymBoardFileList",gymBoardFileList); */
+		model.addAttribute("gymBoardFileList",gymBoardFileList); 
 		return "jh/gymPostList";
 	}
 	
@@ -182,7 +182,7 @@ public class JHController { ////
 	}
 	
 	@PostMapping(value = "/jh/saveTrainerForm")
-	public String trainerSave(Gym gym,Trainer trainer, Model model) throws IOException{
+	public String trainerSave(Gym gym,Trainer trainer, Model model) throws IOException {
 		System.out.println(gym.getG_id());
 		int saveTrainer = jh.saveTrainer(trainer);
 		List<Trainer> trainerId = jh.gymIdTrainerId(trainer);

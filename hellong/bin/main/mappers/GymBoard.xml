@@ -39,6 +39,15 @@
 		select * from gym_board
 	</select>
 	
+	<select id="dySearchGymBoards" parameterType="GymBoard" resultType="GymBoard">
+		SELECT
+		gb_title, gb_machine, gb_amen, gb_map
+		FROM gym_board
+		WHERE gb_title LIKE '%' || #{totKeyword} || '%'
+		OR gb_machine LIKE '%' || #{totKeyword} || '%'
+		OR gb_amen LIKE '%' || #{totKeyword} || '%'
+		OR gb_map LIKE '%' || #{totKeyword} || '%'
+	</select>
 
 
 </mapper>

@@ -24,6 +24,8 @@ public interface DYBoardDao {
 
 	List<Board> boardSearchList(Board board);
 
+	List<Board> searchBoards(Board board);
+
 
 
 }
