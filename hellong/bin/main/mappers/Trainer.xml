@@ -33,5 +33,23 @@
 		and t_id = #{t_id}
 	</select>
 	
+	<select id="getTrainerById" parameterType="int" resultType="Trainer">
+		select * from trainer
+		where t_id = #{t_id}
+	</select>
+	
+	<update id="updateTrainer" parameterType="Trainer">
+		update trainer 
+		set t_name=#{t_name}, t_gender=#{t_gender}, t_age=#{t_age}, t_regdate=#{t_regdate}, t_tel=#{t_tel}, t_address=#{t_address},
+			t_sal=#{t_sal}, t_matters=#{t_matters}, t_email=#{t_email}, t_qualifications=#{t_qualifications}, t_experience=#{t_experience},
+			t_photoname=#{t_photoname}, t_photostoredname=#{t_photostoredname}
+		where t_id=#{t_id}
+	</update>
+	
+	
+	<delete id="getDeleteTrainer" parameterType="int">
+		delete from trainer where t_id = #{t_id}
+	</delete>
+	
 	
 </mapper>

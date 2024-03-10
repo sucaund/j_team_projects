@@ -14,17 +14,14 @@
     <!-- Custom CSS -->
     <style>
         .short-column {
-            width: 8%; /* 등록번호 열의 가로 길이를 줄임 */
+            width: 8%; 
         }
         .long-column {
-            width: 30%; /* 이메일 열의 가로 길이를 늘림 */
+            width: 30%; 
         }
         
-
-        
-
         /* 모달 스타일 */
-       .modal {
+        .modal {
             display: none; 
             position: fixed; 
             z-index: 1; 
@@ -37,21 +34,25 @@
         }
 
         .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            border-radius: 10px; /* Add border radius for rounded corners */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
-        }
+	    	background-color: #fefefe;
+		    position: absolute;
+		    left: 50%;
+		    top: 50%;
+		    transform: translate(-50%, -50%);
+		    padding: 20px;
+		    border: 1px solid #888;
+		    border-radius: 10px; 
+		    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		    max-width: 90%; /* 최대 너비 지정 */
+		    width: auto; /* 너비 자동으로 조절 */
+		}
 
         .modal-content img {
             display: block;
             margin: 0 auto;
             border-radius: 10px;
-            width: 150px; /* Adjust image width */
-            height: 150px; /* Adjust image height */
+            width: 300px; /* Adjust image width */
+            height: 300px; /* Adjust image height */
             object-fit: cover; /* Maintain aspect ratio */
         }
 
@@ -73,20 +74,23 @@
         .resume-table {
             width: 100%;
             margin-top: 20px;
+            text-align: center; /* 가운데 정렬 */
         }
 
         .resume-table th,
         .resume-table td {
             padding: 10px;
             border-bottom: 1px solid #ddd;
-            text-align: left;
+            text-align: center;
         }
 
         .resume-table th {
-            background-color: #f2f2f2;
+            background-color: #3498db; /* 헤더 배경색 변경 */
+            color: white; /* 헤더 글자색 변경 */
+            border: 1px solid #ddd; /* 테두리 추가 */
         }
-        
-                 /* 홀수행 배경색 */
+
+        /* 홀수행 배경색 */
         tbody tr:nth-child(odd) {
             background-color: #f3f3f3;
         }
@@ -94,6 +98,11 @@
         /* 짝수행 배경색 */
         tbody tr:nth-child(even) {
             background-color: #ffffff;
+        }
+
+        /* 열 구분을 위한 보더 */
+        .resume-table td:not(:last-child) {
+            border-right: 1px solid #ddd;
         }
     </style>
 </head>
@@ -116,36 +125,36 @@
         </div>
     </div>
 
-   <table class="w-full mb-8 border">
+   <table class="w-full mb-8 border resume-table">
         <thead>
             <tr>
-                <th class="py-2 px-4 bg-gray-200 short-column">등록번호</th>
-                <th class="py-2 px-4 bg-gray-200">이름</th>
-                <th class="py-2 px-4 bg-gray-200">나이</th>
-                <th class="py-2 px-4 bg-gray-200">전화번호</th>
-                <th class="py-2 px-4 bg-gray-200 long-column">이메일</th>
-                <th class="py-2 px-4 bg-gray-200">상세정보</th>
-                <th class="py-2 px-4 bg-gray-200">삭제</th>
+                <th class="py-2 px-4 bg-indigo-600 short-column">등록번호</th> <!-- 헤더 배경색 및 글자색 변경 -->
+                <th class="py-2 px-4 bg-indigo-600">이름</th>
+                <th class="py-2 px-4 bg-indigo-600">나이</th>
+                <th class="py-2 px-4 bg-indigo-600">전화번호</th>
+                <th class="py-2 px-4 bg-indigo-600 long-column">이메일</th>
+                <th class="py-2 px-4 bg-indigo-600">상세정보</th>
+                <th class="py-2 px-4 bg-indigo-600">삭제</th>
             </tr>
         </thead>
         <tbody>
             <c:set var="num" value="${page.total - page.start + 1}"></c:set>
             <c:forEach var="trainer" items="${trainerList}">
                 <tr>
-                    <td class="py-2 px-4 text-center short-column">${num}</td>
-                    <td class="py-2 px-4 text-center">${trainer.t_name}</td>
-                    <td class="py-2 px-4 text-center">${trainer.t_age}</td>
-                    <td class="py-2 px-4 text-center">${trainer.t_tel}</td>
-                    <td class="py-2 px-4 text-center long-column">${trainer.t_email}</td>
-                    <td class="py-2 px-4 text-center">
+       				<td class="py-2 px-4" data-trainer-id="${trainer.t_id}">${num}</td>
+                    <td class="py-2 px-4">${trainer.t_name}</td>
+                    <td class="py-2 px-4">${trainer.t_age}</td>
+                    <td class="py-2 px-4">${trainer.t_tel}</td>
+                    <td class="py-2 px-4">${trainer.t_email}</td>
+                    <td class="py-2 px-4">
                         <div class="flex justify-center">
                             <a href="#" class="text-blue-500 hover:underline detail-icon"><i class="fas fa-info-circle"></i> 상세정보</a>
                         </div>
                     </td>
-                    <td class="py-2 px-4 text-center">
-                        <div class="flex justify-center">
-                            <a href="trainerDelete?trainer_id=${trainer.t_id}" class="text-red-500 hover:underline"><i class="fas fa-trash-alt"></i> 삭제</a>
-                        </div>
+                    <td class="py-2 px-4">
+					    <div class="flex justify-center">
+					        <a href="#" class="text-red-500 hover:underline delete-btn"><i class="fas fa-trash-alt"></i> 삭제</a>
+					    </div>
                     </td>
                     <c:set var="num" value="${num - 1}"></c:set>
                 </tr>
@@ -175,83 +184,146 @@
             </c:if>
         </div>
     </div>
+    
+    
 </div>
 
 
-<<div id="myModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <!-- Trainer Information Form -->
-    <form class="w-full max-w-lg mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <!-- Trainer Image -->
-          <img src="path_to_trainer_image" alt="Trainer Image" class="rounded-full mx-auto mb-4">
-        </div>
-        <div class="flex flex-col">
-          <!-- Trainer Information -->
-          <div class="mb-4">
-            <label for="trainerName" class="block text-gray-700 font-bold mb-2">이름:</label>
-            <input type="text" id="trainerName" name="trainerName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="트레이너 이름" readonly>
-          </div>
-          <div class="mb-4">
-            <label for="trainerAge" class="block text-gray-700 font-bold mb-2">나이:</label>
-            <input type="text" id="trainerAge" name="trainerAge" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="트레이너 나이" readonly>
-          </div>
-          <div class="mb-4">
-            <label for="trainerPhone" class="block text-gray-700 font-bold mb-2">전화번호:</label>
-            <input type="text" id="trainerPhone" name="trainerPhone" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="트레이너 전화번호" readonly>
-          </div>
-          <div class="mb-4">
-            <label for="trainerEmail" class="block text-gray-700 font-bold mb-2">이메일:</label>
-            <input type="email" id="trainerEmail" name="trainerEmail" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="트레이너 이메일" readonly>
-          </div>
-          <!-- Additional Information -->
-          <!-- Additional details -->
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
+	<div id="myModal" class="modal">
+	  <div class="modal-content">
+	    <span class="close">&times;</span>
+	    <div class="flex justify-center">
+	      <div class="max-w-xl p-4 bg-white rounded-lg shadow-lg">
+	        <div class="mb-4">
+	
+	          <img src="<c:url value='/trainerUpload/'/>" alt="Trainer Image" class="rounded-full mx-auto mb-4 w-64 h-64"  id="t_photo">
+	
+	          <h2 class="text-center text-xl font-bold" id=t_name ></h2>
+	
+	          <div class="mt-4">
+	          	<input type="hidden" name="t_id" id="hiddenTrainerId" value="">
+	            <p><i class="fas fa-user"></i> <span class="font-semibold" id="t_age">나이:</span></p>
+	            <p><i class="fas fa-venus-mars"></i> <span class="font-semibold" id="t_gender">성별:</span></p>
+	            <p><i class="fas fa-phone"></i> <span class="font-semibold" id="t_tel">전화번호:</span></p>
+	            <p><i class="fas fa-map-marker-alt"></i> <span class="font-semibold" id="t_address">주소:</span></p>
+	            <p><i class="fas fa-envelope"></i> <span class="font-semibold" id="t_email">이메일:</span></p>
+	          </div>
+	
+	          <div class="mt-4">
+	            <h3 class="text-xl font-semibold mb-2">추가 정보</h3>
+	            <p><i class="fas fa-calendar-day"></i> <span class="font-semibold" id="t_regdate">계약날짜: </span> </p>
+	            <p><i class="fas fa-money-bill-alt"></i> <span class="font-semibold" id="t_sal">급여: </span> </p>
+	            <p><i class="fas fa-briefcase"></i> <span class="font-semibold">경력사항:</span></p>
+	            <pre><span id="t_experience"></span></pre><p>
+	            <p><i class="fas fa-certificate"></i> <span class="font-semibold">자격사항:</span></p>
+	            <pre><span id="t_qualifications"></span></pre><p>
+	            <p><i class="fas fa-sticky-note"></i> <span class="font-semibold">특이사항:</span></p>
+	            <pre><span id="t_matters"></span></pre>
+	          </div>
+	          
+	            <!-- 수정 버튼 -->
+	          <div class="mt-4 flex justify-end">
+	            <button id="editButton" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700">수정</button>
+	          </div>
+	                    
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 
 
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-// 모달 열기
-function openModal() {
-  var modal = document.getElementById("myModal");
-  modal.style.display = "block";
-}
+	// 가격 형식화 함수
+	function formatNumber(salary) {
+		return salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	// 상세정보 아이콘 클릭 시 모달 열기
+	$(".detail-icon").click(function() {
+	  var trainerId = $(this).closest("tr").find("td").data("trainer-id");
+	  openModalWithTrainerInfo(trainerId);
+	});
+	
+	function openModalWithTrainerInfo(trainerId) {
+	  $.ajax({
+	    type: "GET",
+	    url: "/getTrainerInfo/" + trainerId,
+	    success: function(trainerInfo) {
+	      // 트레이너 정보를 모달에 적용
 
-// 모달 닫기
-function closeModal() {
-  var modal = document.getElementById("myModal");
-  modal.style.display = "none";
-}
-
-// 상세정보 아이콘 클릭 시 모달 열기
-var detailIcons = document.querySelectorAll(".detail-icon");
-detailIcons.forEach(function(icon) {
-  icon.addEventListener("click", function() {
-    openModal();
-  });
-});
-
-// 닫기 버튼 클릭 시 모달 닫기
-var closeButtons = document.querySelectorAll(".close");
-closeButtons.forEach(function(button) {
-  button.addEventListener("click", function() {
-    closeModal();
-  });
-});
-
-// 모달이 닫히도록 x 버튼 및 모달 외부를 클릭하면 실행
-var modal = document.getElementById("myModal");
-window.onclick = function(event) {
-  if (event.target == modal) {
-    closeModal();
-  }
-}
+	      $("#hiddenTrainerId").val(trainerId);
+	      $("#t_name").text("이름: " + trainerInfo.t_name);
+	      $("#t_age").text("나이: " + trainerInfo.t_age);
+	      $("#t_gender").text("성별: " + trainerInfo.t_gender);
+	      $("#t_tel").text("전화번호: " + trainerInfo.t_tel);
+	      $("#t_address").text("주소: " + trainerInfo.t_address);
+	      $("#t_email").text("이메일: " + trainerInfo.t_email);
+	      $("#t_regdate").text("계약날짜: " + trainerInfo.t_regdate);
+	      $("#t_sal").text("급여: " + formatNumber(trainerInfo.t_sal) +"원");
+	      $("#t_experience").text(trainerInfo.t_experience);
+	      $("#t_qualifications").text(trainerInfo.t_qualifications);
+	      $("#t_matters").text(trainerInfo.t_matters);
+	      
+	      // 트레이너 이미지 설정
+   		  $("#t_photo").attr("src", "<c:url value='/trainerUpload/" + trainerInfo.t_photostoredname + "'/>");
+	      
+	      // 모달 열기
+   		  $("#myModal").show();
+	    }
+	  });
+	}
+	
+	// 모달 수정 버튼 클릭 시 트레이너 ID를 가지고 추가 페이지로 이동
+	$("#editButton").click(function() {
+	    // 트레이너의 ID 가져오기
+	    var trainerId = $("#hiddenTrainerId").val(); // hidden 필드에 설정된 트레이너 아이디 가져오기
+	    
+	    // 트레이너 아이디를 가지고 컨트롤러로 이동
+	    window.location.href = "/trainerUpdate/" + trainerId;
+	        
+	});
+	
+	
+	 // 트레이너 삭제 버튼 클릭 시 알림창 띄우기
+    $('.delete-btn').on('click', function(event) {
+        event.preventDefault(); // 기본 동작 중단
+        
+        var trainerId = $(this).closest("tr").find("td").data("trainer-id");
+        
+        // 삭제 확인 알림창 띄우기
+        var confirmation = confirm("정말로 이 트레이너를 삭제하시겠습니까?");
+        
+        // 확인 버튼을 눌렀을 때만 삭제 진행
+        if (confirmation) {
+            $.ajax({
+                type: "POST",
+                url: "/deleteTrainer/" + trainerId,
+                success: function(response) {
+                    alert("삭제되었습니다.");
+                    location.reload(); // 페이지 새로고침
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    });
+	
+	// 닫기 버튼 클릭 시 모달 닫기
+	$(".close").click(function() {
+		$("#myModal").hide();
+	});
+	
+	// 모달이 닫히도록 x 버튼 및 모달 외부를 클릭하면 실행
+	$("#myModal").click(function(event) {
+	  if (event.target === this) {
+		 $("#myModal").hide();
+	  }
+	});
 </script>
 
 </body>

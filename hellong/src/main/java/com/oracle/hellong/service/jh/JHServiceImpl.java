@@ -219,6 +219,40 @@ public class JHServiceImpl implements JHService {
 		List<Trainer> gymIdTrainerId = td.gymIdTrainerId(trainer);
 		return gymIdTrainerId;
 	}
+	
+	//트레이너 조회
+	@Override
+	public Trainer getTrainerById(int trainerId) {
+		Trainer trainerDetail = td.getTrainerById(trainerId);
+		return trainerDetail;
+	}
+	
+	// 트레이너 수정
+	@Override
+	public int updateTrainer(Trainer trainer) throws IOException {
+		Trainer trainerFile = td.getTrainerById(trainer.getT_id());		
+		if (trainerFile.getT_photostoredname() != null) {
+			trainerFileProcessor.deleteFileAndRecord(trainerFile);
+		}
+		MultipartFile trainerPhotoFile = trainer.getTrainerPhotoFile();
+		Trainer trPhotoFile = trainerFileProcessor.processFile(trainerPhotoFile, trainer);
+		int updateTrainerCount = td.updateTrainer(trPhotoFile);
+		return updateTrainerCount;	
+	}
+				
+		
+		
+
+	
+
+	//트레이너 삭제
+	@Override
+	public int getDeleteTrainer(int t_id) {
+		int deleteCount = td.getDeleteTrainer(t_id);
+		return deleteCount;
+	}
+	
+	
 
 	// 체육관 서비스 리스트
 	// 불러오기***********************************************************************
@@ -261,6 +295,11 @@ public class JHServiceImpl implements JHService {
 		int deleteService = gsd.deleteService(s_number);
 		return deleteService;
 	}
+
+
+
+
+
 
 
 

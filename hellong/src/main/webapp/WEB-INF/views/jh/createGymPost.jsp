@@ -171,42 +171,42 @@ button[type="button"]:hover {
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 <script>
 
-function previewImages(event) {
-    var fileList = event.target.files; // 파일 목록 가져오기
-    var preview = document.getElementById('filePreview'); // 미리보기 요소 가져오기
-    preview.innerHTML = ''; // 미리보기 요소 초기화
-
-    for (var i = 0; i < fileList.length; i++) {
-        var file = fileList[i];
-        var reader = new FileReader(); // 파일 리더 생성
-
-        // 파일 읽기 완료 시 호출되는 콜백 함수
-        reader.onload = function (event) {
-            var image = document.createElement('img'); // 이미지 요소 생성
-            image.setAttribute('src', event.target.result); // 이미지 소스 설정
-            image.setAttribute('class', 'preview-image'); // 이미지 클래스 설정
-
-            // X 버튼 생성
-            var closeButton = document.createElement('button');
-            closeButton.innerHTML = 'x';
-            closeButton.setAttribute('class', 'close-button');
-            closeButton.setAttribute('onclick', 'removeImage(this)');
-            
-            // 이미지와 X 버튼을 미리보기 요소에 추가
-            preview.appendChild(image);
-            preview.appendChild(closeButton);
-        };
-
-        reader.readAsDataURL(file); // 파일 읽기 시작
-    }
-}
-
-// 이미지 제거 함수
-function removeImage(button) {
-    var image = button.previousSibling; // X 버튼의 이전 형제 요소(이미지) 가져오기
-    image.remove(); // 이미지 제거
-    button.remove(); // X 버튼 제거
-}
+	function previewImages(event) {
+	    var fileList = event.target.files; // 파일 목록 가져오기
+	    var preview = document.getElementById('filePreview'); // 미리보기 요소 가져오기
+	    preview.innerHTML = ''; // 미리보기 요소 초기화
+	
+	    for (var i = 0; i < fileList.length; i++) {
+	        var file = fileList[i];
+	        var reader = new FileReader(); // 파일 리더 생성
+	
+	        // 파일 읽기 완료 시 호출되는 콜백 함수
+	        reader.onload = function (event) {
+	            var image = document.createElement('img'); // 이미지 요소 생성
+	            image.setAttribute('src', event.target.result); // 이미지 소스 설정
+	            image.setAttribute('class', 'preview-image'); // 이미지 클래스 설정
+	
+	            // X 버튼 생성
+	            var closeButton = document.createElement('button');
+	            closeButton.innerHTML = 'x';
+	            closeButton.setAttribute('class', 'close-button');
+	            closeButton.setAttribute('onclick', 'removeImage(this)');
+	            
+	            // 이미지와 X 버튼을 미리보기 요소에 추가
+	            preview.appendChild(image);
+	            preview.appendChild(closeButton);
+	        };
+	
+	        reader.readAsDataURL(file); // 파일 읽기 시작
+	    }
+	}
+	
+	// 이미지 제거 함수
+	function removeImage(button) {
+	    var image = button.previousSibling; // X 버튼의 이전 형제 요소(이미지) 가져오기
+	    image.remove(); // 이미지 제거
+	    button.remove(); // X 버튼 제거
+	}
 
 
     function validateForm() {

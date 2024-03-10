@@ -27,34 +27,71 @@
     .container {
         max-width: 800px;
         margin: 20px auto;
-        padding: 70px 20px 20px;
+        padding: 20px 20px 20px;
         background-color: #fff;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         position: relative;
     }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-    th, td {
-        border: 1px solid #ddd;
-        padding: 12px;
-        text-align: left;
-    }
-    th {
-        background-color: #f2f2f2;
-        color: #333;
-    }
-    tr:hover {
-        background-color: #f9f9f9;
-    }
-    .price {
-        font-weight: bold;
-    }
-    .validity {
-        font-style: italic;
+	table {
+	    width: 1110px; /* 테이블 너비를 고정 값으로 설정 */
+	    table-layout: fixed; /* 테이블 레이아웃을 고정으로 설정 */
+	    border-collapse: collapse;
+	    margin-top: 20px;
+	    text-align: center;
+	}
+	
+	tbody {
+    	font-size: 14px; 
+    	text-align: center;
+	}
+	
+	th, td {
+	    border: 1px solid #ddd;
+	    padding: 8px;
+	    text-align: left;
+	    white-space: nowrap; 
+	    overflow: hidden; 
+	    text-overflow: ellipsis; 
+	    text-align: center;
+	    
+	}
+	
+	th {
+	    background-color: #3b5998; /* 적당한 밝은 톤의 색상으로 변경 */
+	    color: #fff; /* 글자색을 흰색으로 설정 */
+	}
+    
+    
+    th:first-child,th:nth-child(7),th:nth-child(8),
+	td:first-child ,td:nth-child(7),td:nth-child(8){
+		text-align: center;
+	    width: 100px; 
+	}   
+    
+    th:nth-child(3),th:nth-child(4),
+	td:nth-child(3),td:nth-child(4) {
+		text-align: center;
+	    width: 120px; 
+	}
+	
+	
+	th:nth-child(5),
+	td:nth-child(5) {
+	    width: 250px; 
+	    text-align: center;
+	}
+	
+	th:nth-child(6),
+	td:nth-child(6) {
+	    width: 150px;
+	    text-align: center; 
+	}
+			
+    .price,
+    .validity,
+    .benefits li {
+        font-size: 14px;
     }
     .benefits {
         list-style: none;
@@ -64,105 +101,100 @@
     .benefits li {
         margin-bottom: 5px;
     }
-    .add-service-btn {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition-duration: 0.4s;
-        position: absolute;
-        top: 20px;
-        right: 20px;
+   .add-service-btn {
+	    background-color: #4CAF50;
+	    border: none;
+	    color: white;
+	    padding: 10px 20px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 16px;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    transition-duration: 0.4s;
+	    margin-left: 10px; 
     }
-    .edit-service-btn, .delete-service-btn {
-        background-color: #008CBA;
+    .edit-service-btn,
+    .delete-service-btn {
         border: none;
-        color: white;
+        color: blue;
         padding: 8px 16px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 12px;
+        font-size: 14px;
         margin-left: 5px;
         border-radius: 5px;
         cursor: pointer;
         transition-duration: 0.4s;
     }
+    .delete-service-btn {
+        color: #DC3545;
+        background-color: transparent;
+    }
     .add-service-btn:hover {
         background-color: #45a049;
     }
-    .edit-service-btn:hover, .delete-service-btn:hover {
-        background-color: #005A7D;
+    .edit-service-btn:hover,
+    .delete-service-btn:hover {
     }
 
-    .pagination {
-        text-align: center;
-        margin-top: 20px;
+    tbody tr:nth-child(odd) {
+        background-color: #f9f9f9; /* 홀수 행 배경색 */
     }
-    .pagination a {
-        display: inline-block;
-        padding: 8px 16px;
-        text-decoration: none;
-        color: black;
-        background-color: #ddd;
-        border-radius: 5px;
-        margin: 0 5px;
-    }
-    .pagination a.active {
-        background-color: #4CAF50;
-        color: white;
-    }
-    .pagination a:hover:not(.active) {
-        background-color: #ccc;
+
+    tbody tr:nth-child(even) {
+        background-color: #ffffff; /* 짝수 행 배경색 */
     }
 </style>
-
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <!-- 부트스트랩 CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- 폰트어썸 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 <!-- 부트스트랩 자바스크립트 및 jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>   
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 <body>
     <header>
         <h1>헬스장 이용권 리스트</h1>
     </header>
-    <div class="container">
+    <div class="container mt-4">
     
-    
+    	 <h2>서비스 리스트</h2>
 	     <div class="d-flex justify-content-between align-items-center mb-3">
-	        <h2>이용권 리스트</h2>
 	        <!-- 검색창 추가 -->
 	        <div class="input-group w-25">
-	            <input type="text" class="form-control" placeholder="검색어 입력">
+	            <input type="text" class="form-control" placeholder="서비스 검색...">
 	            <div class="input-group-append">
 	                <button class="btn btn-outline-secondary" type="button">검색</button>
-
 	            </div>
-
 	        </div>
+			<button class="add-service-btn" data-toggle="modal" data-target="#serviceModal">
+			    <i class="fas fa-plus-circle"></i> 서비스 추가
+			</button>
 	    </div>
  
     
     
-    	<button class="add-service-btn" data-toggle="modal" data-target="#serviceModal">서비스 추가</button>
-        <table>
+
+        <table class="mb-4"> 
             <thead>
                 <tr>
-                	<th>번호</th>
-                    <th>이용권</th>
+                	<th>등록번호</th>
+                    <th>서비스명</th>
                     <th>가격</th>
                     <th>이용기간</th>
                     <th>내용</th>
                     <th>특이사항</th>
-                    <th>활동</th>
+			        <th>수정</th> 
+			        <th>삭제</th> 
                 </tr>
             </thead>
             <tbody>
@@ -175,7 +207,7 @@
 	                    	<input type="hidden" id="g_id" value="${service.g_id}">
 	                    	${service.s_name}
 	                    </td>
-	                    <td class="price">${service.s_price}</td>
+	                    <td class="price">${service.s_price}원</td>
 	                    <td class="validity">${service.s_period}일</td>
 	                    <td>
 	                        <ul class="benefits">
@@ -184,9 +216,11 @@
 	                    </td>
 	                    <td>${service.s_matters}</td>
 						<td>
-							<a href ="#serviceModal" class="edit-service-btn"   data-toggle="modal">수정</a>
-							<a href ="#confirmDeleteModal" class="delete-service-btn"  data-toggle="modal">삭제</a>
-                        </td>             
+						    <a href="#serviceModal" class="edit-service-btn" data-toggle="modal"><i class="fas fa-edit" style="color: #008CBA;"></i>수정</a>
+						</td>         
+						<td>
+						   <a href="#confirmDeleteModal" class="delete-service-btn" data-toggle="modal"><i class="fas fa-trash-alt" style="color: #DC3545;"></i>삭제</a>
+						</td>         
                     <c:set var="num" value="${num - 1}"></c:set>
 	                </tr>
 				</c:forEach>
@@ -195,30 +229,30 @@
         
         
           
+     <!-- 페이지 네비게이션 -->
+    <div class="flex justify-center">
+        <div class="flex">
+            <c:if test="${page.currentPage > page.pageBlock}">
+                <a href="serviceList?g_id=${g_id}&currentPage=${page.startPage - page.pageBlock}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300"><i class="fas fa-chevron-left"></i> 이전</a>
+            </c:if>
+            <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+                <c:choose>
+                    <c:when test="${page.currentPage == i}">
+                        <a href="trainerList?g_id=${g_id}&currentPage=${i}" class="py-2 px-4 mr-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-300">${i}</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="serviceList?g_id=${g_id}&currentPage=${i}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300">${i}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+            <c:if test="${page.endPage < page.totalPage}">
+                 <a href="serviceList?g_id=${g_id}&currentPage=${page.startPage + page.pageBlock}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300">다음 <i class="fas fa-chevron-right"></i></a>
+            </c:if>
+       	 </div>
+    	</div>
+	</div>    
         
         
-        
-	<div class="pagination">
-		<c:if test="${page.startPage > page.pageBlock}">
-		    <a href="serviceList?g_id=${g_id}&currentPage=${page.startPage - page.pageBlock}">이전</a>
-		</c:if>
-		<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-		    <c:choose>
-		        <c:when test="${page.currentPage == i}">
-		            <a href="#" class="active">${i}</a>
-		        </c:when>
-		        <c:otherwise>
-		            <a href="serviceList?g_id=${g_id}&currentPage=${i}">${i}</a>
-		        </c:otherwise>
-		    </c:choose>
-		</c:forEach>
-		<c:if test="${page.endPage < page.totalPage}">
-		    <a href="serviceList?g_id=${g_id}&currentPage=${page.startPage + page.pageBlock}">다음</a>
-		</c:if>
-	</div>
-        
-        
-    </div>
     
     <!-- 서비스 모달 폼 -->
     <div class="modal fade" id="serviceModal" tabindex="-1" role="dialog" aria-labelledby="serviceModalLabel" aria-hidden="true">
@@ -293,6 +327,21 @@
 <script type="text/javascript">
 	//서비스 추가 및 수정 모달에 대한 AJAX
 $(document).ready(function() {
+	 // 가격을 통화 단위로 변환하는 함수
+    function formatCurrency(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // 페이지 로드 시 가격을 통화 단위로 변환
+    $('.price').each(function() {
+        var priceText = $(this).text();
+        var price = parseInt(priceText.replace(/[^\d]/g, '')); // 숫자만 추출
+        $(this).text(formatCurrency(price) + "원"); // 통화 단위로 변환하여 설정
+    });
+	
+	
+	
+	
     var sNumber; // sNumber 변수를 전역으로 정의
     
     // 서비스 추가 및 수정 모달이 열릴 때
@@ -406,20 +455,10 @@ $(document).ready(function() {
 
     
     
-    
 });
 
 
 
 </script>
-
-    
-    
-
- 
-    
-    
-
-
 </body>
 </html>
