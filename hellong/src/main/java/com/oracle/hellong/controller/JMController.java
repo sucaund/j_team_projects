@@ -59,7 +59,11 @@ public class JMController {
 	public String jmConfirmMemberPw(@RequestParam(value="m_pw",required=false) String m_pw, HttpSession session) {
 		System.out.println("jmController jmConfirmMemberPw Start...");
 		System.out.println("jmControllerjmConfirmMemberPw m_pw"+m_pw);
-		int m_number=(int)session.getAttribute("findM_number");
+		int m_number=0;
+		if(session.getAttribute("findM_number")!=null) {
+			m_number=(int)session.getAttribute("findM_number");
+		} else {m_number=(int)session.getAttribute("m_number");}
+
 		System.out.println("jmControllerjmConfirmMemberPw m_number"+m_number);
 		String result=jm.checkPwDuple(m_number, m_pw); //isDeleted=0인것만
 		//중복일 시 duple, 중복이 아닐 때 ok, 오류시 error
@@ -162,10 +166,10 @@ public class JMController {
 	public String jmMyPage(HttpSession session, Model model) {
 		if(session.getAttribute("m_id")!=null) { //세션에 등록되어있을때=로그인했을때
 			Member member=new Member();
-			member=jm.jmGetMemberFromId("m_id");
+			member=jm.jmGetMemberFromId((String)session.getAttribute("m_id"));
 			//member에서 등록헬스장, 찜한 헬스장 몇개, 현재 서비스, 현재 서비스 기간, 현재 서비스 가격,
 			// 작성글 몇개, 스크랩 몇개, 현재 포인트, 결제내역 가져오고
-			//모두 model로 보낸뒤
+			model.addAttribute("member", member);
 			//나머지는 페이지에서 링크로..
 			//null일 때 msg같은거 보냄 
 			//몇개씩 보내는건 ListMember 참고해서 보내면 될 것 같은데. List 보내는 식
@@ -215,19 +219,26 @@ public class JMController {
 		}
 	}
 	
+	@RequestMapping(value="jmResetPwForm") //회원정보수정에서 비밀번호 찾기 눌렀을 때
+	//즉 findPw 거치지 않고 jmResetPwForm이 리턴시키는 jsp를 지정하기 위함
+	public String jmResetPwForm() {
+		return "jm/jmResetPwForm";
+	}
+	
 		//비밀번호 재설정
 	  @RequestMapping(value = "jmResetPw") //클릭 눌렀을 때
 	  public String jmFindPw(@RequestParam("m_pw") String m_pw, HttpSession session) {
 	  System.out.println("jmController jmResetPw start..");
 	  System.out.println("jmController jmResetPw pw: "+m_pw); 
-	  System.out.println(session.getAttribute("findM_number")); //여기까지 정상적으로 끌어와짐
-	  int m_number=(int)session.getAttribute("findM_number");
+	  int m_number=0;
+	  if(session.getAttribute("findM_number")!=null) { //비밀번호 찾기에서 들어왔을 때
+		  System.out.println(session.getAttribute("findM_number")); //여기까지 정상적으로 끌어와짐
+		  m_number=(int)session.getAttribute("findM_number");
+	  } else if (session.getAttribute("findM_number")==null) { //회원정보 수정에서 비밀번호 변경 클릭해 
+		  //findM_number라는 세션이 존재하지 않을 때
+		  m_number=(int)session.getAttribute("m_number");
+	  }
 	  System.out.println(m_number);
-//	  Integer findM_number=(Integer)session.getAttribute("findM_number"); 
-//	  System.out.println(findM_number);
-//	  int m_number=findM_number.intValue();
-//	  System.out.println(m_number);
-//	  session.removeAttribute("findM_number");
 	  System.out.println("jmController jmResetPw m_number"+m_number);
 	  int resetResult=jm.jmResetPw(m_number, m_pw);
 	  System.out.println("jmController jmResetPw resetResult"+resetResult);
@@ -241,10 +252,11 @@ public class JMController {
 		}	  
 	  }
 
-	  //재설정 완료
+	  //재설정 완료->로그아웃해 재 로그인 하게
 		@RequestMapping(value = "jmResetPwCorrect")
-		public String jmResetPwCorrect() {
+		public String jmResetPwCorrect(HttpSession session) {
 			System.out.println("jmController jmResetPwCorrect Start...");
+			session.invalidate();
 			return "jm/jmResetPwCorrect"; 
 		}
 	 
@@ -277,10 +289,7 @@ public class JMController {
 			System.out.println("jmController jmUpdateMember updateCount-->" + updateCount);
 			// 수정
 
-			// 수정 후 수정한 member의 jmDetailMember.jsp로 이동하려면..
-			Member member = jm.jmDetailMember(member1.getM_number());
-			model.addAttribute("member", member);
-			return "forward:jmDetailMember";
+			return "forward:jmUpdateMemberForm";
 			// 업데이트 후 그 멤버의 detail 화면으로 즉시 이동
 		}	
 	

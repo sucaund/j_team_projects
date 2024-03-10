@@ -103,7 +103,6 @@
 					id="m_address" name="m_address" placeholder="주소"><br> <input
 					type="text" id="sample6_detailAddress" placeholder="상세주소">
 				<input type="text" id="sample6_extraAddress" placeholder="참고항목">
-				<!-- <input type="hidden" id="m_address" name="m_address" value="xm234jq"> -->
 		</div>
 
 

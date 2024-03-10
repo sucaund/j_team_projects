@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="js/updateMember.js"></script>
 </head>
 <body>
@@ -18,41 +19,80 @@
 	<form action="jmUpdateMember" method="post"> 
 	<table> 
 		<tr><th>아이디</th><td>${m_id}</td></tr>
-		<tr><th>회원유형</th><td>
+		<tr><th>회원유형</th>
+			<td>
 			<c:if test="${member.common_mcd==10}">헬롱 회원</c:if>
 			<c:if test="${member.common_mcd==20}">사장님</c:if>
 			<c:if test="${member.common_mcd==30}">관리자</c:if>
+			</td></tr>
+
+		<tr><th>비밀번호 </th><td>
+			<input type="button" value="비밀번호 변경" onclick="resetPw()" /></td></tr> 
+
+		<tr><th>이름(닉네임)</th><td><input type="text"  id="m_name" name="m_name" required="required" value="${member.m_name}" ></td></tr>
+		<tr><th>나이</th><td><select name="m_age"
+			id="m_age" value="${member.m_age}">
+			<script>
+				for (i = 10; i < 100; i++) {
+					document.write("<option>" + [ i ] + "</option>");
+				}
+			</script>
+		</select></td></tr> 
+
+		<tr><th>성별</th>
+		<td>
+			<c:if test="${member.m_gender}=='F'">여성</c:if>
+			<c:if test="${member.m_gender}=='M'">남성</c:if>
 		</td></tr>
 
-		<tr><th>새 비밀번호 </th><td><input type="password"   name="m_pw" required="required" 
-			placeholder="새 비밀번호" ></td></tr> 
-			<button type="button" id="sendMailBtn" name="sendMailBtn" 
-			onclick="sendMailNumber()">비밀번호 변경</button>
-			
-		<tr><th>비밀번호 확인</th><td><input type="password" name="m_pw_check" required="required" 
-			placeholder="새 비밀번호 확인" ></td></tr>
+		<tr><th>전화번호</th>
+		<td><input type="text"
+			class="form-control" id="m_phone" name="m_phone" placeholder="전화번호" value="${member.m_phone}"
+			oninput="addhyphen(),checkPhone(), activateUpdateBtn()"
+			autocomplete='off'>
+		</td></tr> 
+		
+		<div id="email_old" style="display: block">
+		<tr><th id="email_old_value">이메일</th><td>${member.m_email} <input type="button" value="이메일 변경" onclick="changeMail()" /></td></tr> 
+		</div>
 
-		<tr><th>이름(닉네임)</th><td><input type="text"   name="m_pw_check" required="required" value="${member.m_pw}" ></td></tr>
-		<tr><th>나이</th><td>${member.m_age}</td></tr> 변경-> 회원가입 때 사용...
-		<tr><th>성별</th><td>${member.m_gender}</td></tr> 
-		<tr><th>전화번호</th><td>${member.m_phone}</td></tr> 
-		<div class="email">
-		<tr><th>이메일</th><td><input type="text"  name="m_email" required="required" 
-			value="${member.m_email}" ></td></tr> 변경(버튼 누를 때 이메일 인증)
+		<div id="email_change" name="email_change" style="display: none">
+					
+			<tr><th>변경할 이메일</th><td><input type="text"
+			class="form-control" id="m_email" placeholder="변경할 이메일을 입력해주세요"
+			name="m_email" oninput="checkMailReg()" autocomplete='off'>
+			<button type="button" id="sendMailBtn" name="sendMailBtn" onclick="sendMailNumber()">인증번호 받기</button>
+			</td></tr> 
+			
+			<div class="form-floating mb-3" id="mail_check" name="mail_check" style="display: none">
+				<tr><th>인증번호 입력</th>
+				<td><input type="text" name="input_mail_number" id="input_mail_number" style="width:250px; margin-top: -10px" placeholder="인증번호 입력">
+				<button type="button" name="confirmMailBtn" id="confirmMailBtn" onclick="confirmMailNumber(), activateUpdateBtn()">인증</button></td></tr>
+				
+			 </div>
 		</div>
-		<div class="address">
-		<tr><th>주소</th><td>${member.m_address}</td></tr> 변경(버튼 누를 때 여기 닫히고 아래에 지도 api)
+
+		<div id="address_old" style="display: block">
+		<tr><th id="address_old_value">주소</th><td>${member.m_address} <input type="button" value="주소 변경" onclick="changeAdress()" /></td></tr> 
 		</div>
-		<tr><th>가입일자</th><td><fmt:formatDate value="${member.m_regdate}" pattern="yyyy/MM/dd"></fmt:formatDate></td></tr>
-		<tr><th>현재 포인트<td>${member.m_currpoint}</td></tr>
+
+		<div id="address_change" name="address_change" style="display: none">
+		<input type="text" id="sample6_postcode" placeholder="우편번호">
+				<input type="button" onclick="sample6_execDaumPostcode()"
+					value="우편번호 찾기"><br> <input type="text"
+					id="m_address" name="m_address" placeholder="주소"><br> <input
+					type="text" id="sample6_detailAddress" placeholder="상세주소">
+				<input type="text" id="sample6_extraAddress" placeholder="참고항목">
+		</div>
 		<tr><td colspan="2">
 		
 		<a href="/jmWithdrawalMemberForm">회원 탈퇴</a> <br>
 
 		<input type="button" value="취소" 
-		onclick="'">
-			<button type="submit" class="btn btn-secondary"
-			style="padding: 2% 0 2%;" id="submitbtn" disabled >완료</button>
+		onclick="location.reload();">
+
+		<button type="submit" class="btn btn-secondary"
+		style="padding: 2% 0 2%;" id="updatebtn" disabled >완료</button>
 		</tr>
 	</table>
 	</form>

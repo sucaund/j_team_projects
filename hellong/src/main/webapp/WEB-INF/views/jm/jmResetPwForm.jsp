@@ -11,14 +11,10 @@
 </head>
 <body>
 비밀번호 재설정
- <c:if test="${m_number!=null}">
-<p>로그아웃을 먼저 해주세요</p>
-
- </c:if>
-  <c:if test="${m_number==null}">
 	<form action="jmResetPw" method="post" name="frm">
 <br>									
 						<!-- 세션에 findM_number 남아있는 상태 : ${findM_number} 받음 -->
+						<!-- 회원정보 수정에서 왔다면 findM_number가 없으니 m_number 사용할 예정 -->
 		변경할 비밀번호를 입력해주세요
 		<br>
 		새 비밀번호
@@ -44,6 +40,5 @@
 		<button type="submit" class="btn btn-secondary"
 			style="padding: 2% 0 2%;" id="checkpwbtn" disabled >완료</button>
 		</form>
-	</c:if>
 </body>
 </html>
