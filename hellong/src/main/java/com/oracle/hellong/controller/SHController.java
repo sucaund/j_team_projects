@@ -7,8 +7,10 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
@@ -469,6 +471,7 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		System.out.println("SHController gymMap start...");
 		return "SH-Views/gymMap";
 	}
+
 	
 	
 	
