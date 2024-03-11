@@ -40,8 +40,8 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<button type="submit" class="btn btn-primary">확인</button>
-					<button type="button" class="btn btn-primary" onclick="location.href='detailBoard?b_number=${board.b_number}'">취소</button>
+					<button type="submit" class="btn btn-outline-primary">확인</button>
+					<button type="button" class="btn btn-outline-secondary" onclick="location.href='detailBoard?b_number=${board.b_number}'">취소</button>
 				</td>
 			</tr>
 		</table>

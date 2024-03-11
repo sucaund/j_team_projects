@@ -82,28 +82,27 @@ public class JJServiceImpl implements JJService {
 	}
 
 	@Override
-	public int totalSearchCnt(Board board) {
-		System.out.println("JJServiceImpl totalSearchCnt Start...");
-		int totalSearchCnt = bd.totalSearchCnt(board);
-		System.out.println("JJServiceImpl totalSearchCnt ->" + totalSearchCnt);
-		return totalSearchCnt;
-	}
-	
-	@Override
-	public List<Board> listSearchBoard(Board board) {
-		List<Board> boardSearchList = null;
-		System.out.println("JJServiceImpl listSearchBoard Start...");
-		boardSearchList = bd.boardSearchList(board);
-		System.out.println("JJServiceImpl boardSearchList.()->" + boardSearchList.size());
-		return boardSearchList;
-	}
-
-	@Override
 	public int jjReported(Board board) {
 		int result = 0;
 		System.out.println("JJServiceImpl jjReported Start...");
 		result = bd.jjReported(board);
 		return result;
+	}
+
+	@Override
+	public List<Board> listCategorySearchBoard(Board board) {
+		List<Board> listCategorySearchBoard = null;
+		System.out.println("JJServiceImpl listCategorySearchBoard Start...");
+		listCategorySearchBoard = bd.listCategorySearchBoard(board);
+		System.out.println("JJServiceImpl listCateBoard.()->" + listCategorySearchBoard.size());
+		return listCategorySearchBoard;
+	}
+
+	@Override
+	public int totalCategorySearchCnt(Board board) {
+		System.out.println("JJServiceImpl totalCategorySearchCnt Start...");
+		int totalCategorySearchCnt = bd.totalCategorySearchCnt(board);
+		return totalCategorySearchCnt;
 	}
 
 

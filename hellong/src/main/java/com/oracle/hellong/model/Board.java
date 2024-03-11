@@ -41,4 +41,6 @@ public class Board { //게시판 게시물 board
   	
 	// 통합검색용
 	private String totKeyword;
+	
+	private String cateSearch;
 }

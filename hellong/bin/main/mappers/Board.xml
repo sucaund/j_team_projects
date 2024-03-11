@@ -94,32 +94,58 @@
 		DELETE FROM board where b_number = #{b_number}
 	</delete>
 	
-	<!-- 게시글 카운트하는 쿼리 -->
-	<select id="totalSearchCnt" parameterType="Board" resultType="int">
-		SELECT Count(*) FROM board
-		<where>
-			<choose>
-				<when test="search == 'all'">
-					(b_title like '%' || #{keyword} || '%' OR b_content like '%' || #{keyword} || '%')
-				</when>
-				<when test="search == 'title'">
-					b_title like '%' || #{keyword} || '%'
-				</when>
-				<when test="search == 'name'">
-                    m.m_name LIKE '%' || #{keyword} || '%'
-                </when>
-				<when test="search == 'content'">
-					b_content like '%' || #{keyword} || '%'
-				</when>
-			</choose>
-		</where>
-	</select>
+	<!-- 카테고리+검색어 로 조회된 글을 카운트하는 쿼리 -->
+	<select id="totalCategorySearchCnt" parameterType="Board" resultType="int">
+	    SELECT Count(*)
+	    FROM board b
+	    JOIN member m ON b.m_number = m.m_number
+	        <where>
+	            <choose>
+	                <when test="cateSearch == 'cate-all'">
+	                    b.common_bcd = b.common_bcd AND b.common_mcd = b.common_mcd
+	                </when>
+	                <when test="cateSearch == 'cate-free'">
+	                    b.common_bcd = 200 AND b.common_mcd = 10
+	                </when>
+	                <when test="cateSearch == 'cate-body'">
+	                    b.common_bcd = 200 AND b.common_mcd = 20
+	                </when>
+	                <when test="cateSearch == 'cate-notice'">
+	                    b.common_bcd = 200 AND b.common_mcd = 110
+	                </when>
+	                <when test="cateSearch == 'cate-question'">
+	                    b.common_bcd = 200 AND b.common_mcd = 120
+	                </when>
+	            </choose>
+	            <choose>
+	                <when test="search == 'all'">
+	                    and (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
+	                </when>
+	                <when test="search == 'title'">
+	                    and b.b_title LIKE '%' || #{keyword} || '%'
+	                </when>
+	                <when test="search == 'name'">
+	                    and m.m_name LIKE '%' || #{keyword} || '%'
+	                </when>
+	                <when test="search == 'content'">
+	                    and b.b_content LIKE '%' || #{keyword} || '%'
+	                </when>
+	                <otherwise> 
+	                   and b.b_content LIKE '%' 
+	                </otherwise>
+	            </choose>
+	        </where>
+	</select>	
 	
-	<!-- 게시글의 내용을 조회하는 쿼리 -->
-	<select id="jjBoardSearchList" parameterType="Board" resultType="Board">
+	<!-- 게시글을 카테고리 + 검색어로 조회하는 쿼리 -->
+	<select id="listCategorySearchBoard" parameterType="Board" resultType="Board">
 	     SELECT *
-	    FROM (
-	        SELECT b.*, m.m_name, ROWNUM rn
+	    FROM 
+	     (
+	       SELECT ROWNUM rn, f.*
+		   FROM
+		   (
+	        SELECT b.*, m.m_name
 	        FROM board b
 	        JOIN member m ON b.m_number = m.m_number
 	        <where>

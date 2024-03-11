@@ -150,28 +150,31 @@ public class JJController {
 		return "redirect:communityBoard";
 	}
 	
-	// 게시판 내 검색
-	@RequestMapping(value = "jjBoardSearch")
-	public String jjBoardSearch(Board board, Model model) {
-		System.out.println("JJController jjBoardSearch Start...");
-		System.out.println("JJController JJPaging Board1->" + board);
+	// 게시글의 카테고리+검색어로 글을 조회
+	@RequestMapping(value = "jjCategorySearch")
+	public String jjThCategory(Board board, Model model) {
+		System.out.println("JJController jjThCategory Start...");
+		System.out.println("JJController jjThCategory board1->" + board);
 		
-		//total count
-		int totalSearchCnt = js.totalSearchCnt(board);
-		System.out.println("JJController totalSearchCnt Start...");
+		//total cate count
+		int totalCategorySearchCnt = js.totalCategorySearchCnt(board);
+		System.out.println("JJController totalCategorySearchCnt->"+totalCategorySearchCnt);
 		
 		//paging
-		JJPaging page = new JJPaging(totalSearchCnt, board.getCurrentPage());
+		JJPaging page = new JJPaging(totalCategorySearchCnt, board.getCurrentPage());
+		System.out.println("JJController totalCategorySearchCnt page->"+page);
+		
 		board.setStart(page.getStart());
 		board.setEnd(page.getEnd());
-		System.out.println("JJController JJPaging Board2->" + board);
+		System.out.println("JJController JJPaging board2->" + board);
 		
-		List<Board> listSearchBoard = js.listSearchBoard(board);
-		System.out.println("JJController jjBoardSearch listSearchBoard.size()->" + listSearchBoard.size());
+		List<Board> listCategorySearchBoard = js.listCategorySearchBoard(board);
+		System.out.println("JJController listCateBoard listCategorySearchBoard.size()->" + listCategorySearchBoard.size());
 		
-		model.addAttribute("totalBoard", totalSearchCnt);
-		model.addAttribute("listBoard", listSearchBoard);
+		model.addAttribute("totalBoard", totalCategorySearchCnt);
+		model.addAttribute("listBoard", listCategorySearchBoard);
 		model.addAttribute("page", page);
+		model.addAttribute("board", board);
 		return "jj/communityBoard";
 	}
 

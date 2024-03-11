@@ -14,8 +14,8 @@ public interface BoardDao {
 	int 		insertBoard(Board board);
 	int 		deleteBoard(int b_number);
 	int 		hitCnt(int b_number);
-	int 		totalSearchCnt(Board board);
-	List<Board> boardSearchList(Board board);
-	int 		jjReported(Board board);	
+	int 		jjReported(Board board);
+	List<Board> listCategorySearchBoard(Board board);
+	int 		totalCategorySearchCnt(Board board);
 
 }

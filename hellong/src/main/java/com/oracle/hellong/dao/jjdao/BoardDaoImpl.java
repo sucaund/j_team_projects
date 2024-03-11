@@ -130,34 +130,6 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public int totalSearchCnt(Board board) {
-		int totalSearchCnt = 0;
-		System.out.println("BoardDaoImpl totalSearchCnt Start...");
-		
-		try {
-			totalSearchCnt = session.selectOne("totalSearchCnt", board);
-			System.out.println("BoardDaoImpl totalSearchCnt ->" + totalSearchCnt);
-		} catch (Exception e) {
-			System.out.println("BoardDaoImpl totalSearchCnt Exception ->" + e.getMessage());
-		}
-		return totalSearchCnt;
-	}
-	
-	@Override
-	public List<Board> boardSearchList(Board board) {
-		List<Board> boardSearchList = null;
-		System.out.println("BoardDaoImpl boardSearchList Start");
-		System.out.println("BoardDaoImpl boardSearchList board->"+board);
-		try {
-			boardSearchList = session.selectList("jjBoardSearchList", board);
-			System.out.println("BoardDaoImpl boardSearchList->" + boardSearchList);
-		} catch (Exception e) {
-			System.out.println("BoardDaoImpl boardSearchList Exception ->" + e.getMessage());
-		}
-		return boardSearchList;
-	}
-
-	@Override
 	public int jjReported(Board board) {
 		System.out.println("BoardDaoImpl jjReported Start...");
 		int result = 0;
@@ -171,6 +143,34 @@ public class BoardDaoImpl implements BoardDao {
 			System.out.println("BoardDaoImpl jjReported Exception->"+e.getMessage());
 		}
 		return result;
+	}
+
+	@Override
+	public List<Board> listCategorySearchBoard(Board board) {
+		List<Board> listCategorySearchBoard = null;
+		System.out.println("BoardDaoImpl listCategorySearchBoard Start...");
+		System.out.println("BoardDaoImpl listCategorySearchBoard board->" + board);
+		try {
+			listCategorySearchBoard = session.selectList("listCategorySearchBoard", board);
+			System.out.println("BoardDaoImpl listCategorySearchBoard->" + listCategorySearchBoard);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl listCategorySearchBoard Exception->" + e.getMessage());
+		}
+		return listCategorySearchBoard;
+	}
+
+	@Override
+	public int totalCategorySearchCnt(Board board) {
+		int totalCategorySearchCnt = 0;
+		System.out.println("BoardDaoImpl totalCategorySearchCnt Start...");
+		
+		try {
+			totalCategorySearchCnt = session.selectOne("totalCategorySearchCnt", board);
+			System.out.println("BoardDaoImpl totalCategorySearchCnt ->" + totalCategorySearchCnt);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl totalCategorySearchCnt Exception ->" + e.getMessage());
+		}
+		return totalCategorySearchCnt;
 	}
 
 

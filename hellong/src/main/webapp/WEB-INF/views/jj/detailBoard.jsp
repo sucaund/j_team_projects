@@ -23,24 +23,24 @@
 	<p>
 	<!-- 이전글, 다음글 링크 수정 -->
 	<div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5%;">
-		<button type="button" class="btn btn-light" 
+		<button type="button" class="btn btn-outline-secondary" 
 	  		  onclick="location.href='detailBoard?b_number=${board.prevPage}'">이전글
 	  	</button>
-		<button type="button" class="btn btn-light" 
+		<button type="button" class="btn btn-outline-secondary" 
 	  		  onclick="location.href='detailBoard?b_number=${board.nextPage}'">다음글
 	  	</button>
 	</div>
 	<p>
 	<div style="text-align:center">
-		<button type="button" class="btn btn-light" 
+		<button type="button" class="btn btn-outline-secondary" 
 	  		  onclick="location.href='updateFormBoard?b_number=${board.b_number}'">수정</button>
-		<button type="button" class="btn btn-light" 
+		<button type="button" class="btn btn-outline-secondary" 
 	  		  data-bs-toggle="modal" data-bs-target="#delModal">삭제</button>
-	  	<button type="button" class="btn btn-primary" 
+	  	<button type="button" class="btn btn-outline-primary" 
 	  		  data-bs-toggle="modal" data-bs-target="#recommModal">추천</button>
-	  	<button type="button" class="btn btn-danger" 
+	  	<button type="button" class="btn btn-outline-danger" 
 	  		  onclick="location.href='jjReported?b_number=${board.b_number}&m_number=${board.m_number}&common_bcd=${board.common_bcd}&common_mcd=${board.common_mcd}'">신고</button>
-	  	<button type="button" class="btn btn-light" 
+	  	<button type="button" class="btn btn-outline-secondary" 
 	  		  onclick="location.href='communityBoard'">목록</button>
 	</div>
 	
@@ -62,8 +62,8 @@
 	
 	      <!-- Modal footer -->
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-Secondary"  data-bs-toggle="modal" data-bs-target="#delNo">아니오</button>
-	      	<button type="button" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#delYes">네</button>
+	        <button type="button" class="btn btn-outline-Secondary"  data-bs-toggle="modal" data-bs-target="#delNo">아니오</button>
+	      	<button type="button" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#delYes">네</button>
 	      </div>
 	
 	    </div>
@@ -87,8 +87,8 @@
 	
 	      <!-- Modal footer -->
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-Secondary" data-bs-dismiss="modal">취소</button>
-	      	<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="location.href='deleteBoard?b_number=${board.b_number}'">삭제</button>
+	      	<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+	      	<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" onclick="location.href='deleteBoard?b_number=${board.b_number}'">삭제</button>
 	      </div>
 	
 	    </div>
@@ -112,7 +112,7 @@
 	
 	      <!-- Modal footer -->
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-Secondary" data-bs-dismiss="modal">닫기</button>
+	      	<button type="button" class="btn btn-outline-Secondary" data-bs-dismiss="modal">닫기</button>
 	      </div>
 	
 	    </div>
@@ -137,8 +137,8 @@
 	
 	      <!-- Modal footer -->
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-Secondary"  data-bs-toggle="modal" data-bs-target="#recommNo">아니오</button>
-	      	<button type="button" class="btn btn-Primary"  data-bs-toggle="modal" data-bs-target="#recommYes">네</button>
+	        <button type="button" class="btn btn-outline-Secondary"  data-bs-toggle="modal" data-bs-target="#recommNo">아니오</button>
+	      	<button type="button" class="btn btn-outline-Primary"  data-bs-toggle="modal" data-bs-target="#recommYes">네</button>
 	      </div>
 	
 	    </div>
@@ -162,8 +162,8 @@
 	
 	      <!-- Modal footer -->
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-Secondary" data-bs-dismiss="modal">취소</button>
-	      	<button type="button" class="btn btn-Primary" data-bs-dismiss="modal" onclick="location.href='hitCnt?b_number=${board.b_number}'">추천</button>
+	      	<button type="button" class="btn btn-outline-Secondary" data-bs-dismiss="modal">취소</button>
+	      	<button type="button" class="btn btn-outline-Primary" data-bs-dismiss="modal" onclick="location.href='hitCnt?b_number=${board.b_number}'">추천</button>
 	      </div>
 	
 	    </div>
@@ -187,7 +187,7 @@
 	
 	      <!-- Modal footer -->
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-Secondary" data-bs-dismiss="modal">닫기</button>
+	      	<button type="button" class="btn btn-outline-Secondary" data-bs-dismiss="modal">닫기</button>
 	      </div>
 	
 	    </div>
