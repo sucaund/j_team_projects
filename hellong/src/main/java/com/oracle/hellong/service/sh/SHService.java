@@ -66,6 +66,24 @@ public interface SHService {
 	List<Board> getallQnA();
 
 	void delThisTable(int b_number);
+	
+
+
+	String storeFile(MultipartFile imageFile);
+
+	void registerGym(Gym gym);
+
+	void deleteGym(int g_id);
+
+	void updateOpenGym(int g_id, int common_mcd);
+
+	List<Report> getAllReport();
+
+	void delReport(int b_number);
+
+	List<Board> getallQnA();
+
+	void delThisTable(int b_number);
 
 	
 

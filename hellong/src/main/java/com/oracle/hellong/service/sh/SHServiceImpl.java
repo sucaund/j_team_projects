@@ -269,6 +269,84 @@ public class SHServiceImpl implements SHService {
 		System.out.println("SHServiceImpl delReport b_number"+b_number);
 		qd.delReport(b_number);
 	}
+//모든 문의글 가져오기
+	@Override
+	public List<Board> getallQnA() {
+		System.out.println("SHServiceImpl getallQnA start...");
+		List<Board> boardList = null;
+		boardList = qd.getallQnA();
+		System.out.println("SHServiceImpl boardList size-->" + boardList.size());
+		return boardList;
+	}
+
+//문의글 테이블에서만 삭제
+	@Override
+	public void delThisTable(int b_number) {
+		System.out.println("SHServiceImpl delThisTable b_number"+b_number);
+		qd.delThisTable(b_number);
+		
+	}
+
+	
+
+	}
+	
+	//모달에 체육관 정보를 추가
+	@Override
+	public Gym getGym(int g_id) {
+		System.out.println("SHServiceImpl getGym  g_id->"+g_id);
+		Gym gym = qd.getGym(g_id);
+		return gym;
+	}
+//체육관 등록
+	@Override
+	public void registerGym(Gym gym) {
+		System.out.println("SHServiceImpl registerGym  gym->"+gym);
+		qd.registerGym(gym);
+		
+	}
+	
+	//체육관에 저장한사진 이미파일 저장및 경로 추출
+	@Override
+	public String storeFile(MultipartFile imageFile) {
+		System.out.println("SHServiceImpl storeFile  imageFile->"+imageFile);
+		String uuid = UUID.randomUUID().toString().substring(0, 8); // UUID의 첫 8자리 사용
+		String originalFileName = imageFile.getOriginalFilename();
+		String fileExtension  = "";
+	    if (originalFileName != null && originalFileName.contains(".")) {
+	        fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+	    }
+	    String fileName = uuid + fileExtension;
+        try {
+        	Path targetLocation = Paths.get(uploadDir).toAbsolutePath().normalize();
+        	if (Files.notExists(targetLocation)) {
+                Files.createDirectories(targetLocation);
+                System.out.println("파일경로 생성!");
+            }
+        	Path filePath = targetLocation.resolve(fileName);
+        	// 파일을 저장하는 로직
+            Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("파일 저장 경로: " + filePath.toAbsolutePath().toString());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return fileName;
+	}
+
+//헬스장 등급 변경
+	@Override
+	public void updateOpenGym(int g_id, int common_mcd) {
+		System.out.println("SHServiceImpl updateOpenGym m_number"+g_id);
+		System.out.println("SHServiceImpl updateOpenGym common_mcd"+common_mcd);
+		qd.updateOpenGym(g_id,common_mcd);
+		
+	}
+//신고글 삭제
+	@Override
+	public void delReport(int b_number) {
+		System.out.println("SHServiceImpl delReport b_number"+b_number);
+		qd.delReport(b_number);
+	}
 	//모든 문의글 가져오기!
 		@Override
 		public List<Board> getallQnA() {
