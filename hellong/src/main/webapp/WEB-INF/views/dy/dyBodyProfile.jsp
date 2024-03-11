@@ -42,12 +42,16 @@
         <div class="grid-item">
             <c:choose>
                 <c:when test="${empty firstImageMap[board.b_number]}">
-                    <!-- 이미지가 없는 경우 빈 이미지를 표시 -->
-                    <img src="이미지 없음 경로" alt="No Image">
+                    <!-- 이미지가 없는 경우 빈 이미지를 클릭하여 해당 게시글로 이동 -->
+                    <a href="dySelectBodyProfile?b_number=${board.b_number}">
+                        <img src="이미지 없음 경로" alt="첨부된 사진이 없습니다">
+                    </a>
                 </c:when>
                 <c:otherwise>
-                    <!-- 이미지가 있는 경우 해당 이미지를 표시 -->
-                    <img src="${request.contextPath}/upload/${firstImageMap[board.b_number]}" alt="Board Image">
+                    <!-- 이미지가 있는 경우 해당 이미지를 클릭하여 해당 게시글로 이동 -->
+                    <a href="dySelectBodyProfile?b_number=${board.b_number}">
+                        <img src="${request.contextPath}/upload/${firstImageMap[board.b_number]}" alt="Board Image">
+                    </a>
                 </c:otherwise>
             </c:choose>
             <p>
