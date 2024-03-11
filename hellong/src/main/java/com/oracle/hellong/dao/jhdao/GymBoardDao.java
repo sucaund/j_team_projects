@@ -19,8 +19,7 @@ public interface GymBoardDao {
 	//글 삭제
 	void deleteGymPost(int g_id);
 	
-	// 지점찾기 글 불러오기
-	List<GymBoard> gymBoardList();
+
 	
 
 

@@ -137,7 +137,7 @@
     </div>
 
     <div class="row justify-content-center">
-        <c:forEach var="board" items="${gymBoardList}" varStatus="boardLoop">
+        <c:forEach var="board" items="${gymImformation}" varStatus="boardLoop">
             <!-- 각 헬스장 카드 -->
             <div class="col-md-5 mb-3">
                 <div class="card h-100 p-4 bg-gray-100 rounded-lg shadow-md" onclick="location.href='gymPostDetail?g_id=${board.g_id}'">
@@ -145,7 +145,7 @@
                     <div class="card-body">
                         <div class="card-title">
 						    <h4 class="text-3xl font-bold mb-2">
-						        <strong>${gymImformation[boardLoop.index].g_name}</strong>
+						        <strong>${board.g_name}</strong>
 						    </h4>
 						    <div class="like-btn" onclick="toggleLike(this)">
 						        <i class="fas fa-heart"></i> 찜하기
@@ -154,7 +154,7 @@
 						<div class="card-subtitle text-3xl font-bold mb-2" style="color: #800080;">
 						    <span style="font-style: italic; color: #00008b;">${board.gb_title}</span>
 						</div>
-                        <p class="address text-gray-600"><i class="fas fa-map-marker-alt icon"></i>${gymImformation[boardLoop.index].g_address}</p>
+                        <p class="address text-gray-600"><i class="fas fa-map-marker-alt icon"></i>${board.g_address}</p>
                         <p class="stars text-yellow-500"><i class="fas fa-star icon"></i> 4.0 <span class="review">(리뷰 수:100)</span></p>
                         <!-- 가격 정보 -->
                         <p class="price"><i class="fas fa-won-sign"></i> 10,000 ~ </p>

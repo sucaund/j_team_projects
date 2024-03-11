@@ -2,6 +2,7 @@ package com.oracle.hellong.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymBoardFile;
 import com.oracle.hellong.model.GymBoardJoin;
+import com.oracle.hellong.model.GymMemberServiceOrderJoin;
 import com.oracle.hellong.model.MemberGym;
 import com.oracle.hellong.model.Trainer;
 import com.oracle.hellong.service.jh.JHService;
@@ -123,36 +125,7 @@ public class JHController { ////
 	public String deleteGymForm(GymBoard gymboard,Gym gym) throws IOException {
 		jh.deleteGymPost(gymboard.getG_id());
 		return "redirect:/listGymManager?m_number="+gym.getM_number();
-	}
-	
-	
-	//헬스장 지점찾기 페이지********************************************************************************************************************
-	@GetMapping(value = "/GymPostList")
-	public String gymPostList(GymBoard gymboard,GymBoardFile gymBoardFile ,Model model) {
-		List <GymBoard> gymBoardList = jh.gymBoardList();
-		List <GymBoardJoin> gymImformation = jh.gymAddress();
-		System.out.println(gymBoardList);
-		System.out.println(gymBoardFile);
-		List <GymBoardFile> gymBoardFileList = jh.gymBoardFileList(); 
-		System.out.println(gymBoardFileList); 
-		model.addAttribute("gymImformation",gymImformation);
-		model.addAttribute("gymBoardList",gymBoardList);
-		model.addAttribute("gymBoardFileList",gymBoardFileList); 
-		return "jh/gymPostList";
-	}
-	
-	@GetMapping(value = "/gymPostDetail")
-	public String gymPostDetail(GymBoard gymBoard,Model model) {
-		System.out.println(gymBoard.getG_id());
-		List <GymBoardJoin> gymBoardDetail = jh.gymBoardDetailRead(gymBoard.getG_id());
-		List <GymBoardFile> gymBoardFileList = jh.gymBoardFileListRead(gymBoard.getG_id());
-		System.out.println(gymBoardFileList);
-		model.addAttribute("gymBoardDetail", gymBoardDetail);
-		model.addAttribute("gymBoardFileList", gymBoardFileList);
-		return "jh/gymPostListDetail";
-	}
-	
-	
+	}	
 	
 	
 	// 트레이너 리스트 *****************************************************************************************************
@@ -316,11 +289,59 @@ public class JHController { ////
 	
 	// 헬스장 회원리스트***********************************************************************************
 	@GetMapping(value = "gymMemberListDetail")
-	public String gymMemberListDetail(Gym gym, Model model) {
-		
+	public String gymMemberListDetail(GymMemberServiceOrderJoin gymMember,Gym gym, Model model) {	
+		//회원리스트 조회
+		List<GymMemberServiceOrderJoin> gymMemberList = jh.getGymMemberList(gym.getG_id());
+		//누적 매출액
+		int sumSale = jh.getSumSale(gym.getG_id());
+		//누적 회원수
+		int totalGymMemberList = jh.getTotalGymMemberList(gym.getG_id());
+		//page
+		Paging page = new Paging(totalGymMemberList,gymMember.getCurrentPage());
+		gymMember.setStart(page.getStart());
+		gymMember.setEnd(page.getEnd());
+		//남녀 성비
+		Map<String,Double> genderRatio = jh.getGenderRatio(gym.getG_id());
+		Map<String,Double> ageRatio = jh.getAgeRatio(gym.getG_id());
+		System.out.println("ageRatio=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ageRatio);
+		model.addAttribute("sumSale",sumSale);
+		model.addAttribute("totalGymMemberList",totalGymMemberList);
+		model.addAttribute("gymMemberList",gymMemberList);
+		model.addAttribute("page",page);
+		model.addAttribute("g_id",gym.getG_id());
+		model.addAttribute("genderRatio",genderRatio);
+		model.addAttribute("ageRatio",ageRatio);
 		return "jh/gymMemberList";
 	}
 
+	
+	//헬스장 지점찾기 페이지********************************************************************************************************************
+	@GetMapping(value = "/GymPostList")
+	public String gymPostList(GymBoard gymboard,GymBoardFile gymBoardFile ,Model model) {
+		List <GymBoardJoin> gymImformation = jh.gymGymBoardList();
+		List <GymBoardFile> gymBoardFileList = jh.gymBoardFileList(); 
+		
+		//페이징 작업
+		
+		//리뷰 수, 리뷰 평점 조회
+		// 서비스 중 최저가 조회
+		
+		System.out.println(gymBoardFileList); 
+		model.addAttribute("gymImformation",gymImformation);
+		model.addAttribute("gymBoardFileList",gymBoardFileList); 
+		return "jh/gymPostList";
+	}
+	
+	@GetMapping(value = "/gymPostDetail")
+	public String gymPostDetail(GymBoard gymBoard,Model model) {
+		System.out.println(gymBoard.getG_id());
+		List <GymBoardJoin> gymBoardDetail = jh.gymBoardDetailRead(gymBoard.getG_id());
+		List <GymBoardFile> gymBoardFileList = jh.gymBoardFileListRead(gymBoard.getG_id());
+		System.out.println(gymBoardFileList);
+		model.addAttribute("gymBoardDetail", gymBoardDetail);
+		model.addAttribute("gymBoardFileList", gymBoardFileList);
+		return "jh/gymPostListDetail";
+	}
 	
 	
 	

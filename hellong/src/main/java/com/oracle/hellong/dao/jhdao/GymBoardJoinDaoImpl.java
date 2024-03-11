@@ -17,15 +17,15 @@ public class GymBoardJoinDaoImpl implements GymBoardJoinDao {
 	private final SqlSession session;
 
 	@Override
-	public List<GymBoardJoin> gymAddress() {
-		List<GymBoardJoin> gymAddress = null;
+	public List<GymBoardJoin> gymGymBoardList() {
+		List<GymBoardJoin> gymGymBoardResult = null;
 		try {
-			gymAddress = session.selectList("gymAddress");
-			System.out.println(gymAddress.size());
+			gymGymBoardResult = session.selectList("gymGymBoard");
+			System.out.println(gymGymBoardResult.size());
 		}catch(Exception e) {
 			System.out.println("GymBoardJoinDaoImpl gymAddress Exception -> "+e.getMessage());
 		}		
-		return gymAddress;
+		return gymGymBoardResult;
 	}
 
 	@Override

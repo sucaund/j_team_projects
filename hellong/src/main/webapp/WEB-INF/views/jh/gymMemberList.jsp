@@ -41,13 +41,13 @@
             <div class="col-md-6">
                 <div class="card text-center p-4">
                     <h3 class="font-bold mb-3">누적 회원 수</h3>
-                    <p class="text-4xl font-bold text-primary">1000명</p>
+                    <p class="text-4xl font-bold text-primary">${totalGymMemberList}명</p>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="card text-center p-4">
                     <h3 class="font-bold mb-3">누적 매출액</h3>
-                    <p class="text-4xl font-bold text-success">100,000원</p>
+                    <p class="text-4xl font-bold text-success" id="formattedPrice" >${sumSale}원</p>
                 </div>
             </div>
         </div>
@@ -111,37 +111,20 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-body-bg">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>홍길동</td>
-                                        <td>30</td>
-                                        <td>남성</td>
-                                        <td>010-1234-5678</td>
-                                        <td>example@example.com</td>
-                                        <td>피트니스</td>
-                                        <td>30일</td>
+                                    <c:set var="num" value="${page.total - page.start + 1}"></c:set>
+                                	<c:forEach var="gym" items="${gymMemberList}">
+                                    <tr> 
+                                        <td>${num}</td>
+                                        <td>${gym.m_name}</td>
+                                        <td>${gym.m_age}</td>
+                                        <td>${gym.m_gender}</td>
+                                        <td>${gym.m_phone}</td>
+                                        <td>${gym.m_email}</td>
+                                        <td>${gym.s_name}</td>
+                                        <td>${gym.s_enddate}</td>
+                                        <c:set var="num" value="${num - 1}"></c:set>         
                                     </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>홍길동</td>
-                                        <td>30</td>
-                                        <td>남성</td>
-                                        <td>010-1234-5678</td>
-                                        <td>example@example.com</td>
-                                        <td>피트니스</td>
-                                        <td>30일</td>
-                                    </tr>
-                                     <tr>
-                                        <td>1</td>
-                                        <td>홍길동</td>
-                                        <td>30</td>
-                                        <td>남성</td>
-                                        <td>010-1234-5678</td>
-                                        <td>example@example.com</td>
-                                        <td>피트니스</td>
-                                        <td>30일</td>
-                                    </tr>
-                                    
+                                    </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -150,15 +133,25 @@
                         <div class="d-flex justify-content-center mb-4">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
-                                    <li class="page-item"><a class="page-link" href="#">이전</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">다음</a></li>
+                                	<c:if test="${page.currentPage > page.pageBlock}">
+                                    	<li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${page.startPage - page.pageBlock}">이전</a></li>
+                                    </c:if>
+                                    <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+						                <c:choose>
+						                    <c:when test="${page.currentPage == i}">
+						                        <li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${i}">${i}</a></li>
+						                    </c:when>
+						                    <c:otherwise>
+						                        <li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${i}">${i}</a></li>
+						                    </c:otherwise>
+						                </c:choose>
+						            </c:forEach>
+									<c:if test="${page.endPage < page.totalPage}">
+                                    	<li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${page.startPage + page.pageBlock}">다음</a></li>
+                                	</c:if>
                                 </ul>
                             </nav>
-                        </div>
-                    
+                        </div>            
                 </div>
             </div>
         </div>
@@ -171,50 +164,75 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <!-- 차트.js 추가 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	
+	<script type="text/javascript">
+	    function numberWithCommas(x) {
+	        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	    }
+	     
+	    window.onload = function() {
+	        var sumSale = ${sumSale}; 
+	        document.getElementById("formattedPrice").innerText = numberWithCommas(sumSale) + "원";
+	    };
+	</script>
+
 
     <!-- 성비 차트 스크립트 -->
     <script>
-        var ctx = document.getElementById('genderChart').getContext('2d');
-        var genderChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['남성', '여성'],
-                datasets: [{
-                    label: '성비',
-                    data: [60, 40], // 남성과 여성 비율 (예시)
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 99, 132, 1)',
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
+	    var maleRatio = ${genderRatio.MALERATIO};
+	    var femaleRatio = ${genderRatio.FEMALERATIO};
+	
+	    var ctx = document.getElementById('genderChart').getContext('2d');
+	
+	    var genderChart = new Chart(ctx, {
+	        type: 'bar',
+	        data: {
+	            labels: ['남성', '여성'],
+	            datasets: [{
+	                label: '성비',
+	                data: [maleRatio, femaleRatio],
+	                backgroundColor: [
+	                    'rgba(54, 162, 235, 0.2)',
+	                    'rgba(255, 99, 132, 0.2)',
+	                ],
+	                borderColor: [
+	                    'rgba(54, 162, 235, 1)',
+	                    'rgba(255, 99, 132, 1)',
+	                ],
+	                borderWidth: 1
+	            }]
+	        },
+	        options: {
+	            scales: {
+	                yAxes: [{
+	                    ticks: {
+	                        min: 0, // 최소값을 0으로 설정
+	                        max: 100, // 최대값을 100으로 설정
+	                        stepSize: 10 // 간격 설정 (옵션)
+	                    }
+	                }]
+	            }
+	        }
+	    });
+	</script>
 
     <!-- 나이 비율 차트 스크립트 -->
     <script>
+    	var age10 = ${ageRatio.age10};
+    	var age20 = ${ageRatio.age20};
+    	var age30 = ${ageRatio.age30};
+    	var age40 = ${ageRatio.age40};
+    	var age50 = ${ageRatio.age50};
+    
+    
         var ctx2 = document.getElementById('ageRatioChart').getContext('2d');
         var ageRatioChart = new Chart(ctx2, {
-            type: 'line', // 라인 차트로 변경
+            type: 'line', 
             data: {
-                labels: ['10대', '20대', '30대', '40대', '50대 이상'],
+                labels: ['20대 미만', '20대', '30대', '40대', '50대 이상'],
                 datasets: [{
                     label: '나이 비율',
-                    data: [10, 30, 25, 20, 15], // 각 연령대 비율 (예시)
+                    data: [age10, age20, age30, age40, age50], 
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1
@@ -224,7 +242,9 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true
+	                        min: 0, // 최소값을 0으로 설정
+	                        max: 100, // 최대값을 100으로 설정
+	                        stepSize: 10 // 간격 설정 (옵션)
                         }
                     }]
                 }
