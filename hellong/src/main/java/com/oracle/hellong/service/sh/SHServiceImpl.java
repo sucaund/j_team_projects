@@ -287,6 +287,12 @@ public class SHServiceImpl implements SHService {
 		
 	}
 
+	@Override
+	public List<Gym> findAllGyms() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

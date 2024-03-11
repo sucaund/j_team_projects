@@ -66,6 +66,8 @@ public interface SHService {
 	List<Board> getallQnA();
 
 	void delThisTable(int b_number);
+
+	List<Gym> findAllGyms();
 	
 
 

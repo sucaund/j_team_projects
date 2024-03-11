@@ -17,4 +17,8 @@ public class Gym { //체육관 gym
        private int g_companynumber; //사업자등록번호
        private String g_document; //등록신청서류
 
+       
+       //MAP 검색용
+       
+       
 }
