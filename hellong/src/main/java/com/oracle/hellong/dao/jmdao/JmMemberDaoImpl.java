@@ -97,19 +97,21 @@ public class JmMemberDaoImpl implements JmMemberDao {
 	public int jmUpdateMember(Member member) {
 		System.out.println("JmMemberDaoImpl jmUpdateMember start..");
 		int updateCount= 0;
-		try {
-			if(member.getM_phone().isEmpty()) {member.setM_phone(null);}
-			if(member.getM_email().isEmpty()) {member.setM_email(null);}
-			if(member.getM_address().isEmpty()) {member.setM_address(null);}
+		Member member1= session.selectOne("jmGetMemberFromNumber", member.getM_number());
+//		try {
+			if(member.getM_phone()==null|| member.getM_phone()=="") {member.setM_phone(member1.getM_phone());}
+			if(member.getM_email()==null|| member.getM_email()=="") {member.setM_email(member1.getM_email());}
+			if(member.getM_address()==null|| member.getM_address()=="") {member.setM_address(member1.getM_address());}
+			System.out.println(member.getM_number());
 			System.out.println(member.getM_name());
 			System.out.println(member.getM_age());
 			System.out.println(member.getM_phone());
 			System.out.println(member.getM_email());
 			System.out.println(member.getM_address());
 			updateCount = session.update("jmMemberUpdate",member);
-		} catch (Exception e) {
-			System.out.println("JmMemberDaoImpl jmUpdateMember Exception->"+e.getMessage());
-		}
+//		} catch (Exception e) {
+//			System.out.println("JmMemberDaoImpl jmUpdateMember Exception->"+e.getMessage());
+//		}
 		return updateCount;
 	}
 

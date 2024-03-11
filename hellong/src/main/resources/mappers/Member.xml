@@ -60,11 +60,12 @@
 
 	<update id="jmMemberUpdate" parameterType="Member">
 		UPDATE member SET
-		<if test="#{m_name}!=null"> m_name=#{m_name},  </if>
-		<if test="#{m_age}!=null"> m_age=#{m_age},  </if>
-		<if test="#{m_phone}!=null"> m_phone=#{m_phone},  </if>
-		<if test="#{m_email}!=null"> m_email=#{m_email},  </if>
-		<if test="#{m_address}!=null"> m_address=#{m_address},  </if>
+		
+		m_name = NVL(#{m_name}, m_name),
+		m_age = NVL(#{m_age}, m_age),
+		m_phone = NVL(#{m_phone}, m_phone),
+		m_email = NVL(#{m_email}, m_email),
+		m_address = NVL(#{m_address}, m_address),
 		m_update= sysdate
 		WHERE
 		m_number=#{m_number}
@@ -126,6 +127,13 @@
 		  from member
 		 where m_number=#{m_number} and m_isdeleted=0
 	</select>
+	
+	<!-- 비밀번호 중복 체크 위해, 입력자의 m_number와 일치하는 (암호화된) 비밀번호를 꺼내옴 -->
+	<select id="jmGetMemberFromNumber" parameterType="int" resultType="Member">
+		select *
+		  from member
+		 where m_number=#{m_number} and m_isdeleted=0
+	</select>	
 	
 	<update id="jmResetPw" parameterType="Member">
 		UPDATE member 

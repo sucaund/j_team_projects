@@ -168,7 +168,7 @@ public class JMController {
 			Member member=new Member();
 			member=jm.jmGetMemberFromId((String)session.getAttribute("m_id"));
 			//member에서 등록헬스장, 찜한 헬스장 몇개, 현재 서비스, 현재 서비스 기간, 현재 서비스 가격,
-			// 작성글 몇개, 스크랩 몇개, 현재 포인트, 결제내역 가져오고
+			// 작성글 몇개, 스크랩 몇개, 결제내역 가져오고
 			model.addAttribute("member", member);
 			//나머지는 페이지에서 링크로..
 			//null일 때 msg같은거 보냄 
@@ -282,16 +282,17 @@ public class JMController {
 	
 	// updateForm에 넣은 것 순수 Update
 		@RequestMapping(value = "jmUpdateMember")
-		public String jmUpdateMember(@ModelAttribute("member") @Valid Member member, HttpSession session,Model model) {
+		public String jmUpdateMember(@ModelAttribute("member") Member member, HttpSession session) {
 			// member1 : jmUpdateMemberForm 에서의 선택된 Member
 			
-			System.out.println(member);
+			System.out.println("jmController jmUpdateMember member"+ member);
 			member.setM_number((int)session.getAttribute("m_number"));
+			System.out.println(member);
 			int updateCount = jm.jmUpdateMember(member);
 			System.out.println("jmController jmUpdateMember updateCount-->" + updateCount);
 			// 수정
 
-			return "forward:jmUpdateMemberForm";
+			return "redirect:jmUpdateMemberForm";
 			// 업데이트 후 그 멤버의 detail 화면으로 즉시 이동
 		}	
 	

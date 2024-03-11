@@ -32,7 +32,14 @@
         성별 <c:if test="${member.m_gender=='F'}">여성</c:if>
         <c:if test="${member.m_gender=='M'}">남성</c:if><br>
         가입일자 <fmt:formatDate value="${member.m_regdate}" pattern="yyyy/MM/dd"></fmt:formatDate> <br>
-        현재 포인트 ${member.m_currpoint}
+        현재 포인트 ${member.m_currpoint} <br>
+        현재 이용중이면: <br>
+        현재 헬스장(있으면 사진, 클릭시 해당 헬스장 정보로 이동) <br>
+        현재 서비스 기간( ~ )<br>
+        현재 서비스 가격<br>
+        작성글 몇개> 게시판에서 가져옴 <br>
+        스크랩 몇개> 게시판에서 가져옴 <br>
+        찜한 헬스장> 클릭시 게시판으로 이동
     </h2>
     <a href="/jmUpdateMemberForm">회원 정보 수정></a></p>
 	
