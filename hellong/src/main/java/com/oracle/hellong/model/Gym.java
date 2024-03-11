@@ -28,5 +28,8 @@ public class Gym { //체육관 gym
    	
 	// 통합검색용
 	private String totKeyword;
+	
+    //MAP 검색용
+
 
 }

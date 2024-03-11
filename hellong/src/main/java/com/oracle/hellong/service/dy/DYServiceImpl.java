@@ -69,37 +69,6 @@ public class DYServiceImpl implements DYService {
 		return boardFileList;
 	}
 
-//	@Override
-//	public int dyUpdateBodyProfile(Board board) {
-//		System.out.println("DYServiceImpl Update...");
-//		int updateCount = 0;
-//		updateCount = dybd.dyUpdateBodyProfile(board);
-//		return updateCount;
-//	}
-	
-//	@Override
-//	public int dyUpdateBodyProfileWithFiles(Board board, List<BoardFile> boardFiles) {
-//		int updateCount = 0;
-//		try {
-//			int updateResult = dybd.dyUpdateBodyProfile(board);
-//			if (updateResult > 0) { // 게시글 업데이트 성공 시
-//				// 기존 파일 삭제
-//				dybfd.updateDeleteFileById(board.getB_number());
-//				// 새 파일 업로드
-//				for (BoardFile file : boardFiles) {
-//					dybfd.insertFileBodyProfile(file);
-//				}
-//				updateCount = 1;
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return updateCount;
-//	}
-	
-
-	
-
 	@Override
 	public List<Board> listManager() {
 		List<Board> boardList = null;
@@ -185,11 +154,7 @@ public class DYServiceImpl implements DYService {
 		return result;
 	}
 
-	@Override
-	public int dyUpdateBodyProfileWithFiles(Board board, List<BoardFile> boardFiles) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 	
 	

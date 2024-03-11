@@ -67,6 +67,6 @@ public interface SHService {
 
 	void delThisTable(int b_number);
 
-	
+	List<Gym> findAllGyms();
 
 }

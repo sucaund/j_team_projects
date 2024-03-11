@@ -1,14 +1,20 @@
 package com.oracle.hellong.controller;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
@@ -472,8 +478,13 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		return "SH-Views/gymMap";
 
 	}
-	
-	
+	@ResponseBody
+	@GetMapping("/gyms")
+	    public List<Gym> getAllGyms() {
+	        List<Gym> gyms = sh.getAllGym();
+	        System.out.println(gyms);
+	        return gyms;
+	}
 	
 	
 	

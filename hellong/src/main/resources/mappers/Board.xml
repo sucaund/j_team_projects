@@ -149,35 +149,46 @@
 	        FROM board b
 	        JOIN member m ON b.m_number = m.m_number
 	        <where>
+	         <choose>
+	                <when test="cateSearch == 'cate-all'">
+	                    and (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
+	                </when>
+	                <when test="cateSearch == 'cate-free'">
+	                    b.common_bcd = 200 AND b.common_mcd = 10
+	                </when>
+	                <when test="cateSearch == 'cate-body'">
+	                    b.common_bcd = 200 AND b.common_mcd = 20
+	                </when>
+	                <when test="cateSearch == 'cate-notice'">
+	                    b.common_bcd = 200 AND b.common_mcd = 110
+	                </when>
+	                <when test="cateSearch == 'cate-question'">
+	                    b.common_bcd = 200 AND b.common_mcd = 120
+	                </when>
+	            </choose>
 	            <choose>
 	                <when test="search == 'all'">
 	                    (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
 	                </when>
 	                <when test="search == 'title'">
-	                    b.b_title LIKE '%' || #{keyword} || '%'
+	                    and b.b_title LIKE '%' || #{keyword} || '%'
 	                </when>
 	                <when test="search == 'name'">
-	                    m.m_name LIKE '%' || #{keyword} || '%'
+	                    and m.m_name LIKE '%' || #{keyword} || '%'
 	                </when>
 	                <when test="search == 'content'">
-	                    b.b_content LIKE '%' || #{keyword} || '%'
+	                    and b.b_content LIKE '%' || #{keyword} || '%'
 	                </when>
+	                <otherwise> 
+	                   and b.b_content LIKE '%' 
+	                </otherwise>
 	            </choose>
 	        </where>
 	        ORDER BY b.b_number DESC
-	    )
+	       ) f
+	    )   
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
-	
-	<!-- 신고여부 쿼리 -->
-	<update id="jjUpReported" parameterType="int">
-		UPDATE board
-		SET b_isreported = CASE 
-		                     WHEN b_isreported = 0 THEN 1 
-		                     ELSE b_isreported 
-		                   END
-		WHERE b_number = #{b_number}
-	</update>
 	
 
 <!-- 재준 mappers 끝 -->
