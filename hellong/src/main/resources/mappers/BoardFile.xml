@@ -1,39 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.BoardFileMapper">
-	 <!-- <select id="dyBodyProfileFileListAll" parameterType="BoardFile"
+	<!-- <select id="dyBodyProfileFileListAll" parameterType="BoardFile" resultType="BoardFile"> 
+		</select> -->
+
+	<!-- <select id="dyBoardFileSelect" parameterType="int" resultType="BoardFile"> 
+		SELECT * FROM board_file WHERE b_number = #{b_number} </select> -->
+
+	<select id="dyBodyProfileFileList" parameterType="int"
 		resultType="BoardFile">
-		
-	</select>  -->
-	
-	<!-- <select id="dyBoardFileSelect" parameterType="int" resultType="BoardFile">
-		SELECT * FROM board_file WHERE b_number = #{b_number}
-	</select> -->
-	
-	<select id="dyBodyProfileFileList" parameterType="int" resultType="BoardFile">
 		SELECT * FROM board_file WHERE b_number = #{b_number}
 	</select>
-	
+
 	<insert id="dyInsertFileBodyProfile" parameterType="BoardFile">
 		<selectKey keyProperty="bf_id" resultType="int"
 			order="BEFORE">
 			SELECT NVL(MAX(bf_id), 0) + 1 FROM board_file
 		</selectKey>
-		INSERT INTO board_file ( bf_id, b_number, bf_originalName, bf_savedName )
-		values( #{bf_id}, #{b_number}, #{bf_originalName}, #{bf_savedName} )
+		INSERT INTO board_file ( bf_id, b_number, bf_originalName,
+		bf_savedName )
+		values( #{bf_id}, #{b_number}, #{bf_originalName},
+		#{bf_savedName} )
 	</insert>
-	
+
 	<delete id="dyDeleteFileById" parameterType="int">
-		DELETE FROM board_file WHERE bf_id = #{bf_id}
+		DELETE FROM
+		board_file WHERE bf_id = #{bf_id}
 	</delete>
-	
- 	<delete id="dyUpdateDeleteFileById" parameterType="int">
-		DELETE FROM board_file WHERE b_number = #{b_number}
-	</delete> 
-	
-	<select id="dyBodyProfileFileListAll" parameterType="BoardFile" resultType="BoardFile">
-		SELECT * FROM board_file where b_number = #{b_number}
+
+	<delete id="dyUpdateDeleteFileById" parameterType="int">
+		DELETE FROM
+		board_file WHERE b_number = #{b_number}
+	</delete>
+
+	<select id="dyBodyProfileFileListAll" parameterType="BoardFile"
+		resultType="BoardFile">
+		SELECT bf.*
+		FROM board_file bf
+		WHERE bf.b_number = #{b_number}
 	</select>
-	
-	
+
+
 </mapper>

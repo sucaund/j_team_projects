@@ -18,9 +18,6 @@ public interface DYService {
 
 	Board selectBodyProfile(int b_number);
 
-	// int dyUpdateBodyProfile(Board board);
-	int dyUpdateBodyProfileWithFiles(Board board, List<BoardFile> boardFiles);
-
 	List<Board> listManager();
 
 	int insertBodyProfile(Board board);

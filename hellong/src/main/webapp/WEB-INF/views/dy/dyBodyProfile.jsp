@@ -28,7 +28,7 @@
 	height: auto;
 	max-height: 150px;
 	margin-bottom: 10px;
-}
+} 
 </style>
 </head>
 <body>
@@ -40,13 +40,16 @@
 	<div class="grid-container">
     <c:forEach items="${listBodyProfile}" var="board" varStatus="loop">
         <div class="grid-item">
-            <!-- 이미지 파일 리스트 대신 게시글과 연결된 이미지를 직접 찾아서 표시 -->
-            <c:forEach items="${listFileBodyProfile}" var="file">
-                <c:if test="${file.b_number == board.b_number}">
-                    <!-- 컨텍스트 경로와 파일 이름을 올바르게 연결 -->
-                    <img src="${request.contextPath}/upload/${file.bf_savedName}" alt="Board Image">
-                </c:if>
-            </c:forEach>
+            <c:choose>
+                <c:when test="${empty firstImageMap[board.b_number]}">
+                    <!-- 이미지가 없는 경우 빈 이미지를 표시 -->
+                    <img src="이미지 없음 경로" alt="No Image">
+                </c:when>
+                <c:otherwise>
+                    <!-- 이미지가 있는 경우 해당 이미지를 표시 -->
+                    <img src="${request.contextPath}/upload/${firstImageMap[board.b_number]}" alt="Board Image">
+                </c:otherwise>
+            </c:choose>
             <p>
                 <a href="dySelectBodyProfile?b_number=${board.b_number}">${board.b_title}</a>
             </p>

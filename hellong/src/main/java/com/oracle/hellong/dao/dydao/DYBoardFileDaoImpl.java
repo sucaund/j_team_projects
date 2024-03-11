@@ -49,12 +49,14 @@ public class DYBoardFileDaoImpl implements DYBoardFileDao {
 		session.delete("dyUpdateDeleteFileById", b_number);
 		
 	}
-
+	// 게시판 파일 리스트(목록)
 	@Override
 	public List<BoardFile> listFileBodyProfile(BoardFile boardFile) {
 		List<BoardFile> bodyProfileFileList = null;
 		bodyProfileFileList = session.selectList("dyBodyProfileFileListAll", boardFile);
+		System.out.println("***bodyProfileFileList -> " + bodyProfileFileList);
 		return bodyProfileFileList;
+		
 	}
 	
 	

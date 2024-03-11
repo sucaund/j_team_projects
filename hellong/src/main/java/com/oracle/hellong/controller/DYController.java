@@ -7,7 +7,9 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.naming.directory.SearchResult;
@@ -45,32 +47,45 @@ import lombok.extern.slf4j.Slf4j;
 public class DYController {
 	private final DYService dys;
 
-	// 바디프로필 게시글 목록 조회창
 	@GetMapping(value = "listBodyProfile")
 	public String bodyProfileList(Board board, BoardFile boardFile, Model model) {
-		System.out.println("DYController Start listBoard...");
-		// if (emp.getCurrentPage() == null ) emp.setCurrentPage("1");
-		// Emp 전체 Count 15
-		int totalBodyProfile = dys.totalBodyProfile();
-		System.out.println("DYController Start totalBodyProfile->" + totalBodyProfile);
+	    System.out.println("DYController Start listBoard...");
+	    int totalBodyProfile = dys.totalBodyProfile();
+	    System.out.println("DYController Start totalBodyProfile->" + totalBodyProfile);
 
-		// Paging 작업
-		DYPaging page = new DYPaging(totalBodyProfile, board.getCurrentPage());
-		// Parameter emp --> Page만 추가 Setting
-		board.setStart(page.getStart()); // 시작시 1
-		board.setEnd(page.getEnd()); // 시작시 10
+	    DYPaging page = new DYPaging(totalBodyProfile, board.getCurrentPage());
+	    board.setStart(page.getStart());
+	    board.setEnd(page.getEnd());
 
-		List<Board> listBodyProfile = dys.listBodyProfile(board);
-		List<BoardFile> listFileBodyProfile = dys.listFileBodyProfile(boardFile);
-		System.out.println("DYController list listBodyProfile.size()=>" + listBodyProfile.size());
+	    List<Board> listBodyProfile = dys.listBodyProfile(board);
+	    List<BoardFile> listFileBodyProfile = dys.listFileBodyProfile(boardFile);
+	    System.out.println("ListBodyProfile size: " + listBodyProfile.size());
+	    for (Board boardItem : listBodyProfile) {
+	        System.out.println("Board B_number: " + boardItem.getB_number());
+	    }
+	    System.out.println("ListFileBodyProfile size: " + listFileBodyProfile.size());
+	    for (BoardFile file : listFileBodyProfile) {
+	        System.out.println("File B_number: " + file.getB_number());
+	    }
+	    System.out.println("미안해 얘들아!!!!!");
+	    
+	    Map<Integer, String> firstImageMap = new HashMap<>();
+	    for (Board boardItem : listBodyProfile) {
+	        BoardFile queryParam = new BoardFile();
+	        queryParam.setB_number(boardItem.getB_number());
+	        List<BoardFile> files = dys.listFileBodyProfile(queryParam);
+	        if (!files.isEmpty()) {
+	            firstImageMap.put(boardItem.getB_number(), files.get(0).getBf_savedName());
+	        }
+	    }
 
-		model.addAttribute("totalBodyProfile", totalBodyProfile);
-		model.addAttribute("listBodyProfile", listBodyProfile);
-		model.addAttribute("listFileBodyProfile", listFileBodyProfile);
-		model.addAttribute("page", page);
+	    model.addAttribute("totalBodyProfile", totalBodyProfile);
+	    model.addAttribute("listBodyProfile", listBodyProfile);
+	    model.addAttribute("listFileBodyProfile", listFileBodyProfile);
+	    model.addAttribute("firstImageMap", firstImageMap);
+	    model.addAttribute("page", page);
 
-		return "dy/dyBodyProfile";
-
+	    return "dy/dyBodyProfile";
 	}
 
 	// 클릭한 게시글 조회
