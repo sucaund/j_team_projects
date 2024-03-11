@@ -8,7 +8,6 @@
 	<select id="boardTotal" parameterType="int" resultType="int">
 		SELECT Count(*)
 		FROM BOARD
-		WHERE common_bcd = 200 AND common_mcd != 20
 		<!-- where M_NUMBER = #{M_NUMBER}
 		AND COMMON_BCD = 200 AND COMMON_MCD = 120 -->
 	</select>
@@ -18,11 +17,10 @@
 		<![CDATA[
 		SELECT * 
 		FROM (
-		    SELECT ROWNUM rn, b.*, m.m_name
+		    SELECT ROWNUM rn, b.*, m.m_name 
 		    FROM (
 		    	select *
 		    	from board
-		    	where common_bcd = 200 AND common_mcd != 20
 		    	order by b_number desc) b
 		    JOIN member m ON b.m_number = m.m_number 
 		)
@@ -33,13 +31,13 @@
 	
 	<!-- 자유게시판에서 글 제목을 선택 시 상세게시판 여는 쿼리 -->
 	<select id="jjBoardOne" parameterType="int" resultType="Board">
-		SELECT b.*, m.m_name
+		SELECT  b.*, m.m_name
 			  , board_min_max(b_number,1)  prevPage
 			  , board_min_max(b_number,2)  nextPage
 		FROM board b, member m
 		WHERE b.m_number = m.m_number 
 		AND b_number = #{b_number}
-
+		
 	</select>
 	
 	<!-- 상세게시판 접속 시 조회수 1을 올려주는 쿼리 -->
@@ -73,6 +71,7 @@
 		<selectKey keyProperty="b_number" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(b_number), 0) + 1 FROM board
 		</selectKey>
+		
 		INSERT INTO board ( b_number, b_title, b_content, 
 							common_bcd, common_mcd, b_comm_group )
 		values
@@ -93,6 +92,16 @@
 	<delete id="deleteBoard" parameterType="Board">
 		DELETE FROM board where b_number = #{b_number}
 	</delete>
+	
+	<!-- 신고여부 쿼리 -->
+	<update id="jjUpReported" parameterType="int">
+		UPDATE board
+		SET b_isreported = CASE 
+		                     WHEN b_isreported = 0 THEN 1 
+		                     ELSE b_isreported 
+		                   END
+		WHERE b_number = #{b_number}
+	</update>
 	
 	<!-- 카테고리+검색어 로 조회된 글을 카운트하는 쿼리 -->
 	<select id="totalCategorySearchCnt" parameterType="Board" resultType="int">
@@ -139,7 +148,7 @@
 	
 	<!-- 게시글을 카테고리 + 검색어로 조회하는 쿼리 -->
 	<select id="listCategorySearchBoard" parameterType="Board" resultType="Board">
-	     SELECT *
+	    SELECT *
 	    FROM 
 	     (
 	       SELECT ROWNUM rn, f.*
@@ -149,9 +158,9 @@
 	        FROM board b
 	        JOIN member m ON b.m_number = m.m_number
 	        <where>
-	         <choose>
+	            <choose>
 	                <when test="cateSearch == 'cate-all'">
-	                    and (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
+	                    b.common_bcd = b.common_bcd AND b.common_mcd = b.common_mcd
 	                </when>
 	                <when test="cateSearch == 'cate-free'">
 	                    b.common_bcd = 200 AND b.common_mcd = 10
@@ -166,9 +175,10 @@
 	                    b.common_bcd = 200 AND b.common_mcd = 120
 	                </when>
 	            </choose>
+	            
 	            <choose>
 	                <when test="search == 'all'">
-	                    (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
+	                    and (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
 	                </when>
 	                <when test="search == 'title'">
 	                    and b.b_title LIKE '%' || #{keyword} || '%'
@@ -184,7 +194,7 @@
 	                </otherwise>
 	            </choose>
 	        </where>
-	        ORDER BY b.b_number DESC
+	       ORDER BY b.b_number DESC
 	       ) f
 	    )   
 		WHERE rn BETWEEN #{start} AND #{end}
