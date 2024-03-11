@@ -3,6 +3,7 @@
 <mapper namespace="com.oracle.hellong.ReportMapper">
 	<select id="getAllReport" resultType="Report">
 		SELECT 
+
 		    r.B_NUMBER AS b_number,
 		    b.B_TITLE AS b_title,
 		    r.REPORT_DATE AS report_date,

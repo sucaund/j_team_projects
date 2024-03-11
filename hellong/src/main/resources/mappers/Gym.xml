@@ -44,7 +44,7 @@
 	
 	<select id="getAllGym" resultType="Gym">
 		SELECT*
-		FROM GYM WHERE G_ISDELETED = 0
+		FROM GYM 
 	</select>
 	
 	<select id="dySearchGyms" parameterType="Gym" resultType="Gym">
@@ -68,6 +68,7 @@
 	    SET G_ISDELETED = 1
 	    WHERE G_ID =#{g_id}
 	</update>
+
 	<update id="OpenGym">
 	    UPDATE Gym
 	    SET COMMON_MCD = #{common_mcd}

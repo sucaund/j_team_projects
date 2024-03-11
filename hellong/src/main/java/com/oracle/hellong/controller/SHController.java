@@ -7,10 +7,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
@@ -476,20 +474,6 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 	}
 	
 	
-	//문의글 목록에서 삭제
-	
-	@RequestMapping("/delThisTable")
-	public String delThisTable(@RequestParam("b_number") int b_number) {
-		System.out.println("SHController delReport start...");
-		
-		sh.delThisTable(b_number);
-		System.out.println("SHController delReport END...");
-		
-		
-		return "redirect:manager";
-	}
-	
-	//===============================맵 검색=================================
 	
 	
 	
