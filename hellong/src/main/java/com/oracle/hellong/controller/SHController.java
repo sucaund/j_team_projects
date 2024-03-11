@@ -464,14 +464,19 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		return "redirect:manager";
 	}
 	
-// ======================================map api구성	=================================================
-	//이동
+	//===============================맵 검색=================================
+	
+	
+	
 	@RequestMapping("/gymMap")
 	public String gymMap() {
 		System.out.println("SHController gymMap start...");
 		return "SH-Views/gymMap";
+
 	}
 
+	
+	
 	
 	
 	
