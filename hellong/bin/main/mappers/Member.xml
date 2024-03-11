@@ -67,7 +67,8 @@
 		<if test="#{m_address}!=null"> m_address=#{m_address},  </if>
 		m_update= sysdate
 		WHERE
-		m_id=#{m_id}
+		m_number=#{m_number}
+		and m_isdeleted=0
 	</update>
 
 

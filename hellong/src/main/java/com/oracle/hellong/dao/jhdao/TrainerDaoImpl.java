@@ -51,6 +51,7 @@ public class TrainerDaoImpl implements TrainerDao {
 		}
 		return trainerInsert;
 	}
+	
 	//트레이너 등록확인
 	@Override
 	public List<Trainer> gymIdTrainerId(Trainer trainer) {
@@ -63,6 +64,49 @@ public class TrainerDaoImpl implements TrainerDao {
 		}
 		return gymIdTrainerId;
 	}
+	
+	//트레이너 조회
+	@Override
+	public Trainer getTrainerById(int trainerId) {
+		Trainer getTrainerById = null;
+		try {							    
+			getTrainerById = session.selectOne("getTrainerById",trainerId);
+			System.out.println("TrainerDaoImpl getTrainerById select->"+getTrainerById);
+		} catch (Exception e) {
+			System.out.println("TrainerDaoImpl getTrainerById Exception -> "+e.getMessage());
+		}
+		return getTrainerById;
+	}
+	
+	// 트레이너 수정
+	@Override
+	public int updateTrainer(Trainer trainer) {
+		System.out.println("************** TrainerDaoImpl updateTrainer**********"+trainer);
+		int updateTrainerResult = 0;
+		try {							    
+			updateTrainerResult = session.update("updateTrainer",trainer);
+			System.out.println("TrainerDaoImpl updateTrainer updateCount->"+updateTrainerResult);
+		} catch (Exception e) {
+			System.out.println("TrainerDaoImpl updateTrainer Exception -> "+e.getMessage());
+		}
+		return updateTrainerResult;
+	}
+	
+
+	//트레이너 삭제
+	@Override
+	public int getDeleteTrainer(int t_id) {
+		int trainerDelete = 0;
+		try {							    
+			trainerDelete = session.delete("getDeleteTrainer",t_id);
+			System.out.println("TrainerDaoImpl getDeleteTrainer delete->"+trainerDelete);
+		} catch (Exception e) {
+			System.out.println("TrainerDaoImpl getDeleteTrainer Exception -> "+e.getMessage());
+		}
+		return trainerDelete;
+	}
+
+
 
 
 	

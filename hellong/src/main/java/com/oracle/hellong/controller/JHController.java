@@ -196,7 +196,44 @@ public class JHController { ////
 		}
 	}
 	
-	
+    @GetMapping(value = "/getTrainerInfo/{trainer_id}")
+    @ResponseBody
+    public Trainer getTrainerInfo(@PathVariable("trainer_id") int trainerId) {
+        Trainer trainerSelect = jh.getTrainerById(trainerId);
+        return trainerSelect;
+    }
+    
+    @GetMapping(value="/trainerUpdate/{t_id}")
+    public String trainerUpdatePage(@PathVariable("t_id") int trainerId, Model model) {
+    	Trainer trainerSelect = jh.getTrainerById(trainerId);
+    	model.addAttribute("trainer",trainerSelect);
+        return "jh/updateTrainer";
+    }
+    
+    @PostMapping(value = "/jh/updateTrainerForm")
+    public String trainerUpdateSet(Trainer trainer, Model model) throws IOException{
+    	int updateTrainer = jh.updateTrainer(trainer);
+		if (updateTrainer > 0) {
+			return "redirect:/trainerList?g_id="+trainer.getG_id();
+		}
+		else {
+			model.addAttribute("msg","입력 실패 확인해 보세요");
+			return "jh/createTrainer";
+		}
+    }
+    
+       
+    @PostMapping(value = "/deleteTrainer/{trainerId}")
+    @ResponseBody
+    public String deleteTrainer(@PathVariable("trainerId") int t_id) {
+    	int trainerDelete = jh.getDeleteTrainer(t_id);
+    	if (trainerDelete == 1) {
+            return "trainerDelete successfully!";
+        } else {
+            return "Failed to trainerDelete!";
+        }	
+    }
+		
 	
 	// 서비스(상품) 리스트 ****************************************************************************
 	@GetMapping(value = "serviceList")
@@ -277,9 +314,12 @@ public class JHController { ////
 	}
 	
 	
-	
 	// 헬스장 회원리스트***********************************************************************************
-	
+	@GetMapping(value = "gymMemberListDetail")
+	public String gymMemberListDetail(Gym gym, Model model) {
+		
+		return "jh/gymMemberList";
+	}
 
 	
 	

@@ -16,12 +16,15 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class TrainerFileProcessor {
-		
+
 	public Trainer processFile(MultipartFile trainerPhotoFile, Trainer trainer) throws IOException {
 		String originalFilename = trainerPhotoFile.getOriginalFilename();
 		UUID uid = UUID.randomUUID();
 		String storedFileName = uid + "-" + originalFilename;
 		Trainer trPhotoFile = new Trainer();
+		if(trainer.getT_id() != 0) {
+			trPhotoFile.setT_id(trainer.getT_id());
+		}
 		trPhotoFile.setG_id(trainer.getG_id());
 		trPhotoFile.setT_name(trainer.getT_name());
 		trPhotoFile.setT_gender(trainer.getT_gender());
@@ -36,7 +39,7 @@ public class TrainerFileProcessor {
 		trPhotoFile.setT_experience(trainer.getT_experience());
 		trPhotoFile.setT_photoname(originalFilename);
 		trPhotoFile.setT_photostoredname(storedFileName);
-
+			
 		// 백업 폴더가 없으면 생성
 		String backupFolderPath = "C:/trbackup/";
 		File backupFolder = new File(backupFolderPath);
@@ -47,27 +50,28 @@ public class TrainerFileProcessor {
 				e.printStackTrace();
 			}
 		}
-		
+
 		String savePath = backupFolderPath + storedFileName;
 		trainerPhotoFile.transferTo(new File(savePath));
-		
+
 		return trPhotoFile;
 	}
+
 	
+	public void deleteFileAndRecord(Trainer trainer) throws IOException {		 
+		 String trainerFile = "/C:/trbackup/" + trainer.getT_photostoredname(); 
+		 File file = new File(trainerFile); 
+		 if(file.exists()) { 
+			 if (file.delete()) {
+				 System.out.println("File deleted successfully."); 
+			} else {
+				System.out.println("Failed to delete file."); 
+			} 
+		} else {
+			System.out.println("File not found."); 
+		} 
+	}
 	
-	
-	/*
-	 * public void deleteFileAndRecord(int t_id) throws IOException {
-	 * List<GymBoardFile> filesToDelete = gbfd.getFilesByGymId(g_id);
-	 * System.out.println(filesToDelete); for (GymBoardFile fileToDelete :
-	 * filesToDelete) { String filePath = "/C:/backup/" +
-	 * fileToDelete.getGbf_storedFileName(); File file = new File(filePath); if
-	 * (file.exists()) { if (file.delete()) {
-	 * System.out.println("File deleted successfully."); } else {
-	 * System.out.println("Failed to delete file."); } } else {
-	 * System.out.println("File not found."); } } }
-	 */
-	
-		
+	 
 
 }

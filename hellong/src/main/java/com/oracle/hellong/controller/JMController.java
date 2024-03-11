@@ -174,6 +174,7 @@ public class JMController {
 			//null일 때 msg같은거 보냄 
 			//몇개씩 보내는건 ListMember 참고해서 보내면 될 것 같은데. List 보내는 식
 //			session.getAttribute(null)
+			System.out.println(member.getM_gender());
 		return "jm/jmMyPage";
 		} else { //로그인 되지 않았을 때
 			return "forward:jmLoginForm";
@@ -262,7 +263,7 @@ public class JMController {
 	 
 
 	// 내 정보 눌렀을 때 나오는 회원정보 수정 페이지
-	@GetMapping(value = "jmUpdateMemberForm")
+	@RequestMapping(value = "jmUpdateMemberForm")
 	public String jmUpdateMemberForm(Model model, HttpSession session) {
 		System.out.println("jmController jmUpdateMemberForm Start...");
 		if (session.getAttribute("m_number") != null) {
@@ -281,11 +282,12 @@ public class JMController {
 	
 	// updateForm에 넣은 것 순수 Update
 		@RequestMapping(value = "jmUpdateMember")
-		public String jmUpdateMember(Member member1, Model model) {
+		public String jmUpdateMember(@ModelAttribute("member") @Valid Member member, HttpSession session,Model model) {
 			// member1 : jmUpdateMemberForm 에서의 선택된 Member
-			log.info("jmUpdateMember Start...");
-
-			int updateCount = jm.jmUpdateMember(member1);
+			
+			System.out.println(member);
+			member.setM_number((int)session.getAttribute("m_number"));
+			int updateCount = jm.jmUpdateMember(member);
 			System.out.println("jmController jmUpdateMember updateCount-->" + updateCount);
 			// 수정
 

@@ -98,6 +98,14 @@ public class JmMemberDaoImpl implements JmMemberDao {
 		System.out.println("JmMemberDaoImpl jmUpdateMember start..");
 		int updateCount= 0;
 		try {
+			if(member.getM_phone().isEmpty()) {member.setM_phone(null);}
+			if(member.getM_email().isEmpty()) {member.setM_email(null);}
+			if(member.getM_address().isEmpty()) {member.setM_address(null);}
+			System.out.println(member.getM_name());
+			System.out.println(member.getM_age());
+			System.out.println(member.getM_phone());
+			System.out.println(member.getM_email());
+			System.out.println(member.getM_address());
 			updateCount = session.update("jmMemberUpdate",member);
 		} catch (Exception e) {
 			System.out.println("JmMemberDaoImpl jmUpdateMember Exception->"+e.getMessage());
