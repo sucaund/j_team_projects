@@ -3,6 +3,7 @@ package com.oracle.hellong.service.dy;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oracle.hellong.dao.dydao.DYBoardDao;
 import com.oracle.hellong.dao.dydao.DYBoardFileDao;
@@ -46,12 +47,12 @@ public class DYServiceImpl implements DYService {
 		bodyProfileList = dybd.listBodyProfile(board);
 		return bodyProfileList;
 	}
-//	@Override
-//	public List<BoardFile> listFileBodyProfile(BoardFile boardFile) {
-//		List<BoardFile> bodyProfileFileList = null;
-//		bodyProfileFileList = dybfd.listFileBodyProfile(boardFile);
-//		return bodyProfileFileList;
-//	}
+	@Override
+	public List<BoardFile> listFileBodyProfile(BoardFile boardFile) {
+		List<BoardFile> bodyProfileFileList = null;
+		bodyProfileFileList = dybfd.listFileBodyProfile(boardFile);
+		return bodyProfileFileList;
+	}
 
 	@Override
 	public Board selectBodyProfile(int b_number) {
@@ -60,7 +61,7 @@ public class DYServiceImpl implements DYService {
 		board = dybd.selectBodyProfile(b_number);
 		return board;
 	}
-
+	
 	@Override
 	public List<BoardFile> selectBodyProfileFileList(int b_number) {
 		List<BoardFile> boardFileList = null;
@@ -68,14 +69,36 @@ public class DYServiceImpl implements DYService {
 		return boardFileList;
 	}
 
+//	@Override
+//	public int dyUpdateBodyProfile(Board board) {
+//		System.out.println("DYServiceImpl Update...");
+//		int updateCount = 0;
+//		updateCount = dybd.dyUpdateBodyProfile(board);
+//		return updateCount;
+//	}
 	
-	@Override
-	public int dyUpdateBodyProfile(Board board) {
-		System.out.println("DYServiceImpl Update...");
-		int updateCount = 0;
-		updateCount = dybd.dyUpdateBodyProfile(board);
-		return updateCount;
-	}
+//	@Override
+//	public int dyUpdateBodyProfileWithFiles(Board board, List<BoardFile> boardFiles) {
+//		int updateCount = 0;
+//		try {
+//			int updateResult = dybd.dyUpdateBodyProfile(board);
+//			if (updateResult > 0) { // 게시글 업데이트 성공 시
+//				// 기존 파일 삭제
+//				dybfd.updateDeleteFileById(board.getB_number());
+//				// 새 파일 업로드
+//				for (BoardFile file : boardFiles) {
+//					dybfd.insertFileBodyProfile(file);
+//				}
+//				updateCount = 1;
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return updateCount;
+//	}
+	
+
+	
 
 	@Override
 	public List<Board> listManager() {
@@ -84,6 +107,12 @@ public class DYServiceImpl implements DYService {
 		boardList = dybd.listManager();
 		System.out.println("DYServiceImpl boardList.size() -> " + boardList.size());
 		return boardList;
+	}
+	// 게시글 업데이트 
+	@Override
+	public void dyUpdateBodyProfile(Board board) {
+		dybd.dyUpdateBodyProfile(board);
+		
 	}
 
 	@Override
@@ -101,13 +130,19 @@ public class DYServiceImpl implements DYService {
 		result = dybfd.insertFileBodyProfile(boardFile);
 		return result;
 	}
-
+	// 게시글 삭제
 	@Override
 	public int deleteBodyProfile(int b_number) {
 		int result = 0;
 		System.out.println("DYServiceImpl delete Start..");
 		result = dybd.deleteBodyProfile(b_number);
 		return result;
+	}
+	// 게시글 파일 삭제
+	@Override
+	public void deleteFileById(int bf_id) {
+		dybfd.deleteFileById(bf_id);
+		
 	}
 
 	@Override
@@ -150,4 +185,16 @@ public class DYServiceImpl implements DYService {
 		return result;
 	}
 
+	@Override
+	public int dyUpdateBodyProfileWithFiles(Board board, List<BoardFile> boardFiles) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
+	
+	
+
+	
+	
 }

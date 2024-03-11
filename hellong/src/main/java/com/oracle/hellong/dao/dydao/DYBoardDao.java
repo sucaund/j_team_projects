@@ -12,7 +12,7 @@ public interface DYBoardDao {
 
 	Board selectBodyProfile(int b_number);
 
-	int dyUpdateBodyProfile(Board board);
+	void dyUpdateBodyProfile(Board board);
 
 	List<Board> listManager();
 

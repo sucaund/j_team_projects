@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.naming.directory.SearchResult;
@@ -44,32 +47,45 @@ import lombok.extern.slf4j.Slf4j;
 public class DYController {
 	private final DYService dys;
 
-	// 바디프로필 게시글 목록 조회창
 	@GetMapping(value = "listBodyProfile")
-	public String bodyProfileList(Board board, /* BoardFile boardFile, */ Model model) {
-		System.out.println("DYController Start listBoard...");
-		// if (emp.getCurrentPage() == null ) emp.setCurrentPage("1");
-		// Emp 전체 Count 15
-		int totalBodyProfile = dys.totalBodyProfile();
-		System.out.println("DYController Start totalBodyProfile->" + totalBodyProfile);
+	public String bodyProfileList(Board board, BoardFile boardFile, Model model) {
+	    System.out.println("DYController Start listBoard...");
+	    int totalBodyProfile = dys.totalBodyProfile();
+	    System.out.println("DYController Start totalBodyProfile->" + totalBodyProfile);
 
-		// Paging 작업
-		DYPaging page = new DYPaging(totalBodyProfile, board.getCurrentPage());
-		// Parameter emp --> Page만 추가 Setting
-		board.setStart(page.getStart()); // 시작시 1
-		board.setEnd(page.getEnd()); // 시작시 10
+	    DYPaging page = new DYPaging(totalBodyProfile, board.getCurrentPage());
+	    board.setStart(page.getStart());
+	    board.setEnd(page.getEnd());
 
-		List<Board> listBodyProfile = dys.listBodyProfile(board);
-//		List<BoardFile> listFileBodyProfile = dys.listFileBodyProfile(boardFile);
-		System.out.println("DYController list listBodyProfile.size()=>" + listBodyProfile.size());
+	    List<Board> listBodyProfile = dys.listBodyProfile(board);
+	    List<BoardFile> listFileBodyProfile = dys.listFileBodyProfile(boardFile);
+	    System.out.println("ListBodyProfile size: " + listBodyProfile.size());
+	    for (Board boardItem : listBodyProfile) {
+	        System.out.println("Board B_number: " + boardItem.getB_number());
+	    }
+	    System.out.println("ListFileBodyProfile size: " + listFileBodyProfile.size());
+	    for (BoardFile file : listFileBodyProfile) {
+	        System.out.println("File B_number: " + file.getB_number());
+	    }
+	    System.out.println("미안해 얘들아!!!!!");
+	    
+	    Map<Integer, String> firstImageMap = new HashMap<>();
+	    for (Board boardItem : listBodyProfile) {
+	        BoardFile queryParam = new BoardFile();
+	        queryParam.setB_number(boardItem.getB_number());
+	        List<BoardFile> files = dys.listFileBodyProfile(queryParam);
+	        if (!files.isEmpty()) {
+	            firstImageMap.put(boardItem.getB_number(), files.get(0).getBf_savedName());
+	        }
+	    }
 
-		model.addAttribute("totalBodyProfile", totalBodyProfile);
-		model.addAttribute("listBodyProfile", listBodyProfile);
-//		model.addAttribute("listFileBodyProfile", listFileBodyProfile);
-		model.addAttribute("page", page);
+	    model.addAttribute("totalBodyProfile", totalBodyProfile);
+	    model.addAttribute("listBodyProfile", listBodyProfile);
+	    model.addAttribute("listFileBodyProfile", listFileBodyProfile);
+	    model.addAttribute("firstImageMap", firstImageMap);
+	    model.addAttribute("page", page);
 
-		return "dy/dyBodyProfile";
-
+	    return "dy/dyBodyProfile";
 	}
 
 	// 클릭한 게시글 조회
@@ -91,6 +107,7 @@ public class DYController {
 
 		Board board = dys.selectBodyProfile(board1.getB_number());
 		System.out.println("board.getB_number -> " + board.getB_number());
+		List<BoardFile> boardFiles = dys.selectBodyProfileFileList(board1.getB_number());
 
 		String regDate = "";
 		if (board.getB_regdate() != null) {
@@ -99,19 +116,85 @@ public class DYController {
 		}
 		System.out.println("regDate -> " + regDate);
 		model.addAttribute("board", board);
+		model.addAttribute("boardFile", boardFiles);
 		return "dy/dyUpdateFormBodyProfile";
 
 	}
 
 	// 게시글 수정하기
+//	@PostMapping(value = "dyUpdateBodyProfile")
+//	public String dyUpdateBodyProfile(Board board, @RequestParam("files")MultipartFile[] files, Model model) {
+//		log.info("dyUpdateBodyProfile Start...");
+//		// 파일 실제로 삭제 => 삭제 메서드
+//		
+//		List<BoardFile> boardFile = new ArrayList<>();
+//		for (MultipartFile file : files) {
+//			if (!file.isEmpty()) {
+//				String fileName = file.getOriginalFilename();
+//				UUID uid = UUID.randomUUID();
+//				String storedFileName = uid + "-" + fileName;
+//				
+//				BoardFile boardFiles = new BoardFile();
+//				boardFiles.setB_number(board.getB_number());
+//				boardFiles.setBf_originalName(fileName);
+//				boardFiles.setBf_savedName(storedFileName);
+//				boardFile.add(boardFiles);
+//				
+//			}
+//		}
+//		
+//		int updateCount = dys.dyUpdateBodyProfileWithFiles(board, boardFile);
+//		System.out.println("DYController updateCount -> " + updateCount);
+//
+//		return "redirect:listBodyProfile";
+//	}
+
 	@PostMapping(value = "dyUpdateBodyProfile")
-	public String dyUpdateBodyProfile(Board board, Model model) {
+	public String dyUpdateBodyProfile(Board board, @RequestParam("files") MultipartFile[] newFiles, Model model) {
 		log.info("dyUpdateBodyProfile Start...");
 
-		int updateCount = dys.dyUpdateBodyProfile(board);
-		System.out.println("DYController updateCount -> " + updateCount);
+		// 1. 기존 파일 정보 조회
+		List<BoardFile> existingFiles = dys.selectBodyProfileFileList(board.getB_number());
 
-		return "redirect:listBodyProfile";
+		// 2. 기존 파일 시스템에서 파일 삭제 및 데이터베이스에서 파일 정보 삭제
+		for (BoardFile file : existingFiles) {
+			File f = new File(file.getImagePath());
+			if (f.exists()) {
+				f.delete(); // 파일 시스템에서 파일 삭제
+			}
+			dys.deleteFileById(file.getBf_id()); // 데이터베이스에서 파일 정보 삭제
+		}
+
+		// 3. 새 파일 업로드 및 데이터베이스에 파일 정보 저장
+		for (MultipartFile file : newFiles) {
+			if (!file.isEmpty()) {
+				String fileName = file.getOriginalFilename();
+				UUID uid = UUID.randomUUID();
+				String storedFileName = uid + "-" + fileName;
+
+				BoardFile newBoardFile = new BoardFile();
+				newBoardFile.setB_number(board.getB_number());
+				newBoardFile.setBf_originalName(fileName);
+				newBoardFile.setBf_savedName(storedFileName);
+
+				// 파일 시스템에 저장
+				try {
+					String folderName = "C:/backup/";
+					String savePath = folderName + storedFileName;
+					file.transferTo(new File(savePath));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				// 데이터베이스에 파일 정보 저장
+				dys.insertFileBodyProfile(newBoardFile);
+			}
+		}
+
+		// 4. 게시글 정보 업데이트 (필요한 경우)
+		dys.dyUpdateBodyProfile(board);
+
+		return "redirect:/listBodyProfile";
 	}
 
 	// 게시글쓰기 폼
@@ -174,6 +257,14 @@ public class DYController {
 	@RequestMapping(value = "dyDeleteBodyProfile")
 	public String dyDeleteBodyProfile(Board board, Model model) {
 		System.out.println("DYController delete Start...");
+		List<BoardFile> files = dys.selectBodyProfileFileList(board.getB_number());
+		for (BoardFile file : files) {
+			File f = new File(file.getImagePath());
+			if (f.exists()) {
+				f.delete();
+			}
+			dys.deleteFileById(file.getBf_id());
+		}
 		int result = dys.deleteBodyProfile(board.getB_number());
 		return "redirect:/listBodyProfile";
 	}

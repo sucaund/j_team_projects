@@ -56,16 +56,10 @@ public class DYBoardDaoImpl implements DYBoardDao {
 	}
 
 	@Override
-	public int dyUpdateBodyProfile(Board board) {
+	public void dyUpdateBodyProfile(Board board) {
 		System.out.println("DYBoardDaoImpl Update Start...");
 		System.out.println("DYBoardDaoImpl dyUpdateBodyProfile  board->"+board);
-		int updateCount = 0;
-		try {
-			updateCount = session.update("dyBodyProfileUpdate", board);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return updateCount;
+		session.update("dyBodyProfileUpdate", board);
 	}
 
 	@Override

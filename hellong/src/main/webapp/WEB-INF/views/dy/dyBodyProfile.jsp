@@ -28,7 +28,7 @@
 	height: auto;
 	max-height: 150px;
 	margin-bottom: 10px;
-}
+} 
 </style>
 </head>
 <body>
@@ -38,16 +38,28 @@
 	<p>총 게시글 수: ${totalBodyProfile}</p>
 
 	<div class="grid-container">
-		<c:forEach items="${listBodyProfile}" var="board" begin="0" end="9">
-			<div class="grid-item">
-				<img src="${board.b_images}" alt="이미지">
-				<p>
-					<a href="dySelectBodyProfile?b_number=${board.b_number}">${board.b_title}</a>
-				</p>
-			</div>
-		</c:forEach>
-	</div>
-
+    <c:forEach items="${listBodyProfile}" var="board" varStatus="loop">
+        <div class="grid-item">
+            <c:choose>
+                <c:when test="${empty firstImageMap[board.b_number]}">
+                    <!-- 이미지가 없는 경우 빈 이미지를 클릭하여 해당 게시글로 이동 -->
+                    <a href="dySelectBodyProfile?b_number=${board.b_number}">
+                        <img src="이미지 없음 경로" alt="첨부된 사진이 없습니다">
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <!-- 이미지가 있는 경우 해당 이미지를 클릭하여 해당 게시글로 이동 -->
+                    <a href="dySelectBodyProfile?b_number=${board.b_number}">
+                        <img src="${request.contextPath}/upload/${firstImageMap[board.b_number]}" alt="Board Image">
+                    </a>
+                </c:otherwise>
+            </c:choose>
+            <p>
+                <a href="dySelectBodyProfile?b_number=${board.b_number}">${board.b_title}</a>
+            </p>
+        </div>
+    </c:forEach>
+</div>
 	<div>
 		<c:if test="${page.currentPage != 1}">
 			<a href="?currentPage=${page.currentPage - 1}">이전</a>

@@ -26,26 +26,35 @@
 			<h2>${board.b_title }</h2>
 			<!--  여기에 사진첨부 ${board.b_images}-->
 			<%-- 이미지를 여러 개 첨부할 수 있다고 가정하고 이미지 리스트를 반복하여 표시 --%>
-			<c:forEach items="${boardFile}" var="boardFile">
-        <img src="<%=request.getContextPath()%>/upload/${boardFile.bf_savedName}" alt="Board Image">
-   	 		</c:forEach>
-			<p>${board.b_content }</p>
-			<!-- 게시글 내용을 적절히 표시할 것(조회수, 추천수, 댓글) -->
-			<h4>댓글</h4>
-			<%-- 댓글 목록을 표시하는 부분 --%>
-			<ul>
-				<%-- 댓글을 반복문을 통해 표시 --%>
-				<c:forEach var="comment" items="${comment.comment_content}">
-					<li>${comment.comment_content}</li>
+			<div class="image-container">
+				<c:forEach items="${boardFile}" var="file">
+					<div class="image-item">
+						<img
+							src="<%=request.getContextPath()%>/upload/${file.bf_savedName}"
+							alt="Board Image">
+					</div>
 				</c:forEach>
-			</ul>
-			<!-- 댓글 작성 폼 -->
-			<form action="addComment" method="post">
-				<textarea name="comment_content" rows="4" cols="50"></textarea>
-				<br> <input type="hidden" name="b_number"
-					value="${board.b_number}"> <input type="submit"
-					value="댓글 작성">
-			</form>
+			</div>
+
+			<div class="body-profile-details">
+				<p>${board.b_content}</p>
+			</div>
+
+			<!-- 댓글 섹션 -->
+			<div class="comments-section">
+				<h3>댓글</h3>
+				<c:forEach var="comment" items="${comments}">
+					<div class="comment">
+						<p>${comment.comment_content}</p>
+					</div>
+				</c:forEach>
+				<form action="addComment" method="post">
+					<textarea name="comment_content" rows="4" cols="50"></textarea>
+					<br> <input type="hidden" name="b_number"
+						value="${board.b_number}"> <input type="submit"
+						value="댓글 작성">
+				</form>
+			</div>
 			<button id="list-btn" onclick="location.href='listBodyProfile'">게시판
 				목록</button>
 			<button id="update-btn"
