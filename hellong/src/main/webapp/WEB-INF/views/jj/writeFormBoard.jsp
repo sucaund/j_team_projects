@@ -63,8 +63,8 @@ function changeCategory() {
 		</table>
 		<p>
 		<div style="text-align:center">
-			<button type="button" class="btn btn-primary" onclick="location.href='communityBoard'">취소</button>
-			<button type="submit" class="btn btn-primary">등록</button>
+			<button type="button" class="btn btn-outline-secondary" onclick="location.href='communityBoard'">취소</button>
+			<button type="submit" class="btn btn-outline-primary">등록</button>
 		</div>
 	</form>
 </body>
