@@ -238,7 +238,7 @@
             <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
                 <c:choose>
                     <c:when test="${page.currentPage == i}">
-                        <a href="trainerList?g_id=${g_id}&currentPage=${i}" class="py-2 px-4 mr-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-300">${i}</a>
+                        <a href="serviceList?g_id=${g_id}&currentPage=${i}" class="py-2 px-4 mr-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-300">${i}</a>
                     </c:when>
                     <c:otherwise>
                         <a href="serviceList?g_id=${g_id}&currentPage=${i}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300">${i}</a>

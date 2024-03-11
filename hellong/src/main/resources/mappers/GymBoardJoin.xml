@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GymBoardJoinMapper">
-	<select id="gymAddress" resultType="GymBoardJoin">
+	<select id="gymGymBoard" resultType="GymBoardJoin">
 		select *
 		from gym g, gym_board b 
 		where g.g_id = b.g_id
-		order by b.g_id asc
+		order by b.g_id desc
 	</select>
 	
 	<select id="gymBoardDetailRead" parameterType="int" resultType="GymBoardJoin">

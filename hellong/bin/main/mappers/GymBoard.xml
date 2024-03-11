@@ -35,9 +35,6 @@
 		delete from gym_board where g_id = #{g_id}
 	</delete>
 	
-	<select id="gymBoardList" resultType="GymBoard">
-		select * from gym_board
-	</select>
 	
 
 

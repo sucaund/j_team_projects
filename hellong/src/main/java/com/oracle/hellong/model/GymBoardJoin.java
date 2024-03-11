@@ -43,5 +43,16 @@ public class GymBoardJoin {// 체육관 + 체육관 게시판
        private List<MultipartFile> gymBoardFile;
 	   
 	   
+       //조회용
+       private String search;
+       private String keyword;
+ 	   private	String pageNum;
+ 	   private int	start;
+ 	   private	int end;
+ 		
+ 	   //page 정보
+ 	   private String currentPage;
+       
+       
 	
 }

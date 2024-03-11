@@ -2,6 +2,7 @@ package com.oracle.hellong.service.jh;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.Gym;
@@ -9,6 +10,7 @@ import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymBoardFile;
 import com.oracle.hellong.model.GymBoardFileJoin;
 import com.oracle.hellong.model.GymBoardJoin;
+import com.oracle.hellong.model.GymMemberServiceOrderJoin;
 import com.oracle.hellong.model.MemberGym;
 import com.oracle.hellong.model.Trainer;
 
@@ -41,19 +43,7 @@ public interface JHService {
 	//체육관 홍보 글 수정
 	void updateGymPost(GymBoard gymboard, Gym gym)throws IOException;
 	//체육관 홍보 글 삭제
-	void deleteGymPost(int g_id) throws IOException;
-	
-	// 지점찾기 페이지*****************************************************************************
-	List<GymBoard> gymBoardList();
-	// 주소 가져옴
-	List<GymBoardJoin> gymAddress();
-	// 파일 가져옴( 보류)
-	List<GymBoardFile> gymBoardFileList();
-
-	// 지점찾기 글 상세
-	List<GymBoardJoin> gymBoardDetailRead(int g_id);
-	List<GymBoardFile> gymBoardFileListRead(int g_id);
-	
+	void deleteGymPost(int g_id) throws IOException;	
 	
 	// 트레이너 리스트 불러오기***********************************************************************
 	int totalTrainer(int g_id);
@@ -85,8 +75,26 @@ public interface JHService {
 	//서비스 삭제
 	int deleteService(int s_number);
 
+	// 헬스장 회원 리스트***************************************************************************
+	List<GymMemberServiceOrderJoin> getGymMemberList(int g_id);
+	//누적회원
+	int getTotalGymMemberList(int g_id);
+	//누적매출액
+	int getSumSale(int g_id);
+	//성비
+	Map<String, Double> getGenderRatio(int g_id);
+	//나이비
+	Map<String, Double> getAgeRatio(int g_id);
 
+	// 지점찾기 페이지*****************************************************************************
+	// 조인 글 가져옴
+	List<GymBoardJoin> gymGymBoardList();
+	// 파일 가져옴( 보류)
+	List<GymBoardFile> gymBoardFileList();
 
+	// 지점찾기 글 상세
+	List<GymBoardJoin> gymBoardDetailRead(int g_id);
+	List<GymBoardFile> gymBoardFileListRead(int g_id);
 
 
 

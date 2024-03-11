@@ -29,7 +29,7 @@
 		    FROM gym_board_file
 		) 
 		WHERE rn = 1
-		ORDER BY g_id
+		ORDER BY g_id desc
 	</select>
 	
 	<select id="gymBoardFileListRead" parameterType="int" resultType="GymBoardFile">

@@ -85,18 +85,6 @@ public class GymBoardDaoimpl implements GymBoardDao {
 		}
 	}
 
-	// 지점 찾기 - 지점 글 전체 불러오기
-	@Override
-	public List<GymBoard> gymBoardList() {
-		List<GymBoard> gymBoardList = null;
-		try {
-			gymBoardList = session.selectList("gymBoardList");
-			System.out.println("GymBoardDaoimpl Start gymBoardList.size()->"+gymBoardList.size() );
-		} catch (Exception e) {
-			System.out.println("GymBoardDaoimpl gymBoardDetail Exception->"+e.getMessage());
-		}
-		return gymBoardList;
-	}
 
 
 

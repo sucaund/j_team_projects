@@ -3,6 +3,7 @@ package com.oracle.hellong.service.jh;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,7 @@ import com.oracle.hellong.dao.jhdao.GymBoardFileDao;
 import com.oracle.hellong.dao.jhdao.GymBoardFileJoinDao;
 import com.oracle.hellong.dao.jhdao.GymBoardJoinDao;
 import com.oracle.hellong.dao.jhdao.GymDao;
+import com.oracle.hellong.dao.jhdao.GymMemberServiceOrderJoinDao;
 import com.oracle.hellong.dao.jhdao.MemberDao;
 import com.oracle.hellong.dao.jhdao.TrainerDao;
 import com.oracle.hellong.model.GS;
@@ -21,6 +23,7 @@ import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymBoardFile;
 import com.oracle.hellong.model.GymBoardFileJoin;
 import com.oracle.hellong.model.GymBoardJoin;
+import com.oracle.hellong.model.GymMemberServiceOrderJoin;
 import com.oracle.hellong.model.MemberGym;
 import com.oracle.hellong.model.Trainer;
 
@@ -38,6 +41,7 @@ public class JHServiceImpl implements JHService {
 	private final GymBoardFileJoinDao gbfjd;
 	private final TrainerDao td;
 	private final GSDao gsd;
+	private final GymMemberServiceOrderJoinDao gmsojd;
 	
 	private final GymBoardFileProcessor gymBoardFileProcessor;
 	private final TrainerFileProcessor trainerFileProcessor;
@@ -149,38 +153,6 @@ public class JHServiceImpl implements JHService {
 		gbd.deleteGymPost(g_id);	
 	}
 
-	//체육관 지점 찾기*****************************************************************************
-	@Override
-	public List<GymBoard> gymBoardList() {
-		 List<GymBoard>gymBoardList =gbd.gymBoardList();
-		return gymBoardList;
-	}
-
-	@Override
-	public List<GymBoardJoin> gymAddress() {
-		List<GymBoardJoin>  gymAddress =gbjd.gymAddress();
-		return gymAddress;
-	}
-	@Override
-	public List<GymBoardFile> gymBoardFileList() {
-		List<GymBoardFile> gymBoardFileList = gbfd.gymBoardFileList();
-		return gymBoardFileList;
-	}
-	
-	// 지점 찾기 글 상세
-	@Override
-	public List<GymBoardJoin> gymBoardDetailRead(int g_id) {
-		List<GymBoardJoin> gymBoardDetailRead = gbjd.gymBoardDetailRead(g_id);
-		return gymBoardDetailRead;
-	}
-
-	@Override
-	public List<GymBoardFile> gymBoardFileListRead(int g_id) {
-		List<GymBoardFile> gymBoardFileListRead = gbfd.gymBoardFileListRead(g_id);
-		return gymBoardFileListRead;
-	}
-	
-
 
 	// 트레이너 리스트
 	// 불러오기***********************************************************************
@@ -251,8 +223,7 @@ public class JHServiceImpl implements JHService {
 		int deleteCount = td.getDeleteTrainer(t_id);
 		return deleteCount;
 	}
-	
-	
+
 
 	// 체육관 서비스 리스트
 	// 불러오기***********************************************************************
@@ -295,8 +266,65 @@ public class JHServiceImpl implements JHService {
 		int deleteService = gsd.deleteService(s_number);
 		return deleteService;
 	}
+	
+	// 체육관 회원 리스트****************************************************************************************************************************
+	@Override
+	public List<GymMemberServiceOrderJoin> getGymMemberList(int g_id) {
+		List<GymMemberServiceOrderJoin> getGymMemberListResult = gmsojd.getGymMemberList(g_id);
+		return getGymMemberListResult;
+	}
 
+	@Override
+	public int getTotalGymMemberList(int g_id) {
+		int totCountList = gmsojd.getTotalGymMemberList(g_id);
+		return totCountList;
+	}
 
+	@Override
+	public int getSumSale(int g_id) {
+		int sumSaleResult = gmsojd.getSumSale(g_id);
+		return sumSaleResult;
+	}
+
+	@Override
+	public Map<String, Double> getGenderRatio(int g_id) {
+		Map<String, Double> getGenderRatioResult = gmsojd.getGenderRatio(g_id);
+		return getGenderRatioResult;
+	}
+
+	@Override
+	public Map<String, Double> getAgeRatio(int g_id) {
+		Map<String, Double> getAgeRatioResult = gmsojd.getAgeRatio(g_id);
+		return getAgeRatioResult;
+	}
+
+	//체육관 지점 찾기*****************************************************************************
+	@Override
+	public List<GymBoardJoin> gymGymBoardList() {
+		List<GymBoardJoin> gymGymBoardListResult =gbjd.gymGymBoardList();
+		return gymGymBoardListResult;
+	}
+	@Override
+	public List<GymBoardFile> gymBoardFileList() {
+		List<GymBoardFile> gymBoardFileList = gbfd.gymBoardFileList();
+		return gymBoardFileList;
+	}
+	
+	
+	
+	// 지점 찾기 글 상세
+	@Override
+	public List<GymBoardJoin> gymBoardDetailRead(int g_id) {
+		List<GymBoardJoin> gymBoardDetailRead = gbjd.gymBoardDetailRead(g_id);
+		return gymBoardDetailRead;
+	}
+
+	@Override
+	public List<GymBoardFile> gymBoardFileListRead(int g_id) {
+		List<GymBoardFile> gymBoardFileListRead = gbfd.gymBoardFileListRead(g_id);
+		return gymBoardFileListRead;
+	}
+	
 
 
 
