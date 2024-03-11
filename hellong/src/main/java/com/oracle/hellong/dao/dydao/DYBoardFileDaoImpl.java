@@ -36,5 +36,27 @@ public class DYBoardFileDaoImpl implements DYBoardFileDao {
 		}
 		return result;
 	}
+	
+	// 게시판 파일 삭제
+	@Override
+	public void deleteFileById(int bf_id) {
+		session.delete("dyDeleteFileById", bf_id);
+		
+	}
+	// 게시판 파일 업데이트(삭제)
+	@Override
+	public void updateDeleteFileById(int b_number) {
+		session.delete("dyUpdateDeleteFileById", b_number);
+		
+	}
 
+	@Override
+	public List<BoardFile> listFileBodyProfile(BoardFile boardFile) {
+		List<BoardFile> bodyProfileFileList = null;
+		bodyProfileFileList = session.selectList("dyBodyProfileFileListAll", boardFile);
+		return bodyProfileFileList;
+	}
+	
+	
+	
 }

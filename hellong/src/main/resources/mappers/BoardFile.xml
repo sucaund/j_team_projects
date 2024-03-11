@@ -22,4 +22,18 @@
 		INSERT INTO board_file ( bf_id, b_number, bf_originalName, bf_savedName )
 		values( #{bf_id}, #{b_number}, #{bf_originalName}, #{bf_savedName} )
 	</insert>
+	
+	<delete id="dyDeleteFileById" parameterType="int">
+		DELETE FROM board_file WHERE bf_id = #{bf_id}
+	</delete>
+	
+ 	<delete id="dyUpdateDeleteFileById" parameterType="int">
+		DELETE FROM board_file WHERE b_number = #{b_number}
+	</delete> 
+	
+	<select id="dyBodyProfileFileListAll" parameterType="BoardFile" resultType="BoardFile">
+		SELECT * FROM board_file where b_number = #{b_number}
+	</select>
+	
+	
 </mapper>

@@ -38,16 +38,21 @@
 	<p>총 게시글 수: ${totalBodyProfile}</p>
 
 	<div class="grid-container">
-		<c:forEach items="${listBodyProfile}" var="board" begin="0" end="9">
-			<div class="grid-item">
-				<img src="${board.b_images}"  alt="이미지">
-				<p>
-					<a href="dySelectBodyProfile?b_number=${board.b_number}">${board.b_title}</a>
-				</p>
-			</div>
-		</c:forEach>
-	</div>
-
+    <c:forEach items="${listBodyProfile}" var="board" varStatus="loop">
+        <div class="grid-item">
+            <!-- 이미지 파일 리스트 대신 게시글과 연결된 이미지를 직접 찾아서 표시 -->
+            <c:forEach items="${listFileBodyProfile}" var="file">
+                <c:if test="${file.b_number == board.b_number}">
+                    <!-- 컨텍스트 경로와 파일 이름을 올바르게 연결 -->
+                    <img src="${request.contextPath}/upload/${file.bf_savedName}" alt="Board Image">
+                </c:if>
+            </c:forEach>
+            <p>
+                <a href="dySelectBodyProfile?b_number=${board.b_number}">${board.b_title}</a>
+            </p>
+        </div>
+    </c:forEach>
+</div>
 	<div>
 		<c:if test="${page.currentPage != 1}">
 			<a href="?currentPage=${page.currentPage - 1}">이전</a>

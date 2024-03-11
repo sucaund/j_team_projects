@@ -18,7 +18,8 @@ public interface DYService {
 
 	Board selectBodyProfile(int b_number);
 
-	int dyUpdateBodyProfile(Board board);
+	// int dyUpdateBodyProfile(Board board);
+	int dyUpdateBodyProfileWithFiles(Board board, List<BoardFile> boardFiles);
 
 	List<Board> listManager();
 
@@ -36,11 +37,11 @@ public interface DYService {
 
 	List<BoardFile> selectBodyProfileFileList(int b_number);
 
-	
+	void deleteFileById(int bf_id);
 
+	List<BoardFile> listFileBodyProfile(BoardFile boardFile);
 
-
-//	List<BoardFile> listFileBodyProfile(BoardFile boardFile);
+	void dyUpdateBodyProfile(Board board);
 
 
 
