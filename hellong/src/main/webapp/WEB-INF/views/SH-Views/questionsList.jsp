@@ -39,9 +39,10 @@
             <div class="pagination">
 
 			<c:set var="num" value="${page.total-page.start+1 }"></c:set>
-<table>
-
+<table class="table">
+	<thead class="table-dark">
 		<tr><th >번호</th><th>제목</th><th>작성일</th><th>답글</th></tr>
+	</thead>
 			
 	<c:choose>
 		<c:when test='${listBoard == null or empty listBoard}'>

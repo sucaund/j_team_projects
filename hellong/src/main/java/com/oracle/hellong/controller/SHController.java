@@ -54,6 +54,7 @@ public class SHController {
 
 	}
 
+
 	// 해당로그인 한계정이 있는지 확인...
 	@RequestMapping("authenticate")
 	public String authenticate(HttpSession session, @RequestParam("member_id") String member_id,
@@ -490,7 +491,12 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 	
 	
 	
-	
+	@RequestMapping("/Default")
+	public String Default() {
+		System.out.println("SHController login start...");
+		return "SH-Views/Default";
+		
+	}
 	
 	
 	
