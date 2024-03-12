@@ -15,6 +15,7 @@ pageEncoding="UTF-8"%>
 <link rel="stylesheet" type="text/css" href="/css/glightbox.min.css" />
 <link rel="stylesheet" type="text/css" href="/css/main.css" />
 
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/tiny-slider.js"></script>
