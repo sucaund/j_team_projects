@@ -25,8 +25,8 @@
 	   
 	   <table>
 			<tr><th>제목</th><td><input type="text" name="b_title" required="required"></td></tr>
-			<tr><th>멤버번호</th><td>${m_number }</td></tr>
-			<input type="hidden" name="m_number" value="${m_number}">
+			<tr><th>멤버아이디</th><td>${member.m_name }</td></tr>
+			<input type="hidden" name="m_number" value="${member.m_number}">
 			<tr><th>첨부파일</th><td>미적용</td></tr>
 			<tr><th>내용</th><td><input type="text" name="b_content" required="required"></td></tr>
 			<tr><td colspan="2">

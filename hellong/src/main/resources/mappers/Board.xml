@@ -412,6 +412,10 @@
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 	
+	
+	<!-- 현승 xml -->
+
+	<!-- 공지글 리스트 -->
 	<select id="hsNoticeBoardTotal" resultType="int">
 		SELECT count(*) FROM board WHERE common_mcd = 110
 
@@ -435,6 +439,13 @@
 		]]>
 	</select>
 	
+	<!-- 공지글 세부내용 -->
+	<update id="hsUpdateNoticeBoardReadCount" parameterType="int">
+		UPDATE board SET b_readcount= b_readcount+1
+		WHERE b_number=#{b_number}
+
+	</update>
+	
 	<select id="hsNoticeBoardSelOne" parameterType="Board" resultType="Board">
 		SELECT m.m_name, b.* 
 		FROM member m, board b 
@@ -443,16 +454,19 @@
 		AND b.b_number= #{b_number}
 	</select>
 	
+	<!-- 공지글 작성 -->
 	<insert id="hsCreateNoticeBoard" parameterType="Board">
-		INSERT INTO board VALUES (b_number_seq.nextval, 30, 200, 110, #{b_title}, #{b_content}, 0, TO_DATE(SYSDATE, 'YYYY-MM-DD'), 
-									TO_DATE(SYSDATE, 'YYYY-MM-DD'), 0, 0, 0, 'image', null, null, null)
+		INSERT INTO board VALUES (b_number_seq.nextval, #{m_number}, 200, 110, #{b_title}, #{b_content}, 0, sysdate, 
+									sysdate, 0, 0, 0, 'image', null, null, null)
 	</insert>
-	
+
+	<!-- 공지글 수정 -->		
 	<update id="hsUpdateNoticeBoard" parameterType="Board">
-		UPDATE board SET b_title=#{b_title}, b_content=#{b_content}, b_update=TO_DATE(SYSDATE, 'YYYY-MM-DD')
+		UPDATE board SET b_title=#{b_title}, b_content=#{b_content}, b_update=sysdate
 		WHERE b_number=#{b_number}
 	</update>
 	
+	<!-- 공지글 삭제 -->
 	<delete id="hsDeleteScrap" parameterType="Board">
 		DELETE FROM scrap WHERE b_number=#{b_number}
 	</delete>
@@ -461,13 +475,14 @@
 		DELETE FROM board WHERE b_number=#{b_number}
 	</delete>
 	
+	<!-- 공지글 조건부 검색 -->
 	<select id="hsCondTotalNoticeBoardCnt" parameterType="Board" resultType="int">
 		SELECT Count(*) FROM board WHERE common_mcd=110
 		<choose>
 			<when test="search == 'b_title'">
 				AND b_title like '%' || #{keyword} || '%'
 			</when>
-			<when test="search == 'b_content">
+			<when test="search == 'b_content'">	
 				AND b_content like '%' || #{keyword} || '%'
 			</when>
 		</choose>
@@ -488,7 +503,7 @@
 						AND b.b_content like '%' || #{keyword} || '%'
 					</when>
 				</choose>
-				ORDER BY b.b_update) a
+				ORDER BY b.b_update DESC) a
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>

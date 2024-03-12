@@ -5,20 +5,28 @@
 	<select id="hsTotalListPointChargeCnt" parameterType="int" resultType="int">
 		SELECT count(*)
 		FROM point_charge
-		WHERE m_number = ${m_number}
+		WHERE m_number = #{m_number}
 	</select>
 	
-	<select id="hsListPointCharge" parameterType="int" resultType="PointCharge">
+	<select id="hsListPointCharge" parameterType="Member" resultType="PointCharge">
 		SELECT *
 		FROM 
-			(SELECT rownum rn, a.*
+			(SELECT rownum rn, a.*, (a.charge_point || '포인트 충전') "pl_content",
+					a.charge_date "pl_date", ('+' || a.charge_point) "pl_point"
 			 FROM
 				(SELECT *
 				 FROM point_charge 
-				 WHERE m_number = ${m_number}
+				 WHERE m_number = #{m_number}
 				 ORDER BY charge_date DESC
                  ) a
 			)
+	</select>
+	
+	<select id="hslistPointChargeDate" parameterType="Member" resultType="String">
+		SELECT charge_date
+		FROM point_charge
+		WHERE m_number = #{m_number}
+		ORDER BY charge_date DESC
 	</select>
 
 </mapper>

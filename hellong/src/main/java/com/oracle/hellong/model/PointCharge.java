@@ -13,4 +13,15 @@ public class PointCharge { //포인트충전 point_charge
 	private String 	out_account; // 출금계좌
 	private String 	card_number; // 카드번호
        
+    // 조회용 (0307 현승추가)
+	private String search;   	   private String keyword;
+	private String pageNum;  
+	private int start; 		 	   private int end;
+	private String currentPage;
+
+	private String charge_content;
+
+    private String pl_date;
+    private String pl_content;
+    private String pl_point;
 }

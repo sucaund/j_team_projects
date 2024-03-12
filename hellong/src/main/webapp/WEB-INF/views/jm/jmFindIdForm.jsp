@@ -9,7 +9,7 @@
 <title>아이디 찾기</title>
 <script type="text/javascript" src="js/findId.js"></script>
 </head>
-<body>
+<body> 
 아이디 찾기
  <c:if test="${m_number!=null}">
 <p>로그아웃을 먼저 해주세요</p>
