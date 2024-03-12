@@ -15,17 +15,14 @@
 	  <table>  
 		<tr><th>제목</th><td><input type="text" name="b_title" required="required" value="${noticeBoard.b_title }" ></td></tr>
 		<tr><th>멤버번호</th><td>${noticeBoard.m_number }</td></tr>
+		<input type="hidden" name="m_number" value="${m_number}">
 		<tr><th>첨부파일</th><td>${noticeBoard.b_images}</td></tr>
 		<tr><th>내용</th><td><input type="text" name="b_content" required="required" value="${noticeBoard.b_content }"></td></tr>
 		<tr><td colspan="2">
 			<input type="submit" value="확인">
-			<input type="button" value="취소" onclick="location.href='hsListNoticeBoard'"></td></tr> 
+			<input type="button" value="취소" onclick="location.href='hsListNoticeBoard?m_number=${m_number}'"></td></tr> 
 	  </table>
 	</form>
-	
-	   <table>
-		
-	   </table>
 
 </body>
 </html>

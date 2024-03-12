@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class HSMemberDaoImpl implements MemberDao {
+public class HSMemberDaoImpl implements HSMemberDao {
 	
 	private final SqlSession session;
 	

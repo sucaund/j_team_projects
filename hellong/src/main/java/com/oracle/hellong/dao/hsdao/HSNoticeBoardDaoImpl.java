@@ -16,16 +16,17 @@ import oracle.net.aso.b;
 
 @Repository
 @RequiredArgsConstructor
-public class NoticeBoardDaoImpl implements NoticeBoardDao {
+public class HSNoticeBoardDaoImpl implements HSNoticeBoardDao {
 	
 	private final PlatformTransactionManager transactionManager;
 	private final SqlSession session;
  
+	// 공지글 리스트
 	@Override
 	public int totalNoticeBoard() {
 		int totNoticeBoardCnt = 0;
 		System.out.println("NoticeBoardDaoImpl start total...");
-		
+			
 		try {
 			totNoticeBoardCnt = session.selectOne("com.oracle.hellong.BoardMapper.hsNoticeBoardTotal");
 			System.out.println("NoticeBoardDaoImpl totalNoticeBoard totNoticeBoardCnt->" +totNoticeBoardCnt);
@@ -47,10 +48,24 @@ public class NoticeBoardDaoImpl implements NoticeBoardDao {
 		}
 		return noticeBoardList;
 	}
-
+	
+	// 공지글 세부내용
+	@Override
+	public int updateReadCount(int b_number) {
+		System.out.println("NoticeBoardDaoImpl updateReadCount start...");
+		int result = 0;
+		
+		try { 
+			result = session.update("hsUpdateNoticeBoardReadCount", b_number);
+		} catch (Exception e) {
+			System.out.println("NoticeBoardDaoImpl updateReadCount Exception ->" + e.getMessage());
+		}
+		return result;
+	}
+	
 	@Override
 	public Board detailNoticeBoard(int b_number) {
-		System.out.println("NoticeBoardDaoImpl detail start...");
+		System.out.println("NoticeBoardDaoImpl detailNoticeBoard start...");
 		Board board = new Board();
 		
 		try {
@@ -74,6 +89,7 @@ public class NoticeBoardDaoImpl implements NoticeBoardDao {
 		return null;
 	}
 
+	// 공지글 작성
 	@Override
 	public int createNoticeBoard(Board board) {
 		int result = 0;
@@ -85,7 +101,8 @@ public class NoticeBoardDaoImpl implements NoticeBoardDao {
 		}
 		return result;
 	}
-
+	
+	// 공지글 수정
 	@Override
 	public int updateNoticeBoard(Board board) {
 		System.out.println("NoticeBoardDaoImpl updateNoticeBoard start...");
@@ -98,6 +115,7 @@ public class NoticeBoardDaoImpl implements NoticeBoardDao {
 		return updateCount;
 	}
 
+	// 공지글 삭제
 	@Override
 	public int delteNoticeBoard(int b_number) {
 		System.out.println("NoticeBoardDaoImpl delteNoticeBoard start...");
@@ -117,6 +135,7 @@ public class NoticeBoardDaoImpl implements NoticeBoardDao {
 		return result;
 	}
 
+	// 공지글 조건부 검색
 	@Override
 	public int condTotalNoticeBoard(Board board) {
 		int condTotalBoardCnt = 0;

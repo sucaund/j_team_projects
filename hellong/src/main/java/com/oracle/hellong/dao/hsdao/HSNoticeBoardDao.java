@@ -5,12 +5,14 @@ import java.util.List;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Member;
 
-public interface NoticeBoardDao {
+public interface HSNoticeBoardDao {
 
 	int totalNoticeBoard();
 
 	List<Board> listNoticeBoard(Board board);
 
+	int updateReadCount(int b_number);
+	
 	Board detailNoticeBoard(int b_number);
 
 	List<Board> listManager();

@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class PointDaoImpl implements PointDao {
+public class HSPointDaoImpl implements HSPointDao {
 
 	private final SqlSession session;
 
@@ -28,7 +28,8 @@ public class PointDaoImpl implements PointDao {
 	 * System.out.println("PointDaoImpl condTotalListPoint Exception ->" +
 	 * e.getMessage()); } return condTotalListPointCnt; }
 	 */
-
+	
+	// 포인트 충전
 	@Override
 	public int totalListPointCharge(int m_number) {
 		int totalListPointChargeCnt = 0;
@@ -44,24 +45,25 @@ public class PointDaoImpl implements PointDao {
 	}
 	
 	@Override
-	public List<PointCharge> listPointCharge(int m_number) {
+	public List<PointCharge> listPointCharge(Member memberData) {
 		List<PointCharge> listPoint = null;
 		System.out.println("PointDaoImpl listPointCharge start...");
 
 		try {
-			listPoint = session.selectList("hsListPointCharge", m_number);
+			listPoint = session.selectList("hsListPointCharge", memberData);
 			System.out.println("PointDaoImpl totalListPointCharge listPoint.size()->" + listPoint.size());
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl listPointCharge Exception ->" + e.getMessage());
 		}
 		return listPoint;
 	}
-
+	
+	// 포인트 사용
 	@Override
-	public int totalListGymOrderDeal(Member member) {
+	public int totalListGymOrderDeal(int m_number) {
 		int totalListGymOrderDealCnt = 0;
 		System.out.println("PointDaoImpl totalListGymOrderDeal start...");
-		try { totalListGymOrderDealCnt = session.selectOne("com.oracle.hellong.GymOrderMapper.hsTotalListGymOrderDealCnt");
+		try { totalListGymOrderDealCnt = session.selectOne("com.oracle.hellong.GymOrderMapper.hsTotalListGymOrderDealCnt", m_number);
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl totalListGymOrderDeal Exception ->" + e.getMessage()); 
 		} 
@@ -69,23 +71,24 @@ public class PointDaoImpl implements PointDao {
 	}
 
 	@Override
-	public List<GymOrder> listGymOrderDeal(Member member) {
+	public List<GymOrder> listGymOrderDeal(Member memberData) {
 		List<GymOrder> listPoint = null;
 		System.out.println("PointDaoImpl listGymOrderDeal start...");
 
 		try {
-			listPoint = session.selectList("hsListGymOrderDeal", member);
+			listPoint = session.selectList("hsListGymOrderDeal", memberData);
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl listGymOrderDeal Exception ->" + e.getMessage());
 		}
 		return listPoint;
 	}
 
+	// 포인트 환불
 	@Override
-	public int totalListGymOrderRefund(Member member) {
+	public int totalListGymOrderRefund(int m_number) {
 		int totalListGymOrderRefundCnt = 0;
 		System.out.println("PointDaoImpl totalListGymOrderRefund start...");
-		try { totalListGymOrderRefundCnt = session.selectOne("hsTotalListGymOrderRefundCnt", member);
+		try { totalListGymOrderRefundCnt = session.selectOne("hsTotalListGymOrderRefundCnt", m_number);
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl totalListGymOrderRefund Exception ->" + e.getMessage()); 
 		} 
@@ -93,17 +96,18 @@ public class PointDaoImpl implements PointDao {
 	}
 
 	@Override
-	public List<GymOrder> listGymOrderRefund(Member member) {
+	public List<GymOrder> listGymOrderRefund(Member memberData) {
 		List<GymOrder> listPoint = null;
 		System.out.println("PointDaoImpl listGymOrderRefund start...");
 
 		try {
-			listPoint = session.selectList("hsListGymOrderRefund", member);
+			listPoint = session.selectList("hsListGymOrderRefund", memberData);
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl listGymOrderRefund Exception ->" + e.getMessage());
 		}
 		return listPoint;
 	}
+
 
 
 }
