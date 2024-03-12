@@ -13,6 +13,8 @@ import com.oracle.hellong.dao.jhdao.GymBoardDao;
 import com.oracle.hellong.dao.jhdao.GymBoardFileDao;
 import com.oracle.hellong.dao.jhdao.GymBoardFileJoinDao;
 import com.oracle.hellong.dao.jhdao.GymBoardJoinDao;
+import com.oracle.hellong.dao.jhdao.GymBoardReviewJoinDao;
+import com.oracle.hellong.dao.jhdao.GymBoardServiceJoinDao;
 import com.oracle.hellong.dao.jhdao.GymDao;
 import com.oracle.hellong.dao.jhdao.GymMemberServiceOrderJoinDao;
 import com.oracle.hellong.dao.jhdao.MemberDao;
@@ -23,6 +25,8 @@ import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymBoardFile;
 import com.oracle.hellong.model.GymBoardFileJoin;
 import com.oracle.hellong.model.GymBoardJoin;
+import com.oracle.hellong.model.GymBoardReviewJoin;
+import com.oracle.hellong.model.GymBoardServiceJoin;
 import com.oracle.hellong.model.GymMemberServiceOrderJoin;
 import com.oracle.hellong.model.MemberGym;
 import com.oracle.hellong.model.Trainer;
@@ -42,6 +46,8 @@ public class JHServiceImpl implements JHService {
 	private final TrainerDao td;
 	private final GSDao gsd;
 	private final GymMemberServiceOrderJoinDao gmsojd;
+	private final GymBoardReviewJoinDao gbrjd;
+	private final GymBoardServiceJoinDao gbsjd;
 	
 	private final GymBoardFileProcessor gymBoardFileProcessor;
 	private final TrainerFileProcessor trainerFileProcessor;
@@ -212,10 +218,6 @@ public class JHServiceImpl implements JHService {
 		return updateTrainerCount;	
 	}
 				
-		
-		
-
-	
 
 	//트레이너 삭제
 	@Override
@@ -269,8 +271,8 @@ public class JHServiceImpl implements JHService {
 	
 	// 체육관 회원 리스트****************************************************************************************************************************
 	@Override
-	public List<GymMemberServiceOrderJoin> getGymMemberList(int g_id) {
-		List<GymMemberServiceOrderJoin> getGymMemberListResult = gmsojd.getGymMemberList(g_id);
+	public List<GymMemberServiceOrderJoin> getGymMemberList(GymMemberServiceOrderJoin gymMemberServiceOrderJoin) {
+		List<GymMemberServiceOrderJoin> getGymMemberListResult = gmsojd.getGymMemberList(gymMemberServiceOrderJoin);
 		return getGymMemberListResult;
 	}
 
@@ -300,31 +302,71 @@ public class JHServiceImpl implements JHService {
 
 	//체육관 지점 찾기*****************************************************************************
 	@Override
-	public List<GymBoardJoin> gymGymBoardList() {
-		List<GymBoardJoin> gymGymBoardListResult =gbjd.gymGymBoardList();
+	public List<GymBoardJoin> gymGymBoardList(GymBoardJoin gymBoardJoin) {
+		List<GymBoardJoin> gymGymBoardListResult =gbjd.gymGymBoardList(gymBoardJoin);
 		return gymGymBoardListResult;
 	}
 	@Override
-	public List<GymBoardFile> gymBoardFileList() {
-		List<GymBoardFile> gymBoardFileList = gbfd.gymBoardFileList();
+	public List<GymBoardFile> gymBoardFileList(GymBoardFile gymBoardFile) {
+		List<GymBoardFile> gymBoardFileList = gbfd.gymBoardFileList(gymBoardFile);
 		return gymBoardFileList;
+	}
+	
+	@Override
+	public int getGymImformationCount() {
+		int getGymImformationCountResult = gbjd.getGymImformationCount();
+		return getGymImformationCountResult;
+	}
+	
+	//리뷰 평균점수
+	@Override
+	public List<GymBoardReviewJoin> getAvgReview(GymBoardReviewJoin gymBoardReviewJoin) {
+		List<GymBoardReviewJoin> getAvgReviewResult = gbrjd.getAvgReview(gymBoardReviewJoin);
+		return getAvgReviewResult;
+	}
+	
+	//체육관 별 서비스 중 최저가
+	@Override
+	public List<GymBoardServiceJoin> getMinPrice(GymBoardServiceJoin gymBoardServiceJoin) {
+		List<GymBoardServiceJoin> getMinPriceResult = gbsjd.getMinPrice(gymBoardServiceJoin);
+		return getMinPriceResult;
 	}
 	
 	
 	
-	// 지점 찾기 글 상세
+	// 지점 찾기 글 상세****************************************************************************
 	@Override
 	public List<GymBoardJoin> gymBoardDetailRead(int g_id) {
 		List<GymBoardJoin> gymBoardDetailRead = gbjd.gymBoardDetailRead(g_id);
 		return gymBoardDetailRead;
 	}
-
+	
+	//사진가져오기
 	@Override
 	public List<GymBoardFile> gymBoardFileListRead(int g_id) {
 		List<GymBoardFile> gymBoardFileListRead = gbfd.gymBoardFileListRead(g_id);
 		return gymBoardFileListRead;
 	}
 	
+	//평점,리뷰 카운트 가져오기
+	@Override
+	public GymBoardReviewJoin getAvgReviewSelect(int g_id) {
+		GymBoardReviewJoin GymBoardReviewJoinResult = gbrjd.getAvgReviewSelect(g_id);
+		return GymBoardReviewJoinResult;
+	}
+
+	//서비스 리스트 가져오기
+	@Override
+	public List<GS> getSelectServiceList(int g_id) {
+		List <GS> getSelectServiceListResult = gsd.getSelectServiceList(g_id);
+		return getSelectServiceListResult;
+	}
+	
+	
+
+
+
+
 
 
 

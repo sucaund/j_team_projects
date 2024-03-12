@@ -2,8 +2,8 @@ package com.oracle.hellong.dao.jhdao;
 
 import java.util.List;
 
+import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.Gym;
-import com.oracle.hellong.model.Member;
 
 public interface GymDao {
 	int totalGym();
@@ -20,9 +20,10 @@ public interface GymDao {
 	List<Gym> createGymPost(int g_id);
 	
 
-	
 	// 트레이너 리스트 추가 용 id***************************************************************************
 	int gymId(int g_id);
+	
+
 
 
 

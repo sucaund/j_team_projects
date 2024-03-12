@@ -39,4 +39,10 @@
 		delete from G_S where s_number = #{s_number}
 	</delete>
 	
+	<select id="getSelectServiceList" parameterType="int" resultType="GS">
+		select *
+		from g_s
+		where g_id = #{g_id}
+	</select>
+	
 </mapper>

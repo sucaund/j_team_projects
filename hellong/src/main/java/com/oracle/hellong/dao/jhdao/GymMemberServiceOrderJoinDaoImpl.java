@@ -19,11 +19,12 @@ public class GymMemberServiceOrderJoinDaoImpl implements GymMemberServiceOrderJo
 	
 	//전체회원 조회
 	@Override
-	public List<GymMemberServiceOrderJoin> getGymMemberList(int g_id) {
+	public List<GymMemberServiceOrderJoin> getGymMemberList(GymMemberServiceOrderJoin gymMemberServiceOrderJoin) {
 		List<GymMemberServiceOrderJoin> getGymMemberListResult = null;
 		try {
-			getGymMemberListResult = session.selectList("getGymMemberList",g_id);
-			System.out.println("GymMemberServiceOrderJoinDaoImpl getGymMemberList");
+			getGymMemberListResult = session.selectList("getGymMemberList",gymMemberServiceOrderJoin);
+			System.out.println("GymMemberServiceOrderJoinDaoImpl getGymMemberList->"+getGymMemberListResult.size());
+			System.out.println("GymMemberServiceOrderJoinDaoImpl getGymMemberList->"+getGymMemberListResult);
 		}catch(Exception e) {
 			System.out.println("GymMemberServiceOrderJoinDaoImpl getGymMemberList Exception -> "+e.getMessage());
 		}		

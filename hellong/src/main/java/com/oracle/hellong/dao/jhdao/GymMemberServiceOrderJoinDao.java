@@ -7,7 +7,7 @@ import com.oracle.hellong.model.GymMemberServiceOrderJoin;
 
 public interface GymMemberServiceOrderJoinDao {
 
-	List<GymMemberServiceOrderJoin> getGymMemberList(int g_id);
+	List<GymMemberServiceOrderJoin> getGymMemberList(GymMemberServiceOrderJoin gymMemberServiceOrderJoin);
 
 	int getTotalGymMemberList(int g_id);
 

@@ -27,8 +27,7 @@ public class GymBoardJoin {// 체육관 + 체육관 게시판
 	   //체육관 게시판
 	   private String gb_title;//제목 //nn
        
-       // String로 변경
-       private String gb_regdate; //작성날짜 //nn
+       private Date gb_regdate; //작성날짜 //nn
        
        private String gb_ment;//대표멘트
        private String gb_video; //대표사진및동영상

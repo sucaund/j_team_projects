@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GymBoardJoinMapper">
-	<select id="gymGymBoard" resultType="GymBoardJoin">
-		select *
-		from gym g, gym_board b 
-		where g.g_id = b.g_id
-		order by b.g_id desc
+	<select id="gymGymBoard" parameterType="GymBoardJoin" resultType="GymBoardJoin">
+	<![CDATA[
+	    SELECT *
+	    FROM (
+	        SELECT ROWNUM AS rn, a.*
+	        FROM (
+				select g.g_id, g.g_name, b.gb_title, g.g_address
+				from gym g, gym_board b 
+				where g.g_id = b.g_id
+				order by b.g_id desc
+	        ) a
+	    )
+	    WHERE rn BETWEEN #{start} AND #{end}
+	 ]]>	
 	</select>
+	
 	
 	<select id="gymBoardDetailRead" parameterType="int" resultType="GymBoardJoin">
 		select*
@@ -14,4 +24,14 @@
 		where g.g_id(+) = b.g_id
 		and b.g_id =#{g_id}
 	</select>
+	
+	<select id="getGymImformationCount" resultType="int">
+		select count(*)
+		from (
+				select *
+				from gym g, gym_board b 
+				where g.g_id = b.g_id
+			)	
+	</select>
+	
 </mapper>
