@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Data
 public class SearchResults {
-   private List<Board> boardResults;
-   private List<Gym> gymResults;
-   private List<GymBoard> gymBoardResults;
-   private List<GymReview> gymReviewResults;
+   private List<Board> 		boardResults;
+   private List<Gym> 		gymResults;
+   private List<GymBoard> 	gymBoardResults;
+   private List<GymReview> 	gymReviewResults;
    
 }

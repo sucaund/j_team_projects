@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> <%@ taglib prefix="fmt"
-uri="http://java.sun.com/jsp/jstl/fmt" %> <%@ include file="header.jsp"%>
+uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ include file="../header.jsp"%>
 
 <!DOCTYPE html>
 <html>
@@ -11,6 +12,25 @@ uri="http://java.sun.com/jsp/jstl/fmt" %> <%@ include file="header.jsp"%>
     <script type="text/javascript" src="js/updateMember.js"></script>
   </head>
   <body>
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs">
+      <div class="container">
+          <div class="row align-items-center">
+              <div class="col-lg-6 col-md-6 col-12">
+                  <div class="breadcrumbs-content">
+                      <h1 class="page-title">회원 정보 수정</h1>
+                  </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-12">
+                  <ul class="breadcrumb-nav">
+                      <li><a href="/jmMyPage"><i class="lni lni-home"></i>마이페이지</a></li>
+                      <li>회원정보수정</li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- End Breadcrumbs -->
     <!-- 로그인/비로그인 막는건 컨트롤러에서 -->
     <c:if test="${msg!=null}">${msg}</c:if>
     <h2>회원정보 수정</h2>

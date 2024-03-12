@@ -54,7 +54,11 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                   <!-- search select-->
 
                   <div class="search-input">
-                    <form id="dyTotalSearch" action="dyTotalSearch" method="get">
+                    <form
+                      id="dyTotalSearch"
+                      action="dyTotalSearch"
+                      method="get"
+                    >
                       <input
                         type="text"
                         name="totKeyword"
@@ -104,7 +108,167 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         <!-- container -->
       </div>
       <!-- header-middle -->
-      <div class="container"></div>
+
+      <!-- nav 시작 -->
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-8 col-md-6 col-12">
+            <div class="nav-inner">
+              <!-- 왼쪽 펼침 메뉴바 -->
+              <div class="mega-category-menu">
+                <span class="cat-button"><i class="lni lni-menu"></i>메뉴</span>
+                <ul class="sub-category">
+                  <li><a href="/GymPostList">헬스장(지점찾기)</a></li>
+
+                  <li><a href="/communityBoard">자유게시판</a></li>
+                  <li><a href="/listBodyProfile">바디프로필</a></li>
+
+                  <li><a href="/jmMyPage">마이페이지</a></li>
+                  <li><a href="product-grids.html">작성글</a></li>
+                  <li><a href="product-grids.html">스크랩(x)</a></li>
+                  <li><a href="product-grids.html">찜(x)</a></li>
+                  <li><a href="product-grids.html">결제</a></li>
+                  <li><a href="/jmUpdateMemberForm">개인정보수정</a></li>
+                  <li><a href="product-grids.html">비즈니스 개설/관리</a></li>
+                  <li><a href="/GymPostList">헬스장(지점찾기)</a></li>
+                  <li>
+                    <a href="/communityBoard"
+                      >고객센터 <i class="lni lni-chevron-right"></i
+                    ></a>
+                    <ul class="inner-sub-category">
+                      <li><a href="product-grids.html">1대1 문의</a></li>
+                      <li><a href="/listBodyProfile">공지사항</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="product-grids.html">관리자페이지</a></li>
+                </ul>
+              </div>
+              <!-- 펼침 메뉴바 끝 -->
+
+              <!-- 가운데 nav -->
+              <nav class="navbar navbar-expand-lg">
+                <button
+                  class="navbar-toggler mobile-menu-btn"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation"
+                >
+                  <span class="toggler-icon"></span>
+                  <span class="toggler-icon"></span>
+                  <span class="toggler-icon"></span>
+                </button>
+                <div
+                  class="collapse navbar-collapse sub-menu-bar"
+                  id="navbarSupportedContent"
+                >
+                  <ul id="nav" class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                      <a
+                        href="index.html"
+                        class="active"
+                        aria-label="Toggle navigation"
+                        >홈(메인페이지)</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <!-- <a
+                        class="dd-menu collapsed"
+                        href="/GymPostList"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#submenu-1-2"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                        >헬스장(지점찾기)</a
+                      > -->
+
+                      <a href="/GymPostList" aria-label="Toggle navigation"
+                        >헬스장(지점찾기)</a
+                      >
+                      <!-- <ul class="sub-menu collapse" id="submenu-1-2">
+                        <li class="nav-item">
+                          <a href="about-us.html">About Us</a>
+                        </li>
+                        <li class="nav-item"><a href="faq.html">Faq</a></li>
+                        <li class="nav-item"><a href="login.html">Login</a></li>
+                        <li class="nav-item">
+                          <a href="register.html">Register</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="mail-success.html">Mail Success</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="404.html">404 Error</a>
+                        </li>
+                      </ul> -->
+                    </li>
+
+                    <li class="nav-item">
+                      <a
+                        class="dd-menu collapsed"
+                        href="javascript:void(0)"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#submenu-1-3"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                        >커뮤니티</a
+                      >
+                      <ul class="sub-menu collapse" id="submenu-1-3">
+                        <li class="nav-item">
+                          <a href="/communityBoard">자유게시판</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="/listBodyProfile">바디프로필</a>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li class="nav-item">
+                      <a
+                        class="dd-menu collapsed"
+                        href="/jmMyPage"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#submenu-1-4"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                        >내 정보</a
+                      >
+                      <ul class="sub-menu collapse" id="submenu-1-4">
+                        <li class="nav-item">
+                          <a href="/jmMyPage">마이페이지</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="blog-grid-sidebar.html">작성글</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="blog-single.html">결제</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="/jmUpdateMemberForm">개인정보수정</a>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li class="nav-item">
+                      <a href="contact.html" aria-label="Toggle navigation"
+                        >고객센터</a
+                      >
+                      <!-- 공지사항, 일대일 문의 추가? -->
+                    </li>
+                  </ul>
+                </div>
+                <!-- navbar collapse -->
+              </nav>
+              <!-- 가운데 nav바 끝 -->
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
     <!-- 마지막 헤더 -->
   </body>

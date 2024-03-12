@@ -22,10 +22,10 @@ public class GymBoard { //체육관 게시글(등록) gym_board
 	private String 	gb_map;// 지도및주소
 	private int 	gb_hit; // nn //조회수
        
-    private int fileAttached;
+    private int 	fileAttached;
     private List<MultipartFile> gymBoardFile;
     
  // 통합검색용
- 	private String totKeyword;
+ 	private String 	totKeyword;
   
 }

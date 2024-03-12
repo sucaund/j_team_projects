@@ -12,18 +12,18 @@ public class GS { //체육관 서비스 g_s
     private int 	s_period;//이용적용기간 //nn
     private String 	s_matters;//특이사항
        
-       //조회용
-     		private String search;
-     		private	String keyword;
-     		private	String pageNum;
-     		private int	start;
-     		private	int end;
-     		
-     		//page 정보
-     		private String currentPage;
-     		
-     		public int getS_number() {
-     			return s_number;
-     		}
+   //조회용
+	private String search;
+	private	String keyword;
+	private	String pageNum;
+	private int	start;
+	private	int end;
+	
+	//page 정보
+	private String currentPage;
+	
+	public int getS_number() {
+		return s_number;
+	}
      
 }

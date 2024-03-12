@@ -22,24 +22,24 @@ public class Trainer { //트레이너
 	private String 	t_matters; // 특이사항
 	private String 	t_email; // 이메일
 
-	    private String t_qualifications;
-	    private String t_experience;
-	    
-	    private String t_photoname;
-	    private String t_photostoredname;
-	    
-	    private MultipartFile trainerPhotoFile;
-	    
-	    
-		//조회용
-		private String search;
-		private	String keyword;
-		private	String pageNum;
-		private int	start;
-		private	int end;
-		
-		//page 정보
-		private String currentPage;
+    private String t_qualifications;
+    private String t_experience;
+    
+    private String t_photoname;
+    private String t_photostoredname;
+    
+    private MultipartFile trainerPhotoFile;
+    
+    
+	//조회용
+	private String search;
+	private	String keyword;
+	private	String pageNum;
+	private int	start;
+	private	int end;
+	
+	//page 정보
+	private String currentPage;
 	    
 	    
 }
