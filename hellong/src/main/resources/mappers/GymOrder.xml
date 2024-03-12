@@ -59,6 +59,18 @@
 	
 	<!-- 헬스장 이용내역 조회 -->
 	
+	<select id="hsTotalUsingGym" parameterType="int" resultType="int">
+		SELECT count(*)
+		FROM gym_order
+		WHERE m_number = #{m_number}
+	</select>
+	
+	<select id="hsListUsingGym" parameterType="Member" resultType="GymOrder">
+		SELECT
+	</select>
+	
+	
+	
 	<!-- 헬스장 환불 -->
 	
 	<select id="hsListGymName" parameterType="int" resultType="GymOrder">
