@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="header.jsp"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,13 +10,16 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="js/signUp.js"></script>
-<script type="text/javascript">
-	
-</script>
+
 </head>
 <body>
-	<h2>회원가입 ajax2</h2>
+	<h2>회원가입</h2>
+	 <c:if test="${m_number!=null}">
+<p>로그아웃을 먼저 해주세요</p>
 
+ </c:if>
+
+  <c:if test="${m_number==null}">
 	<form action="jmSignUpAjax2" method="post" name="frm"
 		modelAttribute="member">
 
@@ -83,13 +86,12 @@
 			<div class="form-floating mb-3">
 				<label for="floatingInput">이메일</label> <input type="text"
 					class="form-control" id="m_email" placeholder="이메일을 입력해주세요"
-					name="m_email" autocomplete='off'>
-					<button type="button" id="sendBtn" name="sendBtn" onclick="sendMailNumber()">인증번호 받기</button>
+					name="m_email" oninput="checkMailReg()" autocomplete='off'>
+					<button type="button" id="sendMailBtn" name="sendMailBtn" onclick="sendMailNumber()">인증번호 받기</button>
 
 			</div>
 			<div class="form-floating mb-3" id="mail_check" name="mail_check" style="display: none">
                <input type="text" name="input_mail_number" id="input_mail_number" style="width:250px; margin-top: -10px" placeholder="인증번호 입력">
-				<input type="text" id="correct_mail_number" name="correct_mail_number" style="display: none" value=""> <!-- 중복 체크용 더미 -->
 				<button type="button" name="confirmMailBtn" id="confirmMailBtn" onclick="confirmMailNumber(), activateSignUpBtn()">인증</button>
 			</div>
 
@@ -101,7 +103,6 @@
 					id="m_address" name="m_address" placeholder="주소"><br> <input
 					type="text" id="sample6_detailAddress" placeholder="상세주소">
 				<input type="text" id="sample6_extraAddress" placeholder="참고항목">
-				<!-- <input type="hidden" id="m_address" name="m_address" value="xm234jq"> -->
 		</div>
 
 
@@ -111,12 +112,8 @@
 		</div>
 		</div>
 	</form>
+</c:if>
 
 
-
-
-	<br>
-	<br>
-	<a href="jmMailTransport">이메일 테스트(클릭시 즉시 전송, 추후 가입 인증 시 사용)</a>
 </body>
 </html>
