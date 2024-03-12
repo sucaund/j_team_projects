@@ -54,7 +54,7 @@ public class DYBoardFileDaoImpl implements DYBoardFileDao {
 	public List<BoardFile> listFileBodyProfile(BoardFile boardFile) {
 		List<BoardFile> bodyProfileFileList = null;
 		bodyProfileFileList = session.selectList("dyBodyProfileFileListAll", boardFile);
-		System.out.println("***bodyProfileFileList -> " + bodyProfileFileList);
+		// System.out.println("***bodyProfileFileList -> " + bodyProfileFileList);
 		return bodyProfileFileList;
 		
 	}

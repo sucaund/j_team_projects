@@ -31,30 +31,30 @@
 	            }
 	        });
 	    });
+	    
+	  	$("#selectedGymService").change(function() {
+			var selectedGymId = $("#selectedGym").val();
+	        var selectedService = $(this).val().split(",");
+	        var s_number = selectedService[0];
+	        var s_detail = selectedService[1];
+	        var m_number = selectedService[2];
+	        
+	        $.ajax({
+	            type: "GET",
+	            url: "hsGetRefundPrice",
+	            data: {gymId: selectedGymId, s_number: s_number, s_detail: s_detail, m_number: m_number},
+	            dataType: "json",
+	            success: function(data) {
+	                $("#refundPrice").text(data.refund_point);
+	                $("#refundCriteria").text(data.refund_criteria);
+	            },
+	            error: function(jqXHR, textStatus, errorThrown) {
+	                console.log("Error: " + textStatus + " - " + errorThrown);
+	            }
+	        });
+	    });
 	});
 	
-/* 	$("#selectedGymService").change(function() {
-		var selectedGymId = $("#selectedGym").val();
-        var selectedService = $(this).val().split(",");
-        var s_number = selectedService[0];
-        var s_detail = selectedService[1];
-        var m_number = selectedService[2];
-        
-        $.ajax({
-            type: "GET",
-            url: "hsGetRefundPrice",
-            data: {gymId: selectedGymId, s_number: s_number, s_detail: s_detail, m_number: m_number},
-            dataType: "json",
-            success: function(data) {
-                $("#refundPrice").val(data.refund_point);
-                $("#refundPrice").val(data.refund_criteria);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log("Error: " + textStatus + " - " + errorThrown);
-            }
-        });
-    });
-}); */
 
 </script>
 
@@ -76,9 +76,9 @@
 		</select>
 	</h3>
 	<h3> 회원 아이디: ${memberData.m_name } (${memberData.m_number})</h3>
-	<!-- <h3> 환불 금액: 
-		<input type="text" id="refundPrice"> (<input type="text" id="refundCriteria">)
-	</h3> -->
+	<h3> 환불 금액: 
+		<span id="refundPrice"></span> (<span id="refundCriteria"></span>)
+	</h3>
 	<input type="submit" value="Submit">
 	</form>
 	

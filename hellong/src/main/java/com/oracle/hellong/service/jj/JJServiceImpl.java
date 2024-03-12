@@ -62,6 +62,7 @@ public class JJServiceImpl implements JJService {
 		int result = 0;
 		System.out.println("JJServiceImpl insertBoard Start...");
 		result = bd.insertBoard(board);
+		System.out.println("JJServiceImpl insertBoard result->" + result);
 		return result;
 	}
 

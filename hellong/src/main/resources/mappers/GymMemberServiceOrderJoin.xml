@@ -2,14 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GymMemberServiceOrderJoinMapper">
 
-	<select id="getGymMemberList" parameterType="int" resultType="GymMemberServiceOrderJoin">
-		SELECT m.*, d.s_enddate, o.g_id, o.s_number, s.s_name
-		FROM gym_order o
-		JOIN member m ON o.m_number = m.m_number
-		JOIN g_s_detail d ON o.s_number = d.s_number
-		JOIN g_s s ON o.s_number = s.s_number AND s.g_id = #{g_id}
-		WHERE d.g_id = #{g_id}
-		ORDER BY m.m_number DESC
+	<select id="getGymMemberList" parameterType="GymMemberServiceOrderJoin" resultType="GymMemberServiceOrderJoin">
+	<![CDATA[
+		 select*
+		 from(
+		    SELECT ROWNUM AS rn, a.*
+		 	from(SELECT m.*, d.s_enddate, o.g_id, o.s_number, s.s_name
+				FROM gym_order o
+				JOIN member m ON o.m_number = m.m_number
+				JOIN g_s_detail d ON o.s_number = d.s_number
+				JOIN g_s s ON o.s_number = s.s_number AND s.g_id = #{g_id}
+				WHERE d.g_id = #{g_id}
+				ORDER BY m.m_number DESC)a
+		    )
+		 where rn BETWEEN #{start} AND #{end}
+	]]>
 	</select>
 	
 	<select id="getTotalGymMemberList" parameterType="int" resultType="int">

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="header.jsp"%>
+<%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +30,7 @@ function changeCategory() {
 </script> -->
 </head>
 <body>
-	<h1>글쓰기</h1>
+	<h3>글쓰기</h3>
 	<form action="writeBoard" method="post">
 		<table>
 			<tr>
@@ -51,7 +51,7 @@ function changeCategory() {
 			</tr>
 			<tr>
 				<td>아이디</td>
-				<td>${board.m_name}</td>
+				<td>${m_name} </td>
 			</tr>
 			<tr>
 				<td>첨부파일</td>

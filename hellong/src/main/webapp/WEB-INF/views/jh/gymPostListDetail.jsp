@@ -16,6 +16,7 @@
     <!-- Google Fonts 추가 -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
     <!-- Custom CSS 추가 -->
+
     <style>
         .gym-name {
             font-family: 'Roboto', sans-serif; 
@@ -26,6 +27,10 @@
         }
         .container-md {
             max-width: 960px; 
+        }
+        
+        .more-services {
+            display: none;
         }
     </style>
 </head>
@@ -41,30 +46,41 @@
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">${board.gb_title}</h2>
                 <div class="text-lg text-gray-600 mb-4">
                     <p class="mb-2"><i class="fas fa-map-marker-alt mr-2"></i> ${board.g_address}</p>
-                    <p class="flex items-center"><i class="fas fa-star text-yellow-500 mr-2"></i> 별점: <span class="font-bold">★★★★★</span></p>
+					<p class="flex items-center">
+					    <i class="fas fa-star text-yellow-500 mr-2"></i> 
+					    <span class="font-bold">${avgReviewSelect.avg_review_star}</span>
+					    <span class="ml-3 font-bold" style="color: #3366FF;">리뷰 ${avgReviewSelect.count_review_star}개</span>
+					</p>
                 </div>
                 <p class="text-lg text-gray-700">${board.gb_ment}</p>
             </div>
             
+
             <div class="mb-8 border border-gray-300 p-4">
                 <div class="mb-4">
-                    <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-tags mr-2"></i> 헬스장 이용권 목록:</h2>
+                    <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-tags mr-2"></i> 헬스장 이용권 목록</h2>
                     <div class="flex flex-col gap-4">
+                    <c:forEach var="service" items="${selectServiceList}">	
                         <div class="bg-gray-200 rounded-lg p-4">
-                            <h5 class="text-lg font-bold text-gray-800 mb-2">이용권1</h5>
-                            <p class="text-gray-700">이용권1의 상세정보를 여기에 입력합니다. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <p class="text-gray-700">가격: $10</p>
-                            <p class="text-gray-700">이용기간: 1 month</p>
+                            <h5 class="text-lg font-bold text-gray-800 mb-2">${service.s_name}</h5>
+                            <p class="text-gray-700">${service.s_detail}</p>
+                            <p class="text-gray-700">가격: ${service.s_price}원</p>
+                            <p class="text-gray-700">이용기간: ${service.s_period} 일</p>
                         </div>
-                        <div class="bg-gray-200 rounded-lg p-4">
-                            <h5 class="text-lg font-bold text-gray-800 mb-2">이용권2</h5>
-                            <p class="text-gray-700">이용권2의 상세정보를 여기에 입력합니다. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <p class="text-gray-700">가격: $20</p>
-                            <p class="text-gray-700">이용기간: 3 months</p>
-                        </div>
+                        
+                        
+
+                    </c:forEach>
+                   	<!-- 추가된 이용권 더보기 버튼 -->
+	                <button id="toggleServicesBtn" class="bg-blue-500 text-white py-2 px-4 rounded-lg">
+	                    <i id="toggleIcon" class="fas fa-plus-circle mr-2"></i> 이용권 더보기
+	                </button>
+                    
                     </div>
                 </div>
             </div>   
+
+            
             
             <div class="mb-8 border border-gray-300 p-4">
                 <div class="mb-4">
@@ -91,9 +107,9 @@
                 </div>
             </div>
           
-            <div class="mb-8 border border-gray-300 p-4">
-                <h2 class="text-lg font-bold text-gray-800 mb-4"><i class="fas fa-images mr-2"></i> 헬스장 이미지</h2>
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+			<div class="mb-8 border border-gray-300 p-4">
+			    <h2 class="text-lg font-bold text-gray-800 mb-4"><i class="fas fa-images mr-2"></i> 헬스장 이미지</h2>
+			    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <c:forEach var="index" begin="0" end="${gymBoardFileList.size() - 1}">
                             <li data-target="#carouselExampleIndicators" data-slide-to="${index}" <c:if test="${index == 0}">class="active"</c:if>></li>
@@ -103,7 +119,7 @@
                     <div class="carousel-inner">
                         <c:forEach var="file" items="${gymBoardFileList}" varStatus="status">
                             <div class="carousel-item <c:if test='${status.index == 0}'>active</c:if>">
-                                <img class="w-full h-auto" src="<c:url value='/upload/${file.gbf_storedFileName}'/>" alt="헬스장 이미지">
+                                <img class="w-full h-auto" style="width: 100%; max-height: 500px;" src="<c:url value='/upload/${file.gbf_storedFileName}'/>" alt="헬스장 이미지">
                             </div>
                         </c:forEach>
                     </div>
@@ -250,6 +266,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+	$(document).ready(function() {
+	    $("#toggleServicesBtn").click(function() {
+	        $(".more-services").toggle(); // 이용권 목록 토글
+	        $("#toggleIcon").toggleClass("fa-plus-circle fa-minus-circle"); // 아이콘 변경
+	        var text = $(this).text();
+	        $(this).text(text === "이용권 더보기" ? "이용권 감추기" : "이용권 더보기"); // 버튼 텍스트 변경
+	    });
+	});
+
+
+
     function initMap() {
         var healthClubLocation = { lat: 37.12345, lng: 127.12345 };
         var mapElement = document.getElementById('map');

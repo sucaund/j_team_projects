@@ -93,7 +93,18 @@ public class GSDaoimpl implements GSDao {
 		return deleteService;
 	}
 
-
+	// 체육관 홍보 글 상세에서 서비스 리스트 띄우기***************************************************
+	@Override
+	public List<GS> getSelectServiceList(int g_id) {
+		List <GS> getSelectServiceListResult = null;
+		try {							    
+			getSelectServiceListResult = session.selectList("getSelectServiceList",g_id);
+			System.out.println("GSDaoimpl getSelectServiceList getSelectServiceListResult.size()->"+getSelectServiceListResult.size());
+		} catch (Exception e) {
+			System.out.println("GSDaoimpl getSelectServiceListResult Exception -> "+e.getMessage());
+		}
+		return getSelectServiceListResult;
+	}
 	
 	
 	

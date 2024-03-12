@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="header.jsp"%>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,17 +57,7 @@
 						</div>
 						<!-- End Main Menu Search -->
 					</div>
-					<div class="col-lg-4 col-md-2 col-5">
-						<div class="middle-right-area">
-							<div class="user">
-								<i class="lni lni-user"></i> Hello
-							</div>
-							<ul class="user-login">
-								<li><a href="login.html">Sign In</a></li>
-								<li><a href="register.html">Register</a></li>
-							</ul>
-						</div>
-					</div>
+					
 
 				</div>
 			</div>
@@ -88,14 +77,6 @@
 								<li><a href="product-grids.html">accessories</a></li>
 								<li><a href="product-grids.html">Televisions</a></li>
 								<li><a href="product-grids.html">best selling</a></li>
-								<li><a href="product-grids.html">top 100 offer</a></li>
-								<li><a href="product-grids.html">sunglass</a></li>
-								<li><a href="product-grids.html">watch</a></li>
-								<li><a href="product-grids.html">man’s product</a></li>
-								<li><a href="product-grids.html">Home Audio & Theater</a></li>
-								<li><a href="product-grids.html">Computers & Tablets </a></li>
-								<li><a href="product-grids.html">Video Games </a></li>
-								<li><a href="product-grids.html">Home Appliances </a></li>
 							</ul>
 						</div>
 						<!-- End Mega Category Menu -->
@@ -133,6 +114,14 @@
 				</div>
 			</div>
 		<!-- End Header Bottom -->
+		<div class="col-lg-4 col-md-2 col-5">
+						<div class="middle-right-area">
+							<ul class="user-login">
+								<li><a href="login.html">Sign In</a></li>
+								<li><a href="register.html">Register</a></li>
+							</ul>
+						</div>
+					</div>
 	</header>
 	<!-- End Header Area -->
 	<!-- Start Hero Area -->
@@ -182,30 +171,11 @@
                 <div class="col-lg-4 col-12">
                     <div class="row">
                         <div class="col-lg-12 col-md-6 col-12 md-custom-padding">
-                            <!-- Start Small Banner -->
-                            <div class="hero-small-banner"
-                                style="background-image: url('assets/images/hero/slider-bnr.jpg');">
-                                <div class="content">
-                                    <h2>
-                                        <span>New line required</span>
-                                        iPhone 12 Pro Max
-                                    </h2>
-                                    <h3>$259.99</h3>
-                                </div>
-                            </div>
-                            <!-- End Small Banner -->
+
                         </div>
                         <div class="col-lg-12 col-md-6 col-12">
                             <!-- Start Small Banner -->
-                            <div class="hero-small-banner style2">
-                                <div class="content">
-                                    <h2>Weekly Sale!</h2>
-                                    <p>Saving up to 50% off all online store items this week.</p>
-                                    <div class="button">
-                                        <a class="btn" href="product-grids.html">Shop Now</a>
-                                    </div>
-                                </div>
-                            </div>
+                        
                             <!-- Start Small Banner -->
                         </div>
                     </div>

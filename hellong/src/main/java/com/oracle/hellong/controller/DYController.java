@@ -49,43 +49,43 @@ public class DYController {
 
 	@GetMapping(value = "listBodyProfile")
 	public String bodyProfileList(Board board, BoardFile boardFile, Model model) {
-	    System.out.println("DYController Start listBoard...");
-	    int totalBodyProfile = dys.totalBodyProfile();
-	    System.out.println("DYController Start totalBodyProfile->" + totalBodyProfile);
+		System.out.println("DYController Start listBoard...");
+		int totalBodyProfile = dys.totalBodyProfile();
+		System.out.println("DYController Start totalBodyProfile->" + totalBodyProfile);
 
-	    DYPaging page = new DYPaging(totalBodyProfile, board.getCurrentPage());
-	    board.setStart(page.getStart());
-	    board.setEnd(page.getEnd());
+		DYPaging page = new DYPaging(totalBodyProfile, board.getCurrentPage());
+		board.setStart(page.getStart());
+		board.setEnd(page.getEnd());
 
-	    List<Board> listBodyProfile = dys.listBodyProfile(board);
-	    List<BoardFile> listFileBodyProfile = dys.listFileBodyProfile(boardFile);
-	    System.out.println("ListBodyProfile size: " + listBodyProfile.size());
-	    for (Board boardItem : listBodyProfile) {
-	        System.out.println("Board B_number: " + boardItem.getB_number());
-	    }
-	    System.out.println("ListFileBodyProfile size: " + listFileBodyProfile.size());
-	    for (BoardFile file : listFileBodyProfile) {
-	        System.out.println("File B_number: " + file.getB_number());
-	    }
-	    System.out.println("미안해 얘들아!!!!!");
-	    
-	    Map<Integer, String> firstImageMap = new HashMap<>();
-	    for (Board boardItem : listBodyProfile) {
-	        BoardFile queryParam = new BoardFile();
-	        queryParam.setB_number(boardItem.getB_number());
-	        List<BoardFile> files = dys.listFileBodyProfile(queryParam);
-	        if (!files.isEmpty()) {
-	            firstImageMap.put(boardItem.getB_number(), files.get(0).getBf_savedName());
-	        }
-	    }
+		List<Board> listBodyProfile = dys.listBodyProfile(board);
+		List<BoardFile> listFileBodyProfile = dys.listFileBodyProfile(boardFile);
+		System.out.println("ListBodyProfile size: " + listBodyProfile.size());
+		for (Board boardItem : listBodyProfile) {
+			System.out.println("Board B_number: " + boardItem.getB_number());
+		}
+		System.out.println("ListFileBodyProfile size: " + listFileBodyProfile.size());
+		for (BoardFile file : listFileBodyProfile) {
+			System.out.println("File B_number: " + file.getB_number());
+		}
+		System.out.println("미안해 얘들아!!!!!");
 
-	    model.addAttribute("totalBodyProfile", totalBodyProfile);
-	    model.addAttribute("listBodyProfile", listBodyProfile);
-	    model.addAttribute("listFileBodyProfile", listFileBodyProfile);
-	    model.addAttribute("firstImageMap", firstImageMap);
-	    model.addAttribute("page", page);
+		Map<Integer, String> firstImageMap = new HashMap<>();
+		for (Board boardItem : listBodyProfile) {
+			BoardFile queryParam = new BoardFile();
+			queryParam.setB_number(boardItem.getB_number());
+			List<BoardFile> files = dys.listFileBodyProfile(queryParam);
+			if (!files.isEmpty()) {
+				firstImageMap.put(boardItem.getB_number(), files.get(0).getBf_savedName());
+			}
+		}
 
-	    return "dy/dyBodyProfile";
+		model.addAttribute("totalBodyProfile", totalBodyProfile);
+		model.addAttribute("listBodyProfile", listBodyProfile);
+		model.addAttribute("listFileBodyProfile", listFileBodyProfile);
+		model.addAttribute("firstImageMap", firstImageMap);
+		model.addAttribute("page", page);
+
+		return "dy/dyBodyProfile";
 	}
 
 	// 클릭한 게시글 조회
@@ -120,34 +120,6 @@ public class DYController {
 		return "dy/dyUpdateFormBodyProfile";
 
 	}
-
-	// 게시글 수정하기
-//	@PostMapping(value = "dyUpdateBodyProfile")
-//	public String dyUpdateBodyProfile(Board board, @RequestParam("files")MultipartFile[] files, Model model) {
-//		log.info("dyUpdateBodyProfile Start...");
-//		// 파일 실제로 삭제 => 삭제 메서드
-//		
-//		List<BoardFile> boardFile = new ArrayList<>();
-//		for (MultipartFile file : files) {
-//			if (!file.isEmpty()) {
-//				String fileName = file.getOriginalFilename();
-//				UUID uid = UUID.randomUUID();
-//				String storedFileName = uid + "-" + fileName;
-//				
-//				BoardFile boardFiles = new BoardFile();
-//				boardFiles.setB_number(board.getB_number());
-//				boardFiles.setBf_originalName(fileName);
-//				boardFiles.setBf_savedName(storedFileName);
-//				boardFile.add(boardFiles);
-//				
-//			}
-//		}
-//		
-//		int updateCount = dys.dyUpdateBodyProfileWithFiles(board, boardFile);
-//		System.out.println("DYController updateCount -> " + updateCount);
-//
-//		return "redirect:listBodyProfile";
-//	}
 
 	@PostMapping(value = "dyUpdateBodyProfile")
 	public String dyUpdateBodyProfile(Board board, @RequestParam("files") MultipartFile[] newFiles, Model model) {
@@ -302,33 +274,5 @@ public class DYController {
 
 		return "dy/dyTotalSearchResult";
 	}
-
-	// 이미지 업로드
-//	@RequestMapping(value = "dyUploadForm", method = RequestMethod.POST)
-//	public String dyUploadForm(HttpServletRequest request, Model model) throws IOException, Exception {
-//
-//		Part image = request.getPart("b_images");
-//		InputStream inputStream = image.getInputStream();
-//		// 파일 확장자 구하기
-//		String fileName = image.getSubmittedFileName();
-//		System.out.println("fileName -> " + fileName);
-//
-//		String[] split = fileName.split("\\.");
-//		String originalName = split[split.length - 2];
-//		String suffix = split[split.length - 1];
-//
-//		System.out.println("originalName -> " + originalName);
-//		System.out.println("suffix -> " + suffix);
-//
-//		// Servlet 상속 받지 못했을 때 realPath 불러오는 방법
-//		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
-//		System.out.println("uploadForm POST Start..");
-//		String savedName = uploadFile(originalName, inputStream, uploadPath, suffix);
-//
-//		log.info("Return savedName : " + savedName);
-//		model.addAttribute("savedName", savedName);
-//
-//		return "dyUploadResult";
-//	}
 
 }

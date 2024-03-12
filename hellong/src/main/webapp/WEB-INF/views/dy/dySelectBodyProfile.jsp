@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="header.jsp"%>
+<%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +9,7 @@
 <title>바디프로필 조회</title>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/dySelectBodyProfile.css">
+
 </head>
 <body>
 	<header>
@@ -31,7 +32,8 @@
 					<div class="image-item">
 						<img
 							src="<%=request.getContextPath()%>/upload/${file.bf_savedName}"
-							alt="Board Image">
+							alt="Board Image"
+							onclick="showModal('<%=request.getContextPath()%>/upload/${file.bf_savedName}')">
 					</div>
 				</c:forEach>
 			</div>
@@ -55,17 +57,22 @@
 						value="댓글 작성">
 				</form>
 			</div>
-			<button id="list-btn" onclick="location.href='listBodyProfile'">게시판
-				목록</button>
-			<button id="update-btn"
-				onclick="location.href='dyUpdateFormBodyProfile?b_number=${board.b_number}'">수정하기</button>
-			<button id="hit-btn">추천하기</button>
-			<button id="delete-btn"
+			<button type="button" id="list-btn"
+				onclick="location.href='listBodyProfile'">게시판</button>
+
+			<button type="button" id="update-btn"
+				onclick="location.href='dyUpdateFormBodyProfile?b_number=${board.b_number}'">게시글
+				수정</button>
+
+			<button type="button" id="hit-btn">추천하기</button>
+
+			<button type="button" id="delete-btn"
 				onclick="location.href='dyDeleteBodyProfile?b_number=${board.b_number}'">게시글
 				삭제</button>
+
 		</div>
 	</div>
-
+	
 
 	<footer>
 		<p>2024 Hellong. All rights reserved.</p>

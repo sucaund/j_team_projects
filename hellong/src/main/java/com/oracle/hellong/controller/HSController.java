@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.GSDetail;
 import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.model.PointCharge;
 import com.oracle.hellong.service.hs.HSService;
-import com.oracle.hellong.service.hs.Paging;
+import com.oracle.hellong.service.jm.JmPaging;
+import com.oracle.hellong.service.hs.HSPaging;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -40,11 +42,14 @@ public class HSController { //////
 	 @RequestMapping(value="hsListMember")
 	 public String hsListMember (Member member, Model model) {
 		 System.out.println("hsController hsListMember start...");
+	     if (member.getCurrentPage() == null)
+			 member.setCurrentPage("1");
+	     System.out.println(member.getCurrentPage());
 		 
-		 int totalMember = hs.totalMember(member);
+		 int totalMember = hs.totalMember();
 		 System.out.println("hsController hsListMember totalMember ->" + totalMember);
 		 
-		 Paging page = new Paging(totalMember, member.getCurrentPage());
+		 HSPaging page = new HSPaging(totalMember, member.getCurrentPage());
 		 
 		 member.setStart(page.getStart());
 		 member.setEnd(page.getEnd());
@@ -60,9 +65,12 @@ public class HSController { //////
 	 
 	 // 아이디 클릭시 index 이동
 	 @RequestMapping(value="hsMemberIndex")
-	 public String hsIndex (Member member, Model model) {
+	 public String hsIndex (Member member, Model model, HttpSession session) {
 		 System.out.println("hsController hsMemberIndex start...");
-		 System.out.println(member.getM_number());
+		 System.out.println("member.getM_number-> " +member.getM_number());
+		 System.out.println("session.getM_number-> " +session.getAttribute("m_number"));
+		 // 로그인 기능 사용시 session.getattribute로 사용
+//		 model.addAttribute("m_number", session.getAttribute("m_number"));
 		 model.addAttribute("m_number", member.getM_number());
 		 
 		 return "hs/memberIndex";
@@ -74,16 +82,14 @@ public class HSController { //////
 	 // 공지사항 목록 
 	 //  -> page 기능 이상해서 수정해야됨
 	 @RequestMapping(value="hsListNoticeBoard")
-	 public String hsListNoticeBoard (Member member, Model model) {
-		 System.out.println("list: " + member.getM_number());
+	 public String hsListNoticeBoard (Board board, Member member, Model model) {
 		 System.out.println("hsController hsListNoitceBoard start...");
+		 System.out.println("list: " + member.getM_number());
 		 
 		 int totalBoard = hs.totalNoticeBoard();
 		 System.out.println("hsController start totalNoticeBoard->" + totalBoard);
 		 
-		 Board board = new Board();
-		 Paging page = new Paging(totalBoard, board.getCurrentPage());
-		 
+		 HSPaging page = new HSPaging(totalBoard, board.getCurrentPage());
 		 board.setStart(page.getStart());
 		 board.setEnd(page.getEnd());
 		 
@@ -196,7 +202,7 @@ public class HSController { //////
 		 int condTotalBoard = hs.condTotalNoticeBoard(board);
 		 System.out.println("hsController hsSearchNoticeBoard condTotalBoard ->" + condTotalBoard);
 		 
-		 Paging page = new Paging(condTotalBoard, board.getCurrentPage());
+		 HSPaging page = new HSPaging(condTotalBoard, board.getCurrentPage());
 		 
 		 board.setStart(page.getStart());
 		 board.setEnd(page.getEnd());
@@ -226,7 +232,11 @@ public class HSController { //////
 	 public String hsListPoint (Member member, Model model) {
 		 
 		 System.out.println("hsController hsListPoint start...");
-		 System.out.println("listPoint: " + member.getM_number());
+		 
+//		 if (pointCharge.getCurrentPage() == null)
+//			 pointCharge.setCurrentPage("1");
+		 System.out.println("currentPage: " + member.getCurrentPage());
+		 System.out.println("m_number: " +member.getM_number());
 		
 		 // 회원이름, 회원보유포인트 데이터 얻기
 		 Member memberData = hs.getMemberData(member.getM_number());
@@ -236,13 +246,16 @@ public class HSController { //////
 		 
 		 int totalListPointCharge = hs.totalListPointCharge(member.getM_number());
 		 System.out.println("hsController hsListPoint totalListPointCharge ->" + totalListPointCharge);
-		 List<PointCharge> listPointCharge = hs.listPointCharge(memberData);
+		 
+		 HSPaging page = new HSPaging(totalListPointCharge, member.getCurrentPage());
+		 member.setStart(page.getStart());
+		 member.setEnd(page.getEnd());
+		 System.out.println("get member ->" + member);
+		 
+		 List<PointCharge> listPointCharge = hs.listPointCharge(member);
 		 System.out.println("hsController hsListPointCharge listPointCharge.size() ->" +listPointCharge.size());
 		 
-		 PointCharge pointCharge = new PointCharge();
-		 Paging page = new Paging(totalListPointCharge, pointCharge.getCurrentPage());
-		 pointCharge.setStart(page.getStart());
-		 pointCharge.setEnd(page.getEnd());
+
 		 
 		 model.addAttribute("totalListPoint", totalListPointCharge);
 		 model.addAttribute("listPoint", listPointCharge);
@@ -252,8 +265,7 @@ public class HSController { //////
 		 return "hs/listPoint";
 	 }
 	 
-	 
-	 @PostMapping(value="hsCondListPoint")
+	 @RequestMapping(value="hsCondListPoint")
 	 public String hsCondListPoint (@RequestParam("select") String action, Member member, Model model) {
 		 
 		 System.out.println("hsController hsCondListPoint start...");
@@ -265,32 +277,17 @@ public class HSController { //////
 		 
 		 model.addAttribute("memberData", memberData);
 		 
-		 // paging
-		 PointCharge pointCharge = new PointCharge();
-		 
-		 
-		 // 포인트내역 카운트, 리스트, date만 따로 뽑기
-		 int totalListPointCharge = hs.totalListPointCharge(member.getM_number());
-		 System.out.println("hsController hsListPoint totalListPointCharge ->" + totalListPointCharge);
-		 List<PointCharge> listPointCharge = hs.listPointCharge(memberData);
-		 System.out.println("hsController hsListPointCharge listPointCharge.size() ->" +listPointCharge.size());
-		 
-		 int totalListPointDeal = hs.totalListGymOrderDeal(member.getM_number()); 
-		 System.out.println("hsController hsListPoint totalListPointDeal ->" + totalListPointDeal);
-		 List<GymOrder> listGymOrderDeal = hs.listGymOrderDeal(memberData);
-		 System.out.println("hsController hsListPointCharge listPointCharge.size() ->" +listGymOrderDeal.size());
-		 
-		 int totalListPointRefund = hs.totalListGymOrderRefund(member.getM_number()); 
-		 System.out.println("hsController hsListPoint totalListPointRefund ->" + totalListPointRefund);
-		 List<GymOrder> listGymOrderRefund = hs.listGymOrderRefund(memberData);
-		 System.out.println("hsController hsListPointCharge listPointCharge.size() ->" +listGymOrderRefund.size());
-		 
 		 // 버튼 클릭시 조건에 맞는 데이터 반환
 		 if ("point_charge".equals(action)) {
+			 int totalListPointCharge = hs.totalListPointCharge(member.getM_number());
+			 System.out.println("hsController hsListPoint totalListPointCharge ->" + totalListPointCharge);
 			 
-			 Paging page = new Paging(totalListPointCharge, pointCharge.getCurrentPage());
-			 pointCharge.setStart(page.getStart());
-			 pointCharge.setEnd(page.getEnd());
+			 HSPaging page = new HSPaging(totalListPointCharge, member.getCurrentPage());
+			 member.setStart(page.getStart());
+			 member.setEnd(page.getEnd());
+			 
+			 List<PointCharge> listPointCharge = hs.listPointCharge(member);
+			 System.out.println("hsController hsListPointCharge listPointCharge.size() ->" +listPointCharge.size());
 			 
 			 model.addAttribute("totalListPoint", totalListPointCharge);
 			 model.addAttribute("listPoint", listPointCharge);
@@ -298,10 +295,15 @@ public class HSController { //////
 			 model.addAttribute("category", "충전");
 			 
 		 } else if ("gym_order_deal".equals(action)) {
+			 int totalListPointDeal = hs.totalListGymOrderDeal(member.getM_number()); 
+			 System.out.println("hsController hsListPoint totalListPointDeal ->" + totalListPointDeal);
 			 
-			 Paging page = new Paging(totalListPointDeal, pointCharge.getCurrentPage());
-			 pointCharge.setStart(page.getStart());
-			 pointCharge.setEnd(page.getEnd());
+			 HSPaging page = new HSPaging(totalListPointDeal, member.getCurrentPage());
+			 member.setStart(page.getStart());
+			 member.setEnd(page.getEnd());
+			 
+			 List<GymOrder> listGymOrderDeal = hs.listGymOrderDeal(member);
+			 System.out.println("hsController hsListPointCharge listPointCharge.size() ->" +listGymOrderDeal.size());
 			 
 			 model.addAttribute("totalListPoint", totalListPointDeal);
 			 model.addAttribute("listPoint", listGymOrderDeal);
@@ -309,10 +311,15 @@ public class HSController { //////
 			 model.addAttribute("category", "사용");
 			 
 		 } else if ("gym_order_refund".equals(action)) {
-			
-			 Paging page = new Paging(totalListPointRefund, pointCharge.getCurrentPage());
-			 pointCharge.setStart(page.getStart());
-			 pointCharge.setEnd(page.getEnd());
+			 int totalListPointRefund = hs.totalListGymOrderRefund(member.getM_number()); 
+			 System.out.println("hsController hsListPoint totalListPointRefund ->" + totalListPointRefund);
+			 
+			 HSPaging page = new HSPaging(totalListPointRefund, member.getCurrentPage());
+			 member.setStart(page.getStart());
+			 member.setEnd(page.getEnd());
+			 
+			 List<GymOrder> listGymOrderRefund = hs.listGymOrderRefund(member);
+			 System.out.println("hsController hsListPointCharge listPointCharge.size() ->" +listGymOrderRefund.size());
 			 
 			 model.addAttribute("totalListPoint", totalListPointRefund);
 			 model.addAttribute("listPoint", listGymOrderRefund);
@@ -320,92 +327,9 @@ public class HSController { //////
 			 model.addAttribute("category", "환불");
 		 }
 		 
-		 return "hs/listPoint";
+		 return "hs/condListPoint";
 	 }
 	  
-//	 @RequestMapping(value="hsListPointCharge")
-//	 public String hsListPointCharge (Member member, Model model) {
-//		 int totalListPoint = hs.totalListPointCharge(member.getM_number());
-//		 System.out.println("hsController hsListPointCharge totalListPoint ->" + totalListPoint);
-//		 
-//		 Board board = new Board();
-//		 Paging page = new Paging(totalListPoint, board.getCurrentPage());
-//		 board.setStart(page.getStart());
-//		 board.setEnd(page.getEnd());
-//		 
-//		 List<PointCharge> listPointCharge = hs.listPointCharge(member);
-//		 System.out.println("hsController hsListPointCharge listPointCharge.size() ->" +listPointCharge.size());
-//		 
-//		 model.addAttribute("totalListPoint", totalListPoint);
-//		 model.addAttribute("listPointCharge", listPointCharge);
-//		 model.addAttribute("page", page);
-//		 return "hs/listPoint";
-//	 }
-//	 
-//	 @RequestMapping(value="hsListGymOrderDeal")
-//	 public String hsListGymOrderDeal (Member member, Model model) {
-//		 int totalListPoint = hs.totalListGymOrderDeal(member.getM_number()); 
-//		 System.out.println("hsController hsListGymOrderDeal totalListPoint ->" + totalListPoint);
-//		 
-//		 Board board = new Board();
-//		 Paging page = new Paging(totalListPoint, board.getCurrentPage());
-//		 board.setStart(page.getStart());
-//		 board.setEnd(page.getEnd());
-//		 
-//		 List<GymOrder> listGymOrderDeal = hs.listGymOrderDeal(member);
-//		 System.out.println("hsController hsListGymOrderDeal listGymOrderDeal.size() ->" +listGymOrderDeal.size());
-//		 
-//		 model.addAttribute("totalListPoint", totalListPoint);
-//		 model.addAttribute("listGymOrderDeal", listGymOrderDeal);
-//		 model.addAttribute("page", page);
-//		 return "hs/listPoint";
-//	 }
-//	 
-//	 @RequestMapping(value="hsListGymOrderRefund")
-//	 public String hsListGymOrderRefund (Member member, Model model) {
-//		 int totalListPoint = hs.totalListGymOrderRefund(member.getM_number()); 
-//		 System.out.println("hsController hsListGymOrderRefund totalListPoint ->" + totalListPoint);
-//		 
-//		 Board board = new Board();
-//		 Paging page = new Paging(totalListPoint, board.getCurrentPage());
-//		 board.setStart(page.getStart());
-//		 board.setEnd(page.getEnd());
-//		 
-//		 List<GymOrder> listGymOrderRefund = hs.listGymOrderRefund(member);
-//		 System.out.println("hsController hsListGymOrderRefund listGymOrderRefund.size() ->" +listGymOrderRefund.size());
-//		 
-//		 model.addAttribute("totalListPoint", totalListPoint);
-//		 model.addAttribute("listGymOrderRefund", listGymOrderRefund);
-//		 model.addAttribute("page", page);
-//		 return "hs/listPoint";
-//	 }
-//	 
-		/*
-		 * @RequestMapping(value="hsListDistinct") public String hsListDistinct (Member
-		 * member, Model model) { int condTotalListPoint =
-		 * hs.condTotalListPoint(member);
-		 * System.out.println("hsController hsListPoint condTotalListPoint ->" +
-		 * condTotalListPoint);
-		 * 
-		 * Board board = new Board(); Paging page = new Paging(condTotalListPoint,
-		 * board.getCurrentpage()); board.setStart(page.getStart());
-		 * board.setEnd(page.getEnd());
-		 * 
-		 * List<PointCharge> listPointCharge = hs.listPointCharge(member);
-		 * System.out.println("hsController hsListPoint listPointCharge.size() ->"
-		 * +listPointCharge.size());
-		 * 
-		 * List<GymOrder> listGymOrder = hs.listGymOrder(member);
-		 * System.out.println("hsController hsListPoint listGymOrder.size() ->"
-		 * +listGymOrder.size());
-		 * 
-		 * model.addAttribute("condTotalListPoint", condTotalListPoint);
-		 * model.addAttribute("listPointCharge", listPointCharge);
-		 * model.addAttribute("listGymOrder", listGymOrder);
-		 * 
-		 * return "hs/listPoint"; }
-		 */
-	
 	 /* 포인트 충전 */
 	 
 	 @RequestMapping(value="hsChargeFormPoint")
@@ -428,7 +352,21 @@ public class HSController { //////
 		 
 		 // 팀원분들 data 참고
 		 
+		 System.out.println("hsController hsDetailUsingGym start...");
+		 int totalGym = hs.totalUsingGym(member.getM_number());
+		 System.out.println("hsController hsDetailUsingGym totalGym ->" + totalGym);
+		 
+		 HSPaging page = new HSPaging(totalGym, member.getCurrentPage());
+		 member.setStart(page.getStart());
+		 member.setEnd(page.getEnd());
+		 
+		 List<GymOrder> listUsingGym = hs.listUsingGym(member);
+		 System.out.println("hsController hsDetailUsingGym listGSDetail.size()-> " + listGSDetail.size());
+		 
 		 model.addAttribute("m_number", member.getM_number());
+		 model.addAttribute("listUsingGym", listUsingGym);
+		 model.addAttribute("page", page);
+		 
 		 return "hs/detailUsingGym";
 	 }
 	 
@@ -462,6 +400,7 @@ public class HSController { //////
 	 @GetMapping(value="hsGetRefundPrice")
 	 public GymOrder hsGetRefundPrice (@RequestParam("gymId") int gymId, @RequestParam("s_number") int s_number, 
              						@RequestParam("s_detail") int s_detail, @RequestParam("m_number") int m_number) {
+		 System.out.println("getRefund: " + gymId + " & " + s_number + " & " + s_detail + " & " + m_number);
 		 GymOrder refundPrice = hs.getRefundPrice(gymId, s_number, s_detail, m_number);
 		 
 		 return refundPrice;

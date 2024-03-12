@@ -11,17 +11,17 @@ public interface HSPointDao {
 	// 포인트 충전
 	int totalListPointCharge(int m_number);
 
-	List<PointCharge> listPointCharge(Member memberData);
+	List<PointCharge> listPointCharge(Member member);
 
 	// 포인트 사용
 	int totalListGymOrderDeal(int m_number);
 
-	List<GymOrder> listGymOrderDeal(Member memberData);
+	List<GymOrder> listGymOrderDeal(Member member);
 
 	// 포인트 환불
 	int totalListGymOrderRefund(int member);
 
-	List<GymOrder> listGymOrderRefund(Member memberData);
+	List<GymOrder> listGymOrderRefund(Member member);
 
 
 }

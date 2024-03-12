@@ -10,6 +10,8 @@ import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymBoardFile;
 import com.oracle.hellong.model.GymBoardFileJoin;
 import com.oracle.hellong.model.GymBoardJoin;
+import com.oracle.hellong.model.GymBoardReviewJoin;
+import com.oracle.hellong.model.GymBoardServiceJoin;
 import com.oracle.hellong.model.GymMemberServiceOrderJoin;
 import com.oracle.hellong.model.MemberGym;
 import com.oracle.hellong.model.Trainer;
@@ -76,7 +78,7 @@ public interface JHService {
 	int deleteService(int s_number);
 
 	// 헬스장 회원 리스트***************************************************************************
-	List<GymMemberServiceOrderJoin> getGymMemberList(int g_id);
+	List<GymMemberServiceOrderJoin> getGymMemberList(GymMemberServiceOrderJoin gymMemberServiceOrderJoin);
 	//누적회원
 	int getTotalGymMemberList(int g_id);
 	//누적매출액
@@ -88,13 +90,30 @@ public interface JHService {
 
 	// 지점찾기 페이지*****************************************************************************
 	// 조인 글 가져옴
-	List<GymBoardJoin> gymGymBoardList();
+	List<GymBoardJoin> gymGymBoardList(GymBoardJoin gymboardJoin);
 	// 파일 가져옴( 보류)
-	List<GymBoardFile> gymBoardFileList();
+	List<GymBoardFile> gymBoardFileList(GymBoardFile gymBoardFile);
 
-	// 지점찾기 글 상세
+	//전체 지점 글 카운트
+	int getGymImformationCount();
+	//지점 별 리뷰 평균
+	List<GymBoardReviewJoin> getAvgReview(GymBoardReviewJoin gymBoardReviewJoin);
+	//서비스 중 최저가
+	List<GymBoardServiceJoin> getMinPrice(GymBoardServiceJoin gymBoardServiceJoin);
+	
+	// 지점찾기 글 상세*****************************************************************************
 	List<GymBoardJoin> gymBoardDetailRead(int g_id);
 	List<GymBoardFile> gymBoardFileListRead(int g_id);
+	// 리뷰점수, 리뷰 카운트
+	GymBoardReviewJoin getAvgReviewSelect(int g_id);
+	// 서비스 리스트 가져오기
+	List<GS> getSelectServiceList(int g_id);
+
+
+
+
+	
+
 
 
 

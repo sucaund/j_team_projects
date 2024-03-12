@@ -65,10 +65,10 @@ public class GymBoardFileDaoImpl implements GymBoardFileDao {
 
 	//사진 리스트
 	@Override
-	public List<GymBoardFile> gymBoardFileList() {
+	public List<GymBoardFile> gymBoardFileList(GymBoardFile gymBoardFile) {
 		List <GymBoardFile> gymBoardFileList = null;
 		try {
-			gymBoardFileList = session.selectList("JHgymBoardFileList");
+			gymBoardFileList = session.selectList("JHgymBoardFileList",gymBoardFile);
 		}catch(Exception e) {
 			System.out.println("GymBoardFileDaoImpl gymBoardFileList Exception -> "+e.getMessage());
 		}		

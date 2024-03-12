@@ -2,8 +2,8 @@ package com.oracle.hellong.dao.jhdao;
 
 import java.util.List;
 
+import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.Gym;
-import com.oracle.hellong.model.Member;
 
 public interface GymDao {
 	int totalGym();

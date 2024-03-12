@@ -17,7 +17,7 @@ public class HSMemberDaoImpl implements HSMemberDao {
 	private final SqlSession session;
 	
 	@Override
-	public int totalMember(Member member) {
+	public int totalMember() {
 		int totalMemberCnt = 0;
 		System.out.println("MemberDaoImpl totalMember start...");
 		

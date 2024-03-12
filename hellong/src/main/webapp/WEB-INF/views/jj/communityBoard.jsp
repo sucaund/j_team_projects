@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="header.jsp"%>
+<%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,16 +27,8 @@
 </head>
 <body>
 	
-	<h1>자유게시판</h1>
+	<h3>자유게시판</h3>
 	<p style="text-align:center">(총 글수: ${totalBoard})</p>
-	<a href="http://localhost:8484/">메인페이지로</a><br>
-	<a href="communityBoard">자유게시판</a>
-	<ul style="text-align:left">대분류 중분류 컨텐츠
-		<li>100 ::: 999멤버권한 / 10일반 / 20점주 / 30관리자</li>
-		<li>200 ::: 999글유형 / 10자유글 / 20바디프로필 / 110공지 / 120문의</li>
-		<li>400 ::: 999신고유형 / 10광고 / 20욕설</li>
-		<li>500 ::: 999체육관대기상태 / 10대기 / 20승인 / 30노출</li>
-	</ul>
 	<table style="text-align:center">
 		<tr>
 			<th>번호</th>

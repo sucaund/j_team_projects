@@ -9,6 +9,7 @@ import com.oracle.hellong.dao.hsdao.HSMemberDao;
 import com.oracle.hellong.dao.hsdao.HSNoticeBoardDao;
 import com.oracle.hellong.dao.hsdao.HSPointDao;
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.GSDetail;
 import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.model.PointCharge;
@@ -24,12 +25,12 @@ public class HSServiceImpl implements HSService {
 	private final HSPointDao pd;
 	private final HSGymDao gd;
 
-	/* 임시로그인 */
+	/* 임시로그인 */ 
 	
 	@Override
-	public int totalMember(Member member) {
+	public int totalMember() {
 		System.out.println("hsServiceImpl start total...");
-		int totalMemberCnt = md.totalMember(member);
+		int totalMemberCnt = md.totalMember();
 		System.out.println("hsServiceImpl totalMember totalMemberCnt-> " + totalMemberCnt);
 		return totalMemberCnt;
 	}
@@ -163,12 +164,12 @@ public class HSServiceImpl implements HSService {
 	}
 	
 	@Override
-	public List<PointCharge> listPointCharge(Member memberData) {
+	public List<PointCharge> listPointCharge(Member member) {
 		List<PointCharge> listPoint = null;
 		System.out.println("hsServiceImpl listPointCharge start...");
-		listPoint = pd.listPointCharge(memberData);
+		listPoint = pd.listPointCharge(member);
 		System.out.println("hsServiceImpl listPointCharge listPoint.size() ->" +listPoint.size());
-		
+		 
 		return listPoint;
 	}
 	
@@ -182,10 +183,10 @@ public class HSServiceImpl implements HSService {
 	}
 
 	@Override
-	public List<GymOrder> listGymOrderDeal(Member memberData) {
+	public List<GymOrder> listGymOrderDeal(Member member) {
 		List<GymOrder> listPoint = null;
 		System.out.println("hsServiceImpl listGymOrderDeal start...");
-		listPoint = pd.listGymOrderDeal(memberData);
+		listPoint = pd.listGymOrderDeal(member);
 		System.out.println("hsServiceImpl listGymOrderDeal listPoint.size() ->" +listPoint.size());
 		return listPoint;
 	}
@@ -201,16 +202,38 @@ public class HSServiceImpl implements HSService {
 	}
 
 	@Override
-	public List<GymOrder> listGymOrderRefund(Member memberData) {
+	public List<GymOrder> listGymOrderRefund(Member member) {
 		List<GymOrder> listPoint = null;
 		System.out.println("hsServiceImpl listGymOrderRefund start...");
-		listPoint = pd.listGymOrderRefund(memberData);
+		listPoint = pd.listGymOrderRefund(member);
 		System.out.println("hsServiceImpl listGymOrderRefund listPoint.size() ->" +listPoint.size());
 		return listPoint;
 	}
 
 	
 	/* 헬스주문 내역 불러오기 */
+	
+	@Override
+	public int totalUsingGym(int m_number) {
+		int totalGym = 0;
+		System.out.println("hsServiceImpl totalUsingGym start...");
+		totalGym = gd.totalUsingGym(m_number);
+		System.out.println("hsServiceImpl totalUsingGym totalGym-> " + totalGym);
+		return totalGym;
+	}
+
+	@Override
+	public List<GymOrder> listUsingGym(Member member) {
+		List<GymOrder> listGSDetail = null;
+		System.out.println("hsServiceImpl listUsingGSDetail start...");
+		listGSDetail = gd.listUsingGym(member);
+		System.out.println("hsServiceImpl listUsingGSDetail listGSDetail.size()-> " + listGSDetail.size());
+		return listGSDetail;
+	}
+	
+	
+	/* 헬스장 환불 */
+	
 	@Override
 	public List<GymOrder> getListGymName(int m_number) {
 		List<GymOrder> listGymName = null;
@@ -234,9 +257,10 @@ public class HSServiceImpl implements HSService {
 		GymOrder refundPrice = null;
 		System.out.println("hsServiceImpl getRefundPrice start...");
 		refundPrice = gd.getRefundPrice(gymId, s_number, s_detail, m_number);
-		System.out.println("hsServiceImpl getRefundPrice refundPrice-> " + refundPrice); 
+		System.out.println("hsServiceImpl getRefundPrice refundPrice-> " + refundPrice.getRefund_point()); 
 		return refundPrice;
 	}
+
 
 
 

@@ -8,7 +8,7 @@ import lombok.Data;
 public class GymReview { //체육관 리뷰 gym_review
 	private int 	g_id; // 체육관Id pk nn f
 	private int 	s_number; // 서비스 번호 pk nn f
-	private int 	s_detail; // 서비스 상세 pk nn f
+	private int 	sd_number; // 서비스 상세 pk nn f
 	private int 	m_number; // 멤버 변호 pk nn f
 	private String 	review_title; // 리뷰 글 제목 nn
 	private String 	review_content; // 리뷰내용 nn

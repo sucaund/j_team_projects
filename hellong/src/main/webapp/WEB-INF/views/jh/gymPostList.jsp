@@ -120,6 +120,8 @@
 <div class="container">
     <h1 class="text-center my-5"><i class="fas fa-dumbbell"></i> 헬스장 리스트 <i class="fas fa-dumbbell"></i></h1>
 
+
+  
     <!-- 검색창 및 필터 -->
     <div class="row mb-4 justify-content-center">
         <div class="col-md-6">
@@ -136,13 +138,16 @@
         </div>
     </div>
 
+	<!-- 카드 내용 -->
     <div class="row justify-content-center">
+    	<c:set var="num" value="${page.total - page.start + 1}"></c:set>
         <c:forEach var="board" items="${gymImformation}" varStatus="boardLoop">
             <!-- 각 헬스장 카드 -->
             <div class="col-md-5 mb-3">
                 <div class="card h-100 p-4 bg-gray-100 rounded-lg shadow-md" onclick="location.href='gymPostDetail?g_id=${board.g_id}'">
                     <img class="card-img-top" src="<c:url value='/upload/${gymBoardFileList[boardLoop.index].gbf_storedFileName}'/>" alt="헬스장 이미지">
                     <div class="card-body">
+                    	<input type="hidden" value="${num}">
                         <div class="card-title">
 						    <h4 class="text-3xl font-bold mb-2">
 						        <strong>${board.g_name}</strong>
@@ -155,36 +160,60 @@
 						    <span style="font-style: italic; color: #00008b;">${board.gb_title}</span>
 						</div>
                         <p class="address text-gray-600"><i class="fas fa-map-marker-alt icon"></i>${board.g_address}</p>
-                        <p class="stars text-yellow-500"><i class="fas fa-star icon"></i> 4.0 <span class="review">(리뷰 수:100)</span></p>
+                        <p class="stars text-yellow-500"><i class="fas fa-star icon"></i>
+                        								 ${avgReview[boardLoop.index].avg_review_star} 
+                        								<span class="review">(리뷰 수:${avgReview[boardLoop.index].count_review_star})</span>
+                        </p>
                         <!-- 가격 정보 -->
-                        <p class="price"><i class="fas fa-won-sign"></i> 10,000 ~ </p>
+                        <p class="price"><i class="fas fa-won-sign"></i>${minPrice[boardLoop.index].min_s_price}원부터~</p>
+                        <c:set var="num" value="${num - 1}"></c:set> 
                     </div>
                 </div>
             </div>
         </c:forEach>
     </div>
+  
+                     
 
     <!-- 페이지 번호 -->
-    <div class="row mt-4 justify-content-center">
+	<div class="row mt-4 justify-content-center">
+	    <div class="col-md-6">
+	        <nav aria-label="페이지 네비게이션">
+	            <ul class="pagination justify-content-center">
+	                <li class="page-item ${page.startPage == 1 ? 'disabled' : ''}">
+	                    <a class="page-link" href="GymPostList?currentPage=${page.startPage - page.pageBlock}" tabindex="-1" aria-disabled="true">이전</a>
+	                </li>
+	                <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+		                <c:choose>
+		                    <c:when test="${page.currentPage == i}">
+		                        <li class="page-item"><a class="page-link" href="GymPostList?&currentPage=${i}">${i}</a></li>
+		                    </c:when>
+		                    <c:otherwise>
+		                        <li class="page-item"><a class="page-link" href="GymPostList?&currentPage=${i}">${i}</a></li>
+		                    </c:otherwise>
+		                </c:choose>
+		             </c:forEach>
+	                <li class="page-item ${page.endPage == page.totalPage ? 'disabled' : ''}">
+	                    <a class="page-link" href="GymPostList?currentPage=${page.startPage + page.pageBlock}">다음</a>
+	                </li>
+	            </ul>
+	        </nav>
+	    </div>
+	</div>
+     
+    
+    
+</div>
+  
+  
+    <!-- 전체 글 수 표시 -->
+    <div class="row justify-content-center mb-3">
         <div class="col-md-6">
-            <nav aria-label="페이지 네비게이션">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">이전</a>
-                    </li>
-                    <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">다음</a>
-                    </li>
-                </ul>
-            </nav>
+            <p class="text-center"><strong><span id="totalPosts" style="color: blue;">전체 게시글 수: ${gymImformationCount}개</span></strong></p>
         </div>
     </div>
-</div>
+  
+  
 
 <!-- 부트스트랩 및 jQuery CDN 추가 -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -250,7 +279,26 @@
                 event.preventDefault();
             }
         });
+        
+        $('.price').each(function () {
+            var priceText = $(this).text(); // 가격 텍스트 가져오기
+            var priceNumber = parseInt(priceText.replace(/\D/g, '')); // 숫자로 변환
+
+            // 세 자리마다 쉼표 추가
+            var formattedPrice = numberWithCommas(priceNumber);
+
+            // 가격을 변환된 값으로 변경
+            $(this).text(formattedPrice + '원부터~');
+        });
+
+        // 세 자리마다 쉼표를 추가하는 함수
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }     
+            
     });
+ 
+    
 </script>
 </body>
 

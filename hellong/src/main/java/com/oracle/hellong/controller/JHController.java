@@ -19,6 +19,8 @@ import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymBoardFile;
 import com.oracle.hellong.model.GymBoardJoin;
+import com.oracle.hellong.model.GymBoardReviewJoin;
+import com.oracle.hellong.model.GymBoardServiceJoin;
 import com.oracle.hellong.model.GymMemberServiceOrderJoin;
 import com.oracle.hellong.model.MemberGym;
 import com.oracle.hellong.model.Trainer;
@@ -33,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class JHController { ////
+public class JHController { 
 	private final JHService jh;
 		
 	
@@ -290,16 +292,18 @@ public class JHController { ////
 	// 헬스장 회원리스트***********************************************************************************
 	@GetMapping(value = "gymMemberListDetail")
 	public String gymMemberListDetail(GymMemberServiceOrderJoin gymMember,Gym gym, Model model) {	
-		//회원리스트 조회
-		List<GymMemberServiceOrderJoin> gymMemberList = jh.getGymMemberList(gym.getG_id());
-		//누적 매출액
-		int sumSale = jh.getSumSale(gym.getG_id());
 		//누적 회원수
 		int totalGymMemberList = jh.getTotalGymMemberList(gym.getG_id());
 		//page
 		Paging page = new Paging(totalGymMemberList,gymMember.getCurrentPage());
 		gymMember.setStart(page.getStart());
 		gymMember.setEnd(page.getEnd());
+		//회원리스트 조회
+		gymMember.setG_id(gym.getG_id());
+		System.out.println("************************"+gymMember);
+		List<GymMemberServiceOrderJoin> gymMemberList = jh.getGymMemberList(gymMember);
+		//누적 매출액
+		int sumSale = jh.getSumSale(gym.getG_id());
 		//남녀 성비
 		Map<String,Double> genderRatio = jh.getGenderRatio(gym.getG_id());
 		Map<String,Double> ageRatio = jh.getAgeRatio(gym.getG_id());
@@ -317,29 +321,57 @@ public class JHController { ////
 	
 	//헬스장 지점찾기 페이지********************************************************************************************************************
 	@GetMapping(value = "/GymPostList")
-	public String gymPostList(GymBoard gymboard,GymBoardFile gymBoardFile ,Model model) {
-		List <GymBoardJoin> gymImformation = jh.gymGymBoardList();
-		List <GymBoardFile> gymBoardFileList = jh.gymBoardFileList(); 
-		
+	public String gymPostList(GymBoardJoin gymboardJoin,GymBoardFile gymBoardFile, GymBoardReviewJoin gymBoardReviewJoin ,
+								GymBoardServiceJoin GymBoardServiceJoin , Model model) {
 		//페이징 작업
-		
+		int gymImformationCount = jh.getGymImformationCount();
+		Paging page = new Paging(gymImformationCount,gymboardJoin.getCurrentPage());
+		gymboardJoin.setStart(page.getStart());
+		gymboardJoin.setEnd(page.getEnd());
+		gymBoardFile.setStart(page.getStart());
+		gymBoardFile.setEnd(page.getEnd());
+		gymBoardReviewJoin.setStart(page.getStart());
+		gymBoardReviewJoin.setEnd(page.getEnd());
+		GymBoardServiceJoin.setStart(page.getStart());
+		GymBoardServiceJoin.setEnd(page.getEnd());
+		List <GymBoardJoin> gymImformation = jh.gymGymBoardList(gymboardJoin);
+		List <GymBoardFile> gymBoardFileList = jh.gymBoardFileList(gymBoardFile); 
 		//리뷰 수, 리뷰 평점 조회
+		List<GymBoardReviewJoin> avgReview = jh.getAvgReview(gymBoardReviewJoin);
 		// 서비스 중 최저가 조회
-		
+		List<GymBoardServiceJoin> minPrice = jh.getMinPrice(GymBoardServiceJoin);
 		System.out.println(gymBoardFileList); 
 		model.addAttribute("gymImformation",gymImformation);
-		model.addAttribute("gymBoardFileList",gymBoardFileList); 
+		model.addAttribute("gymBoardFileList",gymBoardFileList);
+		model.addAttribute("page",page);
+		model.addAttribute("gymImformationCount",gymImformationCount);
+		model.addAttribute("avgReview",avgReview);
+		model.addAttribute("minPrice",minPrice);
 		return "jh/gymPostList";
 	}
 	
+	//지점찾기 글 상세******************************************************************************************************************
 	@GetMapping(value = "/gymPostDetail")
 	public String gymPostDetail(GymBoard gymBoard,Model model) {
 		System.out.println(gymBoard.getG_id());
 		List <GymBoardJoin> gymBoardDetail = jh.gymBoardDetailRead(gymBoard.getG_id());
+		// 별점, 별점개수 가져오기
+		GymBoardReviewJoin avgReviewSelect = jh.getAvgReviewSelect(gymBoard.getG_id());
+		//서비스 리스트 가져오기
+		List <GS> selectServiceList = jh.getSelectServiceList(gymBoard.getG_id());	
+		// 트레이너 리스트 가져오기
+		
+		// 리뷰 가져오기
+		
+
 		List <GymBoardFile> gymBoardFileList = jh.gymBoardFileListRead(gymBoard.getG_id());
 		System.out.println(gymBoardFileList);
 		model.addAttribute("gymBoardDetail", gymBoardDetail);
+		model.addAttribute("avgReviewSelect", avgReviewSelect);
+		model.addAttribute("selectServiceList",selectServiceList);
 		model.addAttribute("gymBoardFileList", gymBoardFileList);
+
+		
 		return "jh/gymPostListDetail";
 	}
 	

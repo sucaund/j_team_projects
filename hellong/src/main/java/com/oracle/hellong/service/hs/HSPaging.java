@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Paging {
+public class HSPaging {
 	private int currentPage = 1;	private int rowPage   = 10;
 	private int pageBlock = 10;		
 	private int start;				private int end;
@@ -15,7 +15,7 @@ public class Paging {
 	private int total;				private int totalPage;
     
 	//                23             null(2)
-	public Paging(int total, String currentPage1) {
+	public HSPaging(int total, String currentPage1) {
 		this.total = total;    // 23
 		if (currentPage1 != null) {
 			this.currentPage = Integer.parseInt(currentPage1);	// 2		
