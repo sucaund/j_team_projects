@@ -20,13 +20,6 @@
 				 ORDER BY charge_date DESC
                  ) a
 			)
+		WHERE  rn BETWEEN #{start} and #{end} 
 	</select>
-	
-	<select id="hslistPointChargeDate" parameterType="Member" resultType="String">
-		SELECT charge_date
-		FROM point_charge
-		WHERE m_number = #{m_number}
-		ORDER BY charge_date DESC
-	</select>
-
 </mapper>

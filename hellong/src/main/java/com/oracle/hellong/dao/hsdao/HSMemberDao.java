@@ -7,7 +7,7 @@ import com.oracle.hellong.model.Member;
 
 public interface HSMemberDao {
 
-	int totalMember(Member member);
+	int totalMember();
 
 	List<Member> listMember(Member member);
 	

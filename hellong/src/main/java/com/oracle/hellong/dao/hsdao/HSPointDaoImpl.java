@@ -45,12 +45,13 @@ public class HSPointDaoImpl implements HSPointDao {
 	}
 	
 	@Override
-	public List<PointCharge> listPointCharge(Member memberData) {
+	public List<PointCharge> listPointCharge(Member member) {
 		List<PointCharge> listPoint = null;
 		System.out.println("PointDaoImpl listPointCharge start...");
+		System.out.println("PointDaoImpl listPointCharge member->"+member);
 
 		try {
-			listPoint = session.selectList("hsListPointCharge", memberData);
+			listPoint = session.selectList("hsListPointCharge", member);
 			System.out.println("PointDaoImpl totalListPointCharge listPoint.size()->" + listPoint.size());
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl listPointCharge Exception ->" + e.getMessage());
@@ -71,12 +72,12 @@ public class HSPointDaoImpl implements HSPointDao {
 	}
 
 	@Override
-	public List<GymOrder> listGymOrderDeal(Member memberData) {
+	public List<GymOrder> listGymOrderDeal(Member member) {
 		List<GymOrder> listPoint = null;
 		System.out.println("PointDaoImpl listGymOrderDeal start...");
 
 		try {
-			listPoint = session.selectList("hsListGymOrderDeal", memberData);
+			listPoint = session.selectList("hsListGymOrderDeal", member);
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl listGymOrderDeal Exception ->" + e.getMessage());
 		}
@@ -96,12 +97,12 @@ public class HSPointDaoImpl implements HSPointDao {
 	}
 
 	@Override
-	public List<GymOrder> listGymOrderRefund(Member memberData) {
+	public List<GymOrder> listGymOrderRefund(Member member) {
 		List<GymOrder> listPoint = null;
 		System.out.println("PointDaoImpl listGymOrderRefund start...");
 
 		try {
-			listPoint = session.selectList("hsListGymOrderRefund", memberData);
+			listPoint = session.selectList("hsListGymOrderRefund", member);
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl listGymOrderRefund Exception ->" + e.getMessage());
 		}

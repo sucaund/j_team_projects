@@ -3,6 +3,7 @@ package com.oracle.hellong.service.hs;
 import java.util.List;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.GSDetail;
 import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.model.PointCharge;
@@ -11,7 +12,7 @@ public interface HSService {
 	
 	/* 임시로그인 */ 
 	
-	int totalMember(Member member);
+	int totalMember();
 	
 	List<Member> listMember(Member member);
 	
@@ -51,26 +52,34 @@ public interface HSService {
 	// 포인트충전 내역
 	int totalListPointCharge(int m_number);		
 	
-	List<PointCharge> listPointCharge(Member memberData);
+	List<PointCharge> listPointCharge(Member member);
 	
 	// 포인트사용 내역
 	int totalListGymOrderDeal(int m_number);	
 	
-	List<GymOrder> listGymOrderDeal(Member memberData);
+	List<GymOrder> listGymOrderDeal(Member member);
 	
 	// 포인트환불 내역
 	int totalListGymOrderRefund(int m_number);	
 	
-	List<GymOrder> listGymOrderRefund(Member memberData);
+	List<GymOrder> listGymOrderRefund(Member member);
 	
 
 	/* 헬스장주문(이용) 내역 */
+	
+	int totalUsingGym(int m_number);
+
+	List<GymOrder> listUsingGym(Member member);
+	
+	/* 헬스장 환불 */
 	
 	List<GymOrder> getListGymName(int m_number);	// 헬스장 주문 내역
 
 	List<GymOrder> getListGymService(int gymId, int m_number);
 
 	GymOrder getRefundPrice(int gymId, int s_number, int s_detail, int m_number);
+
+
 
 
 

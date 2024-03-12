@@ -33,9 +33,7 @@
 	</c:forEach>
 	<c:if test="${page.endPage < page.totalPage }">
 		<a href="hsListMember?currentPage=${page.startPage+page.pageBlock}">[다음]</a>
-	</c:if>	
-
-
+	</c:if>
 
 </body>
 </html>
