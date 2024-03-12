@@ -29,9 +29,6 @@
             max-width: 960px; 
         }
         
-        .more-services {
-            display: none;
-        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -60,21 +57,26 @@
                 <div class="mb-4">
                     <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-tags mr-2"></i> 헬스장 이용권 목록</h2>
                     <div class="flex flex-col gap-4">
-                    <c:forEach var="service" items="${selectServiceList}">	
-                        <div class="bg-gray-200 rounded-lg p-4">
+					 <c:forEach var="service" items="${selectServiceList}" varStatus="loop">
+					       <div class="bg-gray-200 rounded-lg p-4 <c:if test='${loop.index > 2}'>more-services hidden</c:if>">
                             <h5 class="text-lg font-bold text-gray-800 mb-2">${service.s_name}</h5>
                             <p class="text-gray-700">${service.s_detail}</p>
                             <p class="text-gray-700">가격: ${service.s_price}원</p>
                             <p class="text-gray-700">이용기간: ${service.s_period} 일</p>
                         </div>
                         
-                        
-
+  
                     </c:forEach>
+                    
                    	<!-- 추가된 이용권 더보기 버튼 -->
-	                <button id="toggleServicesBtn" class="bg-blue-500 text-white py-2 px-4 rounded-lg">
-	                    <i id="toggleIcon" class="fas fa-plus-circle mr-2"></i> 이용권 더보기
-	                </button>
+				    <button id="toggleServicesBtn" class="bg-blue-500 text-white py-2 px-4 rounded-lg 
+				    	<c:choose>
+				    		<c:when test="${selectServiceList.size() > 3}"></c:when>
+				    		<c:otherwise>hidden</c:otherwise>
+				    	</c:choose>"
+				    >
+				        <i id="toggleIcon" class="fas fa-plus-circle mr-2"></i> 이용권 더보기
+				    </button>
                     
                     </div>
                 </div>
@@ -82,16 +84,29 @@
 
             
             
-            <div class="mb-8 border border-gray-300 p-4">
-                <div class="mb-4">
-                    <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-user-friends mr-2"></i> 트레이너 목록</h2>
-                    <ul class="list-disc list-inside">
-                        <li class="text-gray-700">트레이너1: 사진, 이름, 경력사항</li>
-                        <li class="text-gray-700">트레이너2: 사진, 이름, 경력사항</li>
-                        <!-- 추가적인 트레이너 정보 -->
-                    </ul>
-                </div>
-            </div>
+			<!-- 트레이너 목록 -->
+			<div class="mb-8 border border-gray-300 p-4">
+			    <div class="mb-4">
+			        <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-user-friends mr-2"></i> 트레이너 목록</h2>
+			        <div class="flex flex-col gap-4">
+			            <!-- 트레이너 정보 반복문 시작 -->
+			            <c:forEach var="trainer" items="${trainerList}">
+			                <div class="flex items-center gap-4">
+			                    <!-- 트레이너 사진 -->
+			                    <img src="${trainer.photoUrl}" alt="Trainer" class="w-16 h-16 rounded-full">
+			                    <!-- 트레이너 이름 -->
+			                    <div>
+			                        <h5 class="font-bold text-gray-800">${trainer.name}</h5>
+			                        <!-- 추가적인 트레이너 정보 표시 가능 -->
+			                    </div>
+			                </div>
+			            </c:forEach>
+			            <!-- 트레이너 정보 반복문 끝 -->
+			        </div>
+			    </div>
+			</div>
+			
+			
           
             <div class="mb-8 border border-gray-300 p-4">
                 <div class="mb-4">
@@ -267,12 +282,19 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
 	$(document).ready(function() {
+	    var count = 0;
+	    var buttonText = ["이용권 감추기", "이용권 더보기"];
+
 	    $("#toggleServicesBtn").click(function() {
-	        $(".more-services").toggle(); // 이용권 목록 토글
+	        $(".more-services").toggleClass("hidden"); // 이용권 목록 토글
 	        $("#toggleIcon").toggleClass("fa-plus-circle fa-minus-circle"); // 아이콘 변경
-	        var text = $(this).text();
-	        $(this).text(text === "이용권 더보기" ? "이용권 감추기" : "이용권 더보기"); // 버튼 텍스트 변경
+	        $(this).text(buttonText[count % 2]); // 버튼 텍스트 변경
+	        count++;
 	    });
+	    
+        // 초기에 숨겨진 상태로 설정
+        $(".more-services").addClass("hidden");
+	    
 	});
 
 
@@ -299,7 +321,7 @@
     // 현재 날짜 설정
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); 
     var yyyy = today.getFullYear();
 
     today = yyyy + '-' + mm + '-' + dd;
