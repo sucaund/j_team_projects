@@ -72,11 +72,12 @@
 			SELECT NVL(MAX(b_number), 0) + 1 FROM board
 		</selectKey>
 		
-		INSERT INTO board ( b_number, b_title, b_content, 
+		INSERT INTO board ( b_number, b_title, b_content, m_number,
 							common_bcd, common_mcd, b_comm_group )
 		values
 		(
 			#{b_number}, #{b_title}, #{b_content},
+			#{m_number},
 			200,
 			<choose>
 				<when test="jjcategory == 'jjfree'">10</when>

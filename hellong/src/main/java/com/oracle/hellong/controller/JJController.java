@@ -21,6 +21,7 @@ import com.oracle.hellong.model.Member;
 import com.oracle.hellong.service.jj.JJPaging;
 import com.oracle.hellong.service.jj.JJService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -104,6 +105,7 @@ public class JJController {
 		
 		List<Board> boardList = js.listManager();
 		System.out.println("JJController writeFormBoard boardList.size--->" + boardList.size());
+		System.out.println("JJController writeFormBoard boardList--->" + boardList);
 		model.addAttribute("boardList", boardList);
 		
 		return "jj/writeFormBoard";
@@ -111,16 +113,20 @@ public class JJController {
 	
 	// 글쓰기 입력 적용
 	@PostMapping(value = "writeBoard")
-	public String writeBoard(Board board, Model model) {
+	public String writeBoard(Board board, HttpSession session , Model model) {
 		System.out.println("JJController writeBoard Start...");
-		System.out.println("JJController writeBoard board->"+board);
-		
+		if(session.getAttribute("m_number")!=null) { //세션에 등록되어있을때=로그인했을때
+		board.setM_number((int)session.getAttribute("m_number"));
 		int insertResult = js.insertBoard(board);
+		System.out.println("JJController writeBoard board->"+board);
+		System.out.println("JJController writeBoard insertResult->"+insertResult);
 		if (insertResult > 0) return "redirect:communityBoard";
 		else {
 			model.addAttribute("msg", "입력 실패, 확인해 보세요");
 			return "foward:writeFormBoard";
-		}	
+		}
+		} else { //로그인이 안 됐을때 로그인화면으로 이동시킴
+			return "jmLoginForm";}
 	}
 	
 	// 게시글 삭제 적용
@@ -177,5 +183,11 @@ public class JJController {
 		model.addAttribute("board", board);
 		return "jj/communityBoard";
 	}
+	
+//	@RequestMapping("/home")
+//	public String home() {
+//		return "jj/home";
+//	}
 
+	
 }

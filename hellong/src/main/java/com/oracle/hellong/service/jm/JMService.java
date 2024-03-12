@@ -16,7 +16,7 @@ public interface JMService {
 
 	List<Member> jmListMemberReal(Member member);
 
-	Member jmDetailMember(int m_number);
+	Member jmGetMemberFromNumber(int m_number);
 
 	int jmUpdateMember(Member member);
 
@@ -33,6 +33,15 @@ public interface JMService {
 	int sendMail(String mail);
 
 	int jmLogin(String m_id, String m_pw);
+
+	String jmGetIdFromMail(String mail);
+
+	int jmGetM_numberFromIdAndEmail(String m_id, String m_email);
+
+	String checkPwDuple(int m_number, String m_pw);
+
+	int jmResetPw(int m_number, String m_pw);
+
 
 
 
