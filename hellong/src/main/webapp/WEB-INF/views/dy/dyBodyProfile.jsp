@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="/hellong/src/main/resources/static/js/dyBodyProfile.js"></script>
 <meta charset="UTF-8">
 <title>바디 프로필 게시판</title>
 
@@ -70,7 +71,7 @@
 		<c:if test="${page.currentPage lt page.totalPage}">
 			<a href="?currentPage=${page.currentPage + 1}">다음</a>
 		</c:if>
-		<form action="dyBoardSearch" method="get">
+		<form id="searchForm" action="dyBoardSearch" method="get">
 			<select name="search">
 				<option value="all">제목+내용</option>
 				<option value="title">제목</option>

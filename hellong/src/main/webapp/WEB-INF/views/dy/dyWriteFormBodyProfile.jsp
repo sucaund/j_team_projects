@@ -34,7 +34,7 @@
             <textarea id="b_content" name="b_content" rows="10" cols="50" required="required"></textarea>
             <br>
             <label for="b_images">이미지 첨부</label>
-           	<input type="file" id="b_images" name="b_images" multiple>
+           	<input type="file" id="b_images" name="b_images"  required="required" multiple>
             <br>
             <input type="submit" value="등록">
             <input type="button" onclick="location.href='listBodyProfile'" value="취소">

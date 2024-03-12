@@ -15,7 +15,7 @@
         <label for="b_content">내용</label><br/>
         <textarea id="b_content" name="b_content" required="required">${board.b_content}</textarea><br/>
          <label for="b_images">이미지</label><br/>
-       <input type="file" id="files" name="files" multiple/><br/>
+       <input type="file" id="files" name="files" required="required" multiple/><br/>
         <label for="b_regdate">등록일</label><br/>
         <input type="text" id="b_regdate" name="b_regdate" value="${board.b_regdate}" /><br/>  
         <input type="submit" value="확인" />
