@@ -21,6 +21,8 @@ public class HSNoticeBoardDaoImpl implements HSNoticeBoardDao {
 	private final PlatformTransactionManager transactionManager;
 	private final SqlSession session;
  
+		/* 공지사항 */
+	
 	// 공지글 리스트
 	@Override
 	public int totalNoticeBoard() {
@@ -49,7 +51,7 @@ public class HSNoticeBoardDaoImpl implements HSNoticeBoardDao {
 		return noticeBoardList;
 	}
 	
-	// 공지글 세부내용
+	// 공지글 세부내용 + 조회수 증가
 	@Override
 	public int updateReadCount(int b_number) {
 		System.out.println("NoticeBoardDaoImpl updateReadCount start...");
@@ -77,18 +79,6 @@ public class HSNoticeBoardDaoImpl implements HSNoticeBoardDao {
 		return board;
 	}
 
-	@Override
-	public List<Board> listManager() {
-		List<Board> noticeBoardList = null;
-		System.out.println("NoticeBoardDaoImpl listManager start...");
-		try {
-			noticeBoardList = session.selectList("hsSelectManager");
-		} catch (Exception e) {
-			System.out.println("NoticeBoardDaoImpl listManager Exception->" + e.getMessage());
-		}
-		return null;
-	}
-
 	// 공지글 작성
 	@Override
 	public int createNoticeBoard(Board board) {
@@ -96,6 +86,8 @@ public class HSNoticeBoardDaoImpl implements HSNoticeBoardDao {
 		System.out.println("NoticeBoardDaoImpl createNoticeBoard start...");
 		try {
 			result = session.insert("hsCreateNoticeBoard", board);
+			
+			System.out.println("test: " + board);
 		} catch (Exception e) {
 			System.out.println("NoticeBoardDaoImpl createNoticeBoard Exception ->" + e.getMessage());
 		}
@@ -135,7 +127,7 @@ public class HSNoticeBoardDaoImpl implements HSNoticeBoardDao {
 		return result;
 	}
 
-	// 공지글 조건부 검색
+	// 공지글 검색
 	@Override
 	public int condTotalNoticeBoard(Board board) {
 		int condTotalBoardCnt = 0;

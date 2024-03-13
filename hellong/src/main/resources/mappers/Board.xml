@@ -439,7 +439,7 @@
 		]]>
 	</select>
 	
-	<!-- 공지글 세부내용 -->
+	<!-- 공지글 세부내용 + 조회수 증가 -->
 	<update id="hsUpdateNoticeBoardReadCount" parameterType="int">
 		UPDATE board SET b_readcount= b_readcount+1
 		WHERE b_number=#{b_number}
@@ -455,7 +455,7 @@
 	</select>
 	
 	<!-- 공지글 작성 -->
-	<insert id="hsCreateNoticeBoard" parameterType="Board">
+	<insert id="hsCreateNoticeBoard" parameterType="Board" useGeneratedKeys="true" keyColumn="b_number" keyProperty="b_number">
 		INSERT INTO board VALUES (b_number_seq.nextval, #{m_number}, 200, 110, #{b_title}, #{b_content}, 0, sysdate, 
 									sysdate, 0, 0, 0, 'image', null, null, null)
 	</insert>
@@ -475,7 +475,7 @@
 		DELETE FROM board WHERE b_number=#{b_number}
 	</delete>
 	
-	<!-- 공지글 조건부 검색 -->
+	<!-- 공지글 검색 -->
 	<select id="hsCondTotalNoticeBoardCnt" parameterType="Board" resultType="int">
 		SELECT Count(*) FROM board WHERE common_mcd=110
 		<choose>

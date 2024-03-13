@@ -31,7 +31,7 @@
 			<tr><th>내용</th><td><input type="text" name="b_content" required="required"></td></tr>
 			<tr><td colspan="2">
 				<input type="submit" value="확인">
-				<input type="button" value="취소" onclick="location.href='hsListNoticeBoard?m_number=${m_number}'"></td></tr> 
+				<input type="button" value="취소" onclick="location.href='hsListNoticeBoard?m_number=${member.m_number}'"></td></tr>
 				 
 	   </table>
 	 </form>

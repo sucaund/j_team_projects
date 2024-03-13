@@ -33,14 +33,14 @@
 		<tr><th>수정일자</th><td>${noticeBoard.b_regdate }</td></tr>
 		<tr><th>조회수</th><td>${noticeBoard.b_readcount }</td></tr>
 		<tr><th>내용</th><td>${noticeBoard.b_content }</td></tr>
-		<tr><td colspan="2">
+		<div><td colspan="2">
 		    <input type="button" value="목록" 
 				onclick="location.href='hsListNoticeBoard?m_number=${m_number}'">
 			<input type="button" id="updateButton" value="수정" 
 				onclick="location.href='hsUpdateFormNoticeBoard?b_number=${noticeBoard.b_number}&m_number=${m_number}'">
 			<input type="button" id="deleteButton" value="삭제" 
 				onclick="location.href='hsDeleteNoticeBoard?b_number=${noticeBoard.b_number}&m_number=${m_number}'"></td>
-		</tr>
+		</div>
 	</table>
 </body>
 </html>

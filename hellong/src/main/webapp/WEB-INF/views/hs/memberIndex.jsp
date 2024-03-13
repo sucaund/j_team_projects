@@ -16,5 +16,6 @@
    <a href="hsDetailUsingGym?m_number=${m_number }">헬스장 이용내역 </a><p>
    <a href="hsRefundFormUsingGym?m_number=${m_number }">환불 </a><p>
 
+	<a href="hsBuyUsingGym?m_number=${m_number }">결제 </a><p>
 </body>
 </html>
