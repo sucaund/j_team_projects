@@ -1,26 +1,18 @@
 package com.oracle.hellong.controller;
 
-import java.util.List;
-
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.service.jm.JMService;
-import com.oracle.hellong.service.jm.JmPaging;
 
-import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -33,169 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 public class JMController {
 
 	private final JMService jm;
-
-	private final JavaMailSender mailSender; // 이것또한 생성자 생성됨
-
-	@RequestMapping(value = "jmListMember") // 인덱스에서 옴, 이후 jmListMember.jsp로 보내기 전..
-	// get, post 둘다 받음
-	public String jmListMember(Member member, Model model) {
-
-		System.out.println("jmController Start jmListMember...");
-		if (member.getCurrentPage() == null)
-			member.setCurrentPage("1");
-
-		int jmTotalMember = jm.jmTotalMember();
-		System.out.println("JmController Start totalMember->" + jmTotalMember);
-
-		// Paging 작업
-		JmPaging page = new JmPaging(jmTotalMember, member.getCurrentPage());
-		// Parameter emp --> Page만 추가 Setting
-		member.setStart(page.getStart()); // 시작시 1
-		member.setEnd(page.getEnd()); // 시작시 10
-
-		List<Member> jmListMember = jm.jmListMember(member);
-		System.out.println("JmController jmListMember jmListMember.size()=>" + jmListMember.size());
-
-		model.addAttribute("jmTotalMember", jmTotalMember);
-		model.addAttribute("jmListMember", jmListMember);
-		model.addAttribute("page", page);
-		// 결국 이 3개를 jsp에 보내기 위함
-
-		return "jm/jmListMember";
-		// 이후 html로 보냄
-	}
-
-	@RequestMapping(value = "jmListMemberReal")
-	public String jmListMemberReal(Member member, Model model) {
-
-		System.out.println("jmController Start jmListMemberReal...");
-		if (member.getCurrentPage() == null)
-			member.setCurrentPage("1");
-		System.out.println(member.getCurrentPage()); // 첫시작은 1
-
-		int jmTotalMember = jm.jmTotalMemberReal(); // 이걸 바꿔줘야..
-		System.out.println("JmController Start totalMemberReal->" + jmTotalMember);
-
-		// Paging 작업
-		JmPaging page = new JmPaging(jmTotalMember, member.getCurrentPage());
-		// Parameter emp --> Page만 추가 Setting
-		member.setStart(page.getStart()); // 시작시 1
-		member.setEnd(page.getEnd()); // 시작시 10
-
-		List<Member> jmListMember = jm.jmListMemberReal(member);
-		System.out.println("JmController jmListMemberReal jmListMember.size()=>" + jmListMember.size());
-
-		model.addAttribute("jmTotalMemberReal", jmTotalMember);
-		model.addAttribute("jmListMemberReal", jmListMember);
-		model.addAttribute("page", page);
-		// 결국 이 3개를 jsp에 보내기 위함
-
-		return "jm/jmListMemberReal";
-		// 이후 html로 보냄
-	}
-
-	// 멤버 조회시, 입력한 number와 동일한 member 가져옴
-	@RequestMapping(value = "jmDetailMember")
-	public String jmDetailMember(Member member1, Model model) {
-		System.out.println("JmController Start jmDetailMember...");
-		Member member = jm.jmDetailMember(member1.getM_number());
-		model.addAttribute("member", member);
-		// 이걸 보내기 위함. 보내기 전 작업은 컨트롤러->서비스->dao로 처리하고
-		return "jm/jmDetailMember";
-	}
-
-	// 멤버 정보 수정
-	@RequestMapping(value = "jmUpdateMemberForm")
-	public String jmUpdateMemberForm(Member member1, Model model) {
-		System.out.println("JmController Start jmUpdateMemberForm...");
-		//
-		Member member = jm.jmDetailMember(member1.getM_number());
-		System.out.println("member.getM_name()->" + member.getM_name());
-		System.out.println("emp.getHiredate()->" + member.getM_regdate());
-		model.addAttribute("member", member);
-		return "jm/jmUpdateMemberForm";
-	} // 멤버 수정 폼으로 이동
-
-	// updateForm에 넣은 것 순수 Update
-	@RequestMapping(value = "jmUpdateMember")
-	public String jmUpdateMember(Member member1, Model model) {
-		// member1 : jmUpdateMemberForm 에서의 선택된 Member
-		log.info("jmUpdateMember Start...");
-
-		int updateCount = jm.jmUpdateMember(member1);
-		System.out.println("jmController jmUpdateMember updateCount-->" + updateCount);
-		// 수정
-
-		// 수정 후 수정한 member의 jmDetailMember.jsp로 이동하려면..
-		Member member = jm.jmDetailMember(member1.getM_number());
-		model.addAttribute("member", member);
-		return "forward:jmDetailMember";
-		// 업데이트 후 그 멤버의 detail 화면으로 즉시 이동
-	}
-
-	@RequestMapping(value = "jmSignUpForm") // 폼으로 이동시킴
-	public String jmSignUpForm(Model model) {
-		System.out.println("jmController jmSignUpForm Start...");
-		return "jm/jmSignUpForm"; // 이 페이지에서 정보입력
-	}
-
-	// validation:객체의 제약 조건 참조시
-	// insert : 쓰는 작업 : 회원가입
-	@RequestMapping(value = "jmSignUp") // 입력한 정보 순수 insert하는 작업 수행
-	public String jmSignUp(@ModelAttribute("member") @Valid Member member, BindingResult result, Model model) {
-		System.out.println("jmController jmSignUp Start...");
-
-		// validation 오류시 result
-		if (result.hasErrors()) {
-			System.out.println("jmController jmSignUp hasErrors..");
-			model.addAttribute("msg", "BindingResult 입력 실패. 확인해보세요");
-			return "forward:jmSignUpForm";
-		}
-		// service, dao, mapper명(insertEmp)까지->insert
-		int insertResult = jm.jmInsertMember(member);
-		if (insertResult > 0) {
-			return "redirect:jmListMember"; // 가입성공시
-			// redirect나 foward:같은 컨트롤러 안에 매핑한 메서드로 이동하는 것..
-			// redirect는 단순 이동
-			// forward는 model.addAttribute로 지정한걸 데리고 가는거고
-			// 그래서 로그인이 필요한 화면에 들어갔을 때 사용하기 적합
-			// 반드시 로그인이 필요하다면 로그인 페이지로 forward 시키는 식
-		} else {
-			System.out.println("jmController jmSignUp insertResult->" + insertResult);
-			model.addAttribute("msg", "가입 실패. 가입 화면으로 되돌아갑니다");
-			return "forward:jmSignUpForm";
-		}
-
-	}
-
-	// validation:객체의 제약 조건 참조시
-	// insert : 쓰는 작업 : 회원가입
-	@RequestMapping(value = "jmSignUpAjax") // 입력한 정보 순수 insert하는 작업 수행
-	public String jmSignUpAjax(@ModelAttribute("member") @Valid Member member, BindingResult result, Model model) {
-		System.out.println("jmController jmSignUpAjax Start...");
-
-		// validation 오류시 result
-		if (result.hasErrors()) {
-			System.out.println("jmController jmSignUpAjax hasErrors..");
-			model.addAttribute("msg", "BindingResult 입력 실패. 확인해보세요");
-			return "forward:jmSignUpFormAjax";
-		}
-		// service, dao, mapper명(insertEmp)까지->insert
-		int insertResult = jm.jmInsertMember(member);
-		if (insertResult > 0) {
-			return "redirect:jmListMemberReal"; // 가입성공시
-			// redirect나 foward:같은 컨트롤러 안에 매핑한 메서드로 이동하는 것..
-			// redirect는 단순 이동
-			// forward는 model.addAttribute로 지정한걸 데리고 가는거고
-			// 그래서 로그인이 필요한 화면에 들어갔을 때 사용하기 적합
-			// 반드시 로그인이 필요하다면 로그인 페이지로 forward 시키는 식
-		} else {
-			System.out.println("jmController jmSignUpAjax insertResult->" + insertResult);
-			model.addAttribute("msg", "가입 실패. 가입 화면으로 되돌아갑니다");
-			return "forward:jmSignUpFormAjax";
-		}
-
-	}
 
 	// 회원가입시 id 중복 체크 목적 : m_id를 기반으로 member 가져옴
 	@RequestMapping(value = "jmConfirmMemberId")
@@ -213,46 +42,43 @@ public class JMController {
 		}
 	}
 
-	// 회원가입시 id 중복 체크 목적 : m_id를 기반으로 member 가져옴
-	@RequestMapping(value = "jmConfirmMemberIdAjax", method = RequestMethod.POST)
-	public String jmConfirmMemberIdAjax(Member member1, Model model) {
-		Member member = jm.jmGetMemberFromId(member1.getM_id());
-		model.addAttribute("m_id", member1.getM_id());
-		if (member != null) { // 입력한 m_id와 같은 member가 있다면
-			System.out.println("jmController jmConfirmMemberIdAjax 중복된 m_id");
-			model.addAttribute("msg", "중복된 아이디입니다");
-			return "forward:jmSignUpFormAjax";
-		} else {
-			System.out.println("jmController jmConfirmMemberIdAjax 사용 가능한 m_id");
-			model.addAttribute("msg", "사용 가능한 아이디입니다");
-			return "forward:jmSignUpFormAjax";
-		}
-	}
-
-	@ResponseBody // ajax
+	@ResponseBody // ajax 회원가입시 아이디 체크 (사용하는 것)
 	@RequestMapping(value = "jmConfirmMemberIdAjax2")
 	public int jmConfirmMemberIdAjax2(@RequestParam("m_id") String m_id) {
 		System.out.println("jmController jmConfirmMemberIdAjax2 Start...");
 		if (m_id == null || m_id == "")
 			return -1;
 		else
-			return jm.checkId(m_id);
+			return jm.checkId(m_id); // isDeleted=0인것만
+	} // 스트링을 보내서 인트를 받아옴
+
+	@ResponseBody // 비밀번호 재설정 시 중복 비밀번호 찾기
+	@RequestMapping(value = "jmConfirmMemberPw")
+	public String jmConfirmMemberPw(@RequestParam(value = "m_pw", required = false) String m_pw, HttpSession session) {
+		System.out.println("jmController jmConfirmMemberPw Start...");
+		System.out.println("jmControllerjmConfirmMemberPw m_pw" + m_pw);
+		int m_number = 0;
+		if (session.getAttribute("findM_number") != null) {
+			m_number = (int) session.getAttribute("findM_number");
+		} else {
+			m_number = (int) session.getAttribute("m_number");
+		}
+
+		System.out.println("jmControllerjmConfirmMemberPw m_number" + m_number);
+		String result = jm.checkPwDuple(m_number, m_pw); // isDeleted=0인것만
+		// 중복일 시 duple, 중복이 아닐 때 ok, 오류시 error
+		System.out.println("jmController jmConfirmMemberPw result:" + result);
+		return result;
 	}
 
-	@RequestMapping(value = "jmSignUpFormAjax") // 폼으로 이동시킴
-	public String jmSignUpFormAjax(Model model) {
-		System.out.println("jmController jmSignUpFormAjax Start...");
-		return "jm/jmSignUpFormAjax"; // 이 페이지에서 정보입력
-	}
-
-	@RequestMapping(value = "jmSignUpFormAjax2") // 폼으로 이동시킴
-	public String jmSignUpFormAjax2(Model model) {
+	@RequestMapping(value = "jmSignUpFormAjax2") // 회원가입 폼으로 이동시킴
+	public String jmSignUpFormAjax2() {
 		System.out.println("jmController jmSignUpFormAjax Start...");
 		return "jm/jmSignUpFormAjax2"; // 이 페이지에서 정보입력
 	}
 
 	@RequestMapping(value = "jmSignUpAjax2") // 입력한 정보 순수 insert하는 작업 수행
-	public String jmSignUpAjax2(@ModelAttribute("member") @Valid Member member, BindingResult result, Model model) {
+	public String jmSignUpAjax2(@ModelAttribute("member") @Valid Member member, BindingResult result) {
 		System.out.println("jmController jmSignUpAjax2 Start...");
 
 		// validation 오류시 result
@@ -276,44 +102,40 @@ public class JMController {
 
 	}
 
-	@RequestMapping(value = "jmCheckPasswordMatch", method = RequestMethod.POST)
-	@ResponseBody
-	public String jmCheckPasswordMatch(@RequestParam String m_pw, @RequestParam String m_pw_check) {
-		if (m_pw.equals(m_pw_check)) {
-			return "비밀번호가 일치합니다.";
-		} else {
-			return "비밀번호가 일치하지 않습니다.";
-		}
-	}
-
 	@RequestMapping(value = "jmSignUpCorrect")
-	public String jmSignUpCorrect(Model model) {
+	public String jmSignUpCorrect() {
 		System.out.println("jmController jmSignUpCorrect Start...");
 		return "jm/jmSignUpCorrect"; // 이 페이지에서 정보입력
 	}
 
 	@RequestMapping(value = "jmLoginForm") // 로그인 폼으로 이동시킴
-	public String jmLoginForm(Model model) {
+	public String jmLoginForm(HttpServletRequest request) {
 		System.out.println("jmController jmLoginForm Start...");
+		String uri = request.getHeader("Referer"); // 로그인클릭 전 주소 저장
+		System.out.println("uri:" + uri);
+		if (uri != null && !uri.contains("/jmLoginForm") && !uri.contains("/jmLoginCheck")) {
+			// 그 전 주소가 없거나 로그인관련 주소가 아닐때만
+			request.getSession().setAttribute("prevPage", uri);
+		}
 		return "jm/jmLoginForm"; //
 	}
 
-	@RequestMapping("jmLoginCheck")
+	@RequestMapping(value = "jmLoginCheck", method = RequestMethod.GET)
 	public String jmLoginCheck(@RequestParam("m_id") String m_id, @RequestParam("m_pw") String m_pw, Member member,
-			HttpSession session, Model model) {
+			HttpSession session, HttpServletRequest request, Model model) {
 		System.out.println("jmController jmLoginCheck start");
 		int result = jm.jmLogin(m_id, m_pw); // m_name, 즉 이름. 일단은.. -> 잘불러와지는거 확인했으므로 *로 변경
 		System.out.println("jmController jmLoginCheck result:" + result);
 		if (result == 1) { // 아이디, 비번 모두 일치 시...
 			System.out.println("jmController jmLoginCheck 로그인 성공");
 			member = jm.jmGetMemberFromId(m_id); // m_id 같은 member 전체 가져옴
-//			session.setAttribute("member", member);
-			session.setAttribute("m_id", member.getM_id());
-			System.out.println("member.getM_id()" + member.getM_id());
 			session.setAttribute("m_number", member.getM_number());
 			System.out.println("member.getM_number()" + member.getM_number());
+			session.setAttribute("m_id", member.getM_id());
+			System.out.println("member.getM_id()" + member.getM_id());
 			session.setAttribute("m_name", member.getM_name());
 			System.out.println("member.getM_name()" + member.getM_name());
+
 			session.setAttribute("member_common_bcd", member.getCommon_bcd());
 			System.out.println("member_common_bcd" + member.getCommon_bcd());
 			session.setAttribute("member_common_mcd", member.getCommon_mcd());
@@ -322,95 +144,291 @@ public class JMController {
 			System.out.println(session);
 			// 세션 유지기간 30분
 			session.setMaxInactiveInterval(60 * 30);
-			return "jm/jmMainPage";
-		} else {
+
+			// 기본 URI. 메인페이지
+			String uri = "/";
+
+			String prevPage = (String) session.getAttribute("prevPage");
+			System.out.println("prevPage:" + prevPage);
+			if(prevPage==null){ //prevPage가 null일때
+				prevPage="/";
+				uri = prevPage;
+			}
+			if (prevPage != null || !prevPage.equals("")) {
+				request.getSession().removeAttribute("prevPage");
+				// 값만 가져오고 세션은 삭제
+
+				uri = prevPage;
+
+				// 회원가입 - 로그인으로 넘어온 경우 "/"로 redirect
+				if (prevPage.contains("/jmSignUpFormAjax2") || prevPage.contains("/jmSignUpAjax2")) {
+					uri = "/";
+				}
+			} 
+			System.out.println("uri:" + uri);
+			int index = uri.lastIndexOf("/");
+			if (index != -1) {
+				String uri2 = uri.substring(index + 1);
+				System.out.println("uri2"+uri2);
+				return "redirect:" + uri2;
+			} else {
+				model.addAttribute("msg", "jmController jmLoginCheck 아이디나 비밀번호가 일치하지 않습니다");
+				return "jm/jmLoginForm";
+			}
+		} else { // 아이디나 비밀번호가 일치하지 않을 시
 			System.out.println("jmController jmLoginCheck 아이디나 비밀번호가 일치하지 않습니다");
 			model.addAttribute("msg", "jmController jmLoginCheck 아이디나 비밀번호가 일치하지 않습니다");
 			return "jm/jmLoginForm";
 		}
 	}
 
-//	@RequestMapping("jmLoginCheck")
-//	public ModelAndView jmLoginCheck(@RequestParam("m_id") String m_id, @RequestParam("m_pw") String m_pw, Member member,
-//    					HttpSession session, ModelAndView mv) {
-//		System.out.println("jmController jmLoginCheck start");
-//		int result = jm.jmLogin(m_id, m_pw); //m_name, 즉 이름. 일단은.. -> 잘불러와지는거 확인했으므로 *로 변경
-//		System.out.println("jmController jmLoginCheck result:"+result);
-//		if(result ==1) { //아이디, 비번 모두 일치 시...
-//			System.out.println("jmController jmLoginCheck 로그인 성공");
-//			member = jm.jmGetMemberFromId(m_id); //m_id 같은 member 전체 가져옴
-////			session.setAttribute("member", member);
-//			session.setAttribute("m_id", member.getM_id());
-//			System.out.println("member.getM_id()"+member.getM_id());
-//			session.setAttribute("m_number", member.getM_number());
-//			System.out.println("member.getM_number()"+member.getM_number());
-//			session.setAttribute("m_name", member.getM_name());
-//			System.out.println("member.getM_name()"+member.getM_name());
-//			session.setAttribute("member_common_bcd", member.getCommon_bcd());
-//			System.out.println("member.getM_name()"+member.getM_name());
-//			//이렇게 끌어올 거는 내 자유? 갖다 쓸거?
-//			System.out.println(session);
-//			// 세션 유지기간 30분
-//			session.setMaxInactiveInterval(60*30);
-//			mv.setViewName("jm/jmMainPage"); 
-//		} 
-//		else {
-//			System.out.println("jmController jmLoginCheck 아이디나 비밀번호가 일치하지 않습니다");
-//			mv.addObject("msg", "jmController jmLoginCheck 아이디나 비밀번호가 일치하지 않습니다");
-//		mv.setViewName("jm/jmLoginForm");
-//	}return mv;
-//	}
-
 	// 로그아웃
 	@RequestMapping("jmLogOut")
-	public String jmLogout(HttpSession session) {
-		session.invalidate();
-		return "redirect:/";
+	public String jmLogout(HttpSession session, HttpServletRequest request, Model model) {
+		String prevPage = request.getHeader("Referer"); // 클릭 전 주소 저장
+		System.out.println("uri:" + prevPage);
+		session.invalidate(); // 로그아웃하며 모든 세션 삭제
+
+		if (prevPage != null) {
+			int index = prevPage.lastIndexOf("/");
+			if (index != -1) {
+				String uri = prevPage.substring(index + 1);
+				System.out.println(uri);
+				return "redirect:" + uri;
+			} else {
+				return "redirect:/";
+			}
+
+		} else {
+			model.addAttribute("msg", "로그아웃 이상..");
+			return "jm/jmLoginForm";
+		}
 	}
 
 	// 메인페이지
 	@RequestMapping("jmMainPage")
-	public String jmMainPage(HttpSession session) {
+	public String jmMainPage() { // 세션 인자로 안넣어줘도 세션 제대로 유지해 받는다.
 		return "jm/jmMainPage";
 	}
 
 	// 마이페이지
 	@RequestMapping("jmMyPage")
-	public String jmMyPage(HttpSession session) {
-//		session.getAttribute();
-		return "jm/jmMyPage";
+	public String jmMyPage(HttpSession session, Model model) {
+		if (session.getAttribute("m_id") != null) { // 세션에 등록되어있을때=로그인했을때
+			Member member = new Member();
+			member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));
+			// member에서 등록헬스장, 찜한 헬스장 몇개, 현재 서비스, 현재 서비스 기간, 현재 서비스 가격,
+			// 작성글 몇개, 스크랩 몇개, 결제내역 가져오고
+			model.addAttribute("member", member);
+			// 나머지는 페이지에서 링크로..
+			// null일 때 msg같은거 보냄
+			// 몇개씩 보내는건 ListMember 참고해서 보내면 될 것 같은데. List 보내는 식
+//			session.getAttribute(null)
+			System.out.println(member.getM_gender());
+			return "jm/jmMyPage";
+		} else { // 로그인 되지 않았을 때
+			return "forward:jmLoginForm";
+		}
 	}
 
 	// 아이디 찾기 폼
 	@RequestMapping("jmFindIdForm")
-	public String jmFindIdForm(Model model) {
+	public String jmFindIdForm() {
 		System.out.println("jmController jmFindIdForm");
 		return "jm/jmFindIdForm";
 	}
 
 	// 비밀번호 찾기 폼
 	@RequestMapping("jmFindPwForm")
-	public String jmFindPwForm(Model model) {
+	public String jmFindPwForm() {
 		System.out.println("jmController jmFindPwForm");
 		return "jm/jmFindPwForm";
 	}
 
-	// 더미페이지(로그인->세션 조회 테스트)
-	@GetMapping(value = "jmDummy")
-	public String jmDummy(Model model, HttpSession session) {
-		System.out.println("jmController jmDummy Start...");
-		if (session.getAttribute("m_id") != null) {
-			System.out.println("로그인 되었음, 더미페이지로 이동");
-			model.addAttribute("msg", "로그인 되었음, 더미페이지로 이동");
-			return "jm/jmDummy";
+	// 비밀번호 찾기에서, 사용자가 입력한 id와 email을 바탕으로 계정 찾는 작업 수행
+	@RequestMapping(value = "jmFindPw")
+	public String jmFindPw(@RequestParam("m_id") String m_id, @RequestParam("m_email") String m_email,
+			HttpSession session) {
+		System.out.println("jmController jmFindPw Start...");
+		System.out.println(m_id);
+		System.out.println(m_email);
+		int findM_number = jm.jmGetM_numberFromIdAndEmail(m_id, m_email);
+		System.out.println("jmController jmFindPw findM_number: " + findM_number); // 여기까지 성공
+		session.setAttribute("findM_number", findM_number);
+		if (findM_number > 0) { // 가입된 계정 찾음
+			System.out.println("jmController jmFindPw findM_number " + findM_number);
+			return "jm/jmResetPwForm"; // return "jm/"은 jsp로 이동시키는것, Model model 없이도 됨
+			// return "forward:jmSignUpFormAjax2"; 이거는 컨트롤러로 이동시키는걸 의미하고.
+		} else { // 해당 아이디-이메일과 일치하는 계정이 없다면, 0이 리턴됨
+			return "jm/jmFindPwFail"; // 따로 매핑 없이 즉시 이동 가능
+			// 다시 말해 매핑을 쓰는 이유는 1. 세션이나 모델 사용 2. 컨트롤러에서 작업수행
+			// 3.컨트롤러 하나 만들어놓고 추후 링크 변화같은건 컨트롤러 안에서 변경하는 목적이지,
+			// 단순 이동이라면 따로 뺄 필요가 없는 듯 싶은데..
+			// 아니 그래도, 주소창에 뜨는 링크 규격화를 위해서라도 하긴 해야하는듯.
+			// 오류 나기도 하고. 즉 컨트롤러 없이 링크 걸면 jm/여기로 안가고, 링크를 못찾는다.
+			// 특히 폴더 안에 넣는다던가 하면. 일단 주소에 표현되는 /표기는 컨트롤러의 매핑을 받는다.
+		}
+	}
+
+	@RequestMapping(value = "jmResetPwForm") // 회원정보수정에서 비밀번호 찾기 눌렀을 때
+	// 즉 findPw 거치지 않고 jmResetPwForm이 리턴시키는 jsp를 지정하기 위함
+	public String jmResetPwForm() {
+		return "jm/jmResetPwForm";
+	}
+
+	// 비밀번호 재설정
+	@RequestMapping(value = "jmResetPw") // 클릭 눌렀을 때
+	public String jmFindPw(@RequestParam("m_pw") String m_pw, HttpSession session) {
+		System.out.println("jmController jmResetPw start..");
+		System.out.println("jmController jmResetPw pw: " + m_pw);
+		int m_number = 0;
+		if (session.getAttribute("findM_number") != null) { // 비밀번호 찾기에서 들어왔을 때
+			System.out.println(session.getAttribute("findM_number")); // 여기까지 정상적으로 끌어와짐
+			m_number = (int) session.getAttribute("findM_number");
+		} else if (session.getAttribute("findM_number") == null) { // 회원정보 수정에서 비밀번호 변경 클릭해
+			// findM_number라는 세션이 존재하지 않을 때
+			m_number = (int) session.getAttribute("m_number");
+		}
+		System.out.println(m_number);
+		System.out.println("jmController jmResetPw m_number" + m_number);
+		int resetResult = jm.jmResetPw(m_number, m_pw);
+		System.out.println("jmController jmResetPw resetResult" + resetResult);
+		if (resetResult > 0) { // 1이면 업데이트 성공
+			return "redirect:jmResetPwCorrect";
+		} else {
+			System.out.println("jmController jmSignUpAjax2 resetResult->" + resetResult);
+			System.out.println("비밀번호 재설정 실패");
+			return "forward:jmResetPw";
+
+		}
+	}
+
+	// 재설정 완료->로그아웃해 재 로그인 하게
+	@RequestMapping(value = "jmResetPwCorrect")
+	public String jmResetPwCorrect(HttpSession session) {
+		System.out.println("jmController jmResetPwCorrect Start...");
+		session.invalidate();
+		return "jm/jmResetPwCorrect";
+	}
+
+	// 내 정보 눌렀을 때 나오는 회원정보 수정 페이지
+	@RequestMapping(value = "jmUpdateMemberForm")
+	public String jmUpdateMemberForm(Model model, HttpSession session) {
+		System.out.println("jmController jmUpdateMemberForm Start...");
+		if (session.getAttribute("m_number") != null) {
+			int m_number = (int) session.getAttribute("m_number");
+			Member member = new Member();
+			member = jm.jmGetMemberFromNumber(m_number);
+			System.out.println("jmController jmUpdateMemberForm 로그인 되었음");
+			model.addAttribute("member", member);
+			return "jm/jmUpdateMemberForm";
 		} else {
 			System.out.println("로그인되지 않았음. 로그인 화면으로 이동합니다..");
-			model.addAttribute("msg", "로그인되지 않았음. 로그인 화면으로 이동합니다..");
+			model.addAttribute("msg", "로그인을 먼저 해주세요.");
 			return "jm/jmLoginForm";
 		}
 	}
 
-	// 관리자전용페이지
+	// updateForm에 넣은 것 순수 Update
+	@RequestMapping(value = "jmUpdateMember")
+	public String jmUpdateMember(@ModelAttribute("member") Member member, HttpSession session) {
+		// member1 : jmUpdateMemberForm 에서의 선택된 Member
+
+		System.out.println("jmController jmUpdateMember member" + member);
+		member.setM_number((int) session.getAttribute("m_number"));
+		System.out.println(member);
+		int updateCount = jm.jmUpdateMember(member);
+		System.out.println("jmController jmUpdateMember updateCount-->" + updateCount);
+		// 수정
+
+		return "redirect:jmUpdateMemberForm";
+		// 업데이트 후 그 멤버의 detail 화면으로 즉시 이동
+	}
+
+	// 마이페이지에서 회원 탈퇴 눌렀을 때 회원탈퇴 폼으로 이동하는 컨트롤러
+	@RequestMapping(value = "jmWithdrawalMemberForm")
+	public String jmWithdrawalMemberForm(HttpSession session) {
+		System.out.println("jmController jmWithdrawalMemberForm");
+		System.out.println(session.getAttribute("m_number"));
+		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
+			return "jm/jmWithdrawalMemberForm";
+		} else {
+			return "jm/jmLoginForm";
+		}
+	}
+
+	// 마이페이지에서 회원 탈퇴 눌렀을 때 회원탈퇴 폼으로 이동하는 컨트롤러
+	@RequestMapping(value = "jmWithdrawalMemberPwCheckForm")
+	public String jmWithdrawalMemberPwCheckForm(HttpSession session) {
+		System.out.println("jmController jmWithdrawalMemberPwCheckForm");
+		System.out.println(session.getAttribute("m_number"));
+		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
+			return "jm/jmWithdrawalMemberPwCheckForm";
+		} else {
+			return "jm/jmLoginForm";
+		}
+	}
+
+	// 회원탈퇴 시 입력한 확인비밀번호가 일치하는지 작업 수행
+	@RequestMapping(value = "jmWithdrawalMemberPwCheck")
+	public String jmWithdrawalMemberPwCheck(@RequestParam("m_pw") String m_pw, HttpSession session) {
+		System.out.println("jmController jmWithdrawalMemberPwCheck");
+		System.out.println(session.getAttribute("m_number"));
+		int m_number = (int) session.getAttribute("m_number");
+		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
+
+			String result = jm.checkPwDuple(m_number, m_pw); // isDeleted=0인것만
+			// 중복일 시 duple, 중복이 아닐 때 ok, 오류시 error
+
+			if (result == "duple") { // 중복일 때 = 비밀번호가 일치할 때
+				return "forward:jmWithdrawalMember";
+			} else if (result == "ok") { // 중복이 아닐 때=비밀번호가 일치하지 않을 때
+				return "jm/jmWithdrawalMemberPwCheckFail";
+			} else {
+				return "jm/jmErrorPage";
+			}
+		} else { // m_number가 null일때 : 로그인되어있지 않을 떄
+			return "jm/jmLoginForm";
+		}
+	}
+
+	// 회원탈퇴 폼에서 비밀번호 인증 후 탈퇴 작업 수행하는 컨트롤러
+	@RequestMapping(value = "jmWithdrawalMember")
+	public String jmWithdrawalMember(HttpSession session, Model model) {
+		System.out.println("jmController jmWithdrawalMember Start...");
+		int m_number = (int) session.getAttribute("m_number");
+		Member member = new Member();
+		member.setM_number(m_number);
+		int deleteCount = jm.jmDeleteMemberFake(member);
+		System.out.println("jmController jmDeleteMemberFake deleteCount-->" + deleteCount);
+		// 수정
+
+		if (deleteCount == 1) {
+			System.out.println("jmController jmWithdrawalMember 회원 탈퇴 성공");
+			return "forward:jmWithdrawalMemberSuccess";
+		} else {
+			System.out.println("jmController jmWithdrawalMember 회원 탈퇴 실패");
+			return "jm/jmWithdrawalMemberFail";
+		}
+
+	}
+
+	// 탈퇴 작업 실패
+	@RequestMapping(value = "jmWithdrawalMemberFail")
+	public String jmWithdrawalMemberFail() {
+		System.out.println("jmController jmWithdrawalMemberFail start..");
+		return "jm/jmWithdrawalMemberFail";
+	}
+
+	// 탈퇴 작업 성공
+	@RequestMapping(value = "jmWithdrawalMemberSuccess")
+	public String jmWithdrawalMemberSuccess(HttpSession session) {
+		System.out.println("jmController jmWithdrawalMemberSuccess");
+		session.invalidate();
+		return "jm/jmWithdrawalMemberSuccess";
+	}
+
+	// 관리자전용페이지. 세션 테스트용
 	@RequestMapping("jmMasterPage")
 	public String jmMasterPage(Model model, HttpSession session) {
 		System.out.println("jmController jmMasterPage");
@@ -428,7 +446,7 @@ public class JMController {
 			}
 		} else {
 			System.out.println("로그인되지 않았음. 로그인 화면으로 이동합니다..");
-			model.addAttribute("msg", "로그인되지 않았음. 로그인 화면으로 이동합니다..");
+			model.addAttribute("msg", "로그인되었으나 관리자 계정이 아님, 메인페이지로 이동합니다");
 			return "jm/jmLoginForm";
 		}
 	}
@@ -451,45 +469,7 @@ public class JMController {
 //
 //	}
 
-	// 실제 멤버 db에서 멤버 행 삭제 (권장 x, 테스트용)
-	@RequestMapping(value = "jmDeleteMemberReal")
-	public String jmDeleteMemberReal(Member member, Model model) {
-		System.out.println("jmController Start jmDeleteMemberReal...");
-		int result = jm.jmDeleteMemberReal(member.getM_number());
-		return "redirect:jmListMember";
-	} // 현재 작동 안됨 : integrity constraint (HELLONG.FK_MEMBER_TO_POINT_CHARGE) violated
-		// - child record found 로, 즉 연결된 거 있어서 무결성 해쳐서 삭제 안되는.. 어차피 안 쓸거니.
-
-	// 멤버 삭제 로직 : member의 isDeleted를 0으로 변경
-	@RequestMapping(value = "jmDeleteMemberFake")
-	public String jmDeleteMemberFake(Member member1, Model model) {
-		// member1 : jmUpdateMemberForm 에서의 선택된 Member
-		log.info("jmDeleteMemberFake Start...");
-
-		int deleteCount = jm.jmDeleteMemberFake(member1);
-		System.out.println("jmController jmDeleteMemberFake deleteCount-->" + deleteCount);
-		// 수정
-
-		// 수정 후 수정한 member의 jmDetailMember.jsp로 이동하려면..
-		Member member = jm.jmDetailMember(member1.getM_number());
-		model.addAttribute("member", member);
-		return "forward:jmDetailMember";
-		// 업데이트 후 그 멤버의 detail 화면으로 즉시 이동
-	}
-
-//
-//	@GetMapping(value = "listEmpDept")
-//	public String listEmpDept(Model model) {
-//		System.out.println("EmpController listEmpDept Start...");
-//		// service, dao ->listEmpDEpt
-//		// Mapper만->tkListEmpDept
-//		List<EmpDept> listEmpDept = es.listEmpDept();
-//		model.addAttribute("listEmpDept", listEmpDept);
-//		return "listEmpDept";
-//
-//	}
-//
-	@ResponseBody
+	@ResponseBody // 모든 이메일 인증에 사용
 	@RequestMapping(value = "jmMailCheck", method = RequestMethod.POST)
 	public String jmMailCheck(@RequestParam("m_email") String m_email) {
 		System.out.println("jmMailCheck..");
@@ -500,31 +480,24 @@ public class JMController {
 
 	}
 
-	@RequestMapping(value = "jmMailTransport")
-	public String mailTransport(HttpServletRequest request, Model model) {
-		System.out.println("mailSending..");
-		String tomail = "ujm1jaman@gmail.com"; // 받는사람 이메일
-		System.out.println(tomail);
-		String setfrom = "woakswoaks@gmail.com"; // 보내는사람 이메일
-		String title = "mailTransport입니다"; // 제목
-		try {
-			// Mime : 전자우편 인터넷 표준 format
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-			messageHelper.setFrom(setfrom); // 보내는 사람 생략하면 정삭자동하지않음
-			messageHelper.setTo(tomail); // 받는사람 이메일
-			messageHelper.setSubject(title); // 메일제목은 생략 가능함
-			String tempPassword = (int) (Math.random() * 999999) + 1 + "";
-			messageHelper.setText("임시비밀번호입니다" + tempPassword); // 메일 내용
-			System.out.println("임시 비밀번호입니다:" + tempPassword);
-			mailSender.send(message);
-			model.addAttribute("check", 1); // 정상 전달
-			// 이 아래에는 db logic 구성이 들어가야한다.
-		} catch (Exception e) {
-			System.out.println("mailTransport e.getMessage()" + e.getMessage());
-			model.addAttribute("check", 2);
+	@ResponseBody
+	@RequestMapping(value = "jmFindIdWithMail", method = RequestMethod.POST)
+	public String jmFindIdWithMail(@RequestParam("mail") String mail, HttpSession session) {
+
+		System.out.println("jmController jmFindIdWithMail ajax에서 받은 mail: " + mail);
+
+		String getIdFromMail = jm.jmGetIdFromMail(mail); // 이메일로 가져온 아이디
+
+		if (getIdFromMail != null) { // 아이디를 가져오는데에 성공했을 경우
+			System.out.println("jmController jmFindIdWithMail 해당 이메일로 가입된 아이디는 " + getIdFromMail);
+			// 값이 같을 경우 입력값과 true를 반환
+
+			session.setAttribute("getIdFromMail", getIdFromMail);
+			return mail + "로 등록된 아이디는 \n" + getIdFromMail + "입니다.";
+		} else {
+			System.out.println("jmController jmFindIdWithMail 해당 이메일로 가입된 아이디가 없음");
+			return mail + "로 등록된 아이디가 없습니다.";
 		}
-		return "jm/jmMailResult";
 	}
 
 //
@@ -573,32 +546,7 @@ public class JMController {
 //		return "doMemberList";
 //	}
 //
-//	@ResponseBody
-//	@RequestMapping(value = "getDeptName")
-//	public String getDeptName(Dept dept, Model model) {
-//		System.out.println("deptno" + dept.getDeptno());
-//		String deptName = es.deptName(dept.getDeptno());
-//		System.out.println("deptName->" + deptName);
-//		return deptName;
-//	}
-//
-//	@ResponseBody
-//	@RequestMapping(value = "empListUpdate")
-//	public Map<String, Object> empListUpdate(@RequestBody @Valid List<Emp> listEmp) {
-//		System.out.println("EmpController empListUpdate Start...");
-//		int updateResult = 1;
-//
-//		for (Emp emp : listEmp) {
-//			System.out.println("EmpController empListUpdate emp->" + emp);
-//		}
-//		// int writeResult = kkk.lisrUpdateEmp(emp);
-//		// String followingProStr = Integer.toString(followingPro);
-//
-//		System.out.println("EmpController empListUpdate writeResult -> " + updateResult);
-//		Map<String, Object> resultMap = new HashMap<>();
-//		resultMap.put("updateResult", updateResult);
-//		return resultMap;
-//	}
+
 //
 //	@ResponseBody
 //	@RequestMapping(value = "transactionInsertUpdate")

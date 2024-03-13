@@ -50,17 +50,16 @@ public class SHController {
 	@RequestMapping("/login")
 	public String login() {
 		System.out.println("SHController login start...");
-		return "SH-Views/login";
+		return "redirect:/authenticate";
 
 	}
 
 
 	// 해당로그인 한계정이 있는지 확인...
 	@RequestMapping("authenticate")
-	public String authenticate(HttpSession session, @RequestParam("member_id") String member_id,
-
-			Model model) {
+	public String authenticate(HttpSession session,Model model) {
 		System.out.println("SHController authenticate start...");
+		String member_id =  (String) session.getAttribute("m_id");
 		boolean same = sh.authenticate(member_id);
 		// 해당 로그인 정보가 맞는지 참or거짓 으로 분류
 		if (same) {
@@ -71,7 +70,7 @@ public class SHController {
 		} else {
 			System.out.println("SHController authenticate else...");
 			model.addAttribute("loginError", true);
-			return "SH-Views/login";
+			return "jm/jmLoginForm";
 		}
 
 		return "forward:loginAction1";
@@ -150,14 +149,17 @@ public class SHController {
 
 	// 작성글 열람
 	@RequestMapping("/QuestionContent")
-	public String QuestionContent(@RequestParam("B_NUMBER") int B_NUMBER, Model model) {
+	public String QuestionContent(HttpSession session,@RequestParam("B_NUMBER") int B_NUMBER,Member member ,Model model) {
 		System.out.println("SHController QuestionContent start...");
 		System.out.println("SHController QuestionContent B_NUMBER" + B_NUMBER);
 		Board boardContent = sh.boardContent(B_NUMBER);
 		
-		
+		String m_id = (String) session.getAttribute("m_id");//03-13
+		int M_NUMBER = sh.changeM_num(m_id);//03-13
+
 	    System.out.println("SHController QuestionContent  boardContent->"+boardContent);
-		
+		//댓글 작성자 정보 입력 03-13
+	    //member.setM_number(M_NUMBER);
 	    //작성글안에 속해있는 댓글들 보냄
 		List<Board> boardCommList = sh.getComments(B_NUMBER);
 		System.out.println("SHController  boardCommList size-->" + boardCommList.size());
@@ -166,6 +168,7 @@ public class SHController {
 		// 리스트에서 첫 번째 Board 객체를 모델에 추가
 		model.addAttribute("board", boardContent);
 		model.addAttribute("boardCommList", boardCommList);
+		model.addAttribute("M_NUMBER", M_NUMBER);
 		System.out.println("SHController QuestionContent boardContent ->" + boardContent);
 		return "SH-Views/QuestionContent";
 	}
@@ -245,7 +248,7 @@ public class SHController {
 //댓글입력 과동시에 신규 댓글 단일객체만 등록 Board!+원글댓글 카운터 증가
 	@ResponseBody
 	@PostMapping("commentInsert")
-	public Board commentInsert(@RequestParam("comment_body") String comment, @RequestParam("mId") int M_NUMBER,
+	public Board commentInsert(@RequestParam("comment_body") String comment, @RequestParam("cmId") int M_NUMBER,
 			@RequestParam("bId") int B_NUMBER, Board board) {
 
 		System.out.println("SHController commentInsert M_NUMBER" + " => " + M_NUMBER);

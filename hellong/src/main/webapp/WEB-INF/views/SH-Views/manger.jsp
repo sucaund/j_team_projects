@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="header.jsp"%>
+<%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -588,7 +588,7 @@ function sample6_execDaumPostcode() {
 			<tr>
 				<c:forEach var="QnA" items="${allQnA}">
 					<tr>
-						<td><a href="QuestionContent?B_NUMBER=${QnA.b_number}">${QnA.b_title }</td>
+						<td><a href="/QuestionContent?B_NUMBER=${QnA.b_number}">${QnA.b_title }</td>
 						<td>${QnA.b_regdate }</td>
 						<td>${QnA.m_number }</td>
 						<td>${commentCounts[QnA.b_number]}</td>
