@@ -18,8 +18,9 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/tiny-slider.js"></script>
     <script src="/js/glightbox.min.js"></script>
-    <script src="/js/main.js"></script>
-  </head>
+<!--     <script src="/js/main.js"></script>
+ -->  
+ </head>
   <body>
     <header class="header navbar-area">
       <div class="header-middle">

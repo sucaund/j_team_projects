@@ -6,9 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Scrollable Tables with Fixed Headers</title>
-
 <style>
 .scrollable-table {
 	display: block;
@@ -50,11 +48,34 @@
 	color: #666;
 	font-size: 20px;
 }
+
+.scrollable-card-body {
+	height: 150px; /* 또는 원하는 높이로 설정 */
+	overflow-y: auto; /* 스크롤바가 필요한 경우에만 표시 */
+}
+
+.scrollable-table th, .scrollable-table td {
+	max-width: 200px; /* 최대 너비 설정 */
+	white-space: nowrap; /* 텍스트를 공백으로 감싸지 않음 */
+	overflow: hidden; /* 넘치는 내용 숨김 */
+	text-overflow: ellipsis; /* 넘치는 내용을 말줄임표로 표시 */
+}
+
+.scrollable-table th {
+	position: sticky;
+	top: 0;
+	background-color: #fff;
+	z-index: 10;
+}
+
 </style>
 
-<script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script type="text/javascript">
+
 function sample6_execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
@@ -410,210 +431,254 @@ function sample6_execDaumPostcode() {
         document.getElementById('ThisTableForm').submit(); // 폼 제출
     }
 	}
-	
+
 	
 </script>
-
 </head>
 <body>
 
+	<div class="container mt-3">
+		<div class="row">
+			<div class="col-12">
+				<!-- 큰 테두리가 있는 박스 -->
+				<div class="border p-3">
+					<div class="row">
+						<!-- 1번 박스 -->
+						<div class="col-sm-12 mb-3">
+							<div class="border p-3">
 
+								<div>
+									<h2>회원 정보</h2>
+									<div class="search-bar">
+										<input type="text" id="searchInput" placeholder="검색...">
+										<!-- id 추가 -->
+										<button type="button" onclick="searchTable()">찾기</button>
+										<!-- 검색 함수 실행 -->
+									</div>
+									<table class="scrollable-table">
+										<thead>
+											<tr>
+												<th>회원이름</th>
+												<th>회원등급</th>
+												<th>가입일</th>
+												<th>회원정보</th>
 
-	<h2>회원 정보</h2>
-	<div class="search-bar">
-		<input type="text" id="searchInput" placeholder="검색...">
-		<!-- id 추가 -->
-		<button type="button" onclick="searchTable()">찾기</button>
-		<!-- 검색 함수 실행 -->
-	</div>
-	<table class="scrollable-table">
-		<thead>
-			<tr>
-				<th>회원이름</th>
-				<th>회원등급</th>
-				<th>가입일</th>
-				<th>회원정보</th>
+											</tr>
+										</thead>
+										<tbody>
 
-			</tr>
-		</thead>
-		<tbody>
-
-			<c:forEach var="Member" items="${allMember}">
-				<input type="hidden" name="mId" value="${Member.m_number}">
-				<tr>
-					<td>${Member.m_name}</td>
-					<td><c:choose>
-							<c:when test="${Member.common_mcd == 10}">
+											<c:forEach var="Member" items="${allMember}">
+												<input type="hidden" name="mId" value="${Member.m_number}">
+												<tr>
+													<td>${Member.m_name}</td>
+													<td><c:choose>
+															<c:when test="${Member.common_mcd == 10}">
                     일반회원
                 </c:when>
-							<c:when test="${Member.common_mcd == 20}">
+															<c:when test="${Member.common_mcd == 20}">
                     헬스장
                 </c:when>
-							<c:when test="${Member.common_mcd == 30}">
+															<c:when test="${Member.common_mcd == 30}">
                     관리자
                 </c:when>
-							<c:otherwise>
+															<c:otherwise>
                     알 수 없음
                 </c:otherwise>
-						</c:choose></td>
-					<td>${Member.m_regdate }</td>
-					<td><button type="button" class="btn btn-primary edit-btn"
-							data-bs-toggle="modal" data-bs-target="#MemberModal"
-							data-memberid="${Member.m_number}">회원정보수정</button></td>
-				</tr>
-			</c:forEach>
+														</c:choose></td>
+													<td>${Member.m_regdate }</td>
+													<td><button type="button"
+															class="btn btn-primary edit-btn" data-bs-toggle="modal"
+															data-bs-target="#MemberModal"
+															data-memberid="${Member.m_number}">회원정보수정</button></td>
+												</tr>
+											</c:forEach>
 
-		</tbody>
-	</table>
+										</tbody>
+									</table>
+								</div>
 
+							</div>
+						</div>
+						<!-- 2번 박스 -->
+						<div class="col-sm-12 mb-3">
+							<div class="border p-3">
 
+								<h2>헬스장 정보</h2>
+								<div class="search-bar">
+									<input type="text" id="gymSearchInput" placeholder="헬스장 검색...">
+									<button type="button" onclick="searchGymTable()">찾기</button>
+								</div>
 
-	<h2>헬스장 정보</h2>
-	<div class="search-bar">
-		<input type="text" id="gymSearchInput" placeholder="헬스장 검색...">
-		<button type="button" onclick="searchGymTable()">찾기</button>
-	</div>
+								<button type="button" class="btn btn-primary"
+									data-bs-toggle="modal" data-bs-target="#insertGym">헬스장
+									등록</button>
 
-	<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-		data-bs-target="#insertGym">헬스장 등록</button>
-
-	<table class="scrollable-table" id=scrollable-gym>
-		<thead>
-			<tr>
-				<th>상호명</th>
-				<th>대표회원번호</th>
-				<th>등록일</th>
-				<th>노출등급</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<c:forEach var="gym" items="${allGym}">
-					<tr>
-						<td>${gym.g_name}</td>
-						<td>${gym.m_number }</td>
-						<td>${gym.g_regdate }</td>
-						<td>
-						<c:choose>
-							<c:when test="${gym.common_mcd == 10}">
+								<table class="scrollable-table" id=scrollable-gym>
+									<thead>
+										<tr>
+											<th>상호명</th>
+											<th>대표회원번호</th>
+											<th>등록일</th>
+											<th>노출등급</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<c:forEach var="gym" items="${allGym}">
+												<tr>
+													<td>${gym.g_name}</td>
+													<td>${gym.m_number }</td>
+													<td>${gym.g_regdate }</td>
+													<td><c:choose>
+															<c:when test="${gym.common_mcd == 10}">
                    				 대기
                						</c:when>
-							<c:when test="${gym.common_mcd == 20}">
+															<c:when test="${gym.common_mcd == 20}">
                    				 승인
               						</c:when>
-							<c:when test="${gym.common_mcd == 30}">
+															<c:when test="${gym.common_mcd == 30}">
                    			 	 노출
                 					</c:when>
-							<c:otherwise>
+															<c:otherwise>
                     			알 수 없음
                 			</c:otherwise>
-						</c:choose></td>
-						
-						<td><button type="button" class="btn btn-primary GymEdit-btn"
-							data-bs-toggle="modal" data-bs-target="#Gym_Content"
-							data-memberid="${gym.g_id}">헬스장 정보</button></td>
-				</c:forEach>
+														</c:choose></td>
 
-		</tbody>
-	</table>
-	<!-- ===================================신고관리======================================= -->
-		
-	<form id="deleteReportForm" action="/delReport" method="post" style="display: none;">
-    	<input type="hidden" name="b_number" id="deleteReportId">
-	</form>
-	
-	<h2>신고관리</h2>
-	<table class="scrollable-table" id=scrollable-Report>
-		<thead>
-			<tr>
-				<th>신고사유</th>
-				<th>글제목(클릭시 링크이동 필요"<"" a")</th>
-				<th>신고일자</th>
-				<th>신고누적횟수</th>
-				<th>삭제</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<c:forEach var="report" items="${allReport}">
-					<tr>
-						<td>
-							<c:choose>
-								<c:when test="${report.common_mcd == 10}">
+													<td><button type="button"
+															class="btn btn-primary GymEdit-btn"
+															data-bs-toggle="modal" data-bs-target="#Gym_Content"
+															data-memberid="${gym.g_id}">헬스장 정보</button></td>
+											</c:forEach>
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!-- 3번 박스 -->
+						<div class="col-sm-12 mb-3">
+							<div class="border p-3">
+								<form id="deleteReportForm" action="/delReport" method="post"
+									style="display: none;">
+									<input type="hidden" name="b_number" id="deleteReportId">
+								</form>
+
+								<h2>신고관리</h2>
+								<table class="scrollable-table" id=scrollable-Report>
+									<thead>
+										<tr>
+											<th>신고사유</th>
+											<th>글제목</th>
+											<th>신고일자</th>
+											<th>신고누적횟수</th>
+											<th>삭제</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<c:forEach var="report" items="${allReport}">
+												<tr>
+													<td><c:choose>
+															<c:when test="${report.common_mcd == 10}">
                    				 		 광고
                						</c:when>
-								<c:when test="${report.common_mcd == 20}">
+															<c:when test="${report.common_mcd == 20}">
                    						 욕설
               						</c:when>
-								<c:when test="${report.common_mcd == 30}">
+															<c:when test="${report.common_mcd == 30}">
                    			 			 분쟁
                 					</c:when>
-								<c:otherwise>
+															<c:otherwise>
                     					알 수 없음
                 				</c:otherwise>
-							</c:choose>
-							</td>
-						<td>${report.b_title }</td>
-						<td>${report.report_date }</td>
-						<td>${report.report_count }</td>
-						<td>${report.b_number}</td>
-						
-						
-						<td><button type="button" class="btn btn-primary"
-							onclick="deleteReport(${report.b_number})">신고글 삭제</button></td>
-				</c:forEach>
+														</c:choose></td>
+													<td>${report.b_title }</td>
+													<td>${report.report_date }</td>
+													<td>${report.report_count }</td>
+													<td>${report.b_number}</td>
 
-		</tbody>
-	</table>
-	
-	<!-- =====================문의글 관리======================= -->
-	
-	
-	<form id="ThisTableForm" action="/delThisTable" method="post" style="display: none;">
-    	<input type="hidden" name="b_number" id="ThisTableId">
-	</form>
-	
-	<h2>문의글</h2>
-	<table class="scrollable-table" id=scrollable-Report>
-		<thead>
-			<tr>
-				<th>글제목</th>
-				<th>작성일</th>
-				<th>작성자</th>
-				<th>댓글</th>
-				<th>목록에서 삭제</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<c:forEach var="QnA" items="${allQnA}">
-					<tr>
-						<td><a href="/QuestionContent?B_NUMBER=${QnA.b_number}">${QnA.b_title }</td>
-						<td>${QnA.b_regdate }</td>
-						<td>${QnA.m_number }</td>
-						<td>${commentCounts[QnA.b_number]}</td>
-						
-						<td>
-							<button type="button" class="btn btn-primary"
-							onclick="deleteThisTable(${QnA.b_number})">목록에서 삭제
-							</button>
-						</td>
-				</c:forEach>
 
-		</tbody>
-	</table>
+													<td><button type="button" class="btn btn-primary"
+															onclick="deleteReport(${report.b_number})">신고글
+															삭제</button></td>
+											</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- 4번 박스 -->
+						<div class="col-sm-12 mb-3">
+							<div class="border p-3">
+								<form id="ThisTableForm" action="/delThisTable" method="post"
+									style="display: none;">
+									<input type="hidden" name="b_number" id="ThisTableId">
+								</form>
+								
+											<h2>문의글</h2>
+											<table class="scrollable-table" id=scrollable-Report>
+												<thead>
+													<tr>
+														<th>글제목</th>
+														<th>작성일</th>
+														<th>작성 회원번호</th>
+														<th>댓글</th>
+														<th>목록에서 삭제</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<c:forEach var="QnA" items="${allQnA}">
+															<tr>
+																<td><a href="/QuestionContent?B_NUMBER=${QnA.b_number}">${QnA.b_title }</td>
+																<td>${QnA.b_regdate }</td>
+																<td>${QnA.m_number }</td>
+																<td>${commentCounts[QnA.b_number]}</td>
 
-<!-- 	헬스장 추가  -->
-	<div class="modal fade" id="insertGym" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">헬스장 추가 </h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
+																<td>
+																	<button type="button" class="btn btn-primary"
+																		onclick="deleteThisTable(${QnA.b_number})">목록에서
+																		삭제</button>
+																</td>
+														</c:forEach>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+		
+
+
+
+
+
+
+		<!-- ===================================신고관리======================================= -->
+
+
+
+
+
+		
+
+		<!-- =====================문의글 관리======================= -->
+
+
+
+		<!-- 	헬스장 추가  -->
+		<div class="modal fade" id="insertGym" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">헬스장 추가</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
 
 						<table>
 							<tr>
@@ -626,13 +691,12 @@ function sample6_execDaumPostcode() {
 							</tr>
 							<tr>
 								<td>주소</td>
-								<td>
-								<input type="text" id="sample6_postcode" placeholder="우편번호">
-								<input type="button" onclick="sample6_execDaumPostcode()"value="우편번호 찾기"><br> 
-								<input type="text"id="Gym_g_address" name="Gym_g_address" placeholder="주소"><br> 
-								
-								<input type="text" id="sample6_extraAddress" placeholder="참고항목">
-								</td>
+								<td><input type="text" id="sample6_postcode"
+									placeholder="우편번호"> <input type="button"
+									onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+									<input type="text" id="Gym_g_address" name="Gym_g_address"
+									placeholder="주소"><br> <input type="text"
+									id="sample6_extraAddress" placeholder="참고항목"></td>
 								<!-- <td><input type="text" name="Gym_g_address"></td> -->
 							</tr>
 							<tr>
@@ -646,35 +710,36 @@ function sample6_execDaumPostcode() {
 							</tr>
 							<tr>
 								<td>등록신청서류</td>
-								<td><input type="file" id="imageInput" name="image" multiple="multiple"/></td>
+								<td><input type="file" id="imageInput" name="image"
+									multiple="multiple" /></td>
 							</tr>
-							
+
 							<tr>
 								<td colspan="2">${message }</td>
 							</tr>
 						</table>
 					</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">취소</button>
-					<button type="button" id="submitGym" class="btn btn-primary">등록</button>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">취소</button>
+						<button type="button" id="submitGym" class="btn btn-primary">등록</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
 
-	<!-- 회원정보-->
-	<div class="modal fade" id="MemberModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">회원정보</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
+		<!-- 회원정보-->
+		<div class="modal fade" id="MemberModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">회원정보</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
 						<table>
 
 							<tr>
@@ -733,12 +798,12 @@ function sample6_execDaumPostcode() {
 								<td>
 									<!-- 회원 등급 선택 라디오 버튼 -->
 									<form id="adminForm">
-										<label> <input type="radio" name="ckcommon_mcd" value="10">
-											일반회원
-										</label> <label> <input type="radio" name="ckcommon_mcd" value="20">
-											헬스장
-										</label> <label> <input type="radio" name="ckcommon_mcd" value="30">
-											관리자
+										<label> <input type="radio" name="ckcommon_mcd"
+											value="10"> 일반회원
+										</label> <label> <input type="radio" name="ckcommon_mcd"
+											value="20"> 헬스장
+										</label> <label> <input type="radio" name="ckcommon_mcd"
+											value="30"> 관리자
 										</label>
 									</form>
 
@@ -748,42 +813,43 @@ function sample6_execDaumPostcode() {
 								<td colspan="2">${message }</td>
 							</tr>
 						</table>
-					</form>
-					<button type="button"  id="deleteMember">회원삭제</button>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-					<button type="button" id="applyChanges" class="btn btn-primary">적용</button>
+						</form>
+						<button type="button" id="deleteMember">회원삭제</button>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">취소</button>
+						<button type="button" id="applyChanges" class="btn btn-primary">적용</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	
-	
-	<!-- 	헬스장 페이지 정보  -->
-	<div class="modal fade" id="Gym_Content" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">헬스장 정보 </h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
+
+
+		<!-- 	헬스장 페이지 정보  -->
+		<div class="modal fade" id="Gym_Content" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">헬스장 정보</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
 
 						<table>
 							<tr>
-							<form id="GymForm">
-										<label> <input type="radio" name="GymOpen_mcd" value="10">
-											대기
-										</label> <label> <input type="radio" name="GymOpen_mcd" value="20">
-											승인
-										</label> <label> <input type="radio" name="GymOpen_mcd" value="30">
-											노출
-										</label>
-							</form>
+								<form id="GymForm">
+									<label> <input type="radio" name="GymOpen_mcd"
+										value="10"> 대기
+									</label> <label> <input type="radio" name="GymOpen_mcd"
+										value="20"> 승인
+									</label> <label> <input type="radio" name="GymOpen_mcd"
+										value="30"> 노출
+									</label>
+								</form>
 							</tr>
 							<tr>
 								<td>헬스장 번호</td>
@@ -808,30 +874,33 @@ function sample6_execDaumPostcode() {
 
 							<tr>
 								<td>사업자 등록번호</td>
-								<td><input type="text" name="g_companynumber" ></td>
+								<td><input type="text" name="g_companynumber"></td>
 							</tr>
 							<tr>
 								<td>등록신청서류</td>
-								<td>
-								  <img id="g_document" name="g_document"  src="" alt="체육관 이미지" style="width: 100%; height: auto;">							
-								</td>						
+								<td><img id="g_document" name="g_document" src=""
+									alt="체육관 이미지" style="width: 100%; height: auto;"></td>
 							</tr>
-							
-							
+
+
 							<tr>
 								<td colspan="2">${message }</td>
 							</tr>
 						</table>
 					</div>
-				<div class="modal-footer">
-					<button type="button"  id="deleteGym" class="btn btn-primary">헬스장삭제</button>
-					<button type="button" id="OpenGym" class="btn btn-primary">수정</button>
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+					<div class="modal-footer">
+						<button type="button" id="deleteGym" class="btn btn-primary">헬스장삭제</button>
+						<button type="button" id="OpenGym" class="btn btn-primary">수정</button>
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">취소</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 </body>
+<script src="<%=request.getContextPath()%>/js/index.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/index.js"></script>
+
 
 
 </html>

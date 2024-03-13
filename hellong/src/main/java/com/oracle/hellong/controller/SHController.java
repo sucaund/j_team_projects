@@ -222,12 +222,14 @@ public class SHController {
 		System.out.println(bContent);
 		int Common_bcd = 200;
 		int Common_mcd = 120;
+		int B_ISRECOMM =1;
 
 		board.setM_number(M_NUMBER);
 		board.setCommon_bcd(Common_bcd);
 		board.setCommon_mcd(Common_mcd);
 		board.setB_title(bTitle);
 		board.setB_content(bContent);
+		board.setB_isrecomm(B_ISRECOMM);
 		System.out.println("SHController write board" + board);
 
 		sh.addAttribute(board);
