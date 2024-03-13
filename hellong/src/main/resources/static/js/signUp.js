@@ -14,11 +14,11 @@
     	   var regExp = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
     	   return regExp.test(m_name);
     	}*/
-    	/*function regEmail(m_email) {
+    	function regEmail(m_email) {
 			var regExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return regExp.test(m_email);
 			
-		}*/
+		}
     	
     	
     	var idCheck = 0;
@@ -28,7 +28,7 @@
     	var nameCheck = 0;
     	var authCheck = 0;
     	var emailCheck=0;
-/*    	var mailRegCheck=0;*/
+    	var mailRegCheck=0;
 
     	/*function checkName() {
     	   var inputed = $('#m_name').val(); //이름에 입력한 값
@@ -150,27 +150,60 @@
     		      $(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3").replace("--", "-") ); //- 자동으로 입력
     		   })
     		}
-    		
-    		
-    	/*function checkMail() { //메일 정규식 체크
-    	   var inputed = $('#m_email').val();
-    	   
-    	   $.ajax({
-    	      success: function() {
-    	         if(regEmail(inputed) == false) {
-    	            $("#signupbtn").prop("disabled", true);
-    	            $("#signupbtn").css("background-color", "#aaaaaa");
-    	            $("#m_email").css("background-color", "#FFCECE");
-    	           
-    	            mailRegCheck = 0; //실패
-    	         } else if(regEmail(inputed) == true) {
-    	            $("#m_email").css("background-color", "#B0F6AC");
-    	        
-    	            mailRegCheck = 1; //성공
-    	         }
-    	      }
-    	   })
-    	}*/
+
+			var mailauthnumber=0;
+
+	function checkMailReg() { //메일 정규식 체크
+		var inputed = $('#m_email').val();
+		
+		$.ajax({
+		   success: function() {
+			  if(regEmail(inputed) == false) {
+				 $("#sendMailBtn").prop("disabled", true);
+				 $("#sendMailBtn").css("background-color", "#aaaaaa");
+				 $("#m_email").css("background-color", "#FFCECE");
+				
+				 mailRegCheck = 0; //실패
+			  } else if(regEmail(inputed) == true) {
+				 $("#sendMailBtn").prop("disabled", false);
+				  $("#sendMailBtn").css("background-color", "#B0F6AC");
+				 $("#m_email").css("background-color", "#B0F6AC");
+				 mailRegCheck = 1; //성공
+			  }
+		   }
+		})
+	 }
+
+	 var mailauthnumber=0; //이메일 인증 번호
+   
+   //이메일
+    function sendMailNumber(){
+        $("#mail_check").css("display","block"); //전송버튼 누르는 순간 메일체크 div가 드러남
+        $.ajax({
+            url:"/jmMailCheck",
+            type:"post",
+            crossDomain: true,
+            headers: {  'Access-Control-Allow-Origin': 'http://The web site allowed to access' },
+            dataType:"json",
+            data:{"m_email" : $("#m_email").val()},
+            success: function(data){
+                alert("인증번호 발송");
+                mailauthnumber=data;
+            	} /* 받은 인증번호가 여기(보이지 않는 더미)에 들어감 */
+        })
+    }
+
+    function confirmMailNumber(){
+        var input_number = $("#input_mail_number").val();
+
+        if(input_number == mailauthnumber){
+            alert("인증되었습니다.");
+            emailCheck=1;
+        }else{
+            alert("번호가 다릅니다.");
+            emailCheck=0;
+        }
+    }
     
 	 
 	 
@@ -222,36 +255,8 @@
             }
         }).open();
     }
-   
-   //이메일
-    function sendMailNumber(){
-        $("#mail_check").css("display","block"); //버튼 보내는 순간 메일체크 div가 드러남
-        $.ajax({
-            url:"/jmMailCheck",
-            type:"post",
-            crossDomain: true,
-            headers: {  'Access-Control-Allow-Origin': 'http://The web site allowed to access' },
-            dataType:"json",
-            data:{"m_email" : $("#m_email").val()},
-            success: function(data){
-                alert("인증번호 발송");
-                $("#correct_mail_number").attr("value",data);
-            	} /* 받은 인증번호가 여기(보이지 않는 더미)에 들어감 */
-        })
-    }
 
-    function confirmMailNumber(){
-        var number1 = $("#input_mail_number").val();
-        var number2 = $("#correct_mail_number").val();
 
-        if(number1 == number2){
-            alert("인증되었습니다.");
-            emailCheck=1;
-        }else{
-            alert("번호가 다릅니다.");
-            emailCheck=0;
-        }
-    }
     
     
     

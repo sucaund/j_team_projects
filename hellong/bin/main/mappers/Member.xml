@@ -11,7 +11,7 @@
 	</select>
 
 	<select id="getAllMember" resultType="Member">
-		SELECT*
+		SELECT *
 		FROM MEMBER WHERE M_ISDELETED = 0
 	</select>
 
@@ -60,14 +60,16 @@
 
 	<update id="jmMemberUpdate" parameterType="Member">
 		UPDATE member SET
-		<if test="#{m_id}!=null"> m_id=#{m_id},  </if>
-		m_pw=#{m_pw}, m_name=#{m_name},
-		m_age=#{m_age}, m_gender=#{m_gender},
-		m_phone=#{m_phone},
-		m_email=#{m_email}, m_address=#{m_address},
+		
+		m_name = NVL(#{m_name}, m_name),
+		m_age = NVL(#{m_age}, m_age),
+		m_phone = NVL(#{m_phone}, m_phone),
+		m_email = NVL(#{m_email}, m_email),
+		m_address = NVL(#{m_address}, m_address),
 		m_update= sysdate
 		WHERE
-		m_id=#{m_id}
+		m_number=#{m_number}
+		and m_isdeleted=0
 	</update>
 
 
@@ -91,9 +93,16 @@
 		SELECT * FROM member WHERE m_id = #{m_id}
 	</select>
 	
-	<delete id="jmDeleteMemberReal" parameterType="int">
-		delete from member where m_number=#{m_number}
-	</delete>
+	<select id="jmGetIdFromMail" parameterType="String"
+		resultType="String">
+		SELECT m_id FROM member WHERE m_email = #{mail} and m_isdeleted=0
+	</select>
+	
+	<select id="jmGetM_numberFromIdAndEmail" parameterType="Member"
+		resultType="int">
+		SELECT m_number FROM member WHERE m_id= #{m_id} and m_email = #{m_email} and m_isdeleted=0
+	</select>
+	
 	
 	<update id="jmDeleteMemberFake" parameterType="int">
 		UPDATE member SET
@@ -112,7 +121,27 @@
 		 where m_id=#{m_id} and m_isdeleted=0
 	</select>
 	
-
+	<!-- 비밀번호 중복 체크 위해, 입력자의 m_number와 일치하는 (암호화된) 비밀번호를 꺼내옴 -->
+	<select id="jmGetMemberPwFromNumber" parameterType="int" resultType="String">
+		select m_pw
+		  from member
+		 where m_number=#{m_number} and m_isdeleted=0
+	</select>
+	
+	<!-- 비밀번호 중복 체크 위해, 입력자의 m_number와 일치하는 (암호화된) 비밀번호를 꺼내옴 -->
+	<select id="jmGetMemberFromNumber" parameterType="int" resultType="Member">
+		select *
+		  from member
+		 where m_number=#{m_number} and m_isdeleted=0
+	</select>	
+	
+	<update id="jmResetPw" parameterType="Member">
+		UPDATE member 
+		set m_pw=#{m_pw}
+		WHERE m_number=#{m_number}
+	</update>
+	
+	
 
 	<select id="getMember" resultType="Member" parameterType="int">
 		SELECT*
@@ -124,10 +153,105 @@
     SET COMMON_MCD = #{admin}
     WHERE M_NUMBER = #{m_number}
 	</update>
+	
 	<update id="deleteMember" parameterType="int">
     UPDATE MEMBER
     SET M_ISDELETED = 1
     WHERE M_NUMBER =#{m_number}
 	</update>
+
+	<select id="hsTotalMemberCnt" resultType="int">
+		SELECT count(*) FROM member
+	</select>
+	
+	<select id="hsListMember" parameterType="Member" resultType="Member">
+	<![CDATA[
+		SELECT * 
+		FROM
+			(SELECT rownum rn, a.*
+			 FROM
+			 	(SELECT *
+			 	 FROM member
+			 	 ORDER BY m_number) a
+			)
+	]]>
+	</select>
+	
+	<select id="hsBoardMemberName" parameterType="Board" resultType="String">
+		SELECT m_name 
+		FROM member WHERE m_number=#{m_number}
+	</select>
+	
+	<select id="hsGetMemberData" parameterType="int" resultType="Member">
+		SELECT *
+		FROM member
+		WHERE m_number=#{m_number}
+	</select>
+	
+<!-- 	<select id="hsCondTotalListPointCount" resultType="int">
+		SELECT count(*) 
+		<choose>
+			<when test="select == 'point_charge'">
+				FROM member m, point_charge p 
+				WHERE m.m_number = p.m_number
+				AND m.m_number = 40
+			</when>
+			<when test="select == 'gym_order_deal'">
+				FROM member m, gym_order g
+				WHERE m.m_number = g.m_number
+				AND m.m_number = 40
+				AND g.refund_date IS NULL
+			</when>
+			<when test="select == 'gym_order_refund'">
+				FROM member m, gym_order g
+				WHERE m.m_number = g.m_number
+				AND m.m_number = 40
+				AND g.refund_date IS NOT NULL
+			</when>
+		</choose>
+	</select> -->
+
+<!-- 	<select id="hsListPointCharge" parameterType="Member" resultType="PointCharge">
+		<choose>
+			<when test="select == 'point_charge'">
+				SELECT *
+				FROM 
+					(SELECT rownum rn, a.*
+					 FROM
+						(SELECT *
+						 FROM member m, point_charge p
+						 WHERE m.m_number = p.m_number
+						 AND m.m_number = 40
+						 ORDER BY p.charge_date DESC
+						) a
+					)
+				WHERE rn BETWEEN #{start} and #{end} 
+			</when>
+		</choose>
+	</select>
+	
+	<select id="hsListGymOrder" parameterType="Member" resultType="GymOrder">
+		SELECT *
+		FROM
+			(SELECT rownum rn, a.*
+			 FROM
+			 	(SELECT *
+			 	 FROM member m, gym_order g 
+			 	 WHERE m.m_number = g.m_number
+			 	 AND m.m_number = 40
+			 	 	<choose>
+			 	 		<when test="select == 'gym_order_deal'">
+			 	 			AND g.refund_date IS NULL
+			 	 	    	ORDER BY g.deal_date DESC
+			 	 		</when>
+			 	 		<when test="select == 'gym_order_refund'">
+			 	 			AND g.refund_date IS NOT NULL
+			 	 			ORDER BY g.refund_date DESC
+			 	 		</when>
+			 	 	</choose>
+			 	) a
+			)
+		WHERE rn BETWEEN #{start} and #{end}
+	</select> -->
 
 </mapper>

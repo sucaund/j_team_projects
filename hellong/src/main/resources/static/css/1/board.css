@@ -1,0 +1,59 @@
+@CHARSET "UTF-8";
+body {
+    font-family: 'Noto Sans', sans-serif; /* 깨끗하고 현대적인 폰트로 변경 */
+    text-align: center;
+    color: #4A4A4A; /* 더 세련된 텍스트 색상으로 변경 */
+    background-color: #FAFAFA; /* 더 밝은 회색조 배경색으로 업데이트 */
+}
+
+table {
+    border-collapse: collapse;
+    margin: auto;
+    width: 90%; /* 조금 더 넓은 너비로 조정 */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* 더 부드러운 그림자 효과로 변경 */
+    border-radius: 8px; /* 테이블 모서리를 둥글게 */
+    overflow: hidden; /* 둥근 모서리와 매치되도록 내부 요소가 경계를 넘지 않도록 함 */
+}
+
+tr:nth-child(odd) {
+    background-color: #F7F7F7; /* 홀수 행에 대한 배경색 변경 */
+}
+
+tr:hover {
+    background-color: #EAEAEA; /* 마우스 오버시 행의 배경색을 더 세련되게 변경 */
+}
+
+th, td {
+    padding: 15px; /* 셀 내부 여백 증가 */
+    text-align: center;
+    border: 1px solid black;
+}
+
+th {
+    background-color: #00A8CC; /* 헤더 배경색을 선명한 색상으로 변경 */
+    color: #FFFFFF; /* 텍스트 색상은 그대로 유지 */
+    font-size: 16px; /* 헤더 텍스트 크기 조정 */
+}
+
+td {
+    color: #666666; /* 셀 텍스트 색상 변경 */
+    font-size: 14px; /* 셀 텍스트 크기 조정 */
+}
+
+/* 반응형 디자인을 위한 규칙 업데이트 */
+@media (max-width: 768px) {
+    table {
+        width: 100%;
+        box-shadow: none; /* 모바일 디바이스에서는 그림자 효과 제거 */
+    }
+}
+
+a {
+	text-decoration-line: none;
+}
+
+h1 {
+    padding: 15px; /* 셀 내부 여백 증가 */
+    text-align: center;
+	
+}

@@ -2,7 +2,7 @@
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ include file="header.jsp"%>
+<%@ include file="../header.jsp"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page session = "true" %>
 <!DOCTYPE html>
@@ -14,6 +14,7 @@
 <body>
 -------------- <br>
 메인페이지
+<c:if test="${msg!=null}">${msg}</c:if>
 <%
     Date time = new Date();
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -42,13 +43,6 @@
 <input type="button" value="회원가입" onclick="location.href='/jmSignUpFormAjax2'">
 <!-- 로그인 로그아웃 -->
 <input type="button" value="로그인" onclick="location.href='/jmLoginForm'">
-</c:if>
-
-<!-- 로그인되어있다면 -->
-<c:if test="${sessionScope.m_id != null}"> 
-<form action="/jmLogOut">
-	<input type="submit" value="로그아웃">
-</form>
 </c:if>
 
 <input type="button" value="인덱스 페이지로 이동" onclick="location.href='/'">

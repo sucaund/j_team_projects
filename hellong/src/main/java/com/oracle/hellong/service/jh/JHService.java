@@ -108,6 +108,8 @@ public interface JHService {
 	GymBoardReviewJoin getAvgReviewSelect(int g_id);
 	// 서비스 리스트 가져오기
 	List<GS> getSelectServiceList(int g_id);
+	// 트레이너 리스트 가져오기
+	List<Trainer> getSelectTrainerList(int g_id);
 
 
 
