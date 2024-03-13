@@ -16,6 +16,24 @@ public class HSMemberDaoImpl implements HSMemberDao {
 	
 	private final SqlSession session;
 	
+		/* 공통 - 회원정보 받기 */
+		
+	@Override
+	public Member getMemberData(int m_number) {
+		Member memberData = null;
+		System.out.println("MemberDaoImpl getMemberData start...");
+		
+		try {
+			memberData = session.selectOne("hsGetMemberData", m_number);
+			System.out.println("MemberDaoImpl getMemberData memberNumber-> " + memberData.getM_number());
+		} catch (Exception e) {
+			System.out.println("MemberDaoImpl getMemberData Exception-> " + e.getMessage());
+		}
+		return memberData;
+	}
+	
+		/* 임시 로그인 */
+	
 	@Override
 	public int totalMember() {
 		int totalMemberCnt = 0;
@@ -44,20 +62,5 @@ public class HSMemberDaoImpl implements HSMemberDao {
 		return listMember;
 	}
 	
-
-	@Override
-	public Member getMemberData(int m_number) {
-		Member memberData = null;
-		System.out.println("MemberDaoImpl getMemberData start...");
-		
-		try {
-			memberData = session.selectOne("hsGetMemberData", m_number);
-			System.out.println("MemberDaoImpl getMemberData memberNumber-> " + memberData.getM_number());
-		} catch (Exception e) {
-			System.out.println("MemberDaoImpl getMemberData Exception-> " + e.getMessage());
-		}
-		return memberData;
-	}
-
  
 }

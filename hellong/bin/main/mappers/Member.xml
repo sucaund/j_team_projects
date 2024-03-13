@@ -160,12 +160,25 @@
     WHERE M_NUMBER =#{m_number}
 	</update>
 
+
+		<!-- 현승 xml -->
+		
+	<!-- 공통 - 회원정보 조회 -->
+		
+	<select id="hsGetMemberData" parameterType="int" resultType="Member">
+		SELECT *
+		FROM member
+		WHERE m_number=#{m_number}
+	</select>
+	
+	<!-- 임시 로그인 -->
+		
 	<select id="hsTotalMemberCnt" resultType="int">
 		SELECT count(*) FROM member
 	</select>
 	
 	<select id="hsListMember" parameterType="Member" resultType="Member">
-	<![CDATA[
+
 		SELECT * 
 		FROM
 			(SELECT rownum rn, a.*
@@ -174,84 +187,7 @@
 			 	 FROM member
 			 	 ORDER BY m_number) a
 			)
-	]]>
+		<!-- 일부러 paging작업 안함 -->
 	</select>
 	
-	<select id="hsBoardMemberName" parameterType="Board" resultType="String">
-		SELECT m_name 
-		FROM member WHERE m_number=#{m_number}
-	</select>
-	
-	<select id="hsGetMemberData" parameterType="int" resultType="Member">
-		SELECT *
-		FROM member
-		WHERE m_number=#{m_number}
-	</select>
-	
-<!-- 	<select id="hsCondTotalListPointCount" resultType="int">
-		SELECT count(*) 
-		<choose>
-			<when test="select == 'point_charge'">
-				FROM member m, point_charge p 
-				WHERE m.m_number = p.m_number
-				AND m.m_number = 40
-			</when>
-			<when test="select == 'gym_order_deal'">
-				FROM member m, gym_order g
-				WHERE m.m_number = g.m_number
-				AND m.m_number = 40
-				AND g.refund_date IS NULL
-			</when>
-			<when test="select == 'gym_order_refund'">
-				FROM member m, gym_order g
-				WHERE m.m_number = g.m_number
-				AND m.m_number = 40
-				AND g.refund_date IS NOT NULL
-			</when>
-		</choose>
-	</select> -->
-
-<!-- 	<select id="hsListPointCharge" parameterType="Member" resultType="PointCharge">
-		<choose>
-			<when test="select == 'point_charge'">
-				SELECT *
-				FROM 
-					(SELECT rownum rn, a.*
-					 FROM
-						(SELECT *
-						 FROM member m, point_charge p
-						 WHERE m.m_number = p.m_number
-						 AND m.m_number = 40
-						 ORDER BY p.charge_date DESC
-						) a
-					)
-				WHERE rn BETWEEN #{start} and #{end} 
-			</when>
-		</choose>
-	</select>
-	
-	<select id="hsListGymOrder" parameterType="Member" resultType="GymOrder">
-		SELECT *
-		FROM
-			(SELECT rownum rn, a.*
-			 FROM
-			 	(SELECT *
-			 	 FROM member m, gym_order g 
-			 	 WHERE m.m_number = g.m_number
-			 	 AND m.m_number = 40
-			 	 	<choose>
-			 	 		<when test="select == 'gym_order_deal'">
-			 	 			AND g.refund_date IS NULL
-			 	 	    	ORDER BY g.deal_date DESC
-			 	 		</when>
-			 	 		<when test="select == 'gym_order_refund'">
-			 	 			AND g.refund_date IS NOT NULL
-			 	 			ORDER BY g.refund_date DESC
-			 	 		</when>
-			 	 	</choose>
-			 	) a
-			)
-		WHERE rn BETWEEN #{start} and #{end}
-	</select> -->
-
 </mapper>

@@ -16,20 +16,10 @@ import lombok.RequiredArgsConstructor;
 public class HSPointDaoImpl implements HSPointDao {
 
 	private final SqlSession session;
-
-	/*
-	 * @Override public int condTotalListPoint(Member member) { int
-	 * condTotalListPointCnt = 0;
-	 * System.out.println("PointDaoImpl condTotalListPoint start...");
-	 * 
-	 * try { condTotalListPointCnt =
-	 * session.selectOne("com.oracle.hellong.MemberMapper.hsCondTotalListPointCount"
-	 * ); } catch (Exception e) {
-	 * System.out.println("PointDaoImpl condTotalListPoint Exception ->" +
-	 * e.getMessage()); } return condTotalListPointCnt; }
-	 */
 	
-	// 포인트 충전
+		/* 포인트 내역 조회 */
+
+	// 포인트충전 내역
 	@Override
 	public int totalListPointCharge(int m_number) {
 		int totalListPointChargeCnt = 0;
@@ -59,7 +49,7 @@ public class HSPointDaoImpl implements HSPointDao {
 		return listPoint;
 	}
 	
-	// 포인트 사용
+	// 포인트사용 내역
 	@Override
 	public int totalListGymOrderDeal(int m_number) {
 		int totalListGymOrderDealCnt = 0;
@@ -84,7 +74,7 @@ public class HSPointDaoImpl implements HSPointDao {
 		return listPoint;
 	}
 
-	// 포인트 환불
+	// 포인트환불 내역
 	@Override
 	public int totalListGymOrderRefund(int m_number) {
 		int totalListGymOrderRefundCnt = 0;

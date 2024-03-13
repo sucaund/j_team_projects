@@ -2,7 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GymOrderMapper">
 
-	<!-- 포인트 사용 -->
+			<!-- 현승 xml -->
+	
+		<!-- 포인트 내역 조회 -->
+
+	<!-- 포인트사용 내역 -->
 	<select id="hsTotalListGymOrderDealCnt" resultType="int">
 		SELECT count(*)
 		FROM gym_order 
@@ -13,10 +17,10 @@
 	<select id="hsListGymOrderDeal" parameterType="Member" resultType="GymOrder">
 		SELECT *
 		FROM
-			(SELECT rownum rn, (a.g_name || ' ' || a.gs_s_detail || ' 구매') "pl_content",
+			(SELECT rownum rn, (a.g_name || ' ' || a.s_detail || ' 구매') "pl_content",
 					a.deal_date "pl_date", ('-' || a.use_point) "pl_point"
 			 FROM
-			     (SELECT g.g_name, gs.s_detail gs_s_detail, go.*
+			     (SELECT g.g_name, gs.s_detail, go.*
 			      FROM gym g, g_s gs, gym_order go
 			      WHERE g.g_id = gs.g_id
 				   	  AND gs.g_id = go.g_id
@@ -30,7 +34,7 @@
 	
 	</select>
 	
-	<!-- 포인트 환불  -->
+	<!-- 포인트환불 내역 -->
 	<select id="hsTotalListGymOrderRefundCnt" parameterType="int" resultType="int">
 		SELECT count(*)
 		FROM gym_order
@@ -41,10 +45,10 @@
 	<select id="hsListGymOrderRefund" parameterType="Member" resultType="GymOrder">
 		SELECT *
 		FROM
-			(SELECT rownum rn, (a.g_name || ' ' || a.gs_s_detail || ' 환불') "pl_content",
+			(SELECT rownum rn, (a.g_name || ' ' || a.s_detail || ' 환불') "pl_content",
 					a.refund_date "pl_date", ('+' || a.refund_point) "pl_point"
 			 FROM
-			     (SELECT g.g_name, gs.s_detail gs_s_detail, go.*
+			     (SELECT g.g_name, gs.s_detail, go.*
 			      FROM gym g, g_s gs, gym_order go
 			      WHERE g.g_id = gs.g_id
 				   	  AND gs.g_id = go.g_id
@@ -57,7 +61,9 @@
 		WHERE  rn BETWEEN #{start} and #{end}
 	</select>
 	
-	<!-- 헬스장 이용내역 조회 -->
+	
+	
+		<!-- 헬스장 이용내역 조회 -->
 	
 	<select id="hsTotalUsingGym" parameterType="int" resultType="int">
 		SELECT count(*)
@@ -69,45 +75,145 @@
 		SELECT
 	</select>
 	
+		<!-- 헬스장 회원권 구매,환불 공통 hsGetGymOrder -->
 	
-	
-	<!-- 헬스장 환불 -->
-	
-	<select id="hsListGymName" parameterType="int" resultType="GymOrder">
-		SELECT DISTINCT g.g_name, g.g_id
-		FROM gym g, gym_order go
-		WHERE g.g_id = go.g_id
-			AND go.m_number = #{m_number}
+	<select id="hsGetGymOrder" parameterType="map" resultType="GymOrder">
+		SELECT *
+		FROM gym_order
+		WHERE g_id = #{g_id}
+			AND s_number = #{s_number}
+			AND sd_number = #{sd_number}
+			AND m_number = #{m_number}
 	</select>
 	
+	
+		<!-- 헬스장 회원권 구매 -->
+		
+	<!-- hsInsertAndGetGSDetailData는 GSDetail.xml에 -->
+	
+	<!-- GymOrder에 구매정보 insert -->
+	<insert id="hsInsertGymOrder" parameterType="map">
+		<!-- g_id, s_number, sd_number, s_price 받아온거로 교체 -->
+		INSERT INTO gym_order VALUES (#{g_id}, #{s_number}, #{sd_number}, #{m_number}, #{use_point}, TO_DATE(SYSDATE, 'YYYY-MM-DD'), null, 0, null)
+	</insert>
+	
+	<!-- insert한 GSDetail 정보 업데이트 -->
+	<update id="hsUpdateGSDetailBuy" parameterType="GymOrder">
+		UPDATE g_s_detail SET s_startdate = (SELECT deal_date
+		                                     FROM gym_order
+		                                     WHERE g_id = #{g_id}
+		                                        AND s_number = #{s_number}
+		                                        AND sd_number = #{sd_number}
+		                                        AND m_number = #{m_number}),
+		                       s_enddate = (SELECT get_end_date(#{g_id}, #{s_number}, #{sd_number}, #{m_number})
+		                                    FROM gym_order
+		                                    WHERE g_id = #{g_id}
+		                                        AND s_number = #{s_number}
+		                                        AND sd_number = #{sd_number}
+		                                        AND m_number = #{m_number})
+		WHERE g_id = #{g_id}
+		    AND s_number = #{s_number}
+		    AND sd_number = #{sd_number}
+	</update>
+	
+	<!-- Member 구매포인트 업데이트 -->
+	<update id="hsUpdatePointBuy" parameterType="GymOrder">
+		UPDATE member SET m_currpoint = m_currpoint - (SELECT use_point
+					                                   FROM gym_order
+					                                   WHERE g_id = #{g_id}
+					                                       AND s_number = #{s_number}
+					                                       AND sd_number = #{sd_number}
+					                                       AND m_number = #{m_number})
+		WHERE m_number = #{m_number}
+
+	</update>
+	
+	
+		<!-- 헬스장 회원권 환불 -->
+	
+	<!-- 이용중인 헬스장 이름 조회 -->
+	<select id="hsListGymName" parameterType="int" resultType="GymOrder">
+		SELECT DISTINCT g.g_name, g.g_id
+		FROM gym g, g_s_detail gsd, gym_order go
+		WHERE g.g_id = gsd.g_id
+            AND g.g_id = go.g_id
+            AND gsd.s_number = go.s_number
+            AND gsd.sd_number = go.sd_number
+			AND go.m_number = #{m_number}
+            AND gsd.s_isend = 0
+	</select>
+	
+	<!-- 이용중인 헬스장 서비스 조회 -->
 	<select id="hsListGymSerivce" parameterType="map" resultType="GymOrder">
-		SELECT go.*, (gs.s_name || ' - ' || gsd.s_detail) "rl_s_name"
+		SELECT go.*, 
+			(gs.s_name || ' (이용시작일: ' || gsd.s_startdate || ' 이용종료일: ' || gsd.s_enddate || ')') "rl_s_name"
 		FROM g_s gs, g_s_detail gsd, gym_order go
 		WHERE gs.g_id = gsd.g_id
 			AND gs.g_id = go.g_id
 			AND go.g_id = #{g_id}
 			AND gs.s_number = gsd.s_number
 			AND gsd.s_number = go.s_number
-			AND gsd.s_detail = go.s_detail
+			AND gsd.sd_number = go.sd_number
 			AND go.m_number = #{m_number}
+			AND gsd.s_isend = 0
 	</select>
 	
+	<!-- 이용중인 헬스장 예상 환불금액 조회  -->
 	<!-- case when 문법이 mybatis에서는 적용이안되서 function으로 값을 받아 수행
 		case when이 되는 경우도 있는데 이 경우에는 작동이 되지 않았음 -->
-   <select id="hsRefundPrice" parameterType="map" resultType="GymOrder">
+   <select id="hsRefundData" parameterType="map" resultType="GymOrder">
     
       SELECT ROUND(a.use_point*(a.refund_criteria/100), -1) "refund_point", 
       		(a.refund_criteria || '% 환불') "refund_criteria"
 
       FROM	
          ( SELECT go.use_point,
-         		  get_refund_criteria(#{g_id}, #{s_number}, #{s_detail}, #{m_number}) refund_criteria
-           FROM gym_order go
-           WHERE go.s_number = #{s_number}
-           	AND go.s_detail = #{s_detail}
-	     	AND go.g_id = #{g_id}
+         		  get_refund_criteria(#{g_id}, #{s_number}, #{sd_number}, #{m_number}) refund_criteria
+           FROM g_s_detail gsd, gym_order go
+           WHERE gsd.g_id = go.g_id
+            AND gsd.s_number = go.s_number
+            AND gsd.sd_number = go.sd_number
+            AND go.g_id = #{g_id}
+            AND go.s_number = #{s_number}
+           	AND go.sd_number = #{sd_number}
 	     	AND go.m_number = #{m_number}
          )  a
+         
     </select>
+    
+    <!-- GymOrder에 환불정보 업데이트 -->
+    <update id="hsUpdateGymOrder" parameterType="map">
+    	UPDATE gym_order SET refund_point = #{refund_point},
+                    		 refund_date = sysdate
+		WHERE g_id = #{g_id}
+		    AND s_number = #{s_number}
+		    AND sd_number = #{sd_number}
+		    AND m_number = #{m_number}
+    </update>
+    
+    <!-- GSDetail에 환불정보 업데이트  -->
+    <update id="hsUpdateGSDetailRefund" parameterType="GymOrder">
+    	UPDATE g_s_detail SET s_enddate = (SELECT refund_date
+    									   FROM gym_order
+    									   WHERE g_id = #{g_id}
+										   	AND s_number = #{s_number}
+										    AND sd_number = #{sd_number}
+										    AND m_number = #{m_number}),
+							  s_isend = 1
+		WHERE g_id = #{g_id}
+		   	AND s_number = #{s_number}
+		    AND sd_number = #{sd_number}
+    </update>
 
+	<!-- Member 환불포인트 업데이트 -->
+	<update id="hsUpdatePointRefund" parameterType="GymOrder">
+		UPDATE member SET m_currpoint = m_currpoint + (SELECT refund_point
+		                                               FROM gym_order
+		                                               WHERE g_id = #{g_id}
+													   	AND s_number = #{s_number}
+													    AND sd_number = #{sd_number}
+													    AND m_number = #{m_number})
+		WHERE m_number = #{m_number}
+	</update>
+	
 </mapper>
