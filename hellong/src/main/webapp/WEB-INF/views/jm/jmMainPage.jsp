@@ -3,8 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ page session = "true" %>
 <!DOCTYPE html>
 <html>
 <head>

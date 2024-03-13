@@ -14,6 +14,7 @@ public class GymOrder { //주문(체육관 서비스 등록) gym_order
     private String  refund_date; //환불일자 nn
     private int refund_point; //환불포인트
     private String refund_reason; //환불사유
+    private String refund_criteria;
        
        
 }

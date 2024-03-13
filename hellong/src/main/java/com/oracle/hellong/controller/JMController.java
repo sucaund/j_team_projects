@@ -150,6 +150,10 @@ public class JMController {
 
 			String prevPage = (String) session.getAttribute("prevPage");
 			System.out.println("prevPage:" + prevPage);
+			if(prevPage==null){ //prevPage가 null일때
+				prevPage="/";
+				uri = prevPage;
+			}
 			if (prevPage != null || !prevPage.equals("")) {
 				request.getSession().removeAttribute("prevPage");
 				// 값만 가져오고 세션은 삭제
@@ -160,12 +164,12 @@ public class JMController {
 				if (prevPage.contains("/jmSignUpFormAjax2") || prevPage.contains("/jmSignUpAjax2")) {
 					uri = "/";
 				}
-			}
-			System.out.println("uri" + uri);
+			} 
+			System.out.println("uri:" + uri);
 			int index = uri.lastIndexOf("/");
 			if (index != -1) {
 				String uri2 = uri.substring(index + 1);
-				System.out.println(uri2);
+				System.out.println("uri2"+uri2);
 				return "redirect:" + uri2;
 			} else {
 				model.addAttribute("msg", "jmController jmLoginCheck 아이디나 비밀번호가 일치하지 않습니다");
@@ -494,6 +498,11 @@ public class JMController {
 			System.out.println("jmController jmFindIdWithMail 해당 이메일로 가입된 아이디가 없음");
 			return mail + "로 등록된 아이디가 없습니다.";
 		}
+	}
+
+	@RequestMapping("header")
+	public String getHeader() {
+		return "../../webapp/WEB-INF/views/header";
 	}
 
 //

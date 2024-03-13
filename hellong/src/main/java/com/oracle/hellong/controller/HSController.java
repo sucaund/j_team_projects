@@ -361,7 +361,7 @@ public class HSController { //////
 		 member.setEnd(page.getEnd());
 		 
 		 List<GymOrder> listUsingGym = hs.listUsingGym(member);
-		 System.out.println("hsController hsDetailUsingGym listGSDetail.size()-> " + listGSDetail.size());
+//		 System.out.println("hsController hsDetailUsingGym listGSDetail.size()-> " + listGSDetail.size());
 		 
 		 model.addAttribute("m_number", member.getM_number());
 		 model.addAttribute("listUsingGym", listUsingGym);
