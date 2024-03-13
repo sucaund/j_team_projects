@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="header.jsp" %>
+<%@ include file="headerGymPostList.jsp" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
@@ -9,14 +9,10 @@
     <title>헬스장 리스트</title>
     <!-- 부트스트랩 CDN 추가 -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- 폰트어썸 CDN 추가 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- 나눔고딕 폰트 추가 -->
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
-    <!-- 윈드테일 CDN 추가 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/windicss@3.0.14/css/windicss.min.css">
-    <!-- 스타일 수정 -->
-    <style>
+   <style>
         /* 추가한 CSS 스타일 */
         .card {
             height: 100%;
@@ -112,17 +108,18 @@
         .card-body {
             padding-bottom: 0;
         }
-    </style>
+
+        
+    </style> 
 </head>
 
 <body>
 
 <div class="container">
-    <h1 class="text-center my-5"><i class="fas fa-dumbbell"></i> 헬스장 리스트 <i class="fas fa-dumbbell"></i></h1>
 
 
   
-    <!-- 검색창 및 필터 -->
+<!--     검색창 및 필터
     <div class="row mb-4 justify-content-center">
         <div class="col-md-6">
             <form class="form-inline" id="searchForm">
@@ -130,13 +127,13 @@
                     <option value="all" selected>모두</option>
                     <option value="4.0">별점 4.0 이상</option>
                     <option value="500">리뷰 수 500 이상</option>
-                    <!-- 필요한 다른 필터 옵션들을 추가-->
+                    필요한 다른 필터 옵션들을 추가
                 </select>
                 <input type="text" class="form-control mr-2 search-input" id="searchInput" placeholder="헬스장 검색" style="width: 50%;">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> 검색</button>
             </form>
         </div>
-    </div>
+    </div> -->
 
 	<!-- 카드 내용 -->
     <div class="row justify-content-center">

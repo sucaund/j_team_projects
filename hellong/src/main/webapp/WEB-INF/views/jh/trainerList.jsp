@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="header.jsp" %>
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,22 +16,23 @@
         .short-column {
             width: 8%; 
         }
+        
         .long-column {
             width: 30%; 
         }
         
         /* 모달 스타일 */
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1; 
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.4); 
-        }
+		.modal {
+		    display: none; 
+		    position: fixed; 
+		    z-index: 1000; 
+		    left: 0;
+		    top: 0;
+		    width: 100%;
+		    height: 100%; 
+		    overflow: auto; 
+		    background-color: rgba(0,0,0,0.4); 
+		}
 
         .modal-content {
 	    	background-color: #fefefe;
@@ -111,8 +112,8 @@
     <h2 class="text-2xl font-bold text-center mb-8"><i class="fas fa-dumbbell"></i> 헬스장 트레이너 리스트</h2>
     
     <!-- 검색창 및 트레이너 추가 버튼 -->
-    <div class="flex flex-col md:flex-row items-center justify-center md:justify-between mb-4">
-        <div class="w-full md:w-1/4 mb-4 md:mb-0 md:mr-2">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="w-full md:w-1/4 mb-1 md:mb-0 md:mr-2">
             <form action="your_search_action" method="GET" class="flex items-center justify-center">
                 <input type="text" placeholder="트레이너 검색..." name="search" class="flex-1 py-2 px-4 rounded-l-lg border border-gray-300 focus:outline-none focus:border-blue-500">
                 <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-r-lg"><i class="fas fa-search"></i> 검색</button>

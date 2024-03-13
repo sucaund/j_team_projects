@@ -47,6 +47,11 @@
 		FROM GYM 
 	</select>
 	
+	<select id="getGym" parameterType="int" resultType="Gym">
+		SELECT*
+		FROM GYM WHERE G_ID = #{g_id}
+	</select>
+	
 	<select id="dySearchGyms" parameterType="Gym" resultType="Gym">
 		SELECT
 		g_name, g_address, g_tel

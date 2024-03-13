@@ -360,23 +360,29 @@ public class JHController {
 		//서비스 리스트 가져오기
 		List <GS> selectServiceList = jh.getSelectServiceList(gymBoard.getG_id());	
 		// 트레이너 리스트 가져오기
-		
+		List <Trainer> selectTrainerList = jh.getSelectTrainerList(gymBoard.getG_id());
 		// 리뷰 가져오기
-		
 
 		List <GymBoardFile> gymBoardFileList = jh.gymBoardFileListRead(gymBoard.getG_id());
 		System.out.println(gymBoardFileList);
 		model.addAttribute("gymBoardDetail", gymBoardDetail);
 		model.addAttribute("avgReviewSelect", avgReviewSelect);
 		model.addAttribute("selectServiceList",selectServiceList);
+		model.addAttribute("selectTrainerList",selectTrainerList);
 		model.addAttribute("gymBoardFileList", gymBoardFileList);
-
 		
 		return "jh/gymPostListDetail";
 	}
 	
 	
-	
+	//비즈니스 클릭시 관리 페이지 or 신청 페이지로 이동하는 로직******************************************************************************************
+	@GetMapping(value = "/openGymManager")
+	public String gymManager(Model model) {
+
+
+
+		return "jh/gymManager";
+	}
 	
 	
 	

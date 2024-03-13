@@ -22,8 +22,8 @@ public class GS { //체육관 서비스 g_s
 	//page 정보
 	private String currentPage;
 	
-	public int getS_number() {
-		return s_number;
-	}
+	/*
+	 * public int getS_number() { return s_number; }
+	 */
      
 }

@@ -1,225 +1,167 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ include file="header.jsp" %>
+ <%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>헬스장 이용권 리스트</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>헬스장 이용권 리스트</title>
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-    }
-    header {
-        background-color: #333;
-        color: #fff;
-        padding: 20px;
-        text-align: center;
-    }
-    h1 {
-        margin: 0;
-    }
-    .container {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px 20px 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        position: relative;
-    }
-	table {
-	    width: 1110px; /* 테이블 너비를 고정 값으로 설정 */
-	    table-layout: fixed; /* 테이블 레이아웃을 고정으로 설정 */
-	    border-collapse: collapse;
-	    margin-top: 20px;
-	    text-align: center;
-	}
-	
-	tbody {
-    	font-size: 14px; 
-    	text-align: center;
-	}
-	
-	th, td {
-	    border: 1px solid #ddd;
-	    padding: 8px;
-	    text-align: left;
-	    white-space: nowrap; 
-	    overflow: hidden; 
-	    text-overflow: ellipsis; 
-	    text-align: center;
-	    
-	}
-	
-	th {
-	    background-color: #3b5998; /* 적당한 밝은 톤의 색상으로 변경 */
-	    color: #fff; /* 글자색을 흰색으로 설정 */
-	}
-    
-    
-    th:first-child,th:nth-child(7),th:nth-child(8),
-	td:first-child ,td:nth-child(7),td:nth-child(8){
-		text-align: center;
-	    width: 100px; 
-	}   
-    
-    th:nth-child(3),th:nth-child(4),
-	td:nth-child(3),td:nth-child(4) {
-		text-align: center;
-	    width: 120px; 
-	}
-	
-	
-	th:nth-child(5),
-	td:nth-child(5) {
-	    width: 250px; 
-	    text-align: center;
-	}
-	
-	th:nth-child(6),
-	td:nth-child(6) {
-	    width: 150px;
-	    text-align: center; 
-	}
-			
-    .price,
-    .validity,
-    .benefits li {
-        font-size: 14px;
-    }
-    .benefits {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-    .benefits li {
-        margin-bottom: 5px;
-    }
-   .add-service-btn {
-	    background-color: #4CAF50;
-	    border: none;
-	    color: white;
-	    padding: 10px 20px;
-	    text-align: center;
-	    text-decoration: none;
-	    display: inline-block;
-	    font-size: 16px;
-	    border-radius: 5px;
-	    cursor: pointer;
-	    transition-duration: 0.4s;
-	    margin-left: 10px; 
-    }
-    .edit-service-btn,
-    .delete-service-btn {
-        border: none;
-        color: blue;
-        padding: 8px 16px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 14px;
-        margin-left: 5px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition-duration: 0.4s;
-    }
-    .delete-service-btn {
-        color: #DC3545;
-        background-color: transparent;
-    }
-    .add-service-btn:hover {
-        background-color: #45a049;
-    }
-    .edit-service-btn:hover,
-    .delete-service-btn:hover {
-    }
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    tbody tr:nth-child(odd) {
-        background-color: #f9f9f9; /* 홀수 행 배경색 */
-    }
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-    tbody tr:nth-child(even) {
-        background-color: #ffffff; /* 짝수 행 배경색 */
-    }
-</style>
     <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<!-- 부트스트랩 CSS -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<!-- 폰트어썸 CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+     <style>
+     	.sidebar {
+            height: calc(100vh - 64px); /* 높이 조절, 헤더 높이에 따라 조정 가능 */
+            width: 280px; /* 너비 조절 */
+            position: fixed;
+            top: 64px; /* 헤더 높이에 따라 조정 */
+            left: 0;
+            background-color: #4a5568; /* 사이드바 배경색 */
+            overflow-y: auto; /* 내용이 넘치면 스크롤 표시 */
+            z-index: 1000;
+        }
 
-<!-- 부트스트랩 자바스크립트 및 jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>   
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        .sidebar-link {
+            display: block;
+            padding: 1rem;
+            color: #ffffff; /* 링크 텍스트 색상 */
+        }
 
+        .sidebar-link:hover {
+            background-color: #718096; /* 링크에 마우스 호버 시 배경색 */
+        }
+
+
+     
+     
+     
+        .short-column {
+            width: 8%; 
+        }
+        
+        
+        
+        
+     
+              /* 테이블 내용 디자인 */
+        .resume-table {
+            width: 100%;
+            margin-top: 20px;
+            text-align: center; /* 가운데 정렬 */
+        }
+
+        .resume-table th,
+        .resume-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+		.resume-table th {
+		    background-color: #6366F1; /* 인디고(Indigo) 배경색 */
+		    color: #ffffff; /* 흰색 글자색 */
+		    border: 1px solid #ddd; /* 테두리 추가 */
+		}
+
+        /* 홀수행 배경색 */
+        tbody tr:nth-child(odd) {
+            background-color: #f3f3f3;
+        }
+    
+        /* 짝수행 배경색 */
+        tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+
+        /* 열 구분을 위한 보더 */
+        .resume-table td:not(:last-child) {
+            border-right: 1px solid #ddd;
+        }
+
+        /* 기존 CSS 유지 */
+        .benefits li {
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <h1>헬스장 이용권 리스트</h1>
-    </header>
-    <div class="container mt-4">
-    
-    	 <h2>서비스 리스트</h2>
-	     <div class="d-flex justify-content-between align-items-center mb-3">
-	        <!-- 검색창 추가 -->
-	        <div class="input-group w-25">
-	            <input type="text" class="form-control" placeholder="서비스 검색...">
-	            <div class="input-group-append">
-	                <button class="btn btn-outline-secondary" type="button">검색</button>
-	            </div>
-	        </div>
-			<button class="add-service-btn" data-toggle="modal" data-target="#serviceModal">
-			    <i class="fas fa-plus-circle"></i> 서비스 추가
-			</button>
-	    </div>
- 
-    
-    
 
-        <table class="mb-4"> 
+<body class="bg-gray-100">
+
+
+
+
+
+	<!-- 사이드바 영역 -->
+    <div class="sidebar">
+        <a href="#" class="sidebar-link">메뉴 1</a>
+        <a href="#" class="sidebar-link">메뉴 2</a>
+        <a href="#" class="sidebar-link">메뉴 3</a>
+        <a href="#" class="sidebar-link">메뉴 4</a>
+        <a href="#" class="sidebar-link">메뉴 5</a>
+    </div>
+
+
+
+
+    <div class="container mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-center mb-8"><i class="fas fa-dumbbell"></i> 서비스 리스트</h2>
+        
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="w-full md:w-1/4 mb-1 md:mb-0 md:mr-2">
+            <form action="your_search_action" method="GET" class="flex items-center justify-center">
+                <input type="text" placeholder="서비스 검색..." name="search" class="flex-1 py-2 px-4 rounded-l-lg border border-gray-300 focus:outline-none focus:border-blue-500">
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-r-lg"><i class="fas fa-search"></i> 검색</button>
+            </form>
+        </div>
+            <button id="add-service-btn" class="bg-green-500 text-white py-2 px-4 rounded-lg" data-toggle="modal" data-target="#serviceModal">
+                <i class="fas fa-plus-circle"></i> 서비스 추가
+            </button>
+        </div>
+
+        <table class="w-full mb-8 border resume-table">
             <thead>
                 <tr>
-                	<th>등록번호</th>
-                    <th>서비스명</th>
-                    <th>가격</th>
-                    <th>이용기간</th>
-                    <th>내용</th>
-                    <th>특이사항</th>
-			        <th>수정</th> 
-			        <th>삭제</th> 
+					<th class="py-2 px-4 bg-teal-500 short-column">등록번호</th>
+					<th class="py-2 px-4 bg-teal-500">서비스명</th>
+					<th class="py-2 px-4 bg-teal-500">가격</th>
+					<th class="py-2 px-4 bg-teal-500">이용기간</th>
+					<th class="py-2 px-4 bg-teal-500">내용</th>
+					<th class="py-2 px-4 bg-teal-500">특이사항</th>
+					<th class="py-2 px-4 bg-teal-500">수정</th>
+					<th class="py-2 px-4 bg-teal-500">삭제</th>
                 </tr>
             </thead>
             <tbody>
             	<c:set var="num" value="${page.total - page.start + 1}"></c:set>
 				<c:forEach var="service" items="${serviceList}" varStatus="status">
 	                <tr id="service">
-	                	<td>${num}</td>
-	                    <td>
+	                	<td class="py-2 px-4">${num}</td>
+	                    <td class="py-2 px-4">
 	                    	<input type="hidden" id="s_number" value="${service.s_number}">
 	                    	<input type="hidden" id="g_id" value="${service.g_id}">
 	                    	${service.s_name}
 	                    </td>
-	                    <td class="price">${service.s_price}원</td>
-	                    <td class="validity">${service.s_period}일</td>
-	                    <td>
+	                    <td class="py-2 px-4 price" >${service.s_price}원</td>
+	                    <td class="py-2 px-4">${service.s_period}일</td>
+	                    <td class="py-2 px-4">
 	                        <ul class="benefits">
 	                            <li>${service.s_detail}</li>
 	                        </ul>
 	                    </td>
-	                    <td>${service.s_matters}</td>
-						<td>
-						    <a href="#serviceModal" class="edit-service-btn" data-toggle="modal"><i class="fas fa-edit" style="color: #008CBA;"></i>수정</a>
+	                    <td class="py-2 px-4">${service.s_matters}</td>
+						<td class="py-2 px-4">
+						    <a href="#serviceModal" class="text-blue-500 hover:underline detail-icon" id="edit-service-btn" data-toggle="modal"><i class="fas fa-edit"></i>수정</a>
 						</td>         
-						<td>
-						   <a href="#confirmDeleteModal" class="delete-service-btn" data-toggle="modal"><i class="fas fa-trash-alt" style="color: #DC3545;"></i>삭제</a>
+						<td class="py-2 px-4">
+						   <a href="#confirmDeleteModal" class="text-red-500 hover:underline delete-btn delete-service-btn"  data-toggle="modal"><i class="fas fa-trash-alt"></i>삭제</a>
 						</td>         
                     <c:set var="num" value="${num - 1}"></c:set>
 	                </tr>
@@ -311,7 +253,7 @@
 		                <p>삭제하시겠습니까?</p>
 		            </div>
 		            <div class="modal-footer">
-		                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+		                <button type="button" class="btn btn-secondary" id="btn btn-secondary" data-dismiss="modal">취소</button>
 		                <button type="submit"  value="삭제" class="btn btn-danger" id="confirmDeleteBtn">	삭제</button>	
 		            </div>
 	            </form>
@@ -333,7 +275,7 @@ $(document).ready(function() {
     }
 
     // 페이지 로드 시 가격을 통화 단위로 변환
-    $('.price').each(function() {
+   $('.price').each(function() {
         var priceText = $(this).text();
         var price = parseInt(priceText.replace(/[^\d]/g, '')); // 숫자만 추출
         $(this).text(formatCurrency(price) + "원"); // 통화 단위로 변환하여 설정
@@ -350,7 +292,7 @@ $(document).ready(function() {
         var modal = $(this);
 
         // 서비스 추가 모달인지 수정 모달인지 확인
-        var isAddServiceModal = button.hasClass('add-service-btn');
+        var isAddServiceModal = button.attr('id') === 'add-service-btn';
 
         // 서비스 추가 모달일 경우에는 입력 필드 초기화 및 버튼 텍스트 설정
         if (isAddServiceModal) {
@@ -451,6 +393,21 @@ $(document).ready(function() {
                 console.error('서비스 삭제 오류:', error);
             }
         });
+    });
+    
+    // 취소 버튼 클릭 시 모달 닫기
+    $('#confirmDeleteModal').on('click', '#btn btn-secondary', function () {
+        $('#confirmDeleteModal').modal('hide');
+    });
+
+    // X표시 클릭 시 모달 닫기
+    $('#confirmDeleteModal').on('click', '.close', function () {
+        $('#confirmDeleteModal').modal('hide');
+    });
+
+    // 모달이 완전히 숨겨진 후에 이벤트 처리
+    $('#confirmDeleteModal').on('hidden.bs.modal', function () {
+    	location.reload(); 
     });
 
     

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="header.jsp" %>
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,10 +30,10 @@
     </style>
 </head>
 
-<body>
+<body class="bg-gray-100">
 
-    <div class="container">
-        <h1 class="text-center my-5 text-4xl"><i class="fas fa-users"></i> 헬스장 회원관리 <i
+    <div class="container mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-center my-5 text-3xl"><i class="fas fa-users"></i> 헬스장 회원관리 <i
                 class="fas fa-chart-pie"></i></h1>
 
         <!-- 누적 회원 수 및 누적 매출액 섹션 -->
@@ -155,6 +155,8 @@
                 </div>
             </div>
         </div>
+        
+        
     </div>
 
     <!-- 부트스트랩 및 폰트어썸, 차트 라이브러리 스크립트 추가 -->
