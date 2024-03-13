@@ -1,18 +1,25 @@
 package com.oracle.hellong.controller;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.Report;
 import com.oracle.hellong.service.sh.Paging;
 import com.oracle.hellong.service.sh.SHService;
 
@@ -43,16 +50,16 @@ public class SHController {
 	@RequestMapping("/login")
 	public String login() {
 		System.out.println("SHController login start...");
-		return "SH-Views/login";
+		return "redirect:/authenticate";
 
 	}
 
+
 	// 해당로그인 한계정이 있는지 확인...
 	@RequestMapping("authenticate")
-	public String authenticate(HttpSession session, @RequestParam("member_id") String member_id,
-
-			Model model) {
+	public String authenticate(HttpSession session,Model model) {
 		System.out.println("SHController authenticate start...");
+		String member_id =  (String) session.getAttribute("m_id");
 		boolean same = sh.authenticate(member_id);
 		// 해당 로그인 정보가 맞는지 참or거짓 으로 분류
 		if (same) {
@@ -63,7 +70,7 @@ public class SHController {
 		} else {
 			System.out.println("SHController authenticate else...");
 			model.addAttribute("loginError", true);
-			return "SH-Views/login";
+			return "jm/jmLoginForm";
 		}
 
 		return "forward:loginAction1";
@@ -142,14 +149,17 @@ public class SHController {
 
 	// 작성글 열람
 	@RequestMapping("/QuestionContent")
-	public String QuestionContent(@RequestParam("B_NUMBER") int B_NUMBER, Model model) {
+	public String QuestionContent(HttpSession session,@RequestParam("B_NUMBER") int B_NUMBER,Member member ,Model model) {
 		System.out.println("SHController QuestionContent start...");
 		System.out.println("SHController QuestionContent B_NUMBER" + B_NUMBER);
 		Board boardContent = sh.boardContent(B_NUMBER);
 		
-		
+		String m_id = (String) session.getAttribute("m_id");//03-13
+		int M_NUMBER = sh.changeM_num(m_id);//03-13
+
 	    System.out.println("SHController QuestionContent  boardContent->"+boardContent);
-		
+		//댓글 작성자 정보 입력 03-13
+	    //member.setM_number(M_NUMBER);
 	    //작성글안에 속해있는 댓글들 보냄
 		List<Board> boardCommList = sh.getComments(B_NUMBER);
 		System.out.println("SHController  boardCommList size-->" + boardCommList.size());
@@ -158,6 +168,7 @@ public class SHController {
 		// 리스트에서 첫 번째 Board 객체를 모델에 추가
 		model.addAttribute("board", boardContent);
 		model.addAttribute("boardCommList", boardCommList);
+		model.addAttribute("M_NUMBER", M_NUMBER);
 		System.out.println("SHController QuestionContent boardContent ->" + boardContent);
 		return "SH-Views/QuestionContent";
 	}
@@ -237,7 +248,7 @@ public class SHController {
 //댓글입력 과동시에 신규 댓글 단일객체만 등록 Board!+원글댓글 카운터 증가
 	@ResponseBody
 	@PostMapping("commentInsert")
-	public Board commentInsert(@RequestParam("comment_body") String comment, @RequestParam("mId") int M_NUMBER,
+	public Board commentInsert(@RequestParam("comment_body") String comment, @RequestParam("cmId") int M_NUMBER,
 			@RequestParam("bId") int B_NUMBER, Board board) {
 
 		System.out.println("SHController commentInsert M_NUMBER" + " => " + M_NUMBER);
@@ -314,16 +325,29 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 	
 	
 //메인 인덱스에서 관리자 창으로 넘어가기
-	@RequestMapping("/manger")
+	@RequestMapping("/manager")
 	public String manger(Model model) {
 		System.out.println("SHController manger start...");
-		List<Member> allMember =sh.getAllMember();
-		List<Gym> allGym =sh.getAllGym();
-		
+		List<Member> allMember =sh.getAllMember();//모든멤버
+		List<Gym> allGym =sh.getAllGym();//모든 헬스장
+		List<Report> allReport = sh.getAllReport();//신고글
+		System.out.println("SHController manger allReport"+"  "+allReport);
+
+		List<Board> allQnA = sh.getallQnA();//문의글
+		System.out.println("SHController manger allQnA"+"  "+allQnA);
+
+		Map<Integer, Integer> commentCounts = sh.getCommentCountsForPosts(allQnA);
+
 		model.addAttribute("allMember", allMember);
 		model.addAttribute("allGym", allGym);
+		model.addAttribute("allReport", allReport);
+		model.addAttribute("allQnA", allQnA);
+		model.addAttribute("commentCounts", commentCounts);
 		return "SH-Views/manger";
 	}
+//문의글 에 필요한 객체들을 저장해놓은  private 메소드
+	
+	
 //모달에 회원정보저장
 	@ResponseBody
 	@RequestMapping("getMemberDetails")
@@ -336,17 +360,6 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		
 		return member;
 	}
-//회원 등급변경
-	@ResponseBody
-	@PostMapping("updateMemberAdmin")
-	public void updateMemberAdmin(@RequestParam("m_number") int m_number, @RequestParam("admin")int admin) {
-		System.out.println("SHController updateMemberAdmin start...");
-		System.out.println("SHController updateMemberAdmin m_number"+m_number);
-		System.out.println("SHController updateMemberAdmin admin"+admin);
-		
-		sh.updateMember(m_number,admin);//멤버 객체의 모든 정보를 담아놓는다
-
-	}
 //모달에서 회원 삭제
 	
 	@RequestMapping("deleteMember")
@@ -356,9 +369,44 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		sh.deleteMember(m_number);
 		return "SH-Views/manger";
 	}
-//헬스장 페이지 회원등록
-	@PostMapping("registerGym")
-	public String postMethodName(
+//회원 등급변경
+	@ResponseBody
+	@PostMapping("updateMemberAdmin")
+	public void updateMemberAdmin(@RequestParam("m_number") int m_number, @RequestParam("admin")int admin) {
+		System.out.println("SHController updateMemberAdmin start...");
+		System.out.println("SHController updateMemberAdmin m_number"+m_number);
+		System.out.println("SHController updateMemberAdmin admin"+admin);
+		
+		sh.updateMember(m_number,admin);//멤버 객체의 모든 정보를 담아놓는다
+	}
+//헬스장 오픈 변경
+	@ResponseBody
+	@PostMapping("updateOpenGym")
+	public void updateOpenGym(@RequestParam("g_id") int g_id, @RequestParam("common_mcd")int common_mcd) {
+		System.out.println("SHController updateMemberAdmin start...");
+		System.out.println("SHController updateOpenGym m_number"+g_id);
+		System.out.println("SHController updateOpenGym common_mcd"+common_mcd);
+		
+		sh.updateOpenGym(g_id,common_mcd);//멤버 객체의 모든 정보를 담아놓는다
+	}
+	
+//모달에서 헬스장 삭제
+	@RequestMapping("deleteGym")
+	public String deleteGym(@RequestParam("g_id") int g_id) {
+		System.out.println("SHController deleteGym start...");
+		System.out.println("SHController deleteGym g_id"+g_id);
+		sh.deleteGym(g_id);
+		return "SH-Views/manger";
+	}
+	
+	
+	
+//모달에서 헬스장 페이지 등록
+
+	
+	@ResponseBody
+	@PostMapping("/registerGym")
+	public String registerGym3(
 			@RequestParam("m_number") int m_number,
 			@RequestParam("g_name") String g_name,
 			@RequestParam("g_address") String g_address,
@@ -366,42 +414,92 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 	        @RequestParam("g_companynumber") int g_companynumber,
 	        @RequestParam("image") MultipartFile imageFile,
 	        Gym gym){
-		
+		System.out.println("SHController registerGym start...");
+
 		gym.setM_number(m_number);
 		gym.setG_name(g_name);
 		gym.setG_address(g_address);
 		gym.setG_tel(g_tel);
 		gym.setG_companynumber(g_companynumber);
-		//gym.setG_document(imageFile);
+		//파일저장및 경로추출
+		String g_document = sh.storeFile(imageFile);
+		gym.setG_document(g_document);
+		System.out.println("SHController registerGym gym"+"   "+gym);
+
 		
-		//sh.registerGym();
-			
+		sh.registerGym(gym);
+			return "1";
 		
-		return "SH-Views/manger";
+		
 	}
-	//헬스장 페이지 정보
+//헬스장 페이지 정보
+	
+	
+	@ResponseBody
+	@RequestMapping("getGymDetails")
+	public Gym getGymDetails(@RequestParam("id") int g_id) {
+		System.out.println("SHController getGymDetails start...");
+		System.out.println("SHController getGymDetails id"+"   "+g_id);
+
+		Gym gym= sh.getGym(g_id);//멤버 객체의 모든 정보를 담아놓는다
+		
+		
+		return gym;
+	}
+//신고글 삭제	
+	@RequestMapping("/delReport")
+	public String delReport(@RequestParam("b_number") int b_number) {
+		System.out.println("SHController delReport start...");
+		
+		sh.delReport(b_number);
+		System.out.println("SHController delReport END...");
+
+		
+		return "redirect:manager";
+	}
+	
+	
+	//문의글 목록에서 삭제
+	
+	@RequestMapping("/delThisTable")
+	public String delThisTable(@RequestParam("b_number") int b_number) {
+		System.out.println("SHController delReport start...");
+		
+		sh.delThisTable(b_number);
+		System.out.println("SHController delReport END...");
+		
+		
+		return "redirect:manager";
+	}
+	
+	//===============================맵 검색=================================
+	
+	
+	
+	@RequestMapping("/gymMap")
+	public String gymMap() {
+		System.out.println("SHController gymMap start...");
+		return "SH-Views/gymMap";
+
+	}
+	@ResponseBody
+	@GetMapping("/gyms")
+	    public List<Gym> getAllGyms() {
+	        List<Gym> gyms = sh.getAllGym();
+	        System.out.println(gyms);
+	        return gyms;
+	}
 	
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@RequestMapping("/Default")
+	public String Default() {
+		System.out.println("SHController login start...");
+		return "SH-Views/Default";
+		
+	}
 	
 	
 	

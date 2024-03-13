@@ -99,6 +99,19 @@ public class GymDaoImpl implements GymDao {
 		return gymId;
 	}
 
+	
+	// 세션에 g_id 추가하기***************************************************************************************
+	@Override
+	public List <Gym> jhGetGymIdSelect(String m_id) {
+		List <Gym> jhGetGymIdSelectResult = null;
+		try {
+			jhGetGymIdSelectResult = session.selectList("jhGetGymIdSelect",m_id);
+		}catch(Exception e) {
+			System.out.println("GymDaoImpl jhGetGymIdSelect Exception -> "+e.getMessage());
+		}
+		return jhGetGymIdSelectResult;
+	}
+
 
 
 	

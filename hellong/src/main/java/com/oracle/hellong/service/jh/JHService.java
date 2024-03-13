@@ -111,6 +111,9 @@ public interface JHService {
 	// 트레이너 리스트 가져오기
 	List<Trainer> getSelectTrainerList(int g_id);
 
+	//세션에 g_id 추가************************************************************************************
+	List<Gym> jhGetGymIdSelect(String m_id);
+
 
 
 

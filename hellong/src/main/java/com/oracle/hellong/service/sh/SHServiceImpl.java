@@ -1,22 +1,29 @@
 package com.oracle.hellong.service.sh;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.sql.DataSource;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.oracle.hellong.dao.shdao.QBoarddao;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.Report;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +34,7 @@ public class SHServiceImpl implements SHService {
 
 	private final QBoarddao qd;
 	private final DataSource dataSource;
-
+	private String uploadDir = "uploads/";
 	@Override
 	public int totalquestions(int M_NUMBER) {
 		System.out.println("SHServiceImpl Start totalquestions...");
@@ -91,7 +98,7 @@ public class SHServiceImpl implements SHService {
 
 	}
 
-//글삭제
+//글삭제!
 	@Override
 	public void delete_que(int bId) {
 		System.out.println("SHServiceImpl Start delete_que...");
@@ -143,7 +150,10 @@ public class SHServiceImpl implements SHService {
 //댓글수 확인
 	@Override
 	public Map<Integer, Integer> getCommentCountsForPosts(List<Board> listBoard) {
-		 Map<Integer, Integer> commentCounts = new HashMap<>();
+		System.out.println("SHServiceImpl getCommentCountsForPosts Start...");
+		System.out.println("SHServiceImpl getCommentCountsForPosts listBoard->"+listBoard);
+
+		Map<Integer, Integer> commentCounts = new HashMap<>();
 		    for (Board board : listBoard) {
 		        int bNumber = board.getB_number();
 		        int count = qd.countCommentsByBNumber(bNumber);
@@ -164,7 +174,16 @@ public class SHServiceImpl implements SHService {
 		List<Gym> getAllGym= qd.getAllGym();
 		return getAllGym;
 	}
-//모달에 모든멤버 정보를 추가
+	// 신고 정보 가져오기
+	
+	@Override
+	public List<Report> getAllReport() {
+		List<Report> AllReport = qd.getAllReport();
+		return AllReport;
+	}
+	
+	
+//모달에 멤버 정보를 추가
 	@Override
 	public Member getMember(int id) {
 		Member member =qd.getMember(id);
@@ -181,8 +200,99 @@ public class SHServiceImpl implements SHService {
 //멤저제거
 	@Override
 	public void deleteMember(int m_number) {
-		System.out.println("SHServiceImpl updateMember  m_number->"+m_number);
+		System.out.println("SHServiceImpl deleteMember  m_number->"+m_number);
 		qd.deleteMember(m_number);
 	}
+	
+//헬스장 제거
+	
+	@Override
+	public void deleteGym(int g_id) {
+		System.out.println("SHServiceImpl deleteGym  g_id->"+g_id);
+		qd.deleteGym(g_id);
+
+	}
+	
+	//모달에 체육관 정보를 추가
+	@Override
+	public Gym getGym(int g_id) {
+		System.out.println("SHServiceImpl getGym  g_id->"+g_id);
+		Gym gym = qd.getGym(g_id);
+		return gym;
+	}
+//체육관 등록
+	@Override
+	public void registerGym(Gym gym) {
+		System.out.println("SHServiceImpl registerGym  gym->"+gym);
+		qd.registerGym(gym);
+		
+	}
+	
+	//체육관에 저장한사진 이미파일 저장및 경로 추출
+	@Override
+	public String storeFile(MultipartFile imageFile) {
+		System.out.println("SHServiceImpl storeFile  imageFile->"+imageFile);
+		String uuid = UUID.randomUUID().toString().substring(0, 8); // UUID의 첫 8자리 사용
+		String originalFileName = imageFile.getOriginalFilename();
+		String fileExtension  = "";
+	    if (originalFileName != null && originalFileName.contains(".")) {
+	        fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+	    }
+	    String fileName = uuid + fileExtension;
+        try {
+        	Path targetLocation = Paths.get(uploadDir).toAbsolutePath().normalize();
+        	if (Files.notExists(targetLocation)) {
+                Files.createDirectories(targetLocation);
+                System.out.println("파일경로 생성!");
+            }
+        	Path filePath = targetLocation.resolve(fileName);
+        	// 파일을 저장하는 로직
+            Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("파일 저장 경로: " + filePath.toAbsolutePath().toString());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return fileName;
+	}
+
+//헬스장 등급 변경
+	@Override
+	public void updateOpenGym(int g_id, int common_mcd) {
+		System.out.println("SHServiceImpl updateOpenGym m_number"+g_id);
+		System.out.println("SHServiceImpl updateOpenGym common_mcd"+common_mcd);
+		qd.updateOpenGym(g_id,common_mcd);
+		
+	}
+//신고글 삭제
+	@Override
+	public void delReport(int b_number) {
+		System.out.println("SHServiceImpl delReport b_number"+b_number);
+		qd.delReport(b_number);
+	}
+//모든 문의글 가져오기
+	@Override
+	public List<Board> getallQnA() {
+		System.out.println("SHServiceImpl getallQnA start...");
+		List<Board> boardList = null;
+		boardList = qd.getallQnA();
+		System.out.println("SHServiceImpl boardList size-->" + boardList.size());
+		return boardList;
+	}
+
+//문의글 테이블에서만 삭제
+	@Override
+	public void delThisTable(int b_number) {
+		System.out.println("SHServiceImpl delThisTable b_number"+b_number);
+		qd.delThisTable(b_number);
+		
+	}
+
+	@Override
+	public List<Gym> findAllGyms() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 }

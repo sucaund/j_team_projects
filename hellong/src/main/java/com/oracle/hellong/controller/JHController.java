@@ -375,6 +375,14 @@ public class JHController {
 	}
 	
 	
+	//비즈니스 클릭시 관리 페이지 or 신청 페이지로 이동하는 로직******************************************************************************************
+	@GetMapping(value = "/openGymManager")
+	public String gymManager(Model model) {
+		
+		
+		
+		return "jh/gymManager";
+	}
 	
 	
 	

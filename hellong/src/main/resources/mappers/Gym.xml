@@ -42,11 +42,37 @@
 		where g_id = #{g_id}
 	</select>
 	
+	
+	
+	
+	
 
 	<select id="getAllGym" resultType="Gym">
 		SELECT*
-		FROM GYM 
+		FROM GYM WHERE G_ISDELETED = 0
 	</select>
+	
+	<select id="getGym" parameterType="int" resultType="Gym">
+		SELECT*
+		FROM GYM WHERE G_ID = #{g_id}
+	</select>
+	
+	<insert id="shregisterGym" parameterType="Gym">
+		INSERT INTO GYM (G_ID,    M_NUMBER,   G_NAME,    G_ADDRESS,   G_TEL,    G_COMPANYNUMBER,  G_DOCUMENT)
+		VALUES (G_ID_SEQ.NEXTVAL, #{m_number},#{g_name}, #{g_address},#{g_tel}, #{g_companynumber},#{g_document})
+	</insert>
+	
+	<update id="deleteGym" parameterType="int">
+	    UPDATE Gym
+	    SET G_ISDELETED = 1
+	    WHERE G_ID =#{g_id}
+	</update>
+	
+	<update id="OpenGym">
+	    UPDATE Gym
+	    SET COMMON_MCD = #{common_mcd}
+	    WHERE G_ID = #{g_id}
+	</update>
 	
 	
 	

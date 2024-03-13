@@ -369,6 +369,13 @@ public class JHServiceImpl implements JHService {
 		return getSelectTrainerListResult;
 	}
 	
+	//세션에서 g_id 받아오기**********************************************************************************************************
+	@Override
+	public List<Gym> jhGetGymIdSelect(String m_id) {
+		List<Gym> jhGetGymIdSelectResult = gd.jhGetGymIdSelect(m_id);
+		return jhGetGymIdSelectResult;
+	}
+	
 	
 
 

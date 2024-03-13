@@ -15,6 +15,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.Report;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -213,7 +214,7 @@ public class QBoarddaoImpl implements QBoarddao {
 		}
 		return getAllGym;
 	}
-
+//멤버 등급변경
 	@Override
 	public void updateMember(int m_number, int admin) {
 		try {
@@ -226,16 +227,116 @@ public class QBoarddaoImpl implements QBoarddao {
 		}
 		
 	}
-
+//멤버제거
 	@Override
 	public void deleteMember(int m_number) {
 		try {
 			session.update("deleteMember", m_number);
 		} catch (Exception e) {
 			System.out.println("QBoarddaoImpl updateMember e.getMessage()->" + e.getMessage());
+		}
+	}
 
+//헬스장 제거
+	@Override
+	public void deleteGym(int g_id) {
+		try {
+			session.update("deleteGym", g_id);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl deleteGym e.getMessage()->" + e.getMessage());
 		}
 		
 	}
+//헬스장 정보 가져오기
+	@Override
+	public Gym getGym(int g_id) {
+		System.out.println("QBoarddaoImpl getGym g_id"+"   "+g_id);
+		Gym gym = null;
+		try {
+			gym= session.selectOne("getGym", g_id);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl getGym e.getMessage()->" + e.getMessage());
+		}
+		System.out.println("QBoarddaoImpl sucess! gym"+ " "+ gym);
+		return gym;
+	}
+//헬스장 등록
+	@Override
+	public void registerGym(Gym gym) {
+		try {
+			System.out.println("QBoarddaoImpl registerGym gym"+"   "+gym);
+			session.insert("shregisterGym", gym);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl registerGym e.getMessage()->" + e.getMessage());
+		}
+		
+	}
+//헬스장 오픈등급변경
+	@Override
+	public void updateOpenGym(int g_id, int common_mcd) {
+		try {
+			Map<String, Object> params = new HashMap<>();
+	        params.put("g_id", g_id);
+	        params.put("common_mcd", common_mcd);
+			session.update("OpenGym",params);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl OpenGym e.getMessage()->" + e.getMessage());
+		}
+		
+	}
+//신고글 가져오기
+	@Override
+	public List<Report> getAllReport() {
+		List<Report> getAllReport = null;
+
+		try {
+			getAllReport = session.selectList("getAllReport");
+			
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl getAllReport e.getMessage()->" + e.getMessage());
+		}
+		return getAllReport;
+	}
+//신고글 삭제하기
+	@Override
+	public void delReport(int bId) {
+		System.out.println("QBoarddaoImpl delReport delete_que ->" + bId);
+		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+		try {
+			session.delete("SCRAP_delete", bId);
+			session.delete("REPORT_delete", bId);
+			session.delete("COMM_delete", bId);
+			session.delete("que_delete", bId);
+			transactionManager.commit(txStatus);
+
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl delete_que e.getMessage()->" + e.getMessage());
+			transactionManager.rollback(txStatus);
+		}
+	}
+//문의글 가져오기
+	@Override
+	public List<Board> getallQnA() {
+		List<Board> getallQnA=null;
+		try {
+			getallQnA =session.selectList("SHgetallQnA");
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl getallQnA e.getMessage()->" + e.getMessage());
+
+		}
+		return getallQnA;
+	}
+//문의글 테이블에서만 삭제
+	@Override
+	public void delThisTable(int b_number) {
+
+		try {
+			session.update("delThisTable",b_number);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl delThisTable e.getMessage()->" + e.getMessage());
+
+		}
+	}
+
 
 }
