@@ -27,7 +27,8 @@
         </div>
     </div>
 
-    <c:if test="${m_number!=null}"> <!-- 로그인 상태일 때 로그인 버튼 클릭(비정상 접근) -->
+     <!-- 로그인 상태일 때 로그인 버튼 클릭(비정상 접근) -->
+    <c:if test="${m_number!=null}">
 	<div class="account-login section">
 	<div class="container">
 		<div class="row">
@@ -42,10 +43,16 @@
 						<div class="button">
 							<button class="btn" type="submit" form="logout">로그아웃</button>
 						</div>
-    </c:if> <!--닫기: c:if m_number == null -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </c:if> <!--닫기: c:if m_number != null -->
 
-<c:if test="${m_number==null}"> <!-- 로그인 안되어있을때(즉 정상 접근 때) -->
-    <!-- Start Account Login Area -->
+ <!-- 로그인 안되어있을때(즉 정상 접근 때) -->
+<c:if test="${m_number==null}">
+    
     <div class="account-login section">
         <div class="container">
             <div class="row">
@@ -85,8 +92,9 @@
             </div>
         </div>
     </div>
-</c:if> <!--닫기: 로그인 안되어있을시(즉 정상 접근 시) c:if m_number == null -->
-    <!-- End Account Login Area -->
+</c:if> 
+<!--닫기: 로그인 안되어있을시(즉 정상 접근 시) c:if m_number == null -->
+
 
     
     <!-- ========================= scroll-top ========================= -->
