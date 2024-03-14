@@ -11,6 +11,6 @@
 <body>
 회원 탈퇴 완료<br>
 회원 탈퇴가 완료되었습니다. 
-	<button onclick="window.location.href='/jmMainPage'">메인화면으로 이동</button>
+	<button onclick="window.location.href='/'">메인화면으로 이동</button>
 </body>
 </html>

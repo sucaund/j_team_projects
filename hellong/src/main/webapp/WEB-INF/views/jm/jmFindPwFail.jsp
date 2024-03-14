@@ -70,7 +70,7 @@
             <a href="/jmFindIdForm" class="btn">아이디 찾기</a>
             <a href="/jmFindForm" class="btn">비밀번호 찾기</a>
             <a href="/jmLoginForm" class="btn">로그인</a>
-            <a href="/jmMainPage" class="btn">메인페이지로 이동</a>
+            <a href="/" class="btn">메인페이지로 이동</a>
           </div>
         </div>
         </div>

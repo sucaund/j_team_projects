@@ -318,7 +318,7 @@ public class JMController {
 
 	// updateForm에 넣은 것 순수 Update
 	@RequestMapping(value = "jmUpdateMember")
-	public String jmUpdateMember(@ModelAttribute("member") Member member, HttpSession session) {
+	public String jmUpdateMember(@ModelAttribute("member") Member member, HttpSession session, Model model) {
 		// member1 : jmUpdateMemberForm 에서의 선택된 Member
 
 		System.out.println("jmController jmUpdateMember member" + member);
@@ -326,10 +326,14 @@ public class JMController {
 		System.out.println(member);
 		int updateCount = jm.jmUpdateMember(member);
 		System.out.println("jmController jmUpdateMember updateCount-->" + updateCount);
-		// 수정
+		session.removeAttribute("m_name"); //로그인하면서 세션에 등록한 m_name을 삭제
+		session.setAttribute("m_name", member.getM_name()); //후 새로운 이름으로 세션에 등록
 
+		if(updateCount<=0) { //업데이트가 제대로 이루어지지 않았을 때
+			model.addAttribute("update_msg", "회원 정보가 정상적으로 수정되지 못했습니다.");
+		// 업데이트 후 그 멤버의 업데이트 화면으로 즉시 이동
+		}
 		return "redirect:jmUpdateMemberForm";
-		// 업데이트 후 그 멤버의 detail 화면으로 즉시 이동
 	}
 
 	// 마이페이지에서 회원 탈퇴 눌렀을 때 회원탈퇴 폼으로 이동하는 컨트롤러
