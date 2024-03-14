@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ include file="../header.jsp" %>
+<%@ include file="jhHeaderManager.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,41 +17,12 @@
     <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
-     <style>
-     	.sidebar {
-            height: calc(100vh - 64px); /* 높이 조절, 헤더 높이에 따라 조정 가능 */
-            width: 280px; /* 너비 조절 */
-            position: fixed;
-            top: 64px; /* 헤더 높이에 따라 조정 */
-            left: 0;
-            background-color: #4a5568; /* 사이드바 배경색 */
-            overflow-y: auto; /* 내용이 넘치면 스크롤 표시 */
-            z-index: 1000;
-        }
-
-        .sidebar-link {
-            display: block;
-            padding: 1rem;
-            color: #ffffff; /* 링크 텍스트 색상 */
-        }
-
-        .sidebar-link:hover {
-            background-color: #718096; /* 링크에 마우스 호버 시 배경색 */
-        }
-
-
-     
-     
-     
+     <style>  
         .short-column {
             width: 8%; 
         }
-        
-        
-        
-        
-     
-              /* 테이블 내용 디자인 */
+              
+        /* 테이블 내용 디자인 */
         .resume-table {
             width: 100%;
             margin-top: 20px;
@@ -90,28 +61,77 @@
         .benefits li {
             margin-bottom: 5px;
         }
+        
+ 		.sub-container {
+	        display: flex; 
+	        justify-content: center; 
+	        align-items: center; 
+	        width: 10%;
+	        border: 1px solid #ccc;
+	        padding: 10px;
+	        margin-bottom: 10px;
+	        box-sizing: border-box;
+	        text-align: center; 
+	        height: 2rem; 
+	    }
+
+	    .sub-container a {
+	        color: #333;
+	        font-weight: bold;
+	    }
+    
     </style>
+    
+    
 </head>
 
 <body class="bg-gray-100">
 
+	<!-- Start Breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">시설 관리 페이지</h1>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <ul class="breadcrumb-nav">
+                        <li><a href="index.html"><i class="lni lni-home"></i> Home</a></li>
+                        <li><a href="javascript:void(0)">시설관리 Home</a></li>
+                        <li>헬스장 이름</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
 
 
-
-
-	<!-- 사이드바 영역 -->
-    <div class="sidebar">
-        <a href="#" class="sidebar-link">메뉴 1</a>
-        <a href="#" class="sidebar-link">메뉴 2</a>
-        <a href="#" class="sidebar-link">메뉴 3</a>
-        <a href="#" class="sidebar-link">메뉴 4</a>
-        <a href="#" class="sidebar-link">메뉴 5</a>
+    <!-- 서브 컨테이너 메뉴바 -->
+    <div class="flex justify-center mt-4 ">
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="createGymForm?g_id=${g_id}">홍보 글 등록/수정</a>
+	    </div>
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="gymPostDetail?g_id=${g_id}">홍보 글 이동</a>
+	    </div>
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="/gymMemberListDetail?g_id=${g_id}">회원 관리</a>
+	    </div>
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="/trainerList?g_id=${g_id}">트레이너 관리</a>
+	    </div>
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="/serviceList?g_id=${g_id}" style="color: blue;">서비스 관리</a>
+	    </div>
     </div>
 
 
 
 
-    <div class="container mx-auto bg-white p-8 rounded-lg shadow-lg">
+    <div class="container mx-auto bg-white p-8 rounded-lg shadow-lg mb-4">
         <h2 class="text-2xl font-bold text-center mb-8"><i class="fas fa-dumbbell"></i> 서비스 리스트</h2>
         
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -120,7 +140,7 @@
                 <input type="text" placeholder="서비스 검색..." name="search" class="flex-1 py-2 px-4 rounded-l-lg border border-gray-300 focus:outline-none focus:border-blue-500">
                 <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-r-lg"><i class="fas fa-search"></i> 검색</button>
             </form>
-        </div>
+         </div>
             <button id="add-service-btn" class="bg-green-500 text-white py-2 px-4 rounded-lg" data-toggle="modal" data-target="#serviceModal">
                 <i class="fas fa-plus-circle"></i> 서비스 추가
             </button>
@@ -171,29 +191,31 @@
         
         
           
-     <!-- 페이지 네비게이션 -->
-    <div class="flex justify-center">
-        <div class="flex">
-            <c:if test="${page.currentPage > page.pageBlock}">
-                <a href="serviceList?g_id=${g_id}&currentPage=${page.startPage - page.pageBlock}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300"><i class="fas fa-chevron-left"></i> 이전</a>
-            </c:if>
-            <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                <c:choose>
-                    <c:when test="${page.currentPage == i}">
-                        <a href="serviceList?g_id=${g_id}&currentPage=${i}" class="py-2 px-4 mr-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-300">${i}</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="serviceList?g_id=${g_id}&currentPage=${i}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300">${i}</a>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-            <c:if test="${page.endPage < page.totalPage}">
-                 <a href="serviceList?g_id=${g_id}&currentPage=${page.startPage + page.pageBlock}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300">다음 <i class="fas fa-chevron-right"></i></a>
-            </c:if>
-       	 </div>
-    	</div>
-	</div>    
-        
+	     <!-- 페이지 네비게이션 -->
+	    <div class="flex justify-center">
+	        <div class="flex">
+	            <c:if test="${page.currentPage > page.pageBlock}">
+	                <a href="serviceList?g_id=${g_id}&currentPage=${page.startPage - page.pageBlock}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300"><i class="fas fa-chevron-left"></i> 이전</a>
+	            </c:if>
+	            <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+	                <c:choose>
+	                    <c:when test="${page.currentPage == i}">
+	                        <a href="serviceList?g_id=${g_id}&currentPage=${i}" class="py-2 px-4 mr-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-300">${i}</a>
+	                    </c:when>
+	                    <c:otherwise>
+	                        <a href="serviceList?g_id=${g_id}&currentPage=${i}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300">${i}</a>
+	                    </c:otherwise>
+	                </c:choose>
+	            </c:forEach>
+	            <c:if test="${page.endPage < page.totalPage}">
+	                 <a href="serviceList?g_id=${g_id}&currentPage=${page.startPage + page.pageBlock}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300">다음 <i class="fas fa-chevron-right"></i></a>
+	            </c:if>
+	       	 </div>
+	    </div>
+	    
+	</div>          
+       
+       
         
     
     <!-- 서비스 모달 폼 -->

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../header.jsp" %>
+<%@ include file="jhHeaderManagerG.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,12 +27,56 @@
         .table tbody tr:nth-child(even) {
             background-color: #e9ecef; /* 짝수행 배경색 */
         }
+        
+        
+         .sub-container {
+	        display: flex; 
+	        justify-content: center; 
+	        align-items: center; 
+	        width: 10%;
+	        border: 1px solid #ccc;
+	        padding: 10px;
+	        margin-bottom: 10px;
+	        box-sizing: border-box;
+	        text-align: center; 
+	        height: 2rem; 
+	    }
+
+	    .sub-container a {
+	        color: #333;
+	        font-weight: bold;
+	    }
+        
+        
+        
     </style>
 </head>
 
 <body class="bg-gray-100">
 
-    <div class="container mx-auto bg-white p-8 rounded-lg shadow-lg">
+	<!-- 서브 컨테이너 메뉴바 -->
+    <div class="flex justify-center mt-4 ">
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="createGymForm?g_id=${g_id}">홍보 글 등록/수정</a>
+	    </div> 
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="gymPostDetail?g_id=${g_id}">홍보 글 이동</a>
+	    </div>
+	
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="/gymMemberListDetail?g_id=${g_id}" style="color: blue;">회원 관리</a>
+	    </div>
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="/trainerList?g_id=${g_id}" >트레이너 관리</a>
+	    </div>
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="/serviceList?g_id=${g_id}">서비스 관리</a>
+	    </div>
+    </div>
+
+
+
+    <div class="container mx-auto bg-white p-8 rounded-lg shadow-lg mb-4">
         <h1 class="text-center my-5 text-3xl"><i class="fas fa-users"></i> 헬스장 회원관리 <i
                 class="fas fa-chart-pie"></i></h1>
 
@@ -97,7 +141,7 @@
                         </div>
                         <h3 class="font-bold mb-3  text-2xl">회원 목록</h3>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-header-bg">
+                             <table class="table table-bordered table-header-bg mb-0">
                                 <thead class="bg-primary text-white">
                                     <tr>
                                         <th>번호</th>
@@ -151,10 +195,11 @@
                                 	</c:if>
                                 </ul>
                             </nav>
-                        </div>            
-                </div>
-            </div>
-        </div>
+                        </div>
+                                    
+                  </div>
+             </div>              
+         </div>
         
         
     </div>

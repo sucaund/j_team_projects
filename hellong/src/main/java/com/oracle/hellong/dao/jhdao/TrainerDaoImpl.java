@@ -106,7 +106,17 @@ public class TrainerDaoImpl implements TrainerDao {
 		return trainerDelete;
 	}
 
-
+	@Override
+	public List<Trainer> getSelectTrainerList(int g_id) {
+		List<Trainer> getSelectTrainerListResult = null;
+		try {							    
+			getSelectTrainerListResult = session.selectList("getSelectTrainerList",g_id);
+			System.out.println("TrainerDaoImpl getSelectTrainerList->"+getSelectTrainerListResult.size());
+		} catch (Exception e) {
+			System.out.println("TrainerDaoImpl getSelectTrainerList Exception -> "+e.getMessage());
+		}
+		return getSelectTrainerListResult;
+	}
 
 
 	

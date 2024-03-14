@@ -1,32 +1,63 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <%@ taglib prefix="c"
-uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib prefix="fmt"
-uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"
+	uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt"
+	uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page session = "true" %>
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>헤더</title>
-     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.svg">
+
+    <!-- ========================= CSS here ========================= -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/LineIcons.3.0.css" />
     <link rel="stylesheet" type="text/css" href="/css/tiny-slider.css" />
     <link rel="stylesheet" type="text/css" href="/css/glightbox.min.css" />
-    <link rel="stylesheet" type="text/css" href="/css/main.css" /> 
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
 
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/tiny-slider.js"></script>
-    <script src="/js/glightbox.min.js"></script>
-    <script src="/js/main.js"></script>
-      
-    
-  </head>
-  <body>
+	<!-- ========================= JS here ========================= -->
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/tiny-slider.js"></script>
+	<script src="/js/glightbox.min.js"></script>
+	<script src="/js/main.js"></script>
+
+
+
+	<style>
+	  .header {
+	    position: fixed; 
+	    top: 0; 
+	    width: 100%; 
+	    z-index: 1000; 
+	    background-color: #fff; 
+	    padding: 10px 0; 
+	    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+	  }
+	  /* 헤더 아래 컨텐츠 패딩 설정 */
+	  .bo {
+	    padding-top: 200px; /* 고정된 헤더의 높이만큼 추가 */
+	  }
+  	</style> 
+
+
+</head>
+
+
+
+
+<body>
+
+
     <!-- Start Header Area -->
     <header class="header navbar-area">
         <!-- Start Topbar -->
-       
+
         <!-- Start Header Middle -->
         <div class="header-middle">
             <div class="container">
@@ -91,7 +122,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                                         <% } %>
                                 </h3>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -115,7 +146,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                                 <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">작성글</a></li>
                                 <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">결제</a></li>
                                 <li><a href="/jmUpdateMemberForm">개인정보수정</a></li>
-                                <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">비즈니스 개설/관리</a></li>
+                                <li><a href="/listGymManager">비즈니스 개설/관리</a></li>
                                 <li><a href="/GymPostList">헬스장(지점찾기)</a></li>
                                 <li>
                                     <a href="/communityBoard"
@@ -143,14 +174,14 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                                         <a href="index.html"  aria-label="Toggle navigation">홈</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/GymPostList" aria-label="Toggle navigation">헬스장(지점찾기)</a>
+                                        <a href="/GymPostList"  class="active" aria-label="Toggle navigation">헬스장(지점찾기)</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#submenu-1-3" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">커뮤니티</a>
                                         <ul class="sub-menu collapse" id="submenu-1-3">
                                             <li class="nav-item"><a href="/communityBoard">자유게시판</a></li>
                                             <li class="nav-item"><a href="/listBodyProfile">바디프로필</a></li>
-                                            
+
                                         </ul>
                                     </li>
 
@@ -161,7 +192,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                                             <li class="nav-item"><a href="blog-grid-sidebar.html">작성글</a></li>
                                             <li class="nav-item"><a href="https://demo.graygrids.com/themes/shopgrids/blog-single-sidebar.html">결제</a></li>
                                             <li class="nav-item"><a href="/jmUpdateMemberForm">개인정보수정</a></li>
-                                            
+
                                         </ul>
                                     </li>
 
@@ -179,50 +210,5 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
         <!-- End Header Bottom -->
     </header>
     <!-- End Header Area -->
-    
-
-
-
-    
-<!-- 지훈 전용 메뉴 헤더 **************************************************************************************************************************************************************************************************** -->
-    <!-- Start Breadcrumbs -->
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="breadcrumbs-content">
-                        <h1 class="page-title">시설 관리 페이지</h1>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-12">
-                    <ul class="breadcrumb-nav">
-                        <li><a href="index.html"><i class="lni lni-home"></i> Home</a></li>
-                        <li><a href="javascript:void(0)">시설관리 Home</a></li>
-                        <li>헬스장 이름</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Breadcrumbs -->
-    
-    <!-- 마지막 헤더 -->
   </body>
-  
-  
-  <script>
-    window.onscroll = function() {
-      scrollFunction();
-    };
-
-    function scrollFunction() {
-      if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
-        document.querySelector('.header').classList.add('fixed-header');
-      } else {
-        document.querySelector('.header').classList.remove('fixed-header');
-      }
-    }
-  </script>
-  
-  
 </html>
