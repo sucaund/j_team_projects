@@ -140,7 +140,7 @@
 					class="form-control" id="m_email" placeholder="이메일"  name="m_email"
 					oninput="checkMailReg()"
                     autocomplete='off' required="required">
-                    <button type="button" class="btn btn-primary" id="sendMailBtn" name="sendMailBtn" onclick="sendMailNumber()">인증번호 받기</button>
+                    <button type="button" class="btn btn-primary" id="sendMailBtn" name="sendMailBtn" onclick="sendMailNumber()" style="margin-top: 10px;">인증번호 받기</button>
                     
                             </div>
 
@@ -159,7 +159,7 @@
                                 <input type="text"
 					class="form-control" id="m_address" name="m_address" placeholder="주소"
 					autocomplete='off' required="required">
-								<input type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()" value="주소 찾기">
+								<input type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()" value="주소 찾기" style="margin-top: 10px; margin-bottom: 10px;">
 
 								<input type="text"
 					class="form-control" id="sample6_postcode" placeholder="우편번호"
