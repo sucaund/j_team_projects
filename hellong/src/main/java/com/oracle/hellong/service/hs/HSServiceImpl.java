@@ -295,7 +295,7 @@ public class HSServiceImpl implements HSService {
 	@Override
 	public GymOrder getRefundData(int g_id, int s_number, int sd_number, int m_number) {
 		GymOrder refundData = null;
-		System.out.println("hsServiceImpl getRefundPrice start...");
+		System.out.println("hsServiceImpl getRefundData start...");
 		refundData = gd.getRefundData(g_id, s_number, sd_number, m_number);
 		System.out.println("hsServiceImpl getRefundPrice refundData-> " + refundData.getRefund_point()); 
 		return refundData;

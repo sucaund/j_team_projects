@@ -176,14 +176,14 @@ public class HSGymDaoImpl implements HSGymDao {
       System.out.println("hsGymDaoImpl getRefundData start...");
            
       try {
-         Map<String, Object> params = new HashMap<>();	
-         params.put("g_id", g_id);
-         params.put("s_number", s_number);
-         params.put("sd_number", sd_number);
-         params.put("m_number", m_number);
+    	  Map<String, Object> params = new HashMap<>();	
+    	  params.put("g_id", g_id);
+    	  params.put("s_number", s_number);
+    	  params.put("sd_number", sd_number);
+    	  params.put("m_number", m_number);
          
-         refundData = session.selectOne("hsRefundData", params);
-          System.out.println("hsGymDaoImpl getRefundData refundData -> " + refundData);
+    	  refundData = session.selectOne("hsRefundData", params);
+    	  System.out.println("hsGymDaoImpl getRefundData refundData -> " + refundData);
          } catch (Exception e) {
         	 System.out.println("e.getMessage()->"+e.getMessage());
          }

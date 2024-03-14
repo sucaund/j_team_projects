@@ -29,5 +29,11 @@ public class GymOrder { //주문(체육관 서비스 등록) gym_order
        
        private String rl_s_name;
        private String refund_criteria;
+
+       // 0314 현승추가
+       private int years;
+       private int months;
+       private String first_regist_date;
+       private String gb_photo;
        
 }

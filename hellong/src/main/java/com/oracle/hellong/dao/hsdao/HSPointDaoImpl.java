@@ -68,6 +68,7 @@ public class HSPointDaoImpl implements HSPointDao {
 
 		try {
 			listPoint = session.selectList("hsListGymOrderDeal", member);
+			System.out.println("Deal Test PointDaoImpl: " +listPoint);
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl listGymOrderDeal Exception ->" + e.getMessage());
 		}
@@ -93,6 +94,7 @@ public class HSPointDaoImpl implements HSPointDao {
 
 		try {
 			listPoint = session.selectList("hsListGymOrderRefund", member);
+			System.out.println("Refund Test PointDaoImpl: " +listPoint);
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl listGymOrderRefund Exception ->" + e.getMessage());
 		}
