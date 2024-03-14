@@ -23,32 +23,6 @@
     </div>
     
 
-     <!-- 로그인 상태일 때 로그인 버튼 클릭(비정상 접근) -->
-    <c:if test="${m_number!=null}">
-	<div class="account-login section">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
-				<form class="card login-form" method="get" id="logout" action="jmLogOut">
-					<div class="card-body">
-						<div class="title">
-							<h3>이미 로그인된 계정입니다.</h3>
-							<p><c:if test="${msg!=null}">${msg}</c:if></p>
-						</div>
-
-						<div class="button">
-							<button class="btn" type="submit" form="logout">로그아웃</button>
-						</div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    </c:if> 
-	<!--닫기: c:if m_number != null -->
-
-
-    <c:if test="${m_number==null}"> <!-- 로그인 안되어있을때(즉 정상 접근 때) -->
     <div class="account-login section">
         <div class="container">
             <div class="row">
@@ -97,6 +71,5 @@
             </div>
         </div>
     </div>
-    </c:if>
 </body>
 </html>
