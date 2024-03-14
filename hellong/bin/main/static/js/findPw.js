@@ -11,15 +11,14 @@ function checkMailReg() { //메일 정규식 체크
       success: function() {
          if(regEmail(inputed) == false) {
             $("#sendMailBtn").prop("disabled", true);
-            $("#sendMailBtn").css("background-color", "#aaaaaa");
             $("#m_email").css("background-color", "#FFCECE");
-           
+            $("#failmailreg").css("display", "block");
+            
             
          } else if(regEmail(inputed) == true) {
             $("#sendMailBtn").prop("disabled", false);
-             $("#sendMailBtn").css("background-color", "#B0F6AC");
             $("#m_email").css("background-color", "#B0F6AC");
-            
+            $("#failmailreg").css("display", "none");
          }
       }
    })
@@ -46,7 +45,11 @@ success: function(data){
 }
 
 function confirmMailNumber(){  //번호 두개 체크 후, 일치할 시 비밀번호찾기버튼 활성화
-var input_number = $("#input_mail_number").val(); //사용자가 입력한 인증번호
+
+ var input_number = $("#input_mail_number").val(); //사용자가 입력한 인증번호
+
+$("#checkpwbtn").css("display", "block");
+
 
 /*	console.log("number"+number);
 console.log("mailauthnumber"+mailauthnumber);
@@ -55,12 +58,10 @@ console.log(check_mail);*/
 if (input_number == mailauthnumber) {
     alert("인증되었습니다.");
     $("#checkpwbtn").prop("disabled", false);   
-    $("#checkpwbtn").css("background-color", "#B0F6AC");
 
 } else {
         alert("인증번호가 일치하지 않습니다");
         $("#checkpwbtn").prop("disabled", true);   
-        $("#checkpwbtn").css("background-color", "#aaaaaa");    
     }
 }
 

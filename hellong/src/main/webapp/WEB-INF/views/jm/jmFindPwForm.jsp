@@ -10,39 +10,97 @@
 <script type="text/javascript" src="js/findPw.js"></script>
 </head>
 <body>
-비밀번호 찾기
- <c:if test="${m_number!=null}">
-<p>로그아웃을 먼저 해주세요</p>
+	<div class="breadcrumbs">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">비밀번호 찾기</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
- </c:if>
-  <c:if test="${m_number==null}">
-	<form action="jmFindPw" method="post" name="frm">
-<br>
-		아이디를 입력해주세요
-		<br>
-			<div class="form-floating mb-3">
-				<label for="floatingInput">아이디</label> <input type="text"
-					class="form-control" id="m_id" placeholder="아이디를 입력해주세요"
-					name="m_id" autocomplete='off'>
-			</div>
-		<br>
-		가입시 사용한 이메일을 입력해주세요. <br>
-			<div class="form-floating mb-3">
-				<label for="floatingInput">이메일</label> <input type="text"
-					class="form-control" id="m_email" placeholder="이메일을 입력해주세요"
-					name="m_email" oninput="checkMailReg()" autocomplete='off'>
-					<button type="button" id="sendMailBtn" name="sendMailBtn" onclick="sendMailNumber()">인증번호 받기</button>
-			</div>
-			
-			<div class="form-floating mb-3" id="mail_check" name="mail_check" style="display: none">
-               <input type="text" name="input_mail_number" id="input_mail_number" style="width:250px; margin-top: -10px" placeholder="인증번호 입력">
-				<button type="button" name="confirmMailBtn" id="confirmMailBtn" onclick="confirmMailNumber()">인증</button>
-			</div>
-		</div>
-	
-			<button type="submit" class="btn btn-secondary"
-			id="checkpwbtn" disabled >비밀번호 찾기</button>
-		</form>
-	</c:if>
+     <!-- 로그인 상태일 때 로그인 버튼 클릭(비정상 접근) -->
+    <c:if test="${m_number!=null}">
+	<div class="account-login section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+				<form class="card login-form" method="get" id="logout" action="jmLogOut">
+					<div class="card-body">
+						<div class="title">
+							<h3>이미 로그인된 계정입니다.</h3>
+							<p><c:if test="${msg!=null}">${msg}</c:if></p>
+						</div>
+
+						<div class="button">
+							<button class="btn" type="submit" form="logout">로그아웃</button>
+						</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </c:if> 
+	<!--닫기: c:if m_number != null -->
+
+
+    <c:if test="${m_number==null}"> <!-- 로그인 안되어있을때(즉 정상 접근 때) -->
+    <div class="account-login section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                    <div class="register-form"> 
+                    <!-- 회원가입 디자인만 씀 -->
+
+                        <div class="card-body">
+                        <form action="jmFindPw" method="post" name="frm">
+                            <div class="title">
+                                <h3>비밀번호 찾기</h3>
+                                <p>아이디와 이메일을 입력해주세요.</p>
+                            </div>
+
+                            <!-- 아이디-->
+			                <div class="form-group input-group">
+                                <label for="reg-id">아이디</label>
+                                <input type="text"
+					class="form-control" id="m_id" placeholder="아이디를 입력해주세요"  name="m_id"
+                    autocomplete='off' required="required">
+					        </div>
+
+                            <!-- 이메일-->
+			                <div class="form-group input-group">
+                                <label for="reg-email">이메일</label>
+                                <input type="text"
+					class="form-control" id="m_email" placeholder="이메일을 입력해주세요"  name="m_email"
+					oninput="checkMailReg()"
+                    autocomplete='off' required="required">
+					<font color="red" id="failmailreg"
+					style="display: none">이메일 양식에 맞게 작성해주세요.<pre>
+                                                                        </pre>
+                    </font>
+                    <button class="btn btn-primary" id="sendMailBtn" name="sendMailBtn" onclick="sendMailNumber()" style="margin-top: 10px;">인증번호 받기</button>
+                            </div>
+
+                            <!-- 인증번호 입력, 버튼 클릭시 출력-->
+			                <div class="form-group input-group" id="mail_check" style="display: none">
+                                <label for="reg-email-check">인증번호 입력</label>
+                                <input type="text"
+					class="form-control" id="input_mail_number" placeholder="이메일로 인증번호가 전송되었습니다."  name="input_mail_number"
+					autocomplete='off' required="required">
+                                <button type="button" class="btn btn-primary" id="confirmMailBtn" name="confirmMailBtn" onclick="confirmMailNumber()">인증</button>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="checkpwbtn" style="display: none" name="checkpwbtn" disabled>비밀번호 찾기</button>
+                        </form>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </c:if>
 </body>
 </html>
