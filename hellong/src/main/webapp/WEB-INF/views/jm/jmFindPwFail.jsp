@@ -20,7 +20,7 @@
         <div class="row align-items-center">
             <div class="col-lg-6 col-md-6 col-12">
                 <div class="breadcrumbs-content">
-                    <h1 class="page-title">비밀번호 찾기</h1>
+                    <h1 class="page-title">비밀번호 찾기 실패</h1>
                 </div>
             </div>
         </div>

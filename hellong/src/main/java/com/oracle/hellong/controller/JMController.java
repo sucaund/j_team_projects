@@ -264,7 +264,7 @@ public class JMController {
 
 	// 비밀번호 재설정
 	@RequestMapping(value = "jmResetPw") // 클릭 눌렀을 때
-	public String jmFindPw(@RequestParam("m_pw") String m_pw, HttpSession session) {
+	public String jmFindPw(@RequestParam("m_pw") String m_pw, HttpSession session, Model model) {
 		System.out.println("jmController jmResetPw start..");
 		System.out.println("jmController jmResetPw pw: " + m_pw);
 		int m_number = 0;
@@ -284,7 +284,8 @@ public class JMController {
 		} else {
 			System.out.println("jmController jmSignUpAjax2 resetResult->" + resetResult);
 			System.out.println("비밀번호 재설정 실패");
-			return "forward:jmResetPw";
+			model.addAttribute("reset_msg", "비밀번호 재설정에 실패하였습니다.");
+			return "forward:jmResetPwForm";
 
 		}
 	}
