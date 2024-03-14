@@ -14,7 +14,26 @@ public class GymOrder { //주문(체육관 서비스 등록) gym_order
     private String  refund_date; //환불일자 nn
     private int 	refund_point; //환불포인트
     private String refund_reason; //환불사유
+
+    // 0307 현승추가
+    
+    private String deal_content;
+    private String refund_content;
+
+    private String pl_date;
+    private String pl_content;
+    private int pl_point;
+    
+    private String g_name;
+    
+    private String rl_s_name;
     private String refund_criteria;
+
+    // 0314 현승추가
+    private int years;
+    private int months;
+    private String first_regist_date;
+    private String gb_photo;
        
        
 }

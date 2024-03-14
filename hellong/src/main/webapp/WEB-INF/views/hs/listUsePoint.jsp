@@ -13,11 +13,21 @@
 	
 	<input type="button" value="포인트 충전" 
 				onclick="location.href='hsChargeFormPoint?m_number=${memberData.m_number}'">
-	<form action="hsCondListPoint" method="post">
+<%-- 	<form action="hsCondListPoint?m_number=${memberData.m_number }" method="post">
 		<input type="hidden" name="m_number" value="${memberData.m_number}">
 		<button type="submit" name="select" value="point_charge">충전	</button>
 		<button type="submit" name="select" value="gym_order_deal">구매</button>
 		<button type="submit" name="select" value="gym_order_refund">환불	</button>
+	</form> --%>
+	
+	<form action="hsListChargePoint?m_number=${memberData.m_number }" method="post">
+		<button type="submit">충전</button>
+	</form>
+	<form action="hsListUsePoint?m_number=${memberData.m_number }" method="post">
+		<button type="submit">사용</button>
+	</form>
+	<form action="hsListRefundPoint?m_number=${memberData.m_number }" method="post">
+		<button type="submit">환불</button>
 	</form>
 		
 	<c:set var="num" value="${page.total-page.start+1 }"></c:set>
@@ -34,13 +44,13 @@
 	</table>
 	
 	<c:if test="${page.startPage > page.pageBlock }">
-		<a href="hsListPoint?currentPage=${page.startPage-page.pageBlock}&m_number=${memberData.m_number}">[이전]</a>
+		<a href="hsListUsePoint?currentPage=${page.startPage-page.pageBlock}&m_number=${memberData.m_number}">[이전]</a>
 	</c:if>
 	<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-		<a href="hsListPoint?currentPage=${i}&m_number=${memberData.m_number}">[${i}]</a>
+		<a href="hsListUsePoint?currentPage=${i}&m_number=${memberData.m_number}">[${i}]</a>
 	</c:forEach>
 	<c:if test="${page.endPage < page.totalPage }">
-		<a href="hsListPoint?currentPage=${page.startPage+page.pageBlock}&m_number=${memberData.m_number}">[다음]</a>
+		<a href="hsListUsePoint?currentPage=${page.startPage+page.pageBlock}&m_number=${memberData.m_number}">[다음]</a>
 	</c:if>	
 	
 	

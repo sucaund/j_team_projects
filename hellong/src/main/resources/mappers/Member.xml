@@ -80,11 +80,11 @@
 		</selectKey>
 
 		insert into member (m_number, m_id, m_pw, m_name, m_age,
-		m_gender, m_phone, m_email, m_address, m_regdate )
+		m_gender, m_phone, m_email, m_address, m_regdate, m_currpoint, m_isdeleted )
 		values ( #{m_number},
 		#{m_id}, #{m_pw}, #{m_name}, #{m_age},
 		#{m_gender}, #{m_phone},
-		#{m_email}, #{m_address}, sysdate)
+		#{m_email}, #{m_address}, sysdate, 0, 0)
 	</insert>
 	
 		<!-- jmMemberDaoImpl -> jmGetMemberFromId에서 사용 -->

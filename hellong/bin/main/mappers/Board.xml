@@ -371,6 +371,13 @@
 		WHERE b_title LIKE '%' || #{totKeyword} || '%'
 		OR b_content LIKE '%' || #{totKeyword} || '%'
 	</select>
+	
+	<select id="dyMyPageSearch" parameterType="Board"
+		resultType="Board">
+		select * from board
+		WHERE m_number = #{m_number}
+		order by b_number desc
+	</select>
 
 	<select id="dyCondBodyProfileTotal" parameterType="Board"
 		resultType="int">
