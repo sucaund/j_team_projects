@@ -64,6 +64,10 @@ public interface JHService {
 	
 	// 트레이너 삭제
 	int getDeleteTrainer(int t_id);
+	
+	// 트레이너 검색
+	int getTotaltrainerSearch(Trainer trainer);
+	List<Trainer> getTrainerSearchList(Trainer trainer);
 
 	// 체육관 서비스 리스트***************************************************************************
 	int totalService(int g_id);
@@ -76,6 +80,10 @@ public interface JHService {
 	int updateService(GS gs);
 	//서비스 삭제
 	int deleteService(int s_number);
+	
+	//서비스 검색
+	int getTotalSearchService(GS gs);
+	List<GS> getListSearchService(GS gs);
 
 	// 헬스장 회원 리스트***************************************************************************
 	List<GymMemberServiceOrderJoin> getGymMemberList(GymMemberServiceOrderJoin gymMemberServiceOrderJoin);
@@ -111,8 +119,11 @@ public interface JHService {
 	// 트레이너 리스트 가져오기
 	List<Trainer> getSelectTrainerList(int g_id);
 
-	//세션에 g_id 추가************************************************************************************
-	List<Gym> jhGetGymIdSelect(String m_id);
+
+
+
+
+
 
 
 

@@ -105,6 +105,32 @@ public class TrainerDaoImpl implements TrainerDao {
 		}
 		return trainerDelete;
 	}
+	
+	// 트레이너 검색
+	@Override
+	public int getTotaltrainerSearch(Trainer trainer) {
+		int getTotaltrainerSearchResult = 0;
+		try {							    
+			getTotaltrainerSearchResult = session.selectOne("getTotaltrainerSearch",trainer);
+			System.out.println("TrainerDaoImpl getTotaltrainerSearch ->"+getTotaltrainerSearchResult);
+		} catch (Exception e) {
+			System.out.println("TrainerDaoImpl getTotaltrainerSearch Exception -> "+e.getMessage());
+		}
+		return getTotaltrainerSearchResult;
+	}
+
+	@Override
+	public List<Trainer> getTrainerSearchList(Trainer trainer) {
+		List<Trainer>getTrainerSearchListResult = null;
+		try {							    
+			getTrainerSearchListResult = session.selectList("getTrainerSearchList",trainer);
+			System.out.println("TrainerDaoImpl  getTrainerSearchList.size()->"+getTrainerSearchListResult.size());
+		} catch (Exception e) {
+			System.out.println("TrainerDaoImpl getTrainerSearchList Exception -> "+e.getMessage());
+		}
+		return getTrainerSearchListResult;
+	}
+	
 
 	@Override
 	public List<Trainer> getSelectTrainerList(int g_id) {
@@ -117,6 +143,8 @@ public class TrainerDaoImpl implements TrainerDao {
 		}
 		return getSelectTrainerListResult;
 	}
+
+
 
 
 

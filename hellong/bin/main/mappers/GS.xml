@@ -39,6 +39,31 @@
 		delete from G_S where s_number = #{s_number}
 	</delete>
 	
+	<select id="getTotalSearchService" parameterType="GS" resultType="int">
+		SELECT Count(*) FROM G_S
+		WHERE s_name LIKE '%' || #{keyword} || '%'
+		and g_id = #{g_id}
+	</select>
+	
+	<select id="getListSearchService" parameterType="GS" resultType="GS">
+		SELECT *
+		FROM
+		(
+		    SELECT rownum rn, a.*
+		    FROM
+		    (
+		        SELECT * 
+		        FROM G_S 
+		        WHERE s_name LIKE '%' || #{keyword} || '%' 
+		        and g_id = #{g_id}
+		        ORDER BY s_number desc
+		    ) a
+		)   
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	
+	
 	<select id="getSelectServiceList" parameterType="int" resultType="GS">
 		select *
 		from g_s

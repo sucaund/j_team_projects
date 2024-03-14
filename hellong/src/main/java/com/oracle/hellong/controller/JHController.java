@@ -97,6 +97,21 @@ public class JHController {
 		
 	}
 	
+	
+	/*@GetMapping(value = "listGymManager")
+	public String gymManager(HttpSession session, Gym m_id, Model model) {	
+			Member member = new Member();
+			member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));	
+			System.out.println(member);
+			List<Gym>ManageList = jh.manageList(m_id.getM_number());
+			
+				model.addAttribute("ManageList",ManageList);		 
+				return "jh/gymManager";
+		
+		
+	}*/
+	
+	
 	// 관리헬스장 홍보글 등록/수정 화면 이동********************************************************************************************************
 	@GetMapping(value = "createGymForm")
 	public String createGymPost(Gym g_id, Model model) {
@@ -225,8 +240,22 @@ public class JHController {
             return "Failed to trainerDelete!";
         }	
     }
-		
+    
+	// 트레이너 검색
+	@PostMapping(value="trainerSearch")
+	public String trainerSearch(Trainer trainer, Model model) {
+		int totaltrainerSearch = jh.getTotaltrainerSearch(trainer);
+		Paging page = new Paging(totaltrainerSearch, trainer.getCurrentPage());
+		trainer.setStart(page.getStart());
+		trainer.setEnd(page.getEnd());
+		List<Trainer> trainerSearchList = jh.getTrainerSearchList(trainer);
+		model.addAttribute("gym",trainer.getG_id());
+		model.addAttribute("page",page );
+		model.addAttribute("trainerList",trainerSearchList);
+		 return "jh/trainerList";
+	}
 	
+    
 	// 서비스(상품) 리스트 ****************************************************************************
 	@GetMapping(value = "serviceList")
 	public String serviceList(Gym gym, GS gs, Model model) {
@@ -304,6 +333,23 @@ public class JHController {
             return "Failed to deleteService!";
         }	
 	}
+	
+	// 서비스 검색
+	@PostMapping(value="serviceSearch")
+	public String searchService(GS gs,Model model) {
+		int totalSearchService = jh.getTotalSearchService(gs);
+		System.out.println(gs.getG_id());
+		Paging page = new Paging(totalSearchService, gs.getCurrentPage());
+		gs.setStart(page.getStart());
+		gs.setEnd(page.getEnd());
+		List<GS> listSearchService = jh.getListSearchService(gs);
+		model.addAttribute("totalSearchService",totalSearchService);
+		model.addAttribute("page",page);
+		model.addAttribute("serviceList",listSearchService);
+		model.addAttribute("g_id", gs.getG_id());
+		 return "jh/serviceList";
+	}
+	
 	
 	
 	// 헬스장 회원리스트***********************************************************************************

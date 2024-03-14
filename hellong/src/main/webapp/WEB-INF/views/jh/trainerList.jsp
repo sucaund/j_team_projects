@@ -183,8 +183,9 @@
 	    <!-- 검색창 및 트레이너 추가 버튼 -->
 	    <div class="d-flex justify-content-between align-items-center mb-3">
 	        <div class="w-full md:w-1/4 mb-1 md:mb-0 md:mr-2">
-	            <form action="your_search_action" method="GET" class="flex items-center justify-center">
-	                <input type="text" placeholder="트레이너 검색..." name="search" class="flex-1 py-2 px-4 rounded-l-lg border border-gray-300 focus:outline-none focus:border-blue-500">
+	            <form action="trainerSearch" method="POST" class="flex items-center justify-center">
+	                <input type="text" name="keyword" placeholder="트레이너명 검색..." name="search" class="flex-1 py-2 px-4 rounded-l-lg border border-gray-300 focus:outline-none focus:border-blue-500">
+	                <input type="hidden" name="g_id" value="${gym}">
 	                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-r-lg"><i class="fas fa-search"></i> 검색</button>
 	            </form>
 	        </div>

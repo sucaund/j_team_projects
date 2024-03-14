@@ -1,6 +1,5 @@
 package com.oracle.hellong.service.jh;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -218,12 +217,24 @@ public class JHServiceImpl implements JHService {
 		return updateTrainerCount;	
 	}
 				
-
 	//트레이너 삭제
 	@Override
 	public int getDeleteTrainer(int t_id) {
 		int deleteCount = td.getDeleteTrainer(t_id);
 		return deleteCount;
+	}
+
+	// 트레이너 검색
+	@Override
+	public int getTotaltrainerSearch(Trainer trainer) {
+		int getTotaltrainerSearchResult = td.getTotaltrainerSearch(trainer);
+		return getTotaltrainerSearchResult;
+	}
+
+	@Override
+	public List<Trainer> getTrainerSearchList(Trainer trainer) {
+		List<Trainer> getTrainerSearchListResult = td.getTrainerSearchList(trainer);
+		return getTrainerSearchListResult;
 	}
 
 
@@ -268,6 +279,20 @@ public class JHServiceImpl implements JHService {
 		int deleteService = gsd.deleteService(s_number);
 		return deleteService;
 	}
+	
+	// 서비스 검색
+	@Override
+	public int getTotalSearchService(GS gs) {
+		int getTotalSearchServiceResult = gsd.getTotalSearchService(gs);
+		return getTotalSearchServiceResult;
+	}
+
+	@Override
+	public List<GS> getListSearchService(GS gs) {
+		List<GS> getListSearchServiceResult = gsd.getListSearchService(gs);
+		return getListSearchServiceResult;
+	}
+	
 	
 	// 체육관 회원 리스트****************************************************************************************************************************
 	@Override
@@ -368,14 +393,9 @@ public class JHServiceImpl implements JHService {
 		List<Trainer> getSelectTrainerListResult = td.getSelectTrainerList(g_id);
 		return getSelectTrainerListResult;
 	}
-	
-	//세션에서 g_id 받아오기**********************************************************************************************************
-	@Override
-	public List<Gym> jhGetGymIdSelect(String m_id) {
-		List<Gym> jhGetGymIdSelectResult = gd.jhGetGymIdSelect(m_id);
-		return jhGetGymIdSelectResult;
-	}
-	
+
+
+
 	
 
 

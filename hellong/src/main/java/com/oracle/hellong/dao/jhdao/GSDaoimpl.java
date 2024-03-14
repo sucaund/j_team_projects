@@ -93,6 +93,33 @@ public class GSDaoimpl implements GSDao {
 		return deleteService;
 	}
 
+	//서비스 검색
+	@Override
+	public int getTotalSearchService(GS gs) {
+		int getTotalSearchServiceResult = 0;
+		try {
+			getTotalSearchServiceResult = session.selectOne("getTotalSearchService",gs);
+			System.out.println("GSDaoimpl getTotalSearchService->"+getTotalSearchServiceResult);
+		} catch (Exception e) {
+			System.out.println("GSDaoimpl getTotalSearchService Exception -> "+e.getMessage());
+		}
+		return getTotalSearchServiceResult;
+	}
+
+	@Override
+	public List<GS> getListSearchService(GS gs) {
+		List <GS> getListSearchServiceResult = null;
+		try {							    
+			getListSearchServiceResult = session.selectList("getListSearchService",gs);
+			System.out.println("GSDaoimpl getListSearchService serviceList.size()->"+getListSearchServiceResult.size());
+		} catch (Exception e) {
+			System.out.println("GSDaoimpl getListSearchService Exception -> "+e.getMessage());
+		}
+		return getListSearchServiceResult;
+	}
+
+	
+
 	// 체육관 홍보 글 상세에서 서비스 리스트 띄우기***************************************************
 	@Override
 	public List<GS> getSelectServiceList(int g_id) {
@@ -105,6 +132,7 @@ public class GSDaoimpl implements GSDao {
 		}
 		return getSelectServiceListResult;
 	}
+
 
 
 	

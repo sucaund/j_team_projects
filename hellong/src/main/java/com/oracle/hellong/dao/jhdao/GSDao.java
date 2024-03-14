@@ -22,8 +22,14 @@ public interface GSDao {
 	//서비스 삭제
 	int deleteService(int s_number);
 	
+	//서비스 검색
+	int getTotalSearchService(GS gs);
+	List<GS> getListSearchService(GS gs);
+	
 	// 체육관 홍보 글 상세에서 서비스 리스트 띄우기***************************************************
 	List<GS> getSelectServiceList(int g_id);
+
+
 
 
 

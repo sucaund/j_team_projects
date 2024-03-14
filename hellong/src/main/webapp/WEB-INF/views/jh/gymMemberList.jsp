@@ -130,14 +130,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <select class="form-control">
-                                    <option>전체</option>
-                                    <option>피트니스</option>
-                                    <option>요가</option>
-                                    <option>수영</option>
-                                </select>
-                            </div>
+							<div class="col-md-6">
+							    <div class="input-group">
+							        <select class="form-control">
+							            <option>회원 이름</option>
+							            <option>이용 서비스</option>
+							            <option>전화번호</option>
+							            <option>이메일</option>
+							        </select>
+							        <div class="input-group-append">
+							            <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
+							        </div>
+							    </div>
+							</div>
                         </div>
                         <h3 class="font-bold mb-3  text-2xl">회원 목록</h3>
                         <div class="table-responsive">
