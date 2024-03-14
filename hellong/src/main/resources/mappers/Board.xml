@@ -4,7 +4,8 @@
 
 	<select id="boardTotal" parameterType="int" resultType="int">
 		SELECT
-		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200 AND COMMON_MCD = 120
+		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200
+		AND COMMON_MCD = 120
 	</select>
 
 	<select id="ContentBoard" parameterType="int" resultType="Board">
@@ -20,10 +21,11 @@
 		FROM MEMBER
 		WHERE M_ID = #{member_id}
 	</select>
-	
-	<select id="countCommentsByBNumber" parameterType="int" resultType="int">
-    SELECT COUNT(*) FROM BOARD
-    WHERE B_COMM_GROUP = #{bNumber}
+
+	<select id="countCommentsByBNumber" parameterType="int"
+		resultType="int">
+		SELECT COUNT(*) FROM BOARD
+		WHERE B_COMM_GROUP = #{bNumber}
 	</select>
 
 	<select id="samequeboard" parameterType="Board"
@@ -33,15 +35,19 @@
 		(
 		SELECT rownum rn ,B.*
 		FROM BOARD B
-		WHERE M_NUMBER = #{m_number}
+		WHERE
+		M_NUMBER = #{m_number}
 		AND COMMON_BCD = 200 AND COMMON_MCD = 120
-		ORDER BY B_NUMBER DESC
+		ORDER
+		BY B_NUMBER DESC
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 	<select id="Queinsert" parameterType="Board">
-		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD , B_TITLE, B_CONTENT,M_NUMBER)
-		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_title},#{b_content},#{m_number})
+		INSERT INTO BOARD
+		(B_NUMBER, COMMON_BCD, COMMON_MCD , B_TITLE, B_CONTENT,M_NUMBER)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd},
+		#{b_title},#{b_content},#{m_number})
 	</select>
 
 	<delete id="SCRAP_delete" parameterType="int">
@@ -54,17 +60,21 @@
 	</delete>
 	<delete id="COMM_delete" parameterType="int">
 		DELETE FROM BOARD
-		WHERE B_COMM_GROUP = #{bId}
+		WHERE
+		B_COMM_GROUP = #{bId}
 	</delete>
 	<delete id="que_delete" parameterType="int">
 		DELETE FROM BOARD
-		WHERE B_NUMBER = #{bId}
+		WHERE
+		B_NUMBER = #{bId}
 	</delete>
 
 
 	<insert id="addComment" parameterType="Board">
-		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
-		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_content},#{m_number}, #{b_comm_group})
+		INSERT INTO BOARD
+		(B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd},
+		#{b_content},#{m_number}, #{b_comm_group})
 	</insert>
 
 
@@ -74,33 +84,41 @@
 		SELECT *
 		FROM BOARD
 		WHERE B_COMM_GROUP = #{b_comm_group}
-		AND M_NUMBER = #{m_number}
+		AND
+		M_NUMBER = #{m_number}
 		AND COMMON_BCD = #{common_bcd}
-		AND common_mcd = #{common_mcd}
+		AND common_mcd =
+		#{common_mcd}
 		AND B_CONTENT = #{b_content}
 		AND B_NUMBER = (
-		SELECT MAX(B_NUMBER) FROM BOARD
+		SELECT
+		MAX(B_NUMBER) FROM BOARD
 		)
 
 
 	</select>
 
 	<select id="getComments" parameterType="int" resultType="Board">
-		SELECT * FROM BOARD WHERE COMMON_BCD = 200 AND COMMON_MCD = 121
-		AND B_COMM_GROUP = #{B_NUMBER}
+		SELECT *
+		FROM BOARD WHERE COMMON_BCD = 200 AND COMMON_MCD = 121
+		AND B_COMM_GROUP
+		= #{B_NUMBER}
 		ORDER BY B_NUMBER DESC
 
 	</select>
 
 	<delete id="deleteComment" parameterType="int">
-		DELETE FROM BOARD WHERE B_NUMBER = #{b_number}
+		DELETE FROM BOARD WHERE
+		B_NUMBER = #{b_number}
 	</delete>
 
 	<update id="updateAttribute" parameterType="Board">
 		UPDATE BOARD
-		SET B_TITLE = #{b_title},
+		SET
+		B_TITLE = #{b_title},
 		B_CONTENT = #{b_content}
-		WHERE B_NUMBER = #{b_number}
+		WHERE B_NUMBER =
+		#{b_number}
 	</update>
 
 	<select id="dyBoardTotal" resultType="int">
@@ -145,8 +163,9 @@
 			order="BEFORE">
 			SELECT NVL(MAX(b_number), 0) + 1 FROM board
 		</selectKey>
-		INSERT INTO board ( b_number, b_title, b_content)
-		values( #{b_number}, #{b_title}, #{b_content})
+		INSERT INTO board ( b_number, b_title, b_content, m_number)
+		values(
+		#{b_number}, #{b_title}, #{b_content}, #{m_number})
 	</insert>
 
 	<delete id="dyDeleteBodyProfile" parameterType="int">
@@ -178,30 +197,39 @@
 		(
 		SELECT rownum rn, a.*
 		FROM
-				(select * from board
-				<choose>
-					<when test="search == 'all'">
-						WHERE b_title like '%' || #{keyword} || '%' OR
-						b_content like '%' || #{keyword} || '%'
-					</when>
-					<when test="search == 'title'">
-						WHERE b_title like '%' || #{keyword} || '%'
-					</when>
-					<when test="search == 'content'">
-						WHERE b_content like '%' || #{keyword} || '%'
-					</when>
-				</choose>
-				order by b_number
-				) a
+		(select * from board
+		<choose>
+			<when test="search == 'all'">
+				WHERE b_title like '%' || #{keyword} || '%' OR
+				b_content like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 'title'">
+				WHERE b_title like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 'content'">
+				WHERE b_content like '%' || #{keyword} || '%'
+			</when>
+		</choose>
+		order by b_number
+		) a
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
-	
-	<select id="dySearchBoards" parameterType="Board" resultType="Board">
+
+	<select id="dySearchBoards" parameterType="Board"
+		resultType="Board">
 		SELECT
-		b_number, b_title, b_content, b_readcount, b_recomm_count
+		b_number, b_title, b_content, b_readcount,
+		b_recomm_count
 		FROM board
 		WHERE b_title LIKE '%' || #{totKeyword} || '%'
 		OR b_content LIKE '%' || #{totKeyword} || '%'
+	</select>
+
+	<select id="dyMyPageSearch" parameterType="Board"
+		resultType="Board">
+		select * from board
+		WHERE m_number = #{m_number}
+		order by b_number desc
 	</select>
 </mapper>

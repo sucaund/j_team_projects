@@ -39,6 +39,9 @@ public interface DYService {
 	List<BoardFile> listFileBodyProfile(BoardFile boardFile);
 
 	void dyUpdateBodyProfile(Board board);
+	
+	// 마이페이지 작성글
+	List<Board> myPageBoardList(Board board);
 
 
 

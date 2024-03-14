@@ -153,6 +153,15 @@ public class DYServiceImpl implements DYService {
 
 		return result;
 	}
+	
+	// 마이페이지 작성글 조회
+	@Override
+	public List<Board> myPageBoardList(Board board) {
+		List<Board> myPageList = null;
+		myPageList = dybd.searchMyPageList(board);
+		System.out.println("DYServiceImpl myPageList.size -> " + myPageList.size());
+		return myPageList;
+	}
 
 
 	

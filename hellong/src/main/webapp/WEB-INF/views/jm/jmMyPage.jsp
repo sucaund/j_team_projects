@@ -49,7 +49,7 @@
     지점찾기
     페이지 링크 -->
 
-    <a href="/dummy1">작성글보기</a></p>
+    <a href="/dyMyPagelist">작성글보기</a></p>
 
     <a href="/dummypoint">결제 내역 보기(더미)</a></p>
 
