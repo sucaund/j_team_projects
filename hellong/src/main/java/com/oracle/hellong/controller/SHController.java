@@ -17,7 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymBoardFile;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.model.Report;
 import com.oracle.hellong.service.sh.Paging;
@@ -492,16 +494,83 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 	        return gyms;
 	}
 	
-	
-	
-	
-	
+//===========================메인페이지=============================	
+
+	//index에서 클릭시 메인이동
+	//페이지에 필요정보를 전달한다.
 	@RequestMapping("/Default")
-	public String Default() {
-		System.out.println("SHController login start...");
-		return "SH-Views/Default";
+	public String Default(Model model) {
+		System.out.println("SHController Default start...");
 		
+		Gym newGym = sh.getNewGym();//신규헬스장 id
+		int g_id1 = newGym.getG_id();
+		GS newGymPrice = sh.getGymPrice(g_id1);//신규헬스장가격
+		System.out.println("SHController Default newGymPrice"+newGymPrice);
+		GymBoardFile newGymPhoto = sh.getGymPhoto(g_id1);//신규헬스장 대표사진
+		
+		Gym cheapGym = sh.getCheapGym();//최저가헬스장 id
+		int g_id2 = cheapGym.getG_id();
+		GS cheapGymPrice = sh.getGymPrice(g_id2);//최저가헬스장가격
+		GymBoardFile cheapGymPhoto = sh.getGymPhoto(g_id2);//최저가헬스장사진
+		
+		Gym manyGym = sh.getManyGym();//최대인원 id
+		int g_id3 = manyGym.getG_id();
+		GS manyGymPrice = sh.getGymPrice(g_id3);//최대인원가격
+		GymBoardFile manyGymPhoto = sh.getGymPhoto(g_id3);//최대인원사진
+		
+		Gym starGym = sh.getStarGym();//높은별점 id
+		int g_id4 = starGym.getG_id();
+		GS starGymPrice = sh.getGymPrice(g_id4);//높은별점가격
+		GymBoardFile starGymPhoto = sh.getGymPhoto(g_id4);//높은별점사진
+		
+		
+		Board Notice =sh.getNotice();//최신공지사항
+		Board Popular =sh.getPopular();//인기자유글
+		Board bodyProfile =sh.getbodyProfil();//인기바디프로필
+		
+		//model 보내기
+		model.addAttribute("newGym", newGym);
+		model.addAttribute("newGymPrice", newGymPrice);
+		model.addAttribute("newGymPhoto", newGymPhoto);
+
+		model.addAttribute("cheapGym", cheapGym);
+		model.addAttribute("cheapGymPrice", cheapGymPrice);
+		model.addAttribute("cheapGymPhoto", cheapGymPhoto);
+		
+		model.addAttribute("manyGym", manyGym);
+		model.addAttribute("manyGymPrice", manyGymPrice);
+		model.addAttribute("manyGymPhoto", manyGymPhoto);
+		
+		model.addAttribute("starGym", starGym);
+		model.addAttribute("starGymPrice", starGymPrice);
+		model.addAttribute("starGymPhoto", starGymPhoto);
+
+		model.addAttribute("Notice", Notice);
+		model.addAttribute("Popular", Popular);
+		model.addAttribute("bodyProfile", bodyProfile);
+
+		return "SH-Views/Default";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

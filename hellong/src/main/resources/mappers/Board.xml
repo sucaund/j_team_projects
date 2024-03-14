@@ -312,6 +312,36 @@
 		SET B_ISRECOMM = 3
 		WHERE B_NUMBER = #{b_number}
 	</update>
+	
+		<select id="getNotice" resultType="Board">
+		SELECT * FROM (
+		    SELECT *
+		    FROM BOARD
+		    WHERE COMMON_BCD = 200
+		      AND COMMON_MCD = 110
+		    ORDER BY B_REGDATE DESC
+		) WHERE ROWNUM = 1
+	</select>
+
+	<select id="getPopular" resultType="Board">
+		SELECT * FROM (
+		    SELECT *
+		    FROM BOARD
+		    WHERE COMMON_BCD = 200
+		      AND COMMON_MCD = 10
+		    ORDER BY B_RECOMM_COUNT DESC
+		) WHERE ROWNUM = 1
+	</select>
+
+	<select id="getbodyProfile" resultType="Board">
+		SELECT * FROM (
+		    SELECT *
+		    FROM BOARD
+		    WHERE COMMON_BCD = 200
+		      AND COMMON_MCD = 20
+		    ORDER BY B_RECOMM_COUNT DESC
+		) WHERE ROWNUM = 1
+	</select>
 
 	<select id="dyBoardTotal" resultType="int">
 		SELECT Count(*) FROM board

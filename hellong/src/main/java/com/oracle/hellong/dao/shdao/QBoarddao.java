@@ -3,7 +3,9 @@ package com.oracle.hellong.dao.shdao;
 import java.util.List;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymBoardFile;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.model.Report;
 
@@ -82,6 +84,34 @@ public interface QBoarddao {
 
 
 	void delThisTable(int b_number);
+
+
+	Gym getNewGym();
+
+
+	Gym getCheapGym();
+
+
+	Gym getManyGym();
+
+
+	Gym getStarGym();
+
+
+	GS getGymPrice(int g_id1);
+
+
+	GymBoardFile getGymPhoto(int g_id2);
+
+
+	Board getNotice();
+
+
+	Board getPopular();
+
+
+	Board getbodyProfile();
+
 
 
 

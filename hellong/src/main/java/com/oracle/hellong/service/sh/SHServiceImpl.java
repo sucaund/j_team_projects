@@ -21,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.oracle.hellong.dao.shdao.QBoarddao;
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymBoardFile;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.model.Report;
 
@@ -269,28 +271,87 @@ public class SHServiceImpl implements SHService {
 		System.out.println("SHServiceImpl delReport b_number"+b_number);
 		qd.delReport(b_number);
 	}
-	//모든 문의글 가져오기!
-		@Override
-		public List<Board> getallQnA() {
-			System.out.println("SHServiceImpl getallQnA start...");
-			List<Board> boardList = null;
-			boardList = qd.getallQnA();
-			System.out.println("SHServiceImpl boardList size-->" + boardList.size());
-			return boardList;
-		}
+//모든 문의글 가져오기
+	@Override
+	public List<Board> getallQnA() {
+		System.out.println("SHServiceImpl getallQnA start...");
+		List<Board> boardList = null;
+		boardList = qd.getallQnA();
+		System.out.println("SHServiceImpl boardList size-->" + boardList.size());
+		return boardList;
+	}
 
-	//문의글 테이블에서만 삭제
-		@Override
-		public void delThisTable(int b_number) {
-			System.out.println("SHServiceImpl delThisTable b_number"+b_number);
-			qd.delThisTable(b_number);
+//문의글 테이블에서만 삭제
+	@Override
+	public void delThisTable(int b_number) {
+		System.out.println("SHServiceImpl delThisTable b_number"+b_number);
+		qd.delThisTable(b_number);
+		
+	}
 
-		}
+	@Override
+	public List<Gym> findAllGyms() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		@Override
-		public List<Gym> findAllGyms() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+	@Override
+	public Gym getNewGym() { // 신규헬스장
+	    Gym newGym = qd.getNewGym();
+	    return newGym;
+	}
+
+	@Override
+	public Gym getCheapGym() { // 최저가헬스장
+	    Gym cheapGym = qd.getCheapGym();
+	    return cheapGym;
+	}
+
+	@Override
+	public Gym getManyGym() { // 최대인원헬스장
+	    Gym manyGym = qd.getManyGym();
+	    return manyGym;
+	}
+
+	@Override
+	public Gym getStarGym() { // 높은별점헬스장
+	    Gym starGym = qd.getStarGym();
+	    return starGym;
+	}
+	
+	//헬스장 가격
+	@Override
+	public GS getGymPrice(int g_id1) {
+		GS GymPrice = qd.getGymPrice(g_id1);
+		return GymPrice;
+	}
+	//헬스장 대표 사진
+	@Override
+	public GymBoardFile getGymPhoto(int g_id2) {
+		GymBoardFile GymPhoto = qd.getGymPhoto(g_id2);
+		return GymPhoto;
+	}
+
+	
+	
+	@Override
+	public Board getNotice() { // 최신공지사항
+	    Board notice = qd.getNotice();
+	    return notice;
+	}
+
+	@Override
+	public Board getPopular() { // 인기자유글
+	    Board popular = qd.getPopular();
+	    return popular;
+	}
+
+	@Override
+	public Board getbodyProfil() { // 인기바디프로필
+	    Board bodyProfile = qd.getbodyProfile();
+	    return bodyProfile;
+	}
+
+	
 
 }
