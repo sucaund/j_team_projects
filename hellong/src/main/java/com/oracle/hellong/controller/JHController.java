@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oracle.hellong.model.GS;
@@ -22,12 +23,15 @@ import com.oracle.hellong.model.GymBoardJoin;
 import com.oracle.hellong.model.GymBoardReviewJoin;
 import com.oracle.hellong.model.GymBoardServiceJoin;
 import com.oracle.hellong.model.GymMemberServiceOrderJoin;
+import com.oracle.hellong.model.Member;
 import com.oracle.hellong.model.MemberGym;
 import com.oracle.hellong.model.Trainer;
 import com.oracle.hellong.service.jh.JHService;
 import com.oracle.hellong.service.jh.Paging;
+import com.oracle.hellong.service.jm.JMService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JHController { 
 	private final JHService jh;
+	private final JMService jm;
 		
 	
 	@RequestMapping(value="listGym")
@@ -73,11 +78,23 @@ public class JHController {
 	
 	// 관리 헬스장 리스트 불러오기**********************************************************************************************************
 	@GetMapping(value = "listGymManager")
-	public String gymManager(Gym m_id, Model model) {
-		System.out.println("JHController gymManager start");
-		List<Gym>ManageList = jh.manageList(m_id.getM_number());
-		model.addAttribute("ManageList",ManageList);
-		return "jh/gymManager";
+	public String gymManager(HttpSession session, Gym m_id, Model model) {	
+		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
+			Member member = new Member();
+			member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));	
+			System.out.println(member);
+			List<Gym>ManageList = jh.manageList(member.getM_number());
+			if(ManageList.size()>0) {
+				model.addAttribute("ManageList",ManageList);		 
+				return "jh/gymManager";
+			}else {
+				return "redirect:/authenticate";
+			}		
+		} else {
+			return "jm/jmLoginForm";
+		}
+		
+		
 	}
 	
 	// 관리헬스장 홍보글 등록/수정 화면 이동********************************************************************************************************
@@ -352,8 +369,12 @@ public class JHController {
 	
 	//지점찾기 글 상세******************************************************************************************************************
 	@GetMapping(value = "/gymPostDetail")
-	public String gymPostDetail(GymBoard gymBoard,Model model) {
+	public String gymPostDetail(HttpSession session,GymBoard gymBoard,Model model) {
 		System.out.println(gymBoard.getG_id());
+
+		Member member = new Member();
+		member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));
+
 		List <GymBoardJoin> gymBoardDetail = jh.gymBoardDetailRead(gymBoard.getG_id());
 		// 별점, 별점개수 가져오기
 		GymBoardReviewJoin avgReviewSelect = jh.getAvgReviewSelect(gymBoard.getG_id());
@@ -365,25 +386,28 @@ public class JHController {
 
 		List <GymBoardFile> gymBoardFileList = jh.gymBoardFileListRead(gymBoard.getG_id());
 		System.out.println(gymBoardFileList);
+		
+		model.addAttribute("member",member);
+		
 		model.addAttribute("gymBoardDetail", gymBoardDetail);
 		model.addAttribute("avgReviewSelect", avgReviewSelect);
 		model.addAttribute("selectServiceList",selectServiceList);
 		model.addAttribute("selectTrainerList",selectTrainerList);
 		model.addAttribute("gymBoardFileList", gymBoardFileList);
 		
+		
 		return "jh/gymPostListDetail";
 	}
 	
-	
-	//비즈니스 클릭시 관리 페이지 or 신청 페이지로 이동하는 로직******************************************************************************************
-	@GetMapping(value = "/openGymManager")
-	public String gymManager(Model model) {
+	// 리뷰 작성 버튼 누를 시 회원 여부 확인
+	@GetMapping(value = "/getUserInfo")
+	@ResponseBody
+	public String getUserInfoVaild (@RequestParam("m_number") int mNumber, Model model) {
 		
 		
 		
-		return "jh/gymManager";
+		return "";
 	}
-	
 	
 	
 	

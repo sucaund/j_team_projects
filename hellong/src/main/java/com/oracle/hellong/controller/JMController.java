@@ -1,7 +1,5 @@
 package com.oracle.hellong.controller;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.Member;
-import com.oracle.hellong.service.jh.JHService;
 import com.oracle.hellong.service.jm.JMService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 public class JMController {
 
 	private final JMService jm;
-	private final JHService jh;//**************************************************************************************
 
 	// 회원가입시 id 중복 체크 목적 : m_id를 기반으로 member 가져옴
 	@RequestMapping(value = "jmConfirmMemberId")
@@ -126,7 +121,7 @@ public class JMController {
 	}
 
 	@RequestMapping(value = "jmLoginCheck", method = RequestMethod.GET)
-	public String jmLoginCheck(@RequestParam("m_id") String m_id, @RequestParam("m_pw") String m_pw, Member member, List<Gym> gym,
+	public String jmLoginCheck(@RequestParam("m_id") String m_id, @RequestParam("m_pw") String m_pw, Member member,
 			HttpSession session, HttpServletRequest request, Model model) {
 		System.out.println("jmController jmLoginCheck start");
 		int result = jm.jmLogin(m_id, m_pw); // m_name, 즉 이름. 일단은.. -> 잘불러와지는거 확인했으므로 *로 변경
@@ -134,7 +129,6 @@ public class JMController {
 		if (result == 1) { // 아이디, 비번 모두 일치 시...
 			System.out.println("jmController jmLoginCheck 로그인 성공");
 			member = jm.jmGetMemberFromId(m_id); // m_id 같은 member 전체 가져옴
-			gym = jh.jhGetGymIdSelect(m_id);
 			session.setAttribute("m_number", member.getM_number());
 			System.out.println("member.getM_number()" + member.getM_number());
 			session.setAttribute("m_id", member.getM_id());
@@ -146,13 +140,6 @@ public class JMController {
 			System.out.println("member_common_bcd" + member.getCommon_bcd());
 			session.setAttribute("member_common_mcd", member.getCommon_mcd());
 			System.out.println("member_common_mcd" + member.getCommon_mcd());
-			
-			//지훈 추가*****************************************************************************************세션에 g_i도 가져가도록
-			session.setAttribute("g_id", gym);
-			System.out.println("g_id =>"+gym);
-			
-			
-			//지훈 추가*****************************************************************************************세션에 g_i도 가져가도록
 			// 이렇게 끌어올 거는 내 자유? 갖다 쓸거?
 			System.out.println(session);
 			// 세션 유지기간 30분
@@ -163,6 +150,10 @@ public class JMController {
 
 			String prevPage = (String) session.getAttribute("prevPage");
 			System.out.println("prevPage:" + prevPage);
+			if(prevPage==null){ //prevPage가 null일때
+				prevPage="/";
+				uri = prevPage;
+			}
 			if (prevPage != null || !prevPage.equals("")) {
 				request.getSession().removeAttribute("prevPage");
 				// 값만 가져오고 세션은 삭제
@@ -173,12 +164,12 @@ public class JMController {
 				if (prevPage.contains("/jmSignUpFormAjax2") || prevPage.contains("/jmSignUpAjax2")) {
 					uri = "/";
 				}
-			}
-			System.out.println("uri" + uri);
+			} 
+			System.out.println("uri:" + uri);
 			int index = uri.lastIndexOf("/");
 			if (index != -1) {
 				String uri2 = uri.substring(index + 1);
-				System.out.println(uri2);
+				System.out.println("uri2"+uri2);
 				return "redirect:" + uri2;
 			} else {
 				model.addAttribute("msg", "jmController jmLoginCheck 아이디나 비밀번호가 일치하지 않습니다");
@@ -507,6 +498,10 @@ public class JMController {
 			System.out.println("jmController jmFindIdWithMail 해당 이메일로 가입된 아이디가 없음");
 			return mail + "로 등록된 아이디가 없습니다.";
 		}
+	}
+	@RequestMapping("jmErrorPage")
+	public String getHeader() {
+		return "jm/jmErrorPage";
 	}
 
 //

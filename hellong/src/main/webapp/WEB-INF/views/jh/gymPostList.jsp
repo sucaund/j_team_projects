@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="headerGymPostList.jsp" %>
+<%@ include file="jhHeaderGymList.jsp" %>
 <!DOCTYPE html>
 <html>
 
@@ -108,6 +108,13 @@
         .card-body {
             padding-bottom: 0;
         }
+        
+        
+        /* 컨테이너와 헤더 사이의 여백 설정 */
+	    .bo {
+	        margin-top: 30px; /* 원하는 여백 크기 */
+	    }
+        
 
         
     </style> 
@@ -115,7 +122,7 @@
 
 <body>
 
-<div class="container">
+<div class="container bo">
 
 
   
@@ -173,7 +180,7 @@
                      
 
     <!-- 페이지 번호 -->
-	<div class="row mt-4 justify-content-center">
+	<div class="row mt-1 justify-content-center">
 	    <div class="col-md-6">
 	        <nav aria-label="페이지 네비게이션">
 	            <ul class="pagination justify-content-center">
@@ -204,7 +211,7 @@
   
   
     <!-- 전체 글 수 표시 -->
-    <div class="row justify-content-center mb-3">
+    <div class="row justify-content-center mt-3 mb-3">
         <div class="col-md-6">
             <p class="text-center"><strong><span id="totalPosts" style="color: blue;">전체 게시글 수: ${gymImformationCount}개</span></strong></p>
         </div>

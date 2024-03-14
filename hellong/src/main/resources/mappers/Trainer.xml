@@ -51,5 +51,10 @@
 		delete from trainer where t_id = #{t_id}
 	</delete>
 	
+	<select id="getSelectTrainerList" parameterType="int" resultType="Trainer">
+		select * from trainer
+		where g_id = #{g_id}
+	</select>
+	
 	
 </mapper>

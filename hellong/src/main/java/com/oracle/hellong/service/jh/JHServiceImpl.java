@@ -365,7 +365,7 @@ public class JHServiceImpl implements JHService {
 	//트레이너 리스트 가져오기
 	@Override
 	public List<Trainer> getSelectTrainerList(int g_id) {
-		List<Trainer> getSelectTrainerListResult = null;
+		List<Trainer> getSelectTrainerListResult = td.getSelectTrainerList(g_id);
 		return getSelectTrainerListResult;
 	}
 	

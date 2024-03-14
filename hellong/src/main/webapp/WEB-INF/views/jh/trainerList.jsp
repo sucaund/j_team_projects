@@ -1,17 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../header.jsp" %>
+<%@ include file="jhHeaderManager.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>헬스장 트레이너 리스트</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
     <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
-    <!-- Custom CSS -->
     <style>
         .short-column {
             width: 8%; 
@@ -19,7 +24,7 @@
         
         .long-column {
             width: 30%; 
-        }
+        } 
         
         /* 모달 스타일 */
 		.modal {
@@ -105,89 +110,159 @@
         .resume-table td:not(:last-child) {
             border-right: 1px solid #ddd;
         }
+        
+        .sub-container {
+	        display: flex; 
+	        justify-content: center; 
+	        align-items: center; 
+	        width: 10%;
+	        border: 1px solid #ccc;
+	        padding: 10px;
+	        margin-bottom: 10px;
+	        box-sizing: border-box;
+	        text-align: center; 
+	        height: 2rem; 
+	    }
+
+	    .sub-container a {
+	        color: #333;
+	        font-weight: bold;
+	    }
+               
+        
     </style>
 </head>
 <body class="bg-gray-100">
-<div class="container mx-auto bg-white p-8 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-bold text-center mb-8"><i class="fas fa-dumbbell"></i> 헬스장 트레이너 리스트</h2>
-    
-    <!-- 검색창 및 트레이너 추가 버튼 -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <div class="w-full md:w-1/4 mb-1 md:mb-0 md:mr-2">
-            <form action="your_search_action" method="GET" class="flex items-center justify-center">
-                <input type="text" placeholder="트레이너 검색..." name="search" class="flex-1 py-2 px-4 rounded-l-lg border border-gray-300 focus:outline-none focus:border-blue-500">
-                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-r-lg"><i class="fas fa-search"></i> 검색</button>
-            </form>
+
+	 <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">시설 관리 페이지</h1>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <ul class="breadcrumb-nav">
+                        <li><a href="index.html"><i class="lni lni-home"></i> Home</a></li>
+                        <li><a href="javascript:void(0)">시설관리 Home</a></li>
+                        <li>헬스장 이름</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div>
-            <a href="trainerCreate?g_id=${gym}" class="bg-green-500 text-white py-2 px-4 rounded-lg">
-                <i class="fas fa-user-plus"></i> 트레이너 추가
-            </a>
-        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+
+	<!-- 서브 컨테이너 메뉴바 -->
+    <div class="flex justify-center mt-4 ">
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="createGymForm?g_id=${gym}">홍보 글 등록/수정</a>
+	    </div>
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="gymPostDetail?g_id=${gym}">홍보 글 이동</a>
+	    </div>
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="/gymMemberListDetail?g_id=${gym}">회원 관리</a>
+	    </div>
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="/trainerList?g_id=${gym}" style="color: blue;">트레이너 관리</a>
+	    </div>
+	    <div class="container sub-container text-center mx-2 p-4 border rounded-lg bg-white">
+	        <a href="/serviceList?g_id=${gym}">서비스 관리</a>
+	    </div>
     </div>
 
-   <table class="w-full mb-8 border resume-table">
-        <thead>
-            <tr>
-                <th class="py-2 px-4 bg-indigo-600 short-column">등록번호</th> <!-- 헤더 배경색 및 글자색 변경 -->
-                <th class="py-2 px-4 bg-indigo-600">이름</th>
-                <th class="py-2 px-4 bg-indigo-600">나이</th>
-                <th class="py-2 px-4 bg-indigo-600">전화번호</th>
-                <th class="py-2 px-4 bg-indigo-600 long-column">이메일</th>
-                <th class="py-2 px-4 bg-indigo-600">상세정보</th>
-                <th class="py-2 px-4 bg-indigo-600">삭제</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:set var="num" value="${page.total - page.start + 1}"></c:set>
-            <c:forEach var="trainer" items="${trainerList}">
-                <tr>
-       				<td class="py-2 px-4" data-trainer-id="${trainer.t_id}">${num}</td>
-                    <td class="py-2 px-4">${trainer.t_name}</td>
-                    <td class="py-2 px-4">${trainer.t_age}</td>
-                    <td class="py-2 px-4">${trainer.t_tel}</td>
-                    <td class="py-2 px-4">${trainer.t_email}</td>
-                    <td class="py-2 px-4">
-                        <div class="flex justify-center">
-                            <a href="#" class="text-blue-500 hover:underline detail-icon"><i class="fas fa-info-circle"></i> 상세정보</a>
-                        </div>
-                    </td>
-                    <td class="py-2 px-4">
-					    <div class="flex justify-center">
-					        <a href="#" class="text-red-500 hover:underline delete-btn"><i class="fas fa-trash-alt"></i> 삭제</a>
-					    </div>
-                    </td>
-                    <c:set var="num" value="${num - 1}"></c:set>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-    
-    
-    <!-- 페이지 네비게이션 -->
-    <div class="flex justify-center">
-        <div class="flex">
-            <c:if test="${page.currentPage > page.pageBlock}">
-                <a href="trainerList?g_id=${gym}&currentPage=${page.currentPage - page.pageBlock}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300"><i class="fas fa-chevron-left"></i> 이전</a>
-            </c:if>
-            <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                <c:choose>
-                    <c:when test="${page.currentPage == i}">
-                        <a href="trainerList?g_id=${gym}&currentPage=${i}" class="py-2 px-4 mr-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-300">${i}</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="trainerList?g_id=${gym}&currentPage=${i}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300">${i}</a>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-            <c:if test="${page.endPage < page.totalPage}">
-                <a href="trainerList?g_id=${gym}&currentPage=${page.endPage + 1}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300">다음 <i class="fas fa-chevron-right"></i></a>
-            </c:if>
-        </div>
-    </div>
-    
-    
-</div>
+
+
+	<div class="container mx-auto bg-white p-8 rounded-lg shadow-lg mb-4">
+	    <h2 class="text-2xl font-bold text-center mb-8"><i class="fas fa-dumbbell"></i> 헬스장 트레이너 리스트</h2>
+	    
+	    <!-- 검색창 및 트레이너 추가 버튼 -->
+	    <div class="d-flex justify-content-between align-items-center mb-3">
+	        <div class="w-full md:w-1/4 mb-1 md:mb-0 md:mr-2">
+	            <form action="your_search_action" method="GET" class="flex items-center justify-center">
+	                <input type="text" placeholder="트레이너 검색..." name="search" class="flex-1 py-2 px-4 rounded-l-lg border border-gray-300 focus:outline-none focus:border-blue-500">
+	                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-r-lg"><i class="fas fa-search"></i> 검색</button>
+	            </form>
+	        </div>
+	        <div>
+	            <a href="trainerCreate?g_id=${gym}" class="bg-green-500 text-white py-2 px-4 rounded-lg">
+	                <i class="fas fa-user-plus"></i> 트레이너 추가
+	            </a>
+	        </div>
+	    </div>
+	
+	   <table class="w-full mb-8 border resume-table">
+	        <thead>
+	            <tr>
+	                <th class="py-2 px-4 bg-indigo-600 short-column">등록번호</th> <!-- 헤더 배경색 및 글자색 변경 -->
+	                <th class="py-2 px-4 bg-indigo-600">이름</th>
+	                <th class="py-2 px-4 bg-indigo-600">나이</th>
+	                <th class="py-2 px-4 bg-indigo-600">전화번호</th>
+	                <th class="py-2 px-4 bg-indigo-600 long-column">이메일</th>
+	                <th class="py-2 px-4 bg-indigo-600">상세정보</th>
+	                <th class="py-2 px-4 bg-indigo-600">삭제</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <c:set var="num" value="${page.total - page.start + 1}"></c:set>
+	            <c:forEach var="trainer" items="${trainerList}">
+	                <tr>
+	       				<td class="py-2 px-4" data-trainer-id="${trainer.t_id}">${num}</td>
+	                    <td class="py-2 px-4">${trainer.t_name}</td>
+	                    <td class="py-2 px-4">${trainer.t_age}</td>
+	                    <td class="py-2 px-4">${trainer.t_tel}</td>
+	                    <td class="py-2 px-4">${trainer.t_email}</td>
+	                    <td class="py-2 px-4">
+	                        <div class="flex justify-center">
+	                            <a href="#" class="text-blue-500 hover:underline detail-icon"><i class="fas fa-info-circle"></i> 상세정보</a>
+	                        </div>
+	                    </td>
+	                    <td class="py-2 px-4">
+						    <div class="flex justify-center">
+						        <a href="#" class="text-red-500 hover:underline delete-btn"><i class="fas fa-trash-alt"></i> 삭제</a>
+						    </div>
+	                    </td>
+	                    <c:set var="num" value="${num - 1}"></c:set>
+	                </tr>
+	            </c:forEach>
+	        </tbody>
+	    </table>
+	    
+	    
+	    <!-- 페이지 네비게이션 -->
+	    <div class="flex justify-center">
+	        <div class="flex">
+	            <c:if test="${page.currentPage > page.pageBlock}">
+	                <a href="trainerList?g_id=${gym}&currentPage=${page.currentPage - page.pageBlock}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300"><i class="fas fa-chevron-left"></i> 이전</a>
+	            </c:if>
+	            <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+	                <c:choose>
+	                    <c:when test="${page.currentPage == i}">
+	                        <a href="trainerList?g_id=${gym}&currentPage=${i}" class="py-2 px-4 mr-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-300">${i}</a>
+	                    </c:when>
+	                    <c:otherwise>
+	                        <a href="trainerList?g_id=${gym}&currentPage=${i}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300">${i}</a>
+	                    </c:otherwise>
+	                </c:choose>
+	            </c:forEach>
+	            <c:if test="${page.endPage < page.totalPage}">
+	                <a href="trainerList?g_id=${gym}&currentPage=${page.endPage + 1}" class="py-2 px-4 mr-2 border border-gray-300 rounded-md hover:bg-blue-500 hover:text-white transition duration-300">다음 <i class="fas fa-chevron-right"></i></a>
+	            </c:if>
+	        </div>
+	    </div>
+	
+	    
+	</div>
+
+
+
+
+
+
 
 
 	<div id="myModal" class="modal">
