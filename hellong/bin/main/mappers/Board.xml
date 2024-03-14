@@ -6,10 +6,8 @@
 
 	<!-- 글의 총 갯수 파악하는 쿼리 -->
 	<select id="boardTotal" parameterType="int" resultType="int">
-		SELECT Count(*)
-		FROM BOARD
-		<!-- where M_NUMBER = #{M_NUMBER}
-		AND COMMON_BCD = 200 AND COMMON_MCD = 120 -->
+		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200
+		AND COMMON_MCD = 120
 	</select>
 	
 	<!-- 자유게시판의 글들을 불러오는 쿼리. -->
@@ -217,9 +215,10 @@
 		WHERE M_ID = #{member_id}
 	</select>
 	
-	<select id="countCommentsByBNumber" parameterType="int" resultType="int">
-    SELECT COUNT(*) FROM BOARD
-    WHERE B_COMM_GROUP = #{bNumber}
+	<select id="countCommentsByBNumber" parameterType="int"
+		resultType="int">
+		SELECT COUNT(*) FROM BOARD
+		WHERE B_COMM_GROUP = #{bNumber}
 	</select>
 
 	<select id="samequeboard" parameterType="Board"
@@ -229,15 +228,19 @@
 		(
 		SELECT rownum rn ,B.*
 		FROM BOARD B
-		WHERE M_NUMBER = #{m_number}
+		WHERE
+		M_NUMBER = #{m_number}
 		AND COMMON_BCD = 200 AND COMMON_MCD = 120
-		ORDER BY B_NUMBER DESC
+		ORDER
+		BY B_NUMBER DESC
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 	<select id="Queinsert" parameterType="Board">
-		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD , B_TITLE, B_CONTENT,M_NUMBER,B_ISRECOMM)
-		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_title},#{b_content},#{m_number},#{b_isrecomm})
+		INSERT INTO BOARD
+		(B_NUMBER, COMMON_BCD, COMMON_MCD , B_TITLE, B_CONTENT,M_NUMBER)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd},
+		#{b_title},#{b_content},#{m_number})
 	</select>
 
 	<delete id="SCRAP_delete" parameterType="int">

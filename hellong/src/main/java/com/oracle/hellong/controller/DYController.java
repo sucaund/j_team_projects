@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.BoardFile;
@@ -37,6 +38,7 @@ import com.oracle.hellong.service.hs.HSService;
 
 import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -102,23 +104,32 @@ public class DYController {
 
 	// 게시글 수정하기 폼
 	@GetMapping(value = "dyUpdateFormBodyProfile")
-	public String dyUpdateFormBodyProfile(Board board1, Model model) {
+	public String dyUpdateFormBodyProfile(Board board1, Model model, HttpSession session) {
 		System.out.println("updateFormBodyProfile Start...");
+		if (session.getAttribute("m_number") != null) { // 로그인했을때
+			Board board = dys.selectBodyProfile(board1.getB_number());
+			if ((int) session.getAttribute("m_number") == board.getM_number()) {
+				System.out.println("board.getB_number -> " + board.getB_number());
+				List<BoardFile> boardFiles = dys.selectBodyProfileFileList(board1.getB_number());
 
-		Board board = dys.selectBodyProfile(board1.getB_number());
-		System.out.println("board.getB_number -> " + board.getB_number());
-		List<BoardFile> boardFiles = dys.selectBodyProfileFileList(board1.getB_number());
-
-		String regDate = "";
-		if (board.getB_regdate() != null) {
-			regDate = board.getB_regdate().substring(0, 10);
-			board.setB_regdate(regDate);
+				String regDate = "";
+				if (board.getB_regdate() != null) {
+					regDate = board.getB_regdate().substring(0, 10);
+					board.setB_regdate(regDate);
+				}
+				System.out.println("regDate -> " + regDate);
+				model.addAttribute("board", board);
+				model.addAttribute("boardFile", boardFiles);
+				return "dy/dyUpdateFormBodyProfile";
+			}
+//			} else { //로그인은 했는데 글쓴 사람이 아니어서 수정을 할 수 없을 때
+//				 redirectAttrs.addFlashAttribute("message", "수정 권한이 없습니다");
+//		            return "redirect:/dySelectBodyProfile";
+//			}
+		} else { // 로그인 안 했을때
+			return "forward:jmLoginForm";
 		}
-		System.out.println("regDate -> " + regDate);
-		model.addAttribute("board", board);
-		model.addAttribute("boardFile", boardFiles);
-		return "dy/dyUpdateFormBodyProfile";
-
+		return "dy/dySelectBodyProfile";
 	}
 
 	@PostMapping(value = "dyUpdateBodyProfile")
@@ -171,19 +182,23 @@ public class DYController {
 
 	// 게시글쓰기 폼
 	@RequestMapping(value = "dyWriteFormBodyProfile")
-	public String dyWriteFormBodyProfile(Model model) {
+	public String dyWriteFormBodyProfile(HttpSession session, Model model) {
 		System.out.println("DYController dyWriteFormBodyProfile Start..");
-		List<Board> boardList = dys.listManager();
-		System.out.println("DYController WriteForm boardList.size -> " + boardList.size());
-		model.addAttribute("boardMngList", boardList);
+		if (session.getAttribute("m_number") != null) { // 세션에 등록되어있을때=로그인했을때
+			List<Board> boardList = dys.listManager();
+			System.out.println("DYController WriteForm boardList.size -> " + boardList.size());
+			model.addAttribute("boardMngList", boardList);
 
-		return "dy/dyWriteFormBodyProfile";
+			return "dy/dyWriteFormBodyProfile";
+		} else {
+			return "forward:jmLoginForm";
+		}
 	}
 
 	// 게시글쓰기
 	@PostMapping(value = "dyWriteBodyProfile")
-	public String dyWriteBodyProfile(Board board, BoardFile boardFile) throws IOException {
-
+	public String dyWriteBodyProfile(Board board, BoardFile boardFile, HttpSession session) throws IOException {
+		board.setM_number((int) session.getAttribute("m_number"));
 		System.out.println("dyWriteBodyProfile*************************" + board);
 		int insertResult = dys.insertBodyProfile(board);
 
@@ -275,4 +290,25 @@ public class DYController {
 		return "dy/dyTotalSearchResult";
 	}
 
+	// 회원 작성글 보기
+	@GetMapping(value = "dyMyPagelist")
+	public String dyMyPagelist(HttpSession session, Model model) {
+		System.out.println("DYController dyMyPagelist Start...");
+
+		Integer mNumber = (Integer) session.getAttribute("m_number");
+
+		if (mNumber != null) {
+			// mNumber를 사용해 Board 객체 생성 및 설정
+			Board board = new Board();
+			board.setM_number(mNumber);
+
+			List<Board> myPageBoardList = dys.myPageBoardList(board);
+			model.addAttribute("myPageBoardList", myPageBoardList);
+
+			return "dy/dyMyPageList";
+		} else {
+			// m_number가 세션에 없다면 로그인 페이지로 리다이렉트
+			return "redirect:/jmLoginForm"; // 또는 필요에 따라 적절한 경로 설정
+		}
+	}
 }

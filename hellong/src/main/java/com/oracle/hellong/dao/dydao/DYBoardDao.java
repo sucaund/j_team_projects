@@ -25,7 +25,7 @@ public interface DYBoardDao {
 	List<Board> boardSearchList(Board board);
 
 	List<Board> searchBoards(Board board);
-
-
+	// 마이페이지 게시글 조회
+	List<Board> searchMyPageList(Board board);
 
 }
