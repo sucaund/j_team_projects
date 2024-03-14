@@ -77,7 +77,7 @@
                             </div>
 
                             <!-- 인증번호 입력, 버튼 클릭시 출력-->
-			                <div class="form-group input-group" name="mail_check" style="display: none">
+			                <div class="form-group input-group" id="mail_check" style="display: none">
                                 <label for="reg-email-check">인증번호 입력</label>
                                 <input type="text"
 					class="form-control" id="input_mail_number" placeholder="이메일로 인증번호가 전송되었습니다."  name="input_mail_number"
@@ -89,9 +89,8 @@
 
                          <!-- 인증 성공 시 나타나는 곳 -->
                         <div id="form-view-id-with-mail" style="display: none">
-                            <div class="title" id="view-id" name="view-id">
-                                <h3>아이디 찾기</h3>
-                                <p>dfdf</p>
+                            <div class="title"name="view-id">
+                                <h3  id="view-id" ></h3> <!-- 아이디찾기 결과 알려주는 곳 -->
                             </div>
                             
                             <div class="button" id="view-sign" name="view-sign">
