@@ -7,7 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymBoardFile;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.model.Report;
 
@@ -68,6 +70,25 @@ public interface SHService {
 	void delThisTable(int b_number);
 
 	List<Gym> findAllGyms();
+
+	Gym getNewGym();
+
+	Gym getCheapGym();
+
+	Gym getManyGym();
+	
+	Gym getStarGym();
+
+	GS getGymPrice(int g_id1);
+
+	GymBoardFile getGymPhoto(int g_id2);
+
+
+	Board getNotice();
+
+	Board getPopular();
+
+	Board getbodyProfil();
 	
 
 

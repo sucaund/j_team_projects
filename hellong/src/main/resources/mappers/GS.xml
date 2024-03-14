@@ -2,4 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GSMapper">
 
+    <select id="getGymPrice" parameterType="int" resultType="GS">
+        SELECT * FROM (
+    	 SELECT S_PRICE
+  		 FROM G_S_DETAIL
+   		 WHERE G_ID = #{g_id1}
+   		 ORDER BY S_PRICE ASC
+		) WHERE ROWNUM = 1
+    </select>
+
 </mapper>
