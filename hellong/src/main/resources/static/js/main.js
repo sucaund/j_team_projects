@@ -3,7 +3,7 @@ Template Name: ShopGrids - Bootstrap 5 eCommerce HTML Template.
 Author: GrayGrids
 */
 
-(function () {
+/*(function () {
     //===== Prealoder
 
     window.onload = function () {
@@ -16,9 +16,9 @@ Author: GrayGrids
     }
 
 
-    /*=====================================
+    =====================================
     Sticky
-    ======================================= */
+    ======================================= 
     window.onscroll = function () {
         var header_navbar = document.querySelector(".navbar-area");
         var sticky = header_navbar.offsetTop;
@@ -39,4 +39,4 @@ Author: GrayGrids
     });
 
 
-})();
+})();*/

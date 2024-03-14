@@ -4,6 +4,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+	rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/dySelectBodyProfile.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>바디프로필 조회</title>
@@ -27,15 +31,44 @@
 			<h2>${board.b_title }</h2>
 			<!--  여기에 사진첨부 ${board.b_images}-->
 			<%-- 이미지를 여러 개 첨부할 수 있다고 가정하고 이미지 리스트를 반복하여 표시 --%>
-			<div class="image-container">
-				<c:forEach items="${boardFile}" var="file">
-					<div class="image-item">
-						<img
-							src="<%=request.getContextPath()%>/upload/${file.bf_savedName}"
-							alt="Board Image"
-							onclick="showModal('<%=request.getContextPath()%>/upload/${file.bf_savedName}')">
-					</div>
-				</c:forEach>
+			<div id="carouselExampleIndicators" class="carousel slide"
+				data-bs-ride="carousel">
+				<!-- Indicators 동적 생성 -->
+				<div class="carousel-indicators">
+					<c:forEach items="${boardFile}" var="file" varStatus="status">
+						<button type="button" data-bs-target="#carouselExampleIndicators"
+							data-bs-slide-to="${status.index}"
+							class="${status.first ? 'active' : ''}"
+							aria-current="${status.first ? 'true' : 'false'}"
+							aria-label="Slide ${status.index + 1}"></button>
+					</c:forEach>
+				</div>
+
+				<!-- Carousel 내부 이미지 항목 동적 생성 -->
+				<div class="carousel-inner">
+					<c:forEach items="${boardFile}" var="file" varStatus="status">
+						<div class="carousel-item ${status.first ? 'active' : ''}">
+							<img
+								src="<%=request.getContextPath()%>/upload/${file.bf_savedName}"
+								class="d-block w-100" alt="...">
+						</div>
+					</c:forEach>
+				</div>
+
+				<!-- 이전 버튼 -->
+				<button class="carousel-control-prev" type="button"
+					data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+					<i class="bi bi-arrow-left-circle-fill"
+						style="font-size: 2rem; color: black;"></i> <span
+						class="visually-hidden">Previous</span>
+				</button>
+				<!-- 다음 버튼 -->
+				<button class="carousel-control-next" type="button"
+					data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+					<i class="bi bi-arrow-right-circle-fill"
+						style="font-size: 2rem; color: black;"></i> <span
+						class="visually-hidden">Next</span>
+				</button>
 			</div>
 
 			<div class="body-profile-details">
@@ -57,26 +90,29 @@
 						value="댓글 작성">
 				</form>
 			</div>
-			<button type="button" id="list-btn"
-				onclick="location.href='listBodyProfile'">게시판</button>
+			<div class="d-flex justify-content-center flex-wrap">
+				<button type="button" class="btn btn-outline-dark"
+					onclick="location.href='listBodyProfile'">게시판</button>
 
-			<button type="button" id="update-btn"
-				onclick="location.href='dyUpdateFormBodyProfile?b_number=${board.b_number}'">게시글
-				수정</button>
+				<button type="button" class="btn btn-outline-dark"
+					onclick="location.href='dyUpdateFormBodyProfile?b_number=${board.b_number}'">게시글
+					수정</button>
 
-			<button type="button" id="hit-btn">추천하기</button>
+				<button type="button" class="btn btn-outline-dark">추천하기</button>
 
-			<button type="button" id="delete-btn"
-				onclick="location.href='dyDeleteBodyProfile?b_number=${board.b_number}'">게시글
-				삭제</button>
+				<button type="button" class="btn btn-outline-dark"
+					onclick="location.href='dyDeleteBodyProfile?b_number=${board.b_number}'">게시글
+					삭제</button>
+			</div>
+
 
 		</div>
 	</div>
-	
+
 
 	<footer>
 		<p>2024 Hellong. All rights reserved.</p>
 	</footer>
-	<script src="<%=request.getContextPath()%>/js/dySelectBodyProfile.js"></script>
+
 </body>
 </html>
