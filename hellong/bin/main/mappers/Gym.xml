@@ -60,10 +60,6 @@
 		OR g_address LIKE '%' || #{totKeyword} || '%'
 	</select>
 	
-		<select id="getGym" parameterType="int" resultType="Gym">
-		SELECT*
-		FROM GYM WHERE G_ID = #{g_id}
-	</select>
 	<insert id="shregisterGym" parameterType="Gym">
 		INSERT INTO GYM (G_ID,    M_NUMBER,   G_NAME,    G_ADDRESS,   G_TEL,    G_COMPANYNUMBER,  G_DOCUMENT)
 		VALUES (G_ID_SEQ.NEXTVAL, #{m_number},#{g_name}, #{g_address},#{g_tel}, #{g_companynumber},#{g_document})

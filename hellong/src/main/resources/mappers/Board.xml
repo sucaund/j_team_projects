@@ -236,8 +236,8 @@
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 	<select id="Queinsert" parameterType="Board">
-		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD , B_TITLE, B_CONTENT,M_NUMBER)
-		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_title},#{b_content},#{m_number})
+		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD , B_TITLE, B_CONTENT,M_NUMBER,B_ISRECOMM)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_title},#{b_content},#{m_number},#{b_isrecomm})
 	</select>
 
 	<delete id="SCRAP_delete" parameterType="int">
