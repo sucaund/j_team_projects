@@ -26,22 +26,6 @@ public class JMController {
 
 	private final JMService jm;
 
-	// 회원가입시 id 중복 체크 목적 : m_id를 기반으로 member 가져옴
-	@RequestMapping(value = "jmConfirmMemberId")
-	public String jmConfirmMemberId(Member member1, Model model) {
-		Member member = jm.jmGetMemberFromId(member1.getM_id());
-		model.addAttribute("m_id", member1.getM_id());
-		if (member != null) { // 입력한 m_id와 같은 member가 있다면
-			System.out.println("jmController jmConfirmMemberId 중복된 m_id");
-			model.addAttribute("msg", "중복된 아이디입니다");
-			return "forward:jmSignUpForm";
-		} else {
-			System.out.println("jmController jmConfirmMemberId 사용 가능한 m_id");
-			model.addAttribute("msg", "사용 가능한 아이디입니다");
-			return "forward:jmSignUpForm";
-		}
-	}
-
 	@ResponseBody // ajax 회원가입시 아이디 체크 (사용하는 것)
 	@RequestMapping(value = "jmConfirmMemberIdAjax2")
 	public int jmConfirmMemberIdAjax2(@RequestParam("m_id") String m_id) {
@@ -78,12 +62,13 @@ public class JMController {
 	}
 
 	@RequestMapping(value = "jmSignUpAjax2") // 입력한 정보 순수 insert하는 작업 수행
-	public String jmSignUpAjax2(@ModelAttribute("member") @Valid Member member, BindingResult result) {
+	public String jmSignUpAjax2(@ModelAttribute("member") @Valid Member member, BindingResult result, Model model) {
 		System.out.println("jmController jmSignUpAjax2 Start...");
 
 		// validation 오류시 result
 		if (result.hasErrors()) {
 			System.out.println("jmController jmSignUpAjax hasErrors..");
+			model.addAttribute("signUpError", "입력한 정보와 회원 데이터베이스가 다릅니다.");
 			return "forward:jmSignUpFormAjax2";
 		}
 		// service, dao, mapper명(insertEmp)까지->insert
@@ -97,6 +82,7 @@ public class JMController {
 			// 반드시 로그인이 필요하다면 로그인 페이지로 forward 시키는 식
 		} else {
 			System.out.println("jmController jmSignUpAjax2 insertResult->" + insertResult);
+			model.addAttribute("signUpError", "회원가입 실패");
 			return "forward:jmSignUpFormAjax2";
 		}
 
@@ -177,7 +163,7 @@ public class JMController {
 			}
 		} else { // 아이디나 비밀번호가 일치하지 않을 시
 			System.out.println("jmController jmLoginCheck 아이디나 비밀번호가 일치하지 않습니다");
-			model.addAttribute("msg", "jmController jmLoginCheck 아이디나 비밀번호가 일치하지 않습니다");
+			model.addAttribute("msg", "아이디나 비밀번호가 일치하지 않습니다");
 			return "jm/jmLoginForm";
 		}
 	}
@@ -200,7 +186,7 @@ public class JMController {
 			}
 
 		} else {
-			model.addAttribute("msg", "로그아웃 이상..");
+			model.addAttribute("msg", "로그아웃 에러..");
 			return "jm/jmLoginForm";
 		}
 	}

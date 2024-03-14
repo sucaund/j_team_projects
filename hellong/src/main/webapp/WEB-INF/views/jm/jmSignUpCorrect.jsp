@@ -57,7 +57,6 @@
 					<div class="card-body" >
 						<div class="title" sytle="margin:0 auto;">
 							<h3>회원가입이 완료되었습니다.</h3>
-							<p><c:if test="${msg!=null}">${msg}</c:if></p>
 						</div>
 
 						<div class="button">
@@ -69,7 +68,5 @@
         </div>
     </div>
     </c:if> 
-	<a href="/jmLoginForm">로그인</a><p>
-	<a href="/jmMainPage">메인페이지로 이동</a><p>
 </body>
 </html>

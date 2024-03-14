@@ -63,6 +63,7 @@
                             <div class="title">
                                 <h3>회원가입</h3>
                                 <p>Hellong의 회원이 되어주세요.</p>
+                                <c:if test="${signUpError!=null}">${signUpError}</c:if>
                             </div>
                             
                             <div class="form-group input-group">
