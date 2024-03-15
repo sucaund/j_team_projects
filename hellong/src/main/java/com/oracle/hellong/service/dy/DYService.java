@@ -42,6 +42,9 @@ public interface DYService {
 	
 	// 마이페이지 작성글
 	List<Board> myPageBoardList(Board board);
+	
+	// 게시판 내 파일 검색
+	List<BoardFile> listSearchBoardFileByBoardId(int b_number);
 
 
 

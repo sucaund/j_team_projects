@@ -59,6 +59,16 @@ public class DYBoardFileDaoImpl implements DYBoardFileDao {
 		
 	}
 	
+	// 게시판 내 파일 검색
+	@Override
+	public List<BoardFile> listSearchBoardFileByBoardId(int b_number) {
+		List<BoardFile> listSearchBoardFileByBoardId = null;
+		listSearchBoardFileByBoardId = session.selectList("dyListSearchBoardFileByBoardId", b_number);
+		return listSearchBoardFileByBoardId;
+	}
+
+	
+	
 	
 	
 }

@@ -92,7 +92,7 @@ public class DYController {
 
 	// 클릭한 게시글 조회
 	@GetMapping(value = "dySelectBodyProfile")
-	public String dySelectBodyProfile(Board board1, BoardFile boardFile1, Model model) {
+	public String dySelectBodyProfile(Board board1, BoardFile boardFile1, Model model, HttpSession session) {
 		System.out.println("DYController dySelectBodyProfile Start...");
 		Board board = dys.selectBodyProfile(board1.getB_number());
 		List<BoardFile> boardFile = dys.selectBodyProfileFileList(boardFile1.getB_number());
@@ -102,34 +102,20 @@ public class DYController {
 		return "dy/dySelectBodyProfile";
 	}
 
-	// 게시글 수정하기 폼
 	@GetMapping(value = "dyUpdateFormBodyProfile")
 	public String dyUpdateFormBodyProfile(Board board1, Model model, HttpSession session) {
-		System.out.println("updateFormBodyProfile Start...");
-		if (session.getAttribute("m_number") != null) { // 로그인했을때
-			Board board = dys.selectBodyProfile(board1.getB_number());
-			if ((int) session.getAttribute("m_number") == board.getM_number()) {
-				System.out.println("board.getB_number -> " + board.getB_number());
-				List<BoardFile> boardFiles = dys.selectBodyProfileFileList(board1.getB_number());
-
-				String regDate = "";
-				if (board.getB_regdate() != null) {
-					regDate = board.getB_regdate().substring(0, 10);
-					board.setB_regdate(regDate);
-				}
-				System.out.println("regDate -> " + regDate);
-				model.addAttribute("board", board);
-				model.addAttribute("boardFile", boardFiles);
-				return "dy/dyUpdateFormBodyProfile";
-			}
-//			} else { //로그인은 했는데 글쓴 사람이 아니어서 수정을 할 수 없을 때
-//				 redirectAttrs.addFlashAttribute("message", "수정 권한이 없습니다");
-//		            return "redirect:/dySelectBodyProfile";
-//			}
-		} else { // 로그인 안 했을때
-			return "forward:jmLoginForm";
-		}
-		return "dy/dySelectBodyProfile";
+	    if (session.getAttribute("m_number") != null) {
+	        Board board = dys.selectBodyProfile(board1.getB_number());
+	        if ((int) session.getAttribute("m_number") == board.getM_number()) {
+	            // 로직 처리
+	            return "dy/dyUpdateFormBodyProfile";
+	        } else {
+	        // 로그인 안 했을 때
+	        return "forward:jmLoginForm";
+	        }
+	        
+	    }
+	    return "dy/dyUpdateFormBodyProfile";
 	}
 
 	@PostMapping(value = "dyUpdateBodyProfile")
@@ -255,29 +241,32 @@ public class DYController {
 		int result = dys.deleteBodyProfile(board.getB_number());
 		return "redirect:/listBodyProfile";
 	}
-
+	
 	// 게시판 내 검색
 	@RequestMapping(value = "dyBoardSearch")
-	public String dyBoardSearch(Board board, Model model) {
-		System.out.println("DYController BoardSearch Start...");
-		System.out.println("DYController BoardSearch board1->" + board);
+	public String dyBoardSearch(Board board,BoardFile boardFile, Model model) {
+	    System.out.println("DYController BoardSearch Start...");
+	    int totalBodyProfile = dys.condTotalBodyProfile(board);
+	    DYPaging page = new DYPaging(totalBodyProfile, board.getCurrentPage());
+	    board.setStart(page.getStart());
+	    board.setEnd(page.getEnd());
 
-		int totalBodyProfile = dys.condTotalBodyProfile(board);
-		System.out.println("DYController BoardSearch Start...");
-		// paging
-		DYPaging page = new DYPaging(totalBodyProfile, board.getCurrentPage());
-		board.setStart(page.getStart());
-		board.setEnd(page.getEnd());
+	    List<Board> listSearchBoard = dys.listSearchBoard(board);
+	    Map<Integer, String> firstImageMap = new HashMap<>();
 
-		System.out.println("DYController BoardSearch board2->" + board);
+	    for(Board b : listSearchBoard) {
+	        List<BoardFile> files = dys.listSearchBoardFileByBoardId(b.getB_number()); // 이 메서드는 각 게시글 ID에 해당하는 첫 번째 파일 정보만 조회해야 함
+	        if(!files.isEmpty()) {
+	            firstImageMap.put(b.getB_number(), files.get(0).getBf_savedName()); // 예시에서는 파일 경로를 저장
+	        }
+	    }
 
-		List<Board> listSearchBoard = dys.listSearchBoard(board);
-		System.out.println("DYController BoardSearch listSearchBoard.size() -> " + listSearchBoard.size());
+	    model.addAttribute("totalBodyProfile", totalBodyProfile);
+	    model.addAttribute("listBodyProfile", listSearchBoard);
+	    model.addAttribute("firstImageMap", firstImageMap);
+	    model.addAttribute("page", page);
 
-		model.addAttribute("totalBodyProfile", totalBodyProfile);
-		model.addAttribute("listBodyProfile", listSearchBoard);
-		model.addAttribute("page", page);
-		return "dy/dyBodyProfile";
+	    return "dy/dyBodyProfile";
 	}
 
 	// 헤더 통합검색

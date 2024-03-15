@@ -40,5 +40,10 @@
 		WHERE bf.b_number = #{b_number}
 	</select>
 
+	<select id="dyListSearchBoardFileByBoardId" parameterType="int" resultType="BoardFile">
+		SELECT *
+        FROM board_file
+        WHERE b_number = #{b_number}
+	</select>
 
 </mapper>

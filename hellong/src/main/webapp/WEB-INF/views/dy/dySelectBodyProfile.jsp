@@ -92,17 +92,29 @@
 			</div>
 			<div class="d-flex justify-content-center flex-wrap">
 				<button type="button" class="btn btn-outline-dark"
-					onclick="location.href='listBodyProfile'">게시판</button>
+					onclick="location.href='listBodyProfile'">게시판 목록</button>
 
-				<button type="button" class="btn btn-outline-dark"
-					onclick="location.href='dyUpdateFormBodyProfile?b_number=${board.b_number}'">게시글
-					수정</button>
+				<c:if test="${board.m_number != sessionScope.m_number}">
+					<button type="button" class="btn btn-outline-dark" disabled>게시글
+						수정</button>
+				</c:if>
+				<c:if test="${board.m_number == sessionScope.m_number}">
+					<button type="button" class="btn btn-outline-dark"
+						onclick="location.href='dyUpdateFormBodyProfile?b_number=${board.b_number}'">게시글
+						수정</button>
+				</c:if>
 
 				<button type="button" class="btn btn-outline-dark">추천하기</button>
 
-				<button type="button" class="btn btn-outline-dark"
-					onclick="location.href='dyDeleteBodyProfile?b_number=${board.b_number}'">게시글
-					삭제</button>
+				<c:if test="${board.m_number != sessionScope.m_number}">
+					<button type="button" class="btn btn-outline-dark" disabled>게시글
+						삭제</button>
+				</c:if>
+				<c:if test="${board.m_number == sessionScope.m_number}">
+					<button type="button" class="btn btn-outline-dark"
+						onclick="location.href='dyUpdateFormBodyProfile?b_number=${board.b_number}'">게시글
+						삭제</button>
+				</c:if>
 			</div>
 
 
