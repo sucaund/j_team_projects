@@ -146,4 +146,10 @@ public class DYBoardDaoImpl implements DYBoardDao {
 		return searchMyPageList;
 	}
 
+	@Override
+	public void increaseReadCount(int b_number) {
+		session.update("dyIncreaseReadCount", b_number);
+		
+	}
+
 }

@@ -28,6 +28,8 @@ public interface DYBoardDao {
 	// 마이페이지 게시글 조회
 	List<Board> searchMyPageList(Board board);
 
+	void increaseReadCount(int b_number);
+
 
 
 }

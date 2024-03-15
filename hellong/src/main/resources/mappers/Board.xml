@@ -232,4 +232,11 @@
 		WHERE m_number = #{m_number}
 		order by b_number desc
 	</select>
+	
+	<update id="dyIncreaseReadCount" parameterType="int">
+		UPDATE board
+        SET b_readcount = b_readcount + 1
+        WHERE b_number = #{b_number}
+	</update>
+	
 </mapper>

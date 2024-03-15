@@ -94,11 +94,14 @@ public class DYController {
 	@GetMapping(value = "dySelectBodyProfile")
 	public String dySelectBodyProfile(Board board1, BoardFile boardFile1, Model model, HttpSession session) {
 		System.out.println("DYController dySelectBodyProfile Start...");
+		// 조회수 증가
+		int b_number = board1.getB_number();
+		dys.increaseReadCount(b_number);
 		Board board = dys.selectBodyProfile(board1.getB_number());
 		List<BoardFile> boardFile = dys.selectBodyProfileFileList(boardFile1.getB_number());
 		model.addAttribute("board", board);
 		model.addAttribute("boardFile", boardFile);
-
+		
 		return "dy/dySelectBodyProfile";
 	}
 	

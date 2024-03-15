@@ -171,6 +171,12 @@ public class DYServiceImpl implements DYService {
 		listSearchBoardFileByBoardId = dybfd.listSearchBoardFileByBoardId(b_number);
 		return listSearchBoardFileByBoardId;
 	}
+
+	@Override
+	public void increaseReadCount(int b_number) {
+		dybd.increaseReadCount(b_number);
+		
+	}
 	
 
 

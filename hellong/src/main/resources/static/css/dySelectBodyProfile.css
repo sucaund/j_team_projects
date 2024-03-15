@@ -123,3 +123,13 @@ header, footer {
         flex-direction: column;
     }
 }
+.body-profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 버튼 사이 간격 조절 */
+    margin-top: 20px; /* 상단 마진 */
+    margin-bottom: 20px; /* 하단 마진 */
+}
+.body-profile-details img {
+    margin-bottom: 10px;
+}
