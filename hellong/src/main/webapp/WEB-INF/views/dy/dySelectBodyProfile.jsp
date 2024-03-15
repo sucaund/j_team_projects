@@ -112,7 +112,7 @@
 				</c:if>
 				<c:if test="${board.m_number == sessionScope.m_number}">
 					<button type="button" class="btn btn-outline-dark"
-						onclick="location.href='dyUpdateFormBodyProfile?b_number=${board.b_number}'">게시글
+						onclick="location.href='dyDeleteBodyProfile?b_number=${board.b_number}'">게시글
 						삭제</button>
 				</c:if>
 			</div>

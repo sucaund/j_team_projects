@@ -101,23 +101,25 @@ public class DYController {
 
 		return "dy/dySelectBodyProfile";
 	}
-
+	
+	// 게시글 업데이트 폼
 	@GetMapping(value = "dyUpdateFormBodyProfile")
 	public String dyUpdateFormBodyProfile(Board board1, Model model, HttpSession session) {
-	    if (session.getAttribute("m_number") != null) {
+	    if (session.getAttribute("m_number") != null) { //로그인 되어있음
 	        Board board = dys.selectBodyProfile(board1.getB_number());
-	        if ((int) session.getAttribute("m_number") == board.getM_number()) {
+	        
+	        if ((int) session.getAttribute("m_number") == board.getM_number()) { //로그인했는데 당사자가 맞을때
 	            // 로직 처리
 	            return "dy/dyUpdateFormBodyProfile";
-	        } else {
-	        // 로그인 안 했을 때
-	        return "forward:jmLoginForm";
+	        } else { // 로그인했으나 당사자가 아닐 때
+	        	return "dy/listBodyProfile";
 	        }
 	        
+	    } else { //로그인 안됨
+	    	return "forward:jmLoginForm"; 
 	    }
-	    return "dy/dyUpdateFormBodyProfile";
 	}
-
+	// 게시글 업데이트
 	@PostMapping(value = "dyUpdateBodyProfile")
 	public String dyUpdateBodyProfile(Board board, @RequestParam("files") MultipartFile[] newFiles, Model model) {
 		log.info("dyUpdateBodyProfile Start...");
@@ -228,7 +230,7 @@ public class DYController {
 
 	// 게시글 삭제
 	@RequestMapping(value = "dyDeleteBodyProfile")
-	public String dyDeleteBodyProfile(Board board, Model model) {
+	public String dyDeleteBodyProfile(Board board, Model model, HttpSession session) {
 		System.out.println("DYController delete Start...");
 		List<BoardFile> files = dys.selectBodyProfileFileList(board.getB_number());
 		for (BoardFile file : files) {
