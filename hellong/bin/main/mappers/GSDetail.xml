@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GSDetailMapper">
+	
+	<insert id="getCreateServiceDetail" parameterType="GS" >
+		insert into G_S_DETAIL(g_id, s_number, sd_number, sd_price, sd_startdate,sd_matters)
+				values(#{g_id}, #{s_number}, sd_number_seq.nextval, #{s_price}, sysdate, #{s_matters})
+	</insert>
+	
+	<update id="updateServiceDetail" parameterType="GS">
+	update G_S_DETAIL
+	set sd_enddate = sysdate,
+	    sd_isend = 1
+	where s_number = #{s_number}
+	  and sd_isend = 0
+	
+	</update>
 
 </mapper>

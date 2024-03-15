@@ -51,6 +51,11 @@ public class GymMemberServiceOrderJoin {
     private String  refund_date; //환불일자 nn
     private int refund_point; //환불포인트
     private String refund_reason; //환불사유
+    private String go_start_date; // 개인 시작 날짜
+    private String go_end_date;	// 개인 종료 날짜
+    private int go_isend; // 만료 여부
+    
+    private String refund_criteria;  
      
      
     //조회용

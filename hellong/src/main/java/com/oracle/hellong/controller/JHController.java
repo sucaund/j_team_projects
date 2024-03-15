@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oracle.hellong.model.GS;
+import com.oracle.hellong.model.GSDetail;
+import com.oracle.hellong.model.GSGSDetailJoin;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymBoardFile;
@@ -23,6 +25,7 @@ import com.oracle.hellong.model.GymBoardJoin;
 import com.oracle.hellong.model.GymBoardReviewJoin;
 import com.oracle.hellong.model.GymBoardServiceJoin;
 import com.oracle.hellong.model.GymMemberServiceOrderJoin;
+import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.model.MemberGym;
 import com.oracle.hellong.model.Trainer;
@@ -77,7 +80,7 @@ public class JHController {
 	
 	
 	// 관리 헬스장 리스트 불러오기**********************************************************************************************************
-	@GetMapping(value = "listGymManager")
+/*	@GetMapping(value = "listGymManager")
 	public String gymManager(HttpSession session, Gym m_id, Model model) {	
 		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
 			Member member = new Member();
@@ -95,10 +98,10 @@ public class JHController {
 		}
 		
 		
-	}
+	}*/
 	
 	
-	/*@GetMapping(value = "listGymManager")
+	@GetMapping(value = "listGymManager")
 	public String gymManager(HttpSession session, Gym m_id, Model model) {	
 			Member member = new Member();
 			member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));	
@@ -109,7 +112,7 @@ public class JHController {
 				return "jh/gymManager";
 		
 		
-	}*/
+	}
 	
 	
 	// 관리헬스장 홍보글 등록/수정 화면 이동********************************************************************************************************
@@ -258,14 +261,14 @@ public class JHController {
     
 	// 서비스(상품) 리스트 ****************************************************************************
 	@GetMapping(value = "serviceList")
-	public String serviceList(Gym gym, GS gs, Model model) {
+	public String serviceList(Gym gym,GSDetail sd_number ,GS gs, Model model) {
 		//page 작업
 		int totalService = jh.totalService(gym.getG_id());
 		Paging page = new Paging(totalService,gs.getCurrentPage());
 		gs.setStart(page.getStart());
 		gs.setEnd(page.getEnd());
 		// 리스트 조회
-		List<GS>serviceList = jh.serviceList(gs);
+		List<GSGSDetailJoin> serviceList = jh.serviceList(gs);
 		// g_id 넘겨줄 것
 		int gymId = jh.gymId(gym.getG_id());
 		model.addAttribute("g_id",gymId);
@@ -285,9 +288,10 @@ public class JHController {
 		gs.setS_detail(request.getParameter("s_detail"));
 		gs.setS_price(Integer.parseInt(request.getParameter("s_price")));
 		gs.setS_period(Integer.parseInt(request.getParameter("s_period")));
-		gs.setS_matters(request.getParameter("s_matters"));
+		gs.setS_matters(request.getParameter("s_matters"));		
 		int createService = jh.createService(gs);
-        if (createService == 1) {
+		int createServiceDetail = jh.getCreateServiceDetail(gs);
+        if (createService == 1 && createServiceDetail==1) {
             return "Service createService successfully!";
         } else {
             return "Failed to createService!";
@@ -313,8 +317,10 @@ public class JHController {
 		gs.setS_price(Integer.parseInt(request.getParameter("s_price")));
 		gs.setS_period(Integer.parseInt(request.getParameter("s_period")));
 		gs.setS_matters(request.getParameter("s_matters"));
+    	int updateServiceDetail = jh.updateServiceDetail(gs);
     	int updateService = jh.updateService(gs);
-        if (updateService == 1) {
+    	int createServiceDetail = jh.getCreateServiceDetail(gs);
+        if (updateService == 1 && createServiceDetail==1 && updateServiceDetail==1 ) {
             return "Service updateService successfully!";
         } else {
             return "Failed to updateService!";
@@ -322,12 +328,15 @@ public class JHController {
 	}
 	
 	//서비스 삭제
-	@DeleteMapping(value="jh/deleteService/{sNumber}")
+	@PostMapping(value="jh/deleteService/{sNumber}")
 	@ResponseBody
 	public String deleteService(@PathVariable("sNumber") int sNumber) {
 		System.out.println(sNumber);
 		int deleteService = jh.deleteService(sNumber);
-        if (deleteService == 1) {
+		GS gs = new GS();
+		gs.setS_number(sNumber);
+		int updateServiceDetail = jh.updateServiceDetail(gs);
+        if (deleteService == 1 && updateServiceDetail==1) {
             return "Service deleteService successfully!";
         } else {
             return "Failed to deleteService!";
@@ -342,7 +351,7 @@ public class JHController {
 		Paging page = new Paging(totalSearchService, gs.getCurrentPage());
 		gs.setStart(page.getStart());
 		gs.setEnd(page.getEnd());
-		List<GS> listSearchService = jh.getListSearchService(gs);
+		List<GSGSDetailJoin> listSearchService = jh.getListSearchService(gs);
 		model.addAttribute("totalSearchService",totalSearchService);
 		model.addAttribute("page",page);
 		model.addAttribute("serviceList",listSearchService);
@@ -417,42 +426,47 @@ public class JHController {
 	@GetMapping(value = "/gymPostDetail")
 	public String gymPostDetail(HttpSession session,GymBoard gymBoard,Model model) {
 		System.out.println(gymBoard.getG_id());
-
 		Member member = new Member();
 		member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));
-
 		List <GymBoardJoin> gymBoardDetail = jh.gymBoardDetailRead(gymBoard.getG_id());
 		// 별점, 별점개수 가져오기
 		GymBoardReviewJoin avgReviewSelect = jh.getAvgReviewSelect(gymBoard.getG_id());
 		//서비스 리스트 가져오기
-		List <GS> selectServiceList = jh.getSelectServiceList(gymBoard.getG_id());	
+		List<GSGSDetailJoin> selectServiceList = jh.getSelectServiceList(gymBoard.getG_id());	
 		// 트레이너 리스트 가져오기
 		List <Trainer> selectTrainerList = jh.getSelectTrainerList(gymBoard.getG_id());
 		// 리뷰 가져오기
-
 		List <GymBoardFile> gymBoardFileList = jh.gymBoardFileListRead(gymBoard.getG_id());
 		System.out.println(gymBoardFileList);
-		
 		model.addAttribute("member",member);
-		
+		model.addAttribute("g_id", gymBoard.getG_id());
 		model.addAttribute("gymBoardDetail", gymBoardDetail);
 		model.addAttribute("avgReviewSelect", avgReviewSelect);
 		model.addAttribute("selectServiceList",selectServiceList);
 		model.addAttribute("selectTrainerList",selectTrainerList);
 		model.addAttribute("gymBoardFileList", gymBoardFileList);
-		
-		
 		return "jh/gymPostListDetail";
 	}
 	
 	// 리뷰 작성 버튼 누를 시 회원 여부 확인
 	@GetMapping(value = "/getUserInfo")
 	@ResponseBody
-	public String getUserInfoVaild (@RequestParam("m_number") int mNumber, Model model) {
+	public Object getUserInfoVaild (@RequestParam("g_id") int g_id, HttpSession session , Model model) {
+		if (session.getAttribute("m_id") != null) { // 세션에 등록되어있을때=로그인했을때
+			Member member = new Member();
+			member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));
+			int memberNumber = member.getM_number(); 
+			// 주문 테이블에서 조회
+			List <GymOrder> selectGymOrderInf = jh.selectOrder(memberNumber, g_id);
+			// 주문 테이블에서 null이 아니어야함
+			if(selectGymOrderInf != null){
+				if(jh.selectRevice(memberNumber);
+			}
+			
+		} else { // 로그인 되지 않았을 때
+			return "forward:jmLoginForm";
+		}
 		
-		
-		
-		return "";
 	}
 	
 	

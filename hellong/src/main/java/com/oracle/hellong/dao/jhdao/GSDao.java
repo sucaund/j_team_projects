@@ -8,7 +8,6 @@ public interface GSDao {
 
 	//서비스 리스트 불러오기
 	int totalService(int g_id);
-	List<GS> serviceList(GS gs);
 
 	//서비스 추가
 	int createService(GS gs);
@@ -24,11 +23,7 @@ public interface GSDao {
 	
 	//서비스 검색
 	int getTotalSearchService(GS gs);
-	List<GS> getListSearchService(GS gs);
 	
-	// 체육관 홍보 글 상세에서 서비스 리스트 띄우기***************************************************
-	List<GS> getSelectServiceList(int g_id);
-
 
 
 

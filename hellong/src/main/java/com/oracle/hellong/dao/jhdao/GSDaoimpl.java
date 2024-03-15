@@ -28,17 +28,6 @@ public class GSDaoimpl implements GSDao {
 		return totalService;
 	}
 
-	@Override
-	public List<GS> serviceList(GS gs) {
-		List <GS> serviceList = null;
-		try {							    
-			serviceList = session.selectList("serviceList",gs);
-			System.out.println("GSDaoimpl serviceList serviceList.size()->"+serviceList.size());
-		} catch (Exception e) {
-			System.out.println("GSDaoimpl serviceList Exception -> "+e.getMessage());
-		}
-		return serviceList;
-	}
 	
 	//서비스 추가
 	@Override
@@ -106,32 +95,8 @@ public class GSDaoimpl implements GSDao {
 		return getTotalSearchServiceResult;
 	}
 
-	@Override
-	public List<GS> getListSearchService(GS gs) {
-		List <GS> getListSearchServiceResult = null;
-		try {							    
-			getListSearchServiceResult = session.selectList("getListSearchService",gs);
-			System.out.println("GSDaoimpl getListSearchService serviceList.size()->"+getListSearchServiceResult.size());
-		} catch (Exception e) {
-			System.out.println("GSDaoimpl getListSearchService Exception -> "+e.getMessage());
-		}
-		return getListSearchServiceResult;
-	}
 
 	
-
-	// 체육관 홍보 글 상세에서 서비스 리스트 띄우기***************************************************
-	@Override
-	public List<GS> getSelectServiceList(int g_id) {
-		List <GS> getSelectServiceListResult = null;
-		try {							    
-			getSelectServiceListResult = session.selectList("getSelectServiceList",g_id);
-			System.out.println("GSDaoimpl getSelectServiceList getSelectServiceListResult.size()->"+getSelectServiceListResult.size());
-		} catch (Exception e) {
-			System.out.println("GSDaoimpl getSelectServiceListResult Exception -> "+e.getMessage());
-		}
-		return getSelectServiceListResult;
-	}
 
 
 

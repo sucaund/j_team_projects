@@ -30,6 +30,7 @@
 		<typeAlias alias="GymMemberServiceOrderJoin"  type="com.oracle.hellong.model.GymMemberServiceOrderJoin"/>
 		<typeAlias alias="GymBoardReviewJoin"  type="com.oracle.hellong.model.GymBoardReviewJoin"/>
 		<typeAlias alias="GymBoardServiceJoin"  type="com.oracle.hellong.model.GymBoardServiceJoin"/>
+		<typeAlias alias="GSGSDetailJoin"  type="com.oracle.hellong.model.GSGSDetailJoin"/>
 		
 		
 	</typeAliases>

@@ -78,6 +78,9 @@
 			                            <i class="fas fa-icon-class-name"></i> 
 			                        </span>
 			                    </div>
+			                    <input type="hidden" name="sd_number" value="${service.sd_number}">
+			                    <input type="hidden" name="g_id" value="${service.g_id}">
+			                    <input type="hidden" name="s_number" value="${service.s_number}">
 			                    <p class="text-gray-700">- 서비스 내용: <strong>${service.s_detail}</strong> </p>
 			                    <p class="text-gray-700">- 이용기간: <strong>${service.s_period} 일</strong></p>
 			                    <p class="text-gray-700 text-right">
@@ -102,7 +105,6 @@
 			        </div>
 			    </div>
 			</div> 
-
             
             
 			<!-- 트레이너 목록 -->
@@ -338,7 +340,7 @@
 	    var count = 0;
 	    var buttonText = ["이용권 감추기", "이용권 더보기"];
 	    
-	    var mNumber = ${member.m_number};
+	    var gId = ${g_id};
 
 	    $("#toggleServicesBtn").click(function() {
 	        $(".more-services").toggleClass("hidden"); // 이용권 목록 토글
@@ -375,7 +377,7 @@
          $.ajax({
              type: "GET",
              url: "/getUserInfo", // 유저 정보를 받아올 URL
-             data:{m_number: mNumber},
+             data:{g_id: gId},
              success: function (response) {
                  // 서버로부터 받은 유저 정보를 모달에 채워넣기
                  $('#customerName').val(response.m_name); 

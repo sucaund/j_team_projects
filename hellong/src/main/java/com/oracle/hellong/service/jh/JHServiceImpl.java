@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oracle.hellong.dao.jhdao.GSDao;
+import com.oracle.hellong.dao.jhdao.GSDetailDao;
+import com.oracle.hellong.dao.jhdao.GSGSDetailJoinDao;
 import com.oracle.hellong.dao.jhdao.GymBoardDao;
 import com.oracle.hellong.dao.jhdao.GymBoardFileDao;
 import com.oracle.hellong.dao.jhdao.GymBoardFileJoinDao;
@@ -16,9 +18,12 @@ import com.oracle.hellong.dao.jhdao.GymBoardReviewJoinDao;
 import com.oracle.hellong.dao.jhdao.GymBoardServiceJoinDao;
 import com.oracle.hellong.dao.jhdao.GymDao;
 import com.oracle.hellong.dao.jhdao.GymMemberServiceOrderJoinDao;
+import com.oracle.hellong.dao.jhdao.GymOrderDao;
+import com.oracle.hellong.dao.jhdao.GymReviewDao;
 import com.oracle.hellong.dao.jhdao.MemberDao;
 import com.oracle.hellong.dao.jhdao.TrainerDao;
 import com.oracle.hellong.model.GS;
+import com.oracle.hellong.model.GSGSDetailJoin;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymBoardFile;
@@ -27,6 +32,7 @@ import com.oracle.hellong.model.GymBoardJoin;
 import com.oracle.hellong.model.GymBoardReviewJoin;
 import com.oracle.hellong.model.GymBoardServiceJoin;
 import com.oracle.hellong.model.GymMemberServiceOrderJoin;
+import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.MemberGym;
 import com.oracle.hellong.model.Trainer;
 
@@ -47,6 +53,10 @@ public class JHServiceImpl implements JHService {
 	private final GymMemberServiceOrderJoinDao gmsojd;
 	private final GymBoardReviewJoinDao gbrjd;
 	private final GymBoardServiceJoinDao gbsjd;
+	private final GymOrderDao god;
+	private final GymReviewDao grd;
+	private final GSDetailDao gsdd;
+	private final GSGSDetailJoinDao gsdjd;
 	
 	private final GymBoardFileProcessor gymBoardFileProcessor;
 	private final TrainerFileProcessor trainerFileProcessor;
@@ -247,8 +257,8 @@ public class JHServiceImpl implements JHService {
 	}
 
 	@Override
-	public List<GS> serviceList(GS gs) {
-		List<GS> serviceList = gsd.serviceList(gs);
+	public List<GSGSDetailJoin> serviceList(GS gs) {
+		List<GSGSDetailJoin> serviceList = gsdjd.serviceList(gs);
 		return serviceList;
 	}
 
@@ -258,6 +268,13 @@ public class JHServiceImpl implements JHService {
 		int createService = gsd.createService(gs);
 		return createService;
 	}
+	// 서비스 디테일 추가(서비스 추가되면 동시에 추가됨)
+	@Override
+	public int getCreateServiceDetail(GS gs) {
+		int getCreateServiceDetailResult = gsdd.getCreateServiceDetail(gs);
+		return getCreateServiceDetailResult;
+	}
+	
 
 	@Override
 	public GS fetchServiceDetails(int sNumber) {
@@ -270,6 +287,12 @@ public class JHServiceImpl implements JHService {
 	public int updateService(GS sNumber) {
 		int updateService = gsd.updateService(sNumber);
 		return updateService;
+	}
+	//기존 서비스 디테일 만료
+	@Override
+	public int updateServiceDetail(GS gs) {
+		int updateServiceDetailResult = gsdd.updateServiceDetail(gs);
+		return updateServiceDetailResult;
 	}
 
 
@@ -288,8 +311,8 @@ public class JHServiceImpl implements JHService {
 	}
 
 	@Override
-	public List<GS> getListSearchService(GS gs) {
-		List<GS> getListSearchServiceResult = gsd.getListSearchService(gs);
+	public List<GSGSDetailJoin> getListSearchService(GS gs) {
+		List<GSGSDetailJoin> getListSearchServiceResult = gsdd.getListSearchService(gs);
 		return getListSearchServiceResult;
 	}
 	
@@ -382,8 +405,8 @@ public class JHServiceImpl implements JHService {
 
 	//서비스 리스트 가져오기
 	@Override
-	public List<GS> getSelectServiceList(int g_id) {
-		List <GS> getSelectServiceListResult = gsd.getSelectServiceList(g_id);
+	public List<GSGSDetailJoin> getSelectServiceList(int g_id) {
+		List<GSGSDetailJoin> getSelectServiceListResult = gsdjd.getSelectServiceList(g_id);
 		return getSelectServiceListResult;
 	}
 	
@@ -393,6 +416,17 @@ public class JHServiceImpl implements JHService {
 		List<Trainer> getSelectTrainerListResult = td.getSelectTrainerList(g_id);
 		return getSelectTrainerListResult;
 	}
+
+	// 리뷰 작성 -> 주문 목록 가져오기
+	@Override
+	public List<GymOrder> selectOrder(int memberNumber, int g_id) {
+		List<GymOrder> selectOrderResult = god.selectOrder(memberNumber,g_id);
+		return selectOrderResult;
+	}
+
+
+
+
 
 
 
