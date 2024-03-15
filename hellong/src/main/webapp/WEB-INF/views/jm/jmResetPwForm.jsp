@@ -46,12 +46,12 @@
                                 <input type="password"
 					class="form-control" id="m_pw" placeholder="5~15자리의 영문자와 숫자"  name="m_pw"
                     autocomplete='off' oninput="checkPw()"  required="required">
-                                <font color="red" id="failPwReg"
-					style="display: none">5~15자의 영문자와 숫자를 조합해서 입력해주세요.</font> 
-					            <font color="red" id="failPwSame"
-					style="display: none">비밀번호가 일치하지 않습니다.</font> 
-					            <font
-					color="red" id="failPwDuple" style="display: none">기존의 비밀번호와 다른 비밀번호로 설정해주세요.</font>
+                                <p style="color:red; display: none;" id="failPwReg">
+                        5~15자의 영문자와 숫자를 조합해서 입력해주세요.</p> 
+					            <p style="color:red; display: none;" id="failPwSame">
+                                    비밀번호가 일치하지 않습니다.</p> 
+					            <p style="color:red; display: none;" id="failPwDuple">
+                                    기존의 비밀번호와 다른 비밀번호로 설정해주세요.</p>
 					        </div>
 
 

@@ -57,7 +57,7 @@ public class JMController {
 
 	@RequestMapping(value = "jmSignUpFormAjax2") // 회원가입 폼으로 이동시킴
 	public String jmSignUpFormAjax2() {
-		System.out.println("jmController jmSignUpFormAjax Start...");
+		System.out.println("jmController jmSignUpFormAjax2 Start...");
 		return "jm/jmSignUpFormAjax2"; // 이 페이지에서 정보입력
 	}
 

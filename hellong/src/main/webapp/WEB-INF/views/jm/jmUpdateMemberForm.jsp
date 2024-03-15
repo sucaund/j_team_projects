@@ -81,7 +81,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %> <%@ include file="../header.jsp"%>
       
                                   <div class="form-group input-group">
                                       <label for="reg-id">아이디</label>
-                                      <font color="black">${m_id}</font>
+                                      <p style="color:black;">${m_id}</p>
                                   </div>
       
                                   <div class="form-group input-group">

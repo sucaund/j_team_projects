@@ -12,14 +12,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.svg">
 
-    <!-- ========================= CSS here ========================= -->
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/LineIcons.3.0.css" />
     <link rel="stylesheet" type="text/css" href="/css/tiny-slider.css" />
     <link rel="stylesheet" type="text/css" href="/css/glightbox.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
 
-	<!-- ========================= JS here ========================= -->
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/tiny-slider.js"></script>

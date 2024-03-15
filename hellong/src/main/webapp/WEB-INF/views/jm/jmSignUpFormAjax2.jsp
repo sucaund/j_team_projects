@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ include file="../header.jsp"%>
+<p%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,10 +71,9 @@
                                 class="form-control" id="m_id" placeholder="5~15자의 영문자와 숫자를 조합"
                                 oninput="checkId(), activateSignUpBtn()" name="m_id"
                                 autocomplete='off' required="required"> 
-                                <font color="red" id="failid"
-					            style="display: none">5~15자의 영문자와 숫자를 조합해서 입력해주세요.</font> 
-					            <font
-					            color="red" id="fail" style="display: none">이미 존재하는 ID입니다.</font>
+                                <p style="color:red; display: none;" id="failid">
+                                    5~15자의 영문자와 숫자를 조합해서 입력해주세요.</p> 
+					            <p style="color:red; display: none" id="fail">이미 존재하는 ID입니다.</p>
                             </div>
 
                             <div class="form-group input-group">
@@ -83,8 +81,8 @@
                                 <input type="password"
 					class="form-control" id="m_pw" placeholder="8~16자의 영문자와 숫자를 조합"
 					oninput="checkPwReg(), activateSignUpBtn(), checkPwSame()" name="m_pw" required="required">
-                                <font color="red" id="failpwreg"
-					style="display: none">8~16자의 영문자와 숫자를 조합해서 입력해주세요.</font> 
+                                <p style="color:red; display: none" id="failpwreg">
+                                    8~16자의 영문자와 숫자를 조합해서 입력해주세요.</p> 
                             </div>
 
                             <div class="form-group input-group">
@@ -92,8 +90,7 @@
                                 <input type="password"
 					class="form-control" id="m_pw_check" placeholder="동일한 비밀번호를 입력해주세요"
 					oninput="checkPwSame(),activateSignUpBtn()" name="m_pw_check" required="required">
-                    <font
-					color="red" id="failpwsame" style="display: none">비밀번호가 일치하는지 확인해주세요</font>
+                                <p style="color:red; display: none" id="failpwsame">비밀번호가 일치하는지 확인해주세요</p>
                                 </div>
 
                             <!-- 이름-->
@@ -120,9 +117,9 @@
                             <!-- 성별-->
 			                <div class="form-group input-group">
                                 <label for="reg-gender">성별</label>
-                                <font color="black">남성 <input type="radio"
+                                <p style="color:black">남성 <input type="radio"
 					name='m_gender' class="m_gender" value="M"> &nbsp; 여성 <input
-					type="radio" name='m_gender' class="m_gender" value="F"> </font>
+					type="radio" name='m_gender' class="m_gender" value="F"> </p>
                             </div>
 
                             <!-- 전화번호-->
