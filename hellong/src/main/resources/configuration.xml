@@ -16,9 +16,6 @@
 		<typeAlias alias="Member"  type="com.oracle.hellong.model.Member"/>
 		<typeAlias alias="PointCharge"  type="com.oracle.hellong.model.PointCharge"/>
 		<typeAlias alias="Report"  type="com.oracle.hellong.model.Report"/>
-		<typeAlias alias="Scrap"  type="com.oracle.hellong.model.Scrap"/>
-		<typeAlias alias="Trainer"  type="com.oracle.hellong.model.Trainer"/>
-		<typeAlias alias="Zzim"  type="com.oracle.hellong.model.Zzim"/>
 		<typeAlias alias="GymBoardFile" type="com.oracle.hellong.model.GymBoardFile"/>
 		<typeAlias alias="BoardFile" type="com.oracle.hellong.model.BoardFile" />
 		
