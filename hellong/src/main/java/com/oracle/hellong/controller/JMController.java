@@ -158,11 +158,11 @@ public class JMController {
 				System.out.println("uri2"+uri2);
 				return "redirect:" + uri2;
 			} else {
-				model.addAttribute("msg", "jmController jmLoginCheck 아이디나 비밀번호가 일치하지 않습니다");
+				model.addAttribute("msg", "로그인 에러");
 				return "jm/jmLoginForm";
 			}
 		} else { // 아이디나 비밀번호가 일치하지 않을 시
-			System.out.println("jmController jmLoginCheck 아이디나 비밀번호가 일치하지 않습니다");
+			System.out.println("아이디나 비밀번호가 일치하지 않습니다");
 			model.addAttribute("msg", "아이디나 비밀번호가 일치하지 않습니다");
 			return "jm/jmLoginForm";
 		}
@@ -348,7 +348,7 @@ public class JMController {
 		}
 	}
 
-	// 마이페이지에서 회원 탈퇴 눌렀을 때 회원탈퇴 폼으로 이동하는 컨트롤러
+	// 탈퇴하시겠습니까? 눌렀을 때 인증 절차: 비밀번호 체크 폼으로 이동하는 컨트롤러
 	@RequestMapping(value = "jmWithdrawalMemberPwCheckForm")
 	public String jmWithdrawalMemberPwCheckForm(HttpSession session) {
 		System.out.println("jmController jmWithdrawalMemberPwCheckForm");
@@ -360,7 +360,7 @@ public class JMController {
 		}
 	}
 
-	// 회원탈퇴 시 입력한 확인비밀번호가 일치하는지 작업 수행
+	// 회원탈퇴 시 입력한 확인비밀번호가 일치하는지 작업 수행 (버튼 누르면)
 	@RequestMapping(value = "jmWithdrawalMemberPwCheck")
 	public String jmWithdrawalMemberPwCheck(@RequestParam("m_pw") String m_pw, HttpSession session) {
 		System.out.println("jmController jmWithdrawalMemberPwCheck");
@@ -375,8 +375,8 @@ public class JMController {
 				return "forward:jmWithdrawalMember";
 			} else if (result == "ok") { // 중복이 아닐 때=비밀번호가 일치하지 않을 때
 				return "jm/jmWithdrawalMemberPwCheckFail";
-			} else {
-				return "jm/jmErrorPage";
+			} else { //그 외의 오류
+				return "jm/jmWithdrawalMemberFail";
 			}
 		} else { // m_number가 null일때 : 로그인되어있지 않을 떄
 			return "jm/jmLoginForm";
@@ -397,8 +397,9 @@ public class JMController {
 		if (deleteCount == 1) {
 			System.out.println("jmController jmWithdrawalMember 회원 탈퇴 성공");
 			return "forward:jmWithdrawalMemberSuccess";
-		} else {
+		} else { //오류
 			System.out.println("jmController jmWithdrawalMember 회원 탈퇴 실패");
+			model.addAttribute("withdrawal_msg", "삭제 작업이 실패했습니다.");
 			return "jm/jmWithdrawalMemberFail";
 		}
 
@@ -415,7 +416,7 @@ public class JMController {
 	@RequestMapping(value = "jmWithdrawalMemberSuccess")
 	public String jmWithdrawalMemberSuccess(HttpSession session) {
 		System.out.println("jmController jmWithdrawalMemberSuccess");
-		session.invalidate();
+		session.invalidate(); //세션 모두 소멸시킴
 		return "jm/jmWithdrawalMemberSuccess";
 	}
 

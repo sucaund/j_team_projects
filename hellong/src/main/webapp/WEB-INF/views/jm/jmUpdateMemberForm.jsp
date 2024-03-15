@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <%@ taglib prefix="fmt"
-uri="http://java.sun.com/jsp/jstl/fmt" %> <%@ include file="../header.jsp"%>
+pageEncoding="UTF-8"%> <%@ include file="../header.jsp"%>
 
 <!DOCTYPE html>
 <html>
@@ -40,7 +39,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %> <%@ include file="../header.jsp"%>
     <!-- 상단 끝 -->
 
 
-      <!-- 비로그인 상태일 때(비정상 접근) -->
+      <!-- 비로그인 상태일 때(비정상 접근) : 실질 접근 x (컨트롤러에서 막아놨기에) -->
       <c:if test="${m_number==null}">
         <div class="account-login section">
         <div class="container">
@@ -49,12 +48,12 @@ uri="http://java.sun.com/jsp/jstl/fmt" %> <%@ include file="../header.jsp"%>
               <form class="card login-form" method="get" id="login" action="jmLoginForm">
                 <div class="card-body">
                   <div class="title">
-                    <h3>로그인을 해주세요.</h3>
+                    <h3>로그인을 먼저 해주세요.</h3>
                     <p><c:if test="${msg!=null}">${msg}</c:if></p>
                   </div>
       
                   <div class="button">
-                    <button class="btn" type="submit" form="login">로그아웃</button>
+                    <button class="btn" type="submit" form="login">로그인</button>
                   </div>
                           </div>
                       </form>
@@ -141,8 +140,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %> <%@ include file="../header.jsp"%>
                                   <!-- 이메일-->
                                   <div class="form-group input-group">
                                       <label for="reg-email" id="email_old">이메일</label>
-                                      <p style="color:black;">${member.m_email}</p> 
-                                      <pre>                                                       </pre>
+                                      <label for="reg-email"><p style="color:black;">${member.m_email}</p> </label>
                                       <input type="button" class="btn btn-primary" value="이메일 변경" 
                                       onclick="changeMail()"/>
                                   </div>

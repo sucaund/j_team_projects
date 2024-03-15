@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<p%@ include file="../header.jsp"%>
+<%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +26,7 @@
     </div>
     
 
-     <!-- 로그인 상태일 때 로그인 버튼 클릭(비정상 접근) -->
+     <!-- 로그인 상태일 때(비정상 접근) -->
     <c:if test="${m_number!=null}">
 	<div class="account-login section">
 	<div class="container">

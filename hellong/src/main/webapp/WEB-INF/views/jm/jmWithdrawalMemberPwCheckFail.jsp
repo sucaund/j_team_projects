@@ -1,17 +1,55 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 탈퇴</title>
+<title>회원 탈퇴 실패</title>
 </head>
 <body>
-회원 탈퇴 실패<br>
-비밀번호가 일치하지 않습니다.
-	<input type="button" value="뒤로 이동" onclick="history.back();" />
-	뒤로 이동하면 당연히 컨트롤러 거쳐서 작업 수행해 오류나므로, 특정 링크로 이동 필요
+<!-- 상단 시작 -->
+<div class="breadcrumbs">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 col-md-6 col-12">
+          <div class="breadcrumbs-content">
+            <h1 class="page-title">회원 탈퇴</h1>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <ul class="breadcrumb-nav">
+            <li>
+              <a href="/jmMyPage"><i class="lni lni-home"></i>마이페이지</a>
+            </li>
+            <li>회원 탈퇴</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 상단 끝 -->
+
+
+    <div class="account-login section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                    <div class="register-form"> 
+                        <div class="card-body">
+                            <div class="title">
+                                <h3>회원 탈퇴 실패</h3>
+								비밀번호가 일치하지 않습니다.
+                            </div>
+
+							<form method="get" action="jmWithdrawalMemberPwCheckForm">
+                            <button type="submit" class="btn btn-primary">뒤로 가기</button>
+							</form>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
