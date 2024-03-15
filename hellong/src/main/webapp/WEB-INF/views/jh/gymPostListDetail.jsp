@@ -68,29 +68,32 @@
 			    <div class="mb-4">
 			        <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-tags mr-2"></i> 헬스장 이용권 목록</h2>
 			        <div class="flex flex-col gap-4">
-			            <c:forEach var="service" items="${selectServiceList}" varStatus="loop">
-			                <div class="bg-gray-100 rounded-lg p-4 shadow-md <c:if test='${loop.index > 2}'>more-services hidden</c:if>'">
-			                    <div class="flex items-center justify-between mb-2">
-			                        <h5 class="text-lg font-bold text-gray-800">
-			                            <strong style="font-size: 20px">${service.s_name}</strong>
-			                        </h5>
-			                        <span class="text-gray-700">
-			                            <i class="fas fa-icon-class-name"></i> 
-			                        </span>
-			                    </div>
-			                    <input type="hidden" name="sd_number" value="${service.sd_number}">
-			                    <input type="hidden" name="g_id" value="${service.g_id}">
-			                    <input type="hidden" name="s_number" value="${service.s_number}">
-			                    <p class="text-gray-700">- 서비스 내용: <strong>${service.s_detail}</strong> </p>
-			                    <p class="text-gray-700">- 이용기간: <strong>${service.s_period} 일</strong></p>
-			                    <p class="text-gray-700 text-right">
-			                        <strong style="font-size: 20px">
-			                            가격: 
-			                            <fmt:formatNumber type="number" value="${service.s_price}" pattern="#,###"/>원 
-			                        </strong>
-			                    </p>
-			                </div>
-			            </c:forEach>
+						<c:forEach var="service" items="${selectServiceList}" varStatus="loop">
+						    <div class="bg-gray-100 rounded-lg p-4 shadow-md <c:if test='${loop.index > 2}'>more-services hidden</c:if>'">
+						        <div class="flex items-center justify-between mb-2">
+						            <h5 class="text-lg font-bold text-gray-800">
+						                <strong style="font-size: 20px">${service.s_name}</strong>
+						            </h5>
+						            <span class="text-gray-700">
+						                <i class="fas fa-icon-class-name"></i> 
+						            </span>
+						        </div>
+						        <!-- Use <a> tag to pass parameters via URL -->
+						        <a href="movePaymentForm?sd_number=${service.sd_number}&g_id=${service.g_id}&s_number=${service.s_number}">
+						            <input type="hidden" name="sd_number" value="${service.sd_number}">
+						            <input type="hidden" name="g_id" value="${service.g_id}">
+						            <input type="hidden" name="s_number" value="${service.s_number}">
+						            <p class="text-gray-700">- 서비스 내용: <strong>${service.s_detail}</strong> </p>
+						            <p class="text-gray-700">- 이용기간: <strong>${service.s_period} 일</strong></p>
+						            <p class="text-gray-700 text-right">
+						                <strong style="font-size: 20px">
+						                    가격: 
+						                    <fmt:formatNumber type="number" value="${service.s_price}" pattern="#,###"/>원 
+						                </strong>
+						            </p>
+						        </a>
+						    </div>
+						</c:forEach>
 			            
 			            <!-- 추가된 이용권 더보기 버튼 -->
 			            <button id="toggleServicesBtn" class="bg-blue-500 text-white py-2 px-4 rounded-lg 

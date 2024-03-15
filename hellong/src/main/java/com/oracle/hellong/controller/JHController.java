@@ -472,4 +472,28 @@ public class JHController {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 결제 폼 뷰 이동
+	@GetMapping(value="movePaymentForm")
+	public String movePaymentFormView (GSGSDetailJoin gsd, Model model) {
+		System.out.println("movePaymentFormView g_id->"+gsd.getG_id());
+		System.out.println("movePaymentFormView sd_number->"+gsd.getSd_number());
+		System.out.println("movePaymentFormView s_number->"+gsd.getS_number());
+		
+		return "";
+	}
+	
+	
+	
+	
+	
+	
 }
