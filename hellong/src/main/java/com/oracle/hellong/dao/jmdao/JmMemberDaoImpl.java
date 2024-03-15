@@ -85,7 +85,7 @@ public class JmMemberDaoImpl implements JmMemberDao {
 		System.out.println("JmMemberDaoImpl jmGetMemberFromNumber start..");
 		Member member = new Member();
 		try {
-			member = session.selectOne("jmMemberSelectOne", m_number);
+			member = session.selectOne("jmGetMemberFromNumber", m_number);
 			System.out.println("JmMemberDaoImpl jmGetMemberFromNumber getM_number->" + member.getM_number());
 		} catch (Exception e) {
 			System.out.println("JmMemberDaoImpl jmGetMemberFromNumber Exception->" + e.getMessage());
