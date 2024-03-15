@@ -133,9 +133,9 @@ public class DYBoardDaoImpl implements DYBoardDao {
 	@Override
 	public List<Board> searchBoards(Board board) {
 		List<Board> searchBoards = null;
-
+		
 		searchBoards = session.selectList("dySearchBoards", board);
-
+		
 		return searchBoards;
 	}
 	// 마이페이지 게시글 조회
@@ -145,4 +145,11 @@ public class DYBoardDaoImpl implements DYBoardDao {
 		searchMyPageList = session.selectList("dyMyPageSearch", board);
 		return searchMyPageList;
 	}
+
+	@Override
+	public void increaseReadCount(int b_number) {
+		session.update("dyIncreaseReadCount", b_number);
+		
+	}
+
 }

@@ -9,6 +9,9 @@ public class BoardFile {
 	private String 		bf_savedName; // 저장될 파일이름
 	private String 		bf_storedFileName; // 저장될 파일에 대한 새로운 이름
 	
+	// 조회용
+	private String 		keyword;
+	
 	public String getImagePath() {
 		return "C:/backup/" + bf_savedName;
 	}

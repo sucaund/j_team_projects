@@ -15,5 +15,5 @@ public class DYMemberDaoImpl implements DYMemberDao {
 
 	private final SqlSession session;
 
-
+	
 }

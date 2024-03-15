@@ -153,7 +153,7 @@ public class DYServiceImpl implements DYService {
 
 		return result;
 	}
-
+	
 	// 마이페이지 작성글 조회
 	@Override
 	public List<Board> myPageBoardList(Board board) {
@@ -164,7 +164,22 @@ public class DYServiceImpl implements DYService {
 	}
 
 	
+	// 게시판 내 파일 검색
+	@Override
+	public List<BoardFile> listSearchBoardFileByBoardId(int b_number) {
+		List<BoardFile> listSearchBoardFileByBoardId = null;
+		listSearchBoardFileByBoardId = dybfd.listSearchBoardFileByBoardId(b_number);
+		return listSearchBoardFileByBoardId;
+	}
+
+	@Override
+	public void increaseReadCount(int b_number) {
+		dybd.increaseReadCount(b_number);
+		
+	}
 	
+
+
 	
 
 	

@@ -13,9 +13,9 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class DYGymDaoImpl implements DYGymDao {
-
+	
 	private final SqlSession session;
-
+	
 	@Override
 	public List<Gym> searchGyms(Gym gym) {
 		List<Gym> searchGyms = null;

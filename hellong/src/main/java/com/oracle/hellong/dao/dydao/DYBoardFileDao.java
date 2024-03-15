@@ -17,6 +17,8 @@ public interface DYBoardFileDao {
 
 	List<BoardFile> listFileBodyProfile(BoardFile boardFile);
 
+	List<BoardFile> listSearchBoardFileByBoardId(int b_number);
+
 	
 	
 	

@@ -4,142 +4,125 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+	rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/dySelectBodyProfile.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>게시글 작성</title>
-<style>
-/* 전체 페이지에 대한 스타일 */
-body {
-	font-family: 'Arial', sans-serif;
-	background-color: #f5f5f5;
-	color: #333;
-	margin: 0;
-	padding: 20px;
-}
+<title>바디프로필 조회</title>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/dySelectBodyProfile.css">
 
-header {
-	text-align: center;
-	margin-bottom: 20px;
-}
-
-h1.title {
-	color: #444;
-}
-
-/* 폼 컨테이너 스타일 */
-.container {
-	background-color: #fff;
-	padding: 20px;
-	border-radius: 8px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	max-width: 800px;
-	margin: 0 auto;
-}
-
-/* 폼 요소 스타일 */
-form#writeForm {
-	display: flex;
-	flex-direction: column;
-}
-
-form#writeForm label {
-	margin-bottom: 5px;
-	font-weight: bold;
-}
-
-form#writeForm input[type=text], form#writeForm textarea, form#writeForm select
-	{
-	padding: 10px;
-	margin-bottom: 15px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	width: calc(100% - 22px); /* Correct padding and border */
-}
-
-form#writeForm input[type=text]:focus, form#writeForm textarea:focus,
-	form#writeForm select:focus {
-	outline: none;
-	border-color: #007bff;
-	box-shadow: 0 0 0 2px rgba(0, 123, 255, .25);
-}
-
-form#writeForm input[type=file] {
-	margin-bottom: 15px;
-}
-
-/* 버튼 스타일 */
-form#writeForm input[type=submit], form#writeForm input[type=button] {
-	cursor: pointer;
-	padding: 10px 20px;
-	color: #fff;
-	background-color: #007bff;
-	border: none;
-	border-radius: 4px;
-	transition: background-color 0.2s;
-}
-
-form#writeForm input[type=submit]:hover, form#writeForm input[type=button]:hover
-	{
-	background-color: #0056b3;
-}
-
-/* 푸터 스타일 */
-footer {
-	margin-top: 20px;
-	text-align: center;
-	font-size: 0.8em;
-	color: #666;
-}
-
-#imagePreview {
-	max-width: 100%;
-	height: auto;
-	margin-bottom: 10px;
-}
-/* 버튼 컨테이너 스타일 */
-.buttons-container {
-	display: flex;
-	justify-content: flex-end; /* 우측 정렬 */
-	margin-top: 10px;
-}
-</style>
 </head>
 <body>
 	<header>
-		<h1 class="title">헬롱 - 글쓰기</h1>
-
+		<h1 class="title">바디프로필 조회</h1>
 	</header>
-
+	<nav class="navigation">
+		<button>홈</button>
+		<button>블로그</button>
+		<button>프로젝트</button>
+		<button>마이페이지</button>
+	</nav>
 	<div class="container">
-		<form id="writeForm" method="post" action="dyWriteBodyProfile"
-			enctype="multipart/form-data">
-			<!-- 나머지 폼 요소들은 여기에 작성 -->
-			<label for="category">카테고리</label> <select id="category"
-				name="category">
-				<option value="자유게시판">자유게시판</option>
-				<option value="바디프로필">바디프로필</option>
-			</select> <br> <label for="title">제목</label> <input type="text"
-				id="b_title" name="b_title" required="required"> <br> <label
-				for="content">내용</label>
-			<textarea id="b_content" name="b_content" rows="10" cols="50"
-				required="required"></textarea>
-			<br> <label for="b_images">이미지 첨부</label> <input type="file"
-				id="b_images" name="b_images" required="required" multiple
-				onchange="displaySelectedImages(this)"> <br>
-			<!-- 이미지 미리보기를 표시할 영역 -->
-			<div id="imagePreview"></div>
-			<div class="buttons-container">
-				<input type="submit" value="등록" style="margin-right: 10px;">
-				<!-- 마진 추가로 버튼 사이 간격 조정 -->
-				<input type="button" onclick="location.href='listBodyProfile'"
-					value="취소">
-			</div>
-		</form>
-	</div>
+    <div class="body-profile-details">
+        <!-- 여기에 게시글 내용 표시 -->
+        <h2>${board.b_title }</h2>
+        <!--  여기에 사진첨부 ${board.b_images}-->
+        <!-- 이미지를 여러 개 첨부할 수 있다고 가정하고 이미지 리스트를 반복하여 표시 -->
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <!-- Indicators 동적 생성 -->
+            <div class="carousel-indicators">
+                <c:forEach items="${boardFile}" var="file" varStatus="status">
+                    <button type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide-to="${status.index}"
+                        class="${status.first ? 'active' : ''}"
+                        aria-current="${status.first ? 'true' : 'false'}"
+                        aria-label="Slide ${status.index + 1}"></button>
+                </c:forEach>
+            </div>
+
+            <!-- Carousel 내부 이미지 항목 동적 생성 -->
+            <div class="carousel-inner">
+                <c:forEach items="${boardFile}" var="file" varStatus="status">
+                    <div class="carousel-item ${status.first ? 'active' : ''}">
+                        <img src="<%=request.getContextPath()%>/upload/${file.bf_savedName}" class="d-block w-100" alt="...">
+                    </div>
+                </c:forEach>
+            </div>
+
+            <!-- 이전 버튼 -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <i class="bi bi-arrow-left-circle-fill" style="font-size: 2rem; color: black;"></i> <span class="visually-hidden">Previous</span>
+            </button>
+            <!-- 다음 버튼 -->
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <i class="bi bi-arrow-right-circle-fill" style="font-size: 2rem; color: black;"></i> <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <div class="body-profile-details">
+            <p>${board.b_content}</p>
+        </div>
+
+        <!-- 조회수, 추천수, 등록일자 -->
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <p>조회수 : ${board.b_readcount}</p>
+            </div>
+            <div class="col-md-4" >
+                <p>추천수 : ${board.b_recomm_count}</p>
+            </div>
+            <div class="col-md-4">
+                <p>등록일 : ${board.b_regdate}</p>
+            </div>
+        </div>
+
+        <div class="body-profile-actions">
+            <button type="button" class="btn btn-outline-dark">추천하기</button>
+            <button type="button" class="btn btn-outline-dark">신고하기</button>
+        </div>
+
+        <!-- 댓글 섹션 -->
+        <div class="comments-section">
+            <h3>댓글</h3>
+            <c:forEach var="comment" items="${comments}">
+                <div class="comment">
+                    <p>${comment.comment_content}</p>
+                </div>
+            </c:forEach>
+            <form action="addComment" method="post">
+                <textarea name="comment_content" rows="4" cols="50"></textarea>
+                <br>
+                <input type="hidden" name="b_number" value="${board.b_number}">
+                <input type="submit" value="댓글 작성">
+            </form>
+        </div>
+        <div class="d-flex justify-content-center flex-wrap">
+            <button type="button" class="btn btn-outline-dark" onclick="location.href='listBodyProfile'">게시판 목록</button>
+
+            <c:if test="${board.m_number != sessionScope.m_number}">
+                <button type="button" class="btn btn-outline-dark" disabled>게시글 수정</button>
+            </c:if>
+            <c:if test="${board.m_number == sessionScope.m_number}">
+                <button type="button" class="btn btn-outline-dark" onclick="location.href='dyUpdateFormBodyProfile?b_number=${board.b_number}'">게시글 수정</button>
+            </c:if>
+
+            <c:if test="${board.m_number != sessionScope.m_number}">
+                <button type="button" class="btn btn-outline-dark" disabled>게시글 삭제</button>
+            </c:if>
+            <c:if test="${board.m_number == sessionScope.m_number}">
+                <button type="button" class="btn btn-outline-dark" data-bnumber="${board.b_number}" onclick="return confirmDeletion(this);">게시글 삭제</button>
+            </c:if>
+        </div>
+    </div>
+</div>
+
+
 	<footer>
 		<p>2024 Hellong. All rights reserved.</p>
 	</footer>
-	<script
-		src="<%=request.getContextPath()%>/js/writeFormBodyProfile.js"></script>
+
 </body>
 </html>

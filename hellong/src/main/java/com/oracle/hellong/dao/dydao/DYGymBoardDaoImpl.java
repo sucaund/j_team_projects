@@ -12,13 +12,13 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class DYGymBoardDaoImpl implements DYGymBoardDao {
-
+	
 	private final SqlSession session;
-
+	
 	@Override
 	public List<GymBoard> searchGymBoards(GymBoard gymBoard) {
 		List<GymBoard> searchGymBoards = null;
-
+		
 		searchGymBoards = session.selectList("dySearchGymBoards", gymBoard);
 		return searchGymBoards;
 	}
