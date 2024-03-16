@@ -18,9 +18,9 @@
 			<tr><td>${num }</td>
 				<td>${listGym.g_name }</td>
 				<td><a href="hsMemberIndex?m_number=${listGym.m_number}&g_id=${listGym.g_id }
-													">${listGym.gb_photo }</a></td>
+													">헬스장 이미지</a></td>
 				<td>${listGym.first_regist_date}</td>
-				<td>누적: ${listGym.years}년 ${listGym.months }개월</td></tr>
+				<td>누적 이용일: ${listGym.period_of_use} </td></tr>
 			<c:set var="num" value="${num - 1 }"></c:set>
 		</c:forEach>
 	</table>	

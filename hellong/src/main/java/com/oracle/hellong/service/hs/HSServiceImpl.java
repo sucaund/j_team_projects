@@ -159,7 +159,7 @@ public class HSServiceImpl implements HSService {
 		 
 		return listPoint;
 	}
-	
+	 
 	// 포인트사용 내역
 	@Override
 	public int totalListGymOrderDeal(int m_number) {
@@ -209,62 +209,55 @@ public class HSServiceImpl implements HSService {
 	}
 
 	@Override
-	public List<GymOrder> listUsingGym(Member member) {
-		List<GymOrder> listGSDetail = null;
-		System.out.println("hsServiceImpl listUsingGSDetail start...");
-		listGSDetail = gd.listUsingGym(member);
-		System.out.println("hsServiceImpl listUsingGSDetail listGSDetail.size()-> " + listGSDetail.size());
-		return listGSDetail;
+	public List<GymOrder> listDetailUsingGym(Member member) {
+		List<GymOrder> listUsingGym = null;
+		System.out.println("hsServiceImpl listDetailUsingGym start...");
+		listUsingGym = gd.listDetailUsingGym(member);
+		System.out.println("hsServiceImpl listDetailUsingGym listUsingGym.size()-> " + listUsingGym.size());
+		return listUsingGym;
 	}
 	
 		/* 헬스장 회원권 구매,환불 공통 - getGymOrder */
 	
 	@Override
-	public GymOrder getGymOrder(Map<String, Object> params) {
-		GymOrder gymOrder = null;
-		System.out.println("hsServiceImpl getGymOrder start...");
-		gymOrder = gd.getGymOrder(params);
-		return gymOrder;
+	public GSDetail getGSDetailData(GSDetail gsDetail) {
+		GSDetail gymOrderData = null;
+		System.out.println("hsServiceImpl getGSDetailData start...");
+		gymOrderData = gd.getGSDetailData(gsDetail);
+		return gymOrderData;
 	}
 	
 		/* 헬스장 회원권 구매 */
-
-	// GSDetail에 구매정보 insert + 키값 받기
+	
 	@Override
-	public GS insertAndGetGSDetailData(GS gs) {
-		GS gsDetailData = null;
-		System.out.println("hsServiceImpl insertAndGetGSDetailData start...");
-		gsDetailData = gd.insertAndGetGSDetailData(gs);
-		System.out.println("hsServiceImpl insertAndGetGSDetailData gsDetailData-> " + gsDetailData.getS_number());
+	public GSDetail getGSDetailDataBuy(GSDetail gsDetail) {
+		GSDetail gsDetailData = null;
+		System.out.println("hsServiceImpl getGSDetailDataBuy start...");
+		gsDetailData = gd.getGSDetailDataBuy(gsDetail);
 		return gsDetailData;
 	}
 
-	// GymOrder에 구매정보 insert
 	@Override
-	public int insertGymOrder(GS gsDetailData, int m_number) {
-		int insertGymOrderResult = 0;
-		System.out.println("hsServiceImpl insertGymOrder start...");
-		insertGymOrderResult = gd.insertGymOrder(gsDetailData, m_number);
-		System.out.println("hsServiceImpl insertGymOrder insertGymOrderResult-> " + insertGymOrderResult);
-		return insertGymOrderResult;
+	public GSDetail insertAndGetGymOrder(GSDetail gsDetailData) {
+		GSDetail insertAndGetGymOrder = null;
+		System.out.println("hsServiceImpl insertAndGetGymOrder start...");
+		insertAndGetGymOrder = gd.insertAndGetGymOrder(gsDetailData);
+		return insertAndGetGymOrder;
+	}
+	
+	@Override
+	public int updateGymOrderBuy(GSDetail insertAndGetGymOrder) {
+		int updateGymOrderResultBuy = 0;
+		System.out.println("hsServiceImpl updateBuyGymOrder start...");
+		updateGymOrderResultBuy = gd.updateGymOrderBuy(insertAndGetGymOrder);
+		return updateGymOrderResultBuy;
 	}
 
-	// insert한 GSDetail 정보 업데이트
 	@Override
-	public int updateGSDetailBuy(GymOrder gymOrder) {
-		int updateGSDetailBuyResult = 0;
-		System.out.println("hsServiceImpl updateGSDetailBuy start...");
-		updateGSDetailBuyResult = gd.updateGSDetailBuy(gymOrder);
-		System.out.println("hsServiceImpl updateGSDetailBuy updateGSDetailBuyResult-> " + updateGSDetailBuyResult);
-		return updateGSDetailBuyResult;
-	}
-
-	// Member 구매포인트 업데이트
-	@Override
-	public int updatePointBuy(GymOrder gymOrder) {
+	public int updatePointBuy(GSDetail insertAndGetGymOrder) {
 		int updatePointBuyResult = 0;
 		System.out.println("hsServiceImpl updatePointBuy start...");
-		updatePointBuyResult = gd.updatePointBuy(gymOrder);
+		updatePointBuyResult = gd.updatePointBuy(insertAndGetGymOrder);
 		return updatePointBuyResult;
 	}
 
@@ -290,47 +283,37 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl getListGymService listGymService.size()-> " + listGymService.size());
 		return listGymService;
 	}
-
+  
 	// 이용중인 헬스장 예상 환불금액 조회
 	@Override
-	public GymOrder getRefundData(int g_id, int s_number, int sd_number, int m_number) {
+	public GymOrder getRefundData(int g_id, int s_number, int sd_number, int m_number, int go_number) {
 		GymOrder refundData = null;
 		System.out.println("hsServiceImpl getRefundData start...");
-		refundData = gd.getRefundData(g_id, s_number, sd_number, m_number);
+		refundData = gd.getRefundData(g_id, s_number, sd_number, m_number, go_number);
 		System.out.println("hsServiceImpl getRefundPrice refundData-> " + refundData.getRefund_point()); 
 		return refundData;
 	}
 
 	// GymOrder에 환불정보 업데이트
 	@Override
-	public int updateGymOrder(Map<String, Object> params) {
-		int updateGymOrderResult = 0;
+	public int updateGymOrderRefund(Map<String, Object> params) {
+		int updateGymOrderRefundResult = 0;
 		System.out.println("hsServiceImpl updateGymOrder start...");
-		updateGymOrderResult = gd.updateGymOrder(params);
-		System.out.println("hsServiceImpl updateGymOrder updateGymOrderResult-> " + updateGymOrderResult);
-		return updateGymOrderResult;
-	}
-
-	// GSDetail에 환불정보 업데이트
-	@Override
-	public int updateGSDetailRefund(GymOrder gymOrder) {
-		int updateGSDetailRefundResult = 0;
-		System.out.println("hsServiceImpl updateGSDetailRefund start...");
-		updateGSDetailRefundResult = gd.updateGSDetailRefund(gymOrder);
-		System.out.println("hsServiceImpl updateGSDetailRefund updateGSDetailRefundResult-> " + updateGSDetailRefundResult);
-		return updateGSDetailRefundResult;
+		updateGymOrderRefundResult = gd.updateGymOrderRefund(params);
+		System.out.println("hsServiceImpl updateGymOrder updateGymOrderRefundResult-> " + updateGymOrderRefundResult);
+		return updateGymOrderRefundResult;
 	}
 
 	// Member 환불포인트 업데이트
 	@Override
-	public int updatePointRefund(GymOrder gymOrder) {
+	public int updatePointRefund(Map<String, Object> params) {
 		int updatePointRefundResult = 0;
 		System.out.println("hsServiceImpl updatePointRefund start...");
-		updatePointRefundResult = gd.updatePointRefund(gymOrder);
+		updatePointRefundResult = gd.updatePointRefund(params);
 		System.out.println("hsServiceImpl updatePointRefund updatePointRefundResult-> " + updatePointRefundResult);
 		return updatePointRefundResult;
 	}
- 
-	
+
+
 
 }

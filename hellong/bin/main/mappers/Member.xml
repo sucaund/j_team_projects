@@ -161,9 +161,10 @@
 	</update>
 
 
-		<!-- 현승 xml -->
+			<!-- 현승 xml -->
+			
 		
-	<!-- 공통 - 회원정보 조회 -->
+		<!-- 공통 - 회원정보 조회 -->
 		
 	<select id="hsGetMemberData" parameterType="int" resultType="Member">
 		SELECT *
@@ -171,7 +172,7 @@
 		WHERE m_number=#{m_number}
 	</select>
 	
-	<!-- 임시 로그인 -->
+		<!-- 임시 로그인 -->
 		
 	<select id="hsTotalMemberCnt" resultType="int">
 		SELECT count(*) FROM member

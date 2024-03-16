@@ -32,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class HSController { //////
+	
 	private final HSService hs;
 
 //	 @GetMapping()
@@ -262,23 +263,23 @@ public class HSController { //////
 		System.out.println("hsController hsListPoint memberNumber ->" + memberData.getM_number());
 		model.addAttribute("memberData", memberData); 
 		 
-		 int totalListPointDeal = hs.totalListGymOrderDeal(member.getM_number());
-		 System.out.println("hsController hsListPoint totalListPointDeal ->" + totalListPointDeal);
+		int totalListPointDeal = hs.totalListGymOrderDeal(member.getM_number());
+		System.out.println("hsController hsListPoint totalListPointDeal ->" + totalListPointDeal);
 		 
-		 HSPaging page = new HSPaging(totalListPointDeal, member.getCurrentPage());
-		 member.setStart(page.getStart()); 
-		 member.setEnd(page.getEnd());
+		HSPaging page = new HSPaging(totalListPointDeal, member.getCurrentPage());
+		member.setStart(page.getStart()); 
+		member.setEnd(page.getEnd());
 		 
-		 List<GymOrder> listGymOrderDeal = hs.listGymOrderDeal(member);
-		 System.out.println("hsController hsListPointCharge listPointCharge.size() ->" +listGymOrderDeal.size()); 
-		 System.out.println("DealTest Controller: " +listGymOrderDeal);
+		List<GymOrder> listGymOrderDeal = hs.listGymOrderDeal(member);
+		System.out.println("hsController hsListPointCharge listPointCharge.size() ->" +listGymOrderDeal.size()); 
+		System.out.println("DealTest Controller: " +listGymOrderDeal);
 		 
-		 model.addAttribute("totalListPoint", totalListPointDeal);
-		 model.addAttribute("listPoint", listGymOrderDeal); 
-		 model.addAttribute("page", page);
-		 model.addAttribute("category", "사용");
+		model.addAttribute("totalListPoint", totalListPointDeal);
+		model.addAttribute("listPoint", listGymOrderDeal); 
+		model.addAttribute("page", page);
+		model.addAttribute("category", "사용");
 		 
-		 return "hs/listUsePoint"; 
+		return "hs/listUsePoint"; 
 	}
 	
 	// 포인트 환불내역
@@ -385,15 +386,19 @@ public class HSController { //////
 
 	@RequestMapping(value = "hsChargeFormPoint")
 	public String hsChargeFormPoint(Member member, Model model) {
-		// api 사용
+		
+		System.out.println("hsController hsChargeFormPoint start...");
+		Member memberData = hs.getMemberData(member.getM_number());
 
+		model.addAttribute("memberData", memberData);
+		
 		return "hs/chargeFormPoint";
 	}
 
-	@PostMapping(value = "hsChargePoint")
-	public String hsChargePoint(Member member, Model model) {
-
-		return null;
+	@GetMapping(value = "hsChargePoint")
+	public String hsChargePoint(PointCharge pointCharge, Model model) {
+		System.out.println("charge check: " + pointCharge.getM_number() + " " +  pointCharge.getCharge_point());
+		return "redirect:hsMemberIndex?m_number=" + pointCharge.getM_number();
 	}
 
 	/* 헬스장 이용내역 조회 */
@@ -402,7 +407,6 @@ public class HSController { //////
 	public String hsDetailUsingGym(Member member, Model model) {
 
 		// 팀원분들 data 참고
-
 		System.out.println("hsController hsDetailUsingGym start...");
 
 		int totalGym = hs.totalUsingGym(member.getM_number());
@@ -412,8 +416,8 @@ public class HSController { //////
 		member.setStart(page.getStart());
 		member.setEnd(page.getEnd());
 
-		List<GymOrder> listUsingGym = hs.listUsingGym(member);
-		System.out.println("hsController hsDetailUsingGym listGSDetail.size()-> " + listUsingGym.size());
+		List<GymOrder> listUsingGym = hs.listDetailUsingGym(member);
+		System.out.println("hsController hsDetailUsingGym listUsingGym.size()-> " + listUsingGym.size());
 		model.addAttribute("m_number", member.getM_number());
 		model.addAttribute("listUsingGym", listUsingGym);
 		model.addAttribute("page", page);
@@ -422,13 +426,48 @@ public class HSController { //////
 	}
 
 	/* 헬스장 회원권 구매 */
+	
+	// 지훈님 버튼 클릭시 data 받는 메소드
+	@RequestMapping(value="hsGetGSDetailData")
+	public String hsGetGSDetailData(GSDetail gsDetail, Model model) {
+		System.out.println("hsController hsGetGymOrderData start...");
+		
+		Member memberData = hs.getMemberData(gsDetail.getM_number());
+		GSDetail gsDetailData = hs.getGSDetailData(gsDetail);
+		
+		model.addAttribute("memberData", memberData);
+		model.addAttribute("gsDetailData", gsDetailData);
+		
+		return "hs/buyFormGymMembership";
+	}
 
 	// 결제 버튼 클릭 시 g_id, s_number, m_number 제공받아 시작
 	@PostMapping(value = "hsBuyGymMembership")
-	public String hsBuyGymMembership(GS gs, Member member, Model model) {
+	public String hsBuyGymMembership(GSDetail gsDetail, Member member, Model model) {
 
 		System.out.println("hsController hsBuyGymMembership start...");
-
+		
+		// 1. GSDetail 조회 (s_period, sd_price 값 받기 - join)
+		System.out.println("1. GSDetail 조회 - s_period, sd_price 값 받기");
+		GSDetail gsDetailData = hs.getGSDetailDataBuy(gsDetail);
+		
+		// 2. GymOrder insert
+		System.out.println("2. GymOrder insert");
+				
+		GSDetail insertAndGetGymOrder = hs.insertAndGetGymOrder(gsDetailData);
+		System.out.println("hsController hsBuyGymMembership insertAndGetGymOrder.getGo_number-> " + insertAndGetGymOrder.getGo_number());
+		
+		// 3. GymOrder 업데이트 (go_enddate)
+		System.out.println("3. GymOrder 업데이트 - go_enddate");
+		int updateGymOrderBuyReuslt = hs.updateGymOrderBuy(insertAndGetGymOrder);
+		
+		
+		// 4. member 정보 업데이트
+		System.out.println("3. Member 포인트 업데이트");
+		int updatePointBuyResult = hs.updatePointBuy(insertAndGetGymOrder);
+		System.out.println("hsController hsBuyGymMembership");
+		
+		/*
 		// 1. GSDetail에 구매정보 insert + 키값 받기
 		// -> gs_detail table에 insert하면서 sd_number(gs_detail의 키값) 받아오기
 		System.out.println("1. insertAndGetGSDetailData start...");
@@ -465,7 +504,9 @@ public class HSController { //////
 		System.out.println("5. updatePointBuy start...");
 		int updatePointBuyResult = hs.updatePointBuy(gymOrder);
 		System.out.println("hsController hsBuyGymMembership updatePointBuyResult-> " + updatePointBuyResult);
-
+		*/
+		
+		
 		return "redirect:hsMemberIndex?m_number=" + member.getM_number();
 	}
 
@@ -500,19 +541,22 @@ public class HSController { //////
 	// 처음에 헬스장이름 선택 시 클릭안해도 바로 환불금액 조회 (sub ajax)
 	@ResponseBody
 	@GetMapping(value = "hsGetFirstRefundData")
-	public GymOrder hsGetFirstRefundData(@RequestParam("g_id") int g_id, @RequestParam("s_number") int s_number,
-			@RequestParam("sd_number") int sd_number, @RequestParam("m_number") int m_number) {
-		GymOrder firstRefundData = hs.getRefundData(g_id, s_number, sd_number, m_number);
+	public GymOrder hsGetFirstRefundData(@RequestParam("g_id") int g_id, @RequestParam("s_number") int s_number, 
+										 @RequestParam("sd_number") int sd_number, @RequestParam("m_number") int m_number, 
+										 @RequestParam("go_number") int go_number) {
+		
+		GymOrder firstRefundData = hs.getRefundData(g_id, s_number, sd_number, m_number, go_number);
 		return firstRefundData;
 	}
 
 	// 환불 폼에서 이용중인 헬스장 예상 환불금액 조회 (ajax)
 	@ResponseBody
 	@GetMapping(value = "hsGetRefundData")
-	public GymOrder hsGetRefundData(@RequestParam("g_id") int g_id, @RequestParam("s_number") int s_number,
-			@RequestParam("sd_number") int sd_number, @RequestParam("m_number") int m_number) {
+	public GymOrder hsGetRefundData(@RequestParam("g_id") int g_id, @RequestParam("s_number") int s_number, 
+									@RequestParam("sd_number") int sd_number, @RequestParam("m_number") int m_number,
+									@RequestParam("go_number") int go_number) {
 		System.out.println("getRefund: " + g_id + " & " + s_number + " & " + sd_number + " & " + m_number);
-		GymOrder refundData = hs.getRefundData(g_id, s_number, sd_number, m_number);
+		GymOrder refundData = hs.getRefundData(g_id, s_number, sd_number, m_number, go_number);
 		return refundData;
 	}
 
@@ -520,12 +564,12 @@ public class HSController { //////
 	@ResponseBody
 	@RequestMapping(value = "hsRefundUsingGym")
 	public String hsRefundUsingGym(@RequestParam("g_id") int g_id, @RequestParam("s_number") int s_number,
-			@RequestParam("sd_number") int sd_number, @RequestParam("m_number") int m_number,
-			@RequestParam("refund_point") int refund_point) {
+								   @RequestParam("sd_number") int sd_number, @RequestParam("m_number") int m_number, 
+								   @RequestParam("go_number") int go_number, @RequestParam("refund_point") int refund_point) {
 
 		System.out.println("hsController hsRefundUsingGym start...");
 		System.out.println("check value: " + g_id + " & " + s_number + " & " 
-											+ sd_number + " & " + m_number + " & " + refund_point);
+											+ sd_number + " & " + m_number + " & " + go_number + " & " + refund_point);
 
 		// 1. GymOrder에 환불정보 업데이트
 		// -> 조회한 예상환불금액으로 변경
@@ -536,24 +580,14 @@ public class HSController { //////
 		params.put("s_number", s_number);
 		params.put("sd_number", sd_number);
 		params.put("m_number", m_number);
+		params.put("go_number", go_number);
 		params.put("refund_point", refund_point);
 
-		int updateGymOrderResult = hs.updateGymOrder(params);
+		int updateGymOrderRefundResult = hs.updateGymOrderRefund(params);
 
-		// 2. 업데이트한 GymOrder 정보 조회
-		// -> 환불금액 업데이트 한 데이터 가져오기
-		System.out.println("2. getGymOrderRefund start...");
-		GymOrder gymOrder = hs.getGymOrder(params);
-
-		// 3. GSDetail에 환불정보 업데이트
-		// -> 조회한 GymOrder의 refund_date로 GSDetail의 s_enddate 변경
-		// 만료구분 1로 변경
-		System.out.println("3. updateGSDetailRefund start...");
-		int updateGSDetailRefundResult = hs.updateGSDetailRefund(gymOrder);
-
-		// 4. Member 환불포인트 업데이트
-		System.out.println("4. updatePointRefund start...");
-		int updatePointRefundResult = hs.updatePointRefund(gymOrder);
+		// 2. Member 환불포인트 업데이트
+		System.out.println("2. updatePointRefund start...");
+		int updatePointRefundResult = hs.updatePointRefund(params);
 
 		return "hs/memberIndex?m_number=" + m_number;
 	}
