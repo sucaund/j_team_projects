@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DYController {
 	private final DYService dys;
-
+	// 게시글리스트
 	@GetMapping(value = "listBodyProfile")
 	public String bodyProfileList(Board board, BoardFile boardFile, Model model) {
 		System.out.println("DYController Start listBoard...");
@@ -97,31 +97,33 @@ public class DYController {
 		// 조회수 증가
 		int b_number = board1.getB_number();
 		dys.increaseReadCount(b_number);
+		// 게시글 및 파일 조회
 		Board board = dys.selectBodyProfile(board1.getB_number());
 		List<BoardFile> boardFile = dys.selectBodyProfileFileList(boardFile1.getB_number());
 		model.addAttribute("board", board);
 		model.addAttribute("boardFile", boardFile);
-		
+
 		return "dy/dySelectBodyProfile";
 	}
-	
+
 	// 게시글 업데이트 폼
 	@GetMapping(value = "dyUpdateFormBodyProfile")
 	public String dyUpdateFormBodyProfile(Board board1, Model model, HttpSession session) {
-	    if (session.getAttribute("m_number") != null) { //로그인 되어있음
-	        Board board = dys.selectBodyProfile(board1.getB_number());
-	        
-	        if ((int) session.getAttribute("m_number") == board.getM_number()) { //로그인했는데 당사자가 맞을때
-	            // 로직 처리
-	            return "dy/dyUpdateFormBodyProfile";
-	        } else { // 로그인했으나 당사자가 아닐 때
-	        	return "dy/listBodyProfile";
-	        }
-	        
-	    } else { //로그인 안됨
-	    	return "forward:jmLoginForm"; 
-	    }
+		if (session.getAttribute("m_number") != null) { // 로그인 되어있음
+			Board board = dys.selectBodyProfile(board1.getB_number());
+
+			if ((int) session.getAttribute("m_number") == board.getM_number()) { // 로그인했는데 당사자가 맞을때
+				// 로직 처리
+				return "dy/dyUpdateFormBodyProfile";
+			} else { // 로그인했으나 당사자가 아닐 때
+				return "dy/listBodyProfile";
+			}
+
+		} else { // 로그인 안됨
+			return "forward:jmLoginForm";
+		}
 	}
+
 	// 게시글 업데이트
 	@PostMapping(value = "dyUpdateBodyProfile")
 	public String dyUpdateBodyProfile(Board board, @RequestParam("files") MultipartFile[] newFiles, Model model) {
@@ -246,32 +248,33 @@ public class DYController {
 		int result = dys.deleteBodyProfile(board.getB_number());
 		return "redirect:/listBodyProfile";
 	}
-	
+
 	// 게시판 내 검색
 	@RequestMapping(value = "dyBoardSearch")
-	public String dyBoardSearch(Board board,BoardFile boardFile, Model model) {
-	    System.out.println("DYController BoardSearch Start...");
-	    int totalBodyProfile = dys.condTotalBodyProfile(board);
-	    DYPaging page = new DYPaging(totalBodyProfile, board.getCurrentPage());
-	    board.setStart(page.getStart());
-	    board.setEnd(page.getEnd());
+	public String dyBoardSearch(Board board, BoardFile boardFile, Model model) {
+		System.out.println("DYController BoardSearch Start...");
+		int totalBodyProfile = dys.condTotalBodyProfile(board);
+		DYPaging page = new DYPaging(totalBodyProfile, board.getCurrentPage());
+		board.setStart(page.getStart());
+		board.setEnd(page.getEnd());
 
-	    List<Board> listSearchBoard = dys.listSearchBoard(board);
-	    Map<Integer, String> firstImageMap = new HashMap<>();
+		List<Board> listSearchBoard = dys.listSearchBoard(board);
+		Map<Integer, String> firstImageMap = new HashMap<>();
 
-	    for(Board b : listSearchBoard) {
-	        List<BoardFile> files = dys.listSearchBoardFileByBoardId(b.getB_number()); // 이 메서드는 각 게시글 ID에 해당하는 첫 번째 파일 정보만 조회해야 함
-	        if(!files.isEmpty()) {
-	            firstImageMap.put(b.getB_number(), files.get(0).getBf_savedName()); // 예시에서는 파일 경로를 저장
-	        }
-	    }
+		for (Board b : listSearchBoard) {
+			List<BoardFile> files = dys.listSearchBoardFileByBoardId(b.getB_number()); // 이 메서드는 각 게시글 ID에 해당하는 첫 번째 파일
+																						// 정보만 조회해야 함
+			if (!files.isEmpty()) {
+				firstImageMap.put(b.getB_number(), files.get(0).getBf_savedName()); // 예시에서는 파일 경로를 저장
+			}
+		}
 
-	    model.addAttribute("totalBodyProfile", totalBodyProfile);
-	    model.addAttribute("listBodyProfile", listSearchBoard);
-	    model.addAttribute("firstImageMap", firstImageMap);
-	    model.addAttribute("page", page);
+		model.addAttribute("totalBodyProfile", totalBodyProfile);
+		model.addAttribute("listBodyProfile", listSearchBoard);
+		model.addAttribute("firstImageMap", firstImageMap);
+		model.addAttribute("page", page);
 
-	    return "dy/dyBodyProfile";
+		return "dy/dyBodyProfile";
 	}
 
 	// 헤더 통합검색

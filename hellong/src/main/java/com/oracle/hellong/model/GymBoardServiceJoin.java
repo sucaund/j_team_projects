@@ -34,6 +34,7 @@ public class GymBoardServiceJoin { //체육관 게시물 + 체육관 서비스
     private int s_price; //공지가격 //nn
     private int s_period;//이용적용기간 //nn
     private String s_matters;//특이사항
+    private int s_isdeleted;
 
     private int min_s_price;
 

@@ -91,13 +91,14 @@
 			<input type="submit" value="검색">
 		</form>
 	</div>
+	<p>
 	<div style="display: grid; place-items: center;">
 		<c:if test="${page.startPage > page.pageBlock}">
 			<a href="jjCategorySearch?currentPage=${page.startPage-page.pageBlock}&cateSearch=${param.cateSearch}">[이전]</a>
 		</c:if>
-		<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+		<div class="btn-group btn-group-sm mr-2" role="group" aria-label="Toolbar with button groups">
 			<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-            	<button type="button" class="btn btn-primary" onclick="jjCategorySearchSubmit(${i})">${i}</button>
+            	<button type="button" class="btn btn-secondary" onclick="jjCategorySearchSubmit(${i})">${i}</button>
  			</c:forEach>
  		
  		</div>

@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GSDetailMapper">
-
-	<insert id="hsInsertAndGetGSDetailData" parameterType="GS" useGeneratedKeys="true" keyColumn="sd_number" keyProperty="sd_number">
-		<!-- g_id, s_number, s_price 받아온거로 교체 -->
-		<!-- INSERT INTO g_s_detail VALUES (#{g_id}, #{s_number}, SD_NUMBER_SEQ.nextval, #{s_price}, null, null, null, 0); -->
-		INSERT INTO g_s_detail VALUES (3, 12, SD_NUMBER_SEQ.nextval, 400000, null, null, null, 0);
-	</insert>
 	
 	<insert id="getCreateServiceDetail" parameterType="GS" >
 		insert into G_S_DETAIL(g_id, s_number, sd_number, sd_price, sd_startdate,sd_matters)

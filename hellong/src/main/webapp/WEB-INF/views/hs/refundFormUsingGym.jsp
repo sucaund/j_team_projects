@@ -23,7 +23,7 @@
 	            success: function(data) {
 	                var options = "";
 	                for (var i = 0; i < data.length; i++) {
-	                    options += "<option value='" + data[i].s_number + "," + data[i].sd_number + "," + data[i].m_number + "'>" + data[i].rl_s_name + "</option>";
+	                    options += "<option value='" + data[i].s_number + "," + data[i].sd_number + "," + data[i].m_number + "," + data[i].go_number + "'>" + data[i].rl_s_name + "</option>";
 	                }
 	                $("#selectedGymService").html(options);
 	                
@@ -31,7 +31,11 @@
 	    	        $.ajax({
 	    	            type: "GET",
 	    	            url: "hsGetFirstRefundData",
-	    	            data: {g_id: g_id, s_number: data[0].s_number, sd_number: data[0].sd_number, m_number: m_number},
+	    	            data: {g_id: g_id, 
+	    	            	   s_number: data[0].s_number, 
+	    	            	   sd_number: data[0].sd_number, 
+	    	            	   m_number: m_number, 
+	    	            	   go_number: data[0].go_number},
 	    	            dataType: "json",
 	    	            success: function(data) {
     	            	   $("#refundPrice").text(data.refund_point);
@@ -55,11 +59,16 @@
 	        var s_number = selectedService[0];
 	        var sd_number = selectedService[1];
 	        var m_number = selectedService[2];
+	        var go_number = selectedService[3];
 	        
 	        $.ajax({
 	            type: "GET",
 	            url: "hsGetRefundData",
-	            data: {g_id: g_id, s_number: s_number, sd_number: sd_number, m_number: m_number},
+	            data: {g_id: g_id, 
+	            	   s_number: s_number, 
+	            	   sd_number: sd_number, 
+	            	   m_number: m_number, 
+	            	   go_number: go_number},
 	            dataType: "json",
 	            success: function(data) {
 	                $("#refundPrice").text(data.refund_point);
@@ -70,7 +79,7 @@
 	            }
 	        });
 	    });
-	/*    
+	    
 		$("#sendParamsValues").submit(function(event) {
 			event.preventDefault();
 			var g_id = $("#selectedGym").val();
@@ -78,6 +87,7 @@
 			var s_number = selectedService[0];
 			var sd_number = selectedService[1];
 			var m_number = selectedService[2];
+			var go_number = selectedService[3];
 			var refund_point = $("#refundPrice").text();
 			var refund_criteria = $("#refundCriteria").text();
 
@@ -89,57 +99,22 @@
 					s_number: s_number,
 					sd_number: sd_number,
 					m_number: m_number,
+					go_number: go_number,
 					refund_point: refund_point,
 					refund_criteria: refund_criteria
 				},
 				success: function(response) {
 					console.log(g_id + " & " + s_number + " & " + sd_number + " & " + m_number + " & " + refund_point + " & " + refund_criteria);
-					window.location.href = "hs/memberIndex?m_number=" + m_number;
+					window.location.href = "hsMemberIndex?m_number=" + m_number;
 					
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
 					console.log("Error: " + textStatus + " - " + errorThrown);
 				}
 			});
-		});*/
-	    
- 	  	$("input[type='submit']").click(function(event) {
-	        // 폼 제출 방지
-	        event.preventDefault();
-	        
-	        var g_id = $("#selectedGym").val();
-		    var selectedService = $("#selectedGymService").val().split(",");
-		    var s_number = selectedService[0];
-		    var sd_number = selectedService[1];
-		    var m_number = selectedService[2];
-		    var refund_point = $("#refundPrice").text();
-		    var refund_criteria = $("#refundCriteria").text();
-
-	        // AJAX 요청을 통해 데이터를 Controller로 전송
-	        $.ajax({
-	            type: "GET",
-	            url: "hsRefundUsingGym",
-	            data: {
-	                g_id: g_id,
-	                s_number: s_number,
-	                sd_number: sd_number,
-	                m_number: m_number,
-	                refund_point: refund_point,
-	                refund_criteria: refund_criteria
-	            },
-	            success: function(response) {
-	                console.log(g_id + " & " + s_number + " & " + sd_number + " & " + m_number + " & " + refund_point + " & " + refund_criteria);
-	                window.location.href = "hs/memberIndex?m_number=" + m_number;
-	            },
-	            error: function(jqXHR, textStatus, errorThrown) {
-	                console.log("Error: " + textStatus + " - " + errorThrown);
-	            }
-	        });
-	    }); 
+		});
 
 	});
- 
-
 </script>
 </head>
 <body>

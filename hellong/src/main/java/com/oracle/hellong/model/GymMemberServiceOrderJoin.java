@@ -14,6 +14,7 @@ public class GymMemberServiceOrderJoin {
     private int 		s_price; //공지가격 //nn
     private int 		s_period;//이용적용기간 //nn
     private String 		s_matters;//특이사항
+    private int s_isdeleted;
 
 
 	//gs_detail
@@ -46,6 +47,7 @@ public class GymMemberServiceOrderJoin {
 
 
 	//gym_order
+	private int 		go_number;
     private int 		use_point; //사용포인트
     private String  	deal_date; //거래날짜
     private String  	refund_date; //환불일자 nn

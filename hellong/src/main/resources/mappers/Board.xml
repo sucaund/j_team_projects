@@ -460,6 +460,8 @@
 	
 	
 	<!-- 현승 xml -->
+	
+		<!-- 공지사항 -->
 
 	<!-- 공지글 리스트 -->
 	<select id="hsNoticeBoardTotal" resultType="int">

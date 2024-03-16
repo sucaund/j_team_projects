@@ -54,7 +54,8 @@ public class HSPointDaoImpl implements HSPointDao {
 	public int totalListGymOrderDeal(int m_number) {
 		int totalListGymOrderDealCnt = 0;
 		System.out.println("PointDaoImpl totalListGymOrderDeal start...");
-		try { totalListGymOrderDealCnt = session.selectOne("com.oracle.hellong.GymOrderMapper.hsTotalListGymOrderDealCnt", m_number);
+		try { 
+			totalListGymOrderDealCnt = session.selectOne("com.oracle.hellong.GymOrderMapper.hsTotalListGymOrderDealCnt", m_number);
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl totalListGymOrderDeal Exception ->" + e.getMessage()); 
 		} 
@@ -80,7 +81,9 @@ public class HSPointDaoImpl implements HSPointDao {
 	public int totalListGymOrderRefund(int m_number) {
 		int totalListGymOrderRefundCnt = 0;
 		System.out.println("PointDaoImpl totalListGymOrderRefund start...");
-		try { totalListGymOrderRefundCnt = session.selectOne("hsTotalListGymOrderRefundCnt", m_number);
+		try { 
+			System.out.println("totalListGymOrderRefund check: " + m_number);
+			totalListGymOrderRefundCnt = session.selectOne("hsTotalListGymOrderRefundCnt", m_number);
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl totalListGymOrderRefund Exception ->" + e.getMessage()); 
 		} 
@@ -93,6 +96,7 @@ public class HSPointDaoImpl implements HSPointDao {
 		System.out.println("PointDaoImpl listGymOrderRefund start...");
 
 		try {
+			System.out.println("listGymOrderRefund chechk: " + member.getM_number());
 			listPoint = session.selectList("hsListGymOrderRefund", member);
 			System.out.println("Refund Test PointDaoImpl: " +listPoint);
 		} catch (Exception e) {

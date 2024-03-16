@@ -80,7 +80,7 @@ public class JHController {
 	
 	
 	// 관리 헬스장 리스트 불러오기**********************************************************************************************************
-/*	@GetMapping(value = "listGymManager")
+	@GetMapping(value = "listGymManager")
 	public String gymManager(HttpSession session, Gym m_id, Model model) {	
 		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
 			Member member = new Member();
@@ -96,12 +96,11 @@ public class JHController {
 		} else {
 			return "jm/jmLoginForm";
 		}
-		
-		
-	}*/
+			
+	}
 	
 	
-	@GetMapping(value = "listGymManager")
+	/*@GetMapping(value = "listGymManager")
 	public String gymManager(HttpSession session, Gym m_id, Model model) {	
 			Member member = new Member();
 			member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));	
@@ -112,32 +111,38 @@ public class JHController {
 				return "jh/gymManager";
 		
 		
-	}
+	}*/
 	
 	
 	// 관리헬스장 홍보글 등록/수정 화면 이동********************************************************************************************************
 	@GetMapping(value = "createGymForm")
-	public String createGymPost(Gym g_id, Model model) {
-		System.out.println("JHController createGymPost start");
-		String rtn = "";
-		// gymBoard id 조회 => GymBoard에 글이 등록되어 있는지 확인 => 1대1 관계이므로....
-		int gymForm = jh.gymForm(g_id);
-		List<Gym> gymDetail = jh.createGymPost(g_id.getG_id());
-		List<GymBoard> gymBoardDetail = jh.gymBoardDetail(g_id);
-		if(gymForm == 0) {
+	public String createGymPost(HttpSession session, Gym g_id, Model model) {
+		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
+			Member member = new Member();
+			member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));
 			System.out.println("JHController createGymPost start");
-			model.addAttribute("gymDetail",gymDetail);
-			rtn = "jh/createGymPost";
-		}
-		else {	// 글이 있을 경우=>수정 폼 이동
-			System.out.println("JHController updateGymPost start");
-			List<GymBoardFile> gbf_idList = jh.gbf_idList(g_id);
-			model.addAttribute("fileList",gbf_idList);
-			model.addAttribute("gymDetail",gymDetail);
-			model.addAttribute("gymBoardDetail",gymBoardDetail);
-			rtn = "jh/updateGymPost";
-		}		
-		return rtn;
+			String rtn = "";
+			// gymBoard id 조회 => GymBoard에 글이 등록되어 있는지 확인 => 1대1 관계이므로....
+			int gymForm = jh.gymForm(g_id);
+			List<Gym> gymDetail = jh.createGymPost(g_id.getG_id());
+			List<GymBoard> gymBoardDetail = jh.gymBoardDetail(g_id);
+			if(gymForm == 0) {
+				System.out.println("JHController createGymPost start");
+				model.addAttribute("gymDetail",gymDetail);
+				rtn = "jh/createGymPost";
+			}
+			else {	// 글이 있을 경우=>수정 폼 이동
+				System.out.println("JHController updateGymPost start");
+				List<GymBoardFile> gbf_idList = jh.gbf_idList(g_id);
+				model.addAttribute("fileList",gbf_idList);
+				model.addAttribute("gymDetail",gymDetail);
+				model.addAttribute("gymBoardDetail",gymBoardDetail);
+				rtn = "jh/updateGymPost";
+			}		
+			return rtn;
+		} else {
+			return "jm/jmLoginForm";
+		}	
 		
 	}
 	
@@ -168,20 +173,27 @@ public class JHController {
 	// 트레이너 리스트 *****************************************************************************************************
 
 	@GetMapping(value = "trainerList")
-	public String trainerList(Gym gym, Trainer trainer,Model model) {
-		//trainerList 조회
-		int totalGym = jh.totalTrainer(trainer.getG_id());
-		Paging page = new Paging(totalGym,trainer.getCurrentPage());
-		//추가버튼에 id 넘겨줌
-		int gymId = jh.gymId(gym.getG_id());	
-		trainer.setStart(page.getStart());	
-		trainer.setEnd(page.getEnd());	
-		System.out.println("JHController trainerList start");
-		List<Trainer>trainerList = jh.trainerList(trainer);
-		model.addAttribute("gym",gymId);
-		model.addAttribute("page",page );
-		model.addAttribute("trainerList",trainerList);
-		return "jh/trainerList";
+	public String trainerList(HttpSession session,Gym gym, Trainer trainer,Model model) {
+		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
+			Member member = new Member();
+			member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));
+			//trainerList 조회
+			int totalGym = jh.totalTrainer(trainer.getG_id());
+			Paging page = new Paging(totalGym,trainer.getCurrentPage());
+			//추가버튼에 id 넘겨줌
+			int gymId = jh.gymId(gym.getG_id());	
+			trainer.setStart(page.getStart());	
+			trainer.setEnd(page.getEnd());	
+			System.out.println("JHController trainerList start");
+			List<Trainer>trainerList = jh.trainerList(trainer);
+			model.addAttribute("gym",gymId);
+			model.addAttribute("page",page );
+			model.addAttribute("trainerList",trainerList);
+			return "jh/trainerList";	
+		} else {
+			return "jm/jmLoginForm";
+		}
+		
 	}
 	
 	@GetMapping(value = "trainerCreate")
@@ -261,41 +273,52 @@ public class JHController {
     
 	// 서비스(상품) 리스트 ****************************************************************************
 	@GetMapping(value = "serviceList")
-	public String serviceList(Gym gym,GSDetail sd_number ,GS gs, Model model) {
-		//page 작업
-		int totalService = jh.totalService(gym.getG_id());
-		Paging page = new Paging(totalService,gs.getCurrentPage());
-		gs.setStart(page.getStart());
-		gs.setEnd(page.getEnd());
-		// 리스트 조회
-		List<GSGSDetailJoin> serviceList = jh.serviceList(gs);
-		// g_id 넘겨줄 것
-		int gymId = jh.gymId(gym.getG_id());
-		model.addAttribute("g_id",gymId);
-		model.addAttribute("page",page);
-		model.addAttribute("serviceList",serviceList);
-	
-		return "jh/serviceList";
+	public String serviceList(HttpSession session, Gym gym,GSDetail sd_number ,GS gs, Model model) {
+		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
+			Member member = new Member();
+			member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));
+			int totalService = jh.totalService(gym.getG_id());
+			Paging page = new Paging(totalService,gs.getCurrentPage());
+			gs.setStart(page.getStart());
+			gs.setEnd(page.getEnd());
+			// 리스트 조회
+			List<GSGSDetailJoin> serviceList = jh.serviceList(gs);
+			// g_id 넘겨줄 것
+			int gymId = jh.gymId(gym.getG_id());
+			model.addAttribute("g_id",gymId);
+			model.addAttribute("page",page);
+			model.addAttribute("serviceList",serviceList);
+		
+			return "jh/serviceList";
+		} else {
+			return "jm/jmLoginForm";
+		}
 	}
 	
 	//서비스 추가
 	@PostMapping(value = "jh/createService")
 	@ResponseBody
-	public String createService(HttpServletRequest request) {
-		GS gs = new GS();
-		gs.setG_id(Integer.parseInt(request.getParameter("g_id")));
-		gs.setS_name(request.getParameter("s_name"));
-		gs.setS_detail(request.getParameter("s_detail"));
-		gs.setS_price(Integer.parseInt(request.getParameter("s_price")));
-		gs.setS_period(Integer.parseInt(request.getParameter("s_period")));
-		gs.setS_matters(request.getParameter("s_matters"));		
-		int createService = jh.createService(gs);
-		int createServiceDetail = jh.getCreateServiceDetail(gs);
-        if (createService == 1 && createServiceDetail==1) {
-            return "Service createService successfully!";
-        } else {
-            return "Failed to createService!";
-        }
+	public String createService(HttpSession session,HttpServletRequest request) {
+		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
+			Member member = new Member();
+			member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));
+			GS gs = new GS();
+			gs.setG_id(Integer.parseInt(request.getParameter("g_id")));
+			gs.setS_name(request.getParameter("s_name"));
+			gs.setS_detail(request.getParameter("s_detail"));
+			gs.setS_price(Integer.parseInt(request.getParameter("s_price")));
+			gs.setS_period(Integer.parseInt(request.getParameter("s_period")));
+			gs.setS_matters(request.getParameter("s_matters"));		
+			int createService = jh.createService(gs);
+			int createServiceDetail = jh.getCreateServiceDetail(gs);
+	        if (createService == 1 && createServiceDetail==1) {
+	            return "Service createService successfully!";
+	        } else {
+	            return "Failed to createService!";
+	        }
+		} else {
+			return "jm/jmLoginForm";
+		}
 	}
 	
 	  @GetMapping(value = "jh/fetchServiceDetails/{sNumber}")
@@ -457,11 +480,9 @@ public class JHController {
 			member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));
 			int memberNumber = member.getM_number(); 
 			// 주문 테이블에서 조회
-			List <GymOrder> selectGymOrderInf = jh.selectOrder(memberNumber, g_id);
-			// 주문 테이블에서 null이 아니어야함
-			if(selectGymOrderInf != null){
-				if(jh.selectRevice(memberNumber);
-			}
+
+			
+			return "";
 			
 		} else { // 로그인 되지 않았을 때
 			return "forward:jmLoginForm";

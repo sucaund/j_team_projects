@@ -37,13 +37,13 @@ public class HSGymDaoImpl implements HSGymDao {
 	}
 
 	@Override
-	public List<GymOrder> listUsingGym(Member member) {
+	public List<GymOrder> listDetailUsingGym(Member member) {
 		List<GymOrder> listUsingGym = null;
-		System.out.println("hsGymDaoImpl listUsingGSDetail start...");
+		System.out.println("hsGymDaoImpl listDetailUsingGym start...");
 		
 		try {
-			listUsingGym = session.selectList("hsListUsingGym", member);
-			System.out.println("hsGymDaoImpl listUsingGSDetail listUsingGym.size()-> " + listUsingGym.size());
+			listUsingGym = session.selectList("hsListDetailUsingGym", member);
+			System.out.println("hsGymDaoImpl listDetailUsingGym listUsingGym.size()-> " + listUsingGym.size());
 		} catch (Exception e) {
 			
 		}
@@ -53,87 +53,68 @@ public class HSGymDaoImpl implements HSGymDao {
 		/* 헬스장 회원권 구매,환불 공통 - getGymOrder */
 	
 	@Override
-	public GymOrder getGymOrder(Map<String, Object> params) {
-		GymOrder gymOrder = null;
-		System.out.println("hsGymDaoImpl getGymOrder start...");
+	public GSDetail getGSDetailData(GSDetail gsDetail) {
+		GSDetail gymOrderData = null;
+		System.out.println("hsGymDaoImpl getGSDetailData start...");
 		
 		try {
-            gymOrder = session.selectOne("hsGetGymOrder", params);
-            System.out.println("hsGymDaoImpl getGymOrder getGymOrder-> " + gymOrder);
+			gymOrderData = session.selectOne("hsGetGSDetailData", gsDetail);
+            System.out.println("hsGymDaoImpl getGSDetailData gymOrderData-> " + gymOrderData);
 		} catch (Exception e) { 
 			
 		}
-		return gymOrder;
+		return gymOrderData;
 	}
 	
 		/* 헬스장 회원권 구매 */
 
-	// GSDetail에 구매정보 insert + 키값 받기
 	@Override
-	public GS insertAndGetGSDetailData(GS gs) {
-		System.out.println("hsGymDaoImpl addGSDetail start...");
-		
+	public GSDetail getGSDetailDataBuy(GSDetail gsDetail) {
+		GSDetail gsDetailData = null;
+		System.out.println("hsServiceImpl getGSDetailDataBuy start...");
 		try {
-			session.insert("com.oracle.hellong.GSDetailMapper.hsInsertAndGetGSDetailData", gs);
-			System.out.println("hsGymDaoImpl insertAndGetGSDetailData gs.getS_detail()-> " +gs.getSd_number()); 
+			gsDetailData = session.selectOne("hsGetGSDetailDataBuy", gsDetail);
 		} catch (Exception e) {
 			
 		}
-		return gs;
+		return gsDetailData;
 	}
 
-	// GymOrder에 구매정보 insert
 	@Override
-	public int insertGymOrder(GS gsDetailData, int m_number) {
-		int insertGymOrderResult = 0;
-		System.out.println("hsGymDaoImpl insertGymOrder start...");
-		 
+	public GSDetail insertAndGetGymOrder(GSDetail gsDetailData) {
+		System.out.println("hsServiceImpl insertAndGetGymOrder start...");
 		try {
-            Map<String, Object> params = new HashMap<>();	
-            params.put("g_id", gsDetailData.getG_id());
-            params.put("s_number", gsDetailData.getS_number());
-            params.put("sd_number", gsDetailData.getSd_number());
-            params.put("m_number", m_number);
-            params.put("use_point", gsDetailData.getS_price());
- 
-			insertGymOrderResult = session.insert("com.oracle.hellong.GymOrderMapper.hsInsertGymOrder", params);
-			System.out.println("hsGymDaoImpl insertGymOrder insertGymOrderResult-> " + insertGymOrderResult);
+			session.insert("hsInsertAndGetGymOrder", gsDetailData);
+			System.out.println("insertAndGetGymOrder check: " + gsDetailData.getGo_number());
 		} catch (Exception e) {
 			
 		}
-		return insertGymOrderResult;
+		return gsDetailData;
 	}
 	
-	// insert한 GSDetail 정보 업데이트
 	@Override
-	public int updateGSDetailBuy(GymOrder gymOrder) {
-		int updateGSDetailBuyResult = 0;
-		System.out.println("hsGymDaoImpl updateGSDetailBuy start...");
-		
+	public int updateGymOrderBuy(GSDetail insertAndGetGymOrder) {
+		int updateGymOrderBuyResult = 0;
+		System.out.println("hsServiceImpl updateGymOrderBuy start...");
 		try {
-			updateGSDetailBuyResult = session.update("hsUpdateGSDetailBuy", gymOrder);
-			System.out.println("hsGymDaoImpl updateGSDetailBuy updateGSDetailBuyResult-> " + updateGSDetailBuyResult);
+			updateGymOrderBuyResult = session.update("hsUpdateGymOrderBuy", insertAndGetGymOrder);
 		} catch (Exception e) {
 			
 		}
-		return updateGSDetailBuyResult;
+		return updateGymOrderBuyResult;
 	}
 
-	// Member 구매포인트 업데이트
 	@Override
-	public int updatePointBuy(GymOrder gymOrder) {
+	public int updatePointBuy(GSDetail insertAndGetGymOrder) {
 		int updatePointBuyResult = 0;
-		System.out.println("hsGymDaoImpl updatePointBuy start...");
-		
+		System.out.println("hsServiceImpl updatePointBuy start...");
 		try {
-			updatePointBuyResult = session.update("hsUpdatePointBuy", gymOrder);
-			System.out.println("hsGymDaoImpl updatePointBuy updatePointBuyResult-> " + updatePointBuyResult);
+			updatePointBuyResult = session.update("hsUpdatePointBuy", insertAndGetGymOrder);
 		} catch (Exception e) {
 			
 		}
 		return updatePointBuyResult;
 	}
-
 	
 		/* 헬스장 회원권 환불 */
 	
@@ -160,6 +141,7 @@ public class HSGymDaoImpl implements HSGymDao {
 			Map<String, Object> params = new HashMap<>();
 			params.put("g_id", g_id);
 			params.put("m_number", m_number);
+			System.out.println("getGymService params check: " + params);
 			
 			listGymService = session.selectList("hsListGymSerivce", params);
 			
@@ -171,7 +153,7 @@ public class HSGymDaoImpl implements HSGymDao {
 	
 	// 이용중인 헬스장 예상 환불금액 조회
    @Override
-   public GymOrder getRefundData(int g_id, int s_number, int sd_number, int m_number) {
+   public GymOrder getRefundData(int g_id, int s_number, int sd_number, int m_number, int go_number) {
       GymOrder refundData = null;
       System.out.println("hsGymDaoImpl getRefundData start...");
            
@@ -181,7 +163,9 @@ public class HSGymDaoImpl implements HSGymDao {
     	  params.put("s_number", s_number);
     	  params.put("sd_number", sd_number);
     	  params.put("m_number", m_number);
+    	  params.put("go_number", go_number);
          
+    	  System.out.println("refundData params check: " + params);
     	  refundData = session.selectOne("hsRefundData", params);
     	  System.out.println("hsGymDaoImpl getRefundData refundData -> " + refundData);
          } catch (Exception e) {
@@ -192,48 +176,35 @@ public class HSGymDaoImpl implements HSGymDao {
 
    // GymOrder에 환불정보 업데이트
 	@Override
-	public int updateGymOrder(Map<String, Object> params) {
-		int updateGymOrderResult = 0;
-		System.out.println("hsGymDaoImpl updateGymOrder start...");
+	public int updateGymOrderRefund(Map<String, Object> params) {
+		int updateGymOrderRefundResult = 0;
+		System.out.println("hsGymDaoImpl updateGymOrderRefund start...");
 		
 		try {
-			updateGymOrderResult = session.update("hsUpdateGymOrder", params);
-			System.out.println("hsGymDaoImpl updateGymOrder updateGymOrderResult-> " + updateGymOrderResult);
+			System.out.println("updateGymOrder check: " +params);
+			updateGymOrderRefundResult = session.update("hsUpdateGymOrderRefund", params);
+			System.out.println("hsGymDaoImpl updateGymOrderRefund updateGymOrderRefundResult-> " + updateGymOrderRefundResult);
 		} catch (Exception e) {
 			
 		}
-		return updateGymOrderResult;
+		return updateGymOrderRefundResult;
 	}
 	
-	// GSDetail에 환불정보 업데이트
-	@Override
-	public int updateGSDetailRefund(GymOrder gymOrder) {
-		int updateGSDetailRefundResult = 0;
-		System.out.println("hsGymDaoImpl updateGSDetailRefund start...");
-		
-		try {
-			updateGSDetailRefundResult = session.update("hsUpdateGSDetailRefund", gymOrder);
-			System.out.println("hsGymDaoImpl updateGSDetailRefund updateGSDetailRefundResult-> " + updateGSDetailRefundResult);
-		} catch (Exception e) {
-			
-		}
-		return updateGSDetailRefundResult;
-	}
-
 	// Member 환불포인트 업데이트
 	@Override
-	public int updatePointRefund(GymOrder gymOrder) {
+	public int updatePointRefund(Map<String, Object> params) {
 		int updatePointRefundResult = 0;
 		System.out.println("hsGymDaoImpl updatePointRefund start...");
 		
 		try {
-			updatePointRefundResult = session.update("hsUpdatePointRefund", gymOrder);
+			System.out.println("updateMember check: " +params);
+			updatePointRefundResult = session.update("hsUpdatePointRefund", params);
 			System.out.println("hsGymDaoImpl updatePointRefund updatePointRefundResult->  " + updatePointRefundResult);
 		} catch (Exception e) {
 			
 		}
 		return updatePointRefundResult;
 	}
-   
+
 
 }

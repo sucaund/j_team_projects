@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +22,11 @@
 </head>
 <body>
 
+<% if (request.getAttribute("errorMessage") != null) { %>
+    <script>
+        alert('<%= request.getAttribute("errorMessage") %>');
+    </script>
+<% } %>
 	<c:set var="num" value="${page.total-page.start+1 }"></c:set>
 	<table class="table" >
 		<thead  style="background-color: #5494e8; color: white;">

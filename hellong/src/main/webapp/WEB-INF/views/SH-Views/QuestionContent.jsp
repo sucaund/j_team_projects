@@ -25,13 +25,18 @@
 							var frmData = $('#comment_form').serialize();
 							// jQuery의 $.post 메소드를 사용해 서버로 데이터 전송
 		$.post("commentInsert",frmData,function(board){
-							var newCommentHtml = '<li>댓글 : '+ board.b_content
-																		+ ' <a href="/deleteComment?Comm_number='
-																		+ board.b_number
-																		+ '&bId='
-																		+ board.b_comm_group
-																		+ '" onclick="return confirm(\'댓글을 삭제하시겠습니까?\');">삭제</a></li>';
-																$('.list_comments').prepend(newCommentHtml); // 새로운 <li>를 list_comments ul에 추가
+							var newCommentHtml ='<li>' +
+						    '<div class="comment-details">' +
+						    '<h4 class="comment-author" style="font-size: 11px">' +
+						    (board.m_number != board.b_comm_group ?  '질문자' : '관리자') +
+						    '</h4>' +
+						    '<p class="comment-description" style="font-size: 18px;">' + board.b_content + '</p>' +
+						    '<span style="font-size: 12px; color: #757575;">' + board.b_regdate + '</span>' +
+						    '<div>' +
+						    '<a href="/deleteComment?Comm_number=' + board.b_number + '&bId=' + board.b_comm_group + '" onclick="return confirm(\'댓글을 삭제하시겠습니까?\');">삭제</a>' +
+						    '</div>' +
+						    '</div>' +
+						    '</li><hr>';																$('.list_comments').prepend(newCommentHtml); // 새로운 <li>를 list_comments ul에 추가
 																$('[name="comment_body"]').val(''); // 댓글 입력란을 비웁니다.
 															}).fail(
 															function() {alert('댓글 등록에 실패했습니다.');});
