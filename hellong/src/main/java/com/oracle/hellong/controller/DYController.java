@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.BoardFile;
+import com.oracle.hellong.model.BoardRecommend;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymReview;
@@ -93,24 +94,32 @@ public class DYController {
 	// 클릭한 게시글 조회
 	@GetMapping(value = "dySelectBodyProfile")
 	public String dySelectBodyProfile(Board board1, BoardFile boardFile1, Model model, HttpSession session) {
-		System.out.println("DYController dySelectBodyProfile Start...");
-		// 조회수 증가
-		int b_number = board1.getB_number();
-		dys.increaseReadCount(b_number);
-		// 게시글 및 파일 조회
-		Board board = dys.selectBodyProfile(board1.getB_number());
-		List<BoardFile> boardFile = dys.selectBodyProfileFileList(boardFile1.getB_number());
-		
-		// 추천기능
-//		int m_number = (int) session.getAttribute("m_number");
-//		boolean isRecommended = dys.checkRecommendation(m_number, b_number) > 0;
-//		model.addAttribute("isRecommended", isRecommended);
-		model.addAttribute("board", board);
-		model.addAttribute("boardFile", boardFile);
+	    System.out.println("DYController dySelectBodyProfile Start...");
+	    // 조회수 증가
+	    int b_number = board1.getB_number();
+	    dys.increaseReadCount(b_number);
+	    // 게시글 및 파일 조회
+	    Board board = dys.selectBodyProfile(board1.getB_number());
+	    List<BoardFile> boardFile = dys.selectBodyProfileFileList(boardFile1.getB_number());
+	    
+	    // 로그인된 사용자의 멤버 번호 가져오기
+	    // int m_number = (int) session.getAttribute("m_number");
 
-		return "dy/dySelectBodyProfile";
+	    // 게시글 추천 여부 확인
+	    // boolean isRecommended = dys.checkRecommendation(m_number, b_number) > 0;
+	    
+	    // 추천 수 가져오기
+	    // int recommendationCount = dys.getRecommendationCount(b_number);
+	    
+	    // 모델에 데이터 추가
+	    model.addAttribute("board", board);
+	    model.addAttribute("boardFile", boardFile);
+	    // model.addAttribute("isRecommended", isRecommended);
+	    // model.addAttribute("recommendationCount", recommendationCount);
+
+	    return "dy/dySelectBodyProfile";
 	}
-
+	
 	// 게시글 업데이트 폼
 	@GetMapping(value = "dyUpdateFormBodyProfile")
 	public String dyUpdateFormBodyProfile(Board board1, Model model, HttpSession session) {

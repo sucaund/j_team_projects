@@ -189,8 +189,8 @@ public class DYServiceImpl implements DYService {
 
 	@Override
 	public int checkRecommendation(int m_number, int b_number) {
-		
-		return dybrd.checkRecommendation(m_number, b_number);
+		int checkRecommendation = dybrd.checkRecommendation(m_number, b_number);
+		return checkRecommendation;
 	}
 
 	

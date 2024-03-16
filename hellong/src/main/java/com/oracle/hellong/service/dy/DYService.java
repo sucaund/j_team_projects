@@ -29,7 +29,7 @@ public interface DYService {
 	List<Board> listSearchBoard(Board board);
 
 	int insertFileBodyProfile(BoardFile boardFile);
-
+	// 통합검색
 	SearchResults totalSearch(Board board, Gym gym, GymBoard gymBoard, GymReview gymReview);
 
 	List<BoardFile> selectBodyProfileFileList(int b_number);
@@ -52,6 +52,8 @@ public interface DYService {
 	void increaseReadCount(int b_number);
 
 	int checkRecommendation(int m_number, int b_number);
+
+
 
 
 
