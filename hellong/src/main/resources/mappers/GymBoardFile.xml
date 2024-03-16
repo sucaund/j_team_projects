@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GymBoardFileMapper">
+	
+	<select id="gbf_idList" parameterType="int" resultType="GymBoardFile">
+		select * from gym_board_file
+		where g_id=#{g_id}
+	</select>
+
+
+	<insert id="saveGymFile" parameterType="GymBoardFile">
+		insert into gym_board_file(gbf_id,g_id,gbf_originalFileName,gbf_storedFileName) 
+								values(GYM_BOARD_FILE_SEQ.nextval,#{g_id},#{gbf_originalFileName},#{gbf_storedFileName})
+	</insert>
+	
+	<select id="getFilesByGymId" parameterType="int" resultType="GymBoardFile">
+		select gbf_storedfilename from gym_board_file where g_id=#{g_id}
+	</select>
+
+	<delete id="deleteGymFile" parameterType="int">
+		delete from gym_board_file where g_id=#{g_id}
+	</delete>
+	
+	<select id="JHgymBoardFileList" parameterType="GymBoardFile" resultType="GymBoardFile">
+	    SELECT *
+	    FROM (
+	        SELECT ROWNUM AS rn, a.*
+	        FROM (
+                SELECT g_id, gbf_storedfilename
+                FROM (
+                    SELECT g_id, gbf_storedfilename, 
+                           ROW_NUMBER() OVER (PARTITION BY g_id ORDER BY gbf_storedfilename DESC) AS rn
+                    FROM gym_board_file
+                ) 
+                WHERE rn = 1
+                ORDER BY g_id desc
+	        ) a
+	    )
+	    WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="gymBoardFileListRead" parameterType="int" resultType="GymBoardFile">
+		select * 
+		from gym_board_file
+		where g_id = #{g_id} 
+	</select>
+
+
 
 </mapper>

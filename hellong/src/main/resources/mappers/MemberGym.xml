@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oracle.hellong.MemberGymMapper">
+	<select id="memberGymList" parameterType="MemberGym" resultType="MemberGym">
+		
+		SELECT *
+		FROM
+		(
+		    SELECT rownum rn, a.*
+		    FROM
+		    (
+		        SELECT DISTINCT m.m_number, m.m_name, m.m_age, m.m_phone
+		        FROM gym g, member m
+		        WHERE m.m_number = g.m_number
+		        AND g.common_mcd = 20
+		        ORDER BY m.m_number desc
+		    ) a
+		)   
+		WHERE rn BETWEEN #{start} AND #{end}
+		
+		
+	</select>
+	
+	<select id="totConCount" resultType="int">
+		select count(*)
+		from
+		(select distinct m.m_number
+		from gym g, member m
+		where m.m_number = g.m_number
+		and g.common_mcd = 20
+		order by m_number)
+	</select>
+
+</mapper>

@@ -6,6 +6,65 @@
 		SELECT
 		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200 AND COMMON_MCD = 120
 	</select>
+	
+	<select id="jjBoardListAll" parameterType="Board" resultType="Board">
+		<![CDATA[
+		SELECT *
+		FROM
+		(
+			SELECT rownum rn, a.*
+			FROM
+						(select * from board order by b_number desc) a
+		)
+		WHERE rn >= #{start}
+		and   rn <= #{end}
+		]]>
+	</select>
+	
+	<select id="jjBoardOne" parameterType="int" resultType="Board">
+		SELECT  b_number, b_title, b_regdate,
+			    b_recomm_count, b_readcount, b_content
+			  , board_min_max(b_number,1)  prevPage
+			  , board_min_max(b_number,2)  nextPage
+		FROM board 
+		WHERE b_number = #{b_number}
+		
+	</select>
+	
+	<update id="plusCnt" parameterType="int">
+		UPDATE board SET b_readcount = b_readcount + 1
+		WHERE b_number = #{b_number}
+	</update>
+	
+	<update id="hitCnt" parameterType="int">
+		UPDATE board SET b_recomm_count = b_recomm_count + 1
+		WHERE b_number = #{b_number}
+	</update>
+	
+	<update id="jjBoardUpdate" parameterType="Board">
+		UPDATE board SET b_title   = #{b_title},
+						 b_content = #{b_content},
+						 b_update  = sysdate
+		WHERE b_number = #{b_number}
+	</update>
+	
+	<select id="jjSelectManager" resultType="Board">
+		SELECT 	*
+		FROM 	board
+	</select>
+	
+	<insert id="jjinsertBoard" parameterType="Board">
+		<selectKey keyProperty="b_number" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(b_number), 0) + 1 FROM board
+			<!-- SELECT b_number_seq.NEXTVAL FROM DUAL -->
+		</selectKey>
+		INSERT INTO board ( b_number, b_title, b_content )
+					values( #{b_number}, #{b_title}, #{b_content} )
+	</insert>
+	
+	<delete id="deleteBoard" parameterType="Board">
+		DELETE FROM board where b_number = #{b_number}
+	</delete>
 
 	<select id="ContentBoard" parameterType="int" resultType="Board">
 		SELECT
@@ -40,8 +99,8 @@
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 	<select id="Queinsert" parameterType="Board">
-		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD , B_TITLE, B_CONTENT,M_NUMBER,B_ISRECOMM)
-		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_title},#{b_content},#{m_number},#{b_isrecomm})
+		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD , B_TITLE, B_CONTENT,M_NUMBER)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_title},#{b_content},#{m_number})
 	</select>
 
 	<delete id="SCRAP_delete" parameterType="int">
@@ -69,8 +128,7 @@
 
 
 
-	<select id="callComment" parameterType="Board"
-		resultType="Board">
+	<select id="callComment" parameterType="Board" resultType="Board">
 		SELECT *
 		FROM BOARD
 		WHERE B_COMM_GROUP = #{b_comm_group}
@@ -102,9 +160,8 @@
 		B_CONTENT = #{b_content}
 		WHERE B_NUMBER = #{b_number}
 	</update>
-
-
- 	<select id="SHgetallQnA" resultType="Board">
+	
+	<select id="SHgetallQnA" resultType="Board">
 		SELECT
 		* FROM BOARD where COMMON_MCD = 120 AND B_ISRECOMM !=3
 	</select>
@@ -143,5 +200,104 @@
 		      AND COMMON_MCD = 20
 		    ORDER BY B_RECOMM_COUNT DESC
 		) WHERE ROWNUM = 1
+	</select>
+	
+	
+	
+	
+	
+
+	<select id="dyBoardTotal" resultType="int">
+		SELECT Count(*) FROM board
+	</select>
+
+	<select id="dyBodyProfileListAll" parameterType="Board"
+		resultType="Board">
+	 <![CDATA[
+		SELECT *
+		FROM
+		(
+		        SELECT rownum rn , a.*
+		        FROM
+		                   (select * from board order by b_number desc) a
+		 )  
+		 WHERE  rn  >= #{start} 
+ 		and    rn  <= #{end} 
+		]]>
+	</select>
+
+	<select id="dyBoardSelect" parameterType="int"
+		resultType="Board">
+		SELECT * FROM board WHERE b_number = #{b_number}
+	</select>
+
+	<update id="dyBodyProfileUpdate" parameterType="Board">
+		UPDATE board SET
+		b_title=#{b_title},
+		b_content=#{b_content},
+		b_regdate=sysdate
+		WHERE
+		b_number = #{b_number}
+	</update>
+
+	<select id="dySelectManager" resultType="Board">
+		SELECT * FROM board
+	</select>
+
+	<insert id="dyInsertBodyProfile" parameterType="Board">
+		<selectKey keyProperty="b_number" resultType="int"
+			order="BEFORE">
+			SELECT NVL(MAX(b_number), 0) + 1 FROM board
+		</selectKey>
+		INSERT INTO board ( b_number, b_title, b_content, b_images )
+		values( #{b_number}, #{b_title}, #{b_content}, #{b_images} )
+	</insert>
+
+	<delete id="dyDeleteBodyProfile" parameterType="int">
+		delete from board
+		where b_number = #{b_number}
+	</delete>
+
+	<select id="dyCondBodyProfileTotal" parameterType="Board"
+		resultType="int">
+		SELECT Count(*) FROM board
+		<choose>
+			<when test="search == 'all'">
+				WHERE b_title like '%' || #{keyword} || '%' OR
+				b_content like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 'title'">
+				WHERE b_title like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 'content'">
+				WHERE b_content like '%' || #{keyword} || '%'
+			</when>
+		</choose>
+	</select>
+
+	<select id="dyBoardSearchList" parameterType="Board"
+		resultType="Board">
+		SELECT *
+		FROM
+		(
+		SELECT rownum rn, a.*
+		FROM
+				(select * from board
+				<choose>
+					<when test="search == 'all'">
+						WHERE b_title like '%' || #{keyword} || '%' OR
+						b_content like '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'title'">
+						WHERE b_title like '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'content'">
+						WHERE b_content like '%' || #{keyword} || '%'
+					</when>
+				</choose>
+				order by b_number
+				) a
+		)
+		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 </mapper>

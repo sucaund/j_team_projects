@@ -17,9 +17,13 @@
   max-width: 250px; /* 최대 너비를 설정하여 텍스트가 차지할 수 있는 공간을 제한합니다. 필요에 따라 조정하세요 */
 }
 
+
 .feed-desc {
   padding-top: 5px; /* 내용의 상단에 10px의 패딩을 추가하여 간격을 조정 */
 }
+
+
+
 </style>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
@@ -50,15 +54,15 @@
                             <!-- End Single Slider -->
                             <!-- Start Single Slider -->
                             <div class="single-slider"
-                                style="background-image: url(https://via.placeholder.com/800x500);">
-                                <div class="content">
+                                style="background-image: url('<c:url value='/upload/${newGymPhoto.gbf_storedFileName}'/>');">
+                                <div class="content bg-light p-3">
                                     <h2><span>그돈헬! 최저가 헬스장</span>
                                         ${cheapGym.g_name}
                                     </h2>
                                     <p>${cheapGym.g_address}</p>
                                     <h3><span>1달기준!</span> ${cheapGymPrice.s_price}</h3>
-                                    <div class="button">
-                                        <a href="product-grids.html" class="btn">자세히 알아보기</a>
+                                    <div class="button mt-2">
+                                        <a href="product-grids.html" class="btn btn-light">자세히 알아보기</a>
                                     </div>
                                 </div>
                             </div>

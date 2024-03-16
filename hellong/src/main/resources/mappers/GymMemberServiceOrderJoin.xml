@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oracle.hellong.GymMemberServiceOrderJoinMapper">
+
+	<select id="getGymMemberList" parameterType="GymMemberServiceOrderJoin" resultType="GymMemberServiceOrderJoin">
+	<![CDATA[
+		 select*
+		 from(
+		    SELECT ROWNUM AS rn, a.*
+		 	from(SELECT m.*, d.s_enddate, o.g_id, o.s_number, s.s_name
+				FROM gym_order o
+				JOIN member m ON o.m_number = m.m_number
+				JOIN g_s_detail d ON o.s_number = d.s_number
+				JOIN g_s s ON o.s_number = s.s_number AND s.g_id = #{g_id}
+				WHERE d.g_id = #{g_id}
+				ORDER BY m.m_number DESC)a
+		    )
+		 where rn BETWEEN #{start} AND #{end}
+	]]>
+	</select>
+	
+	<select id="getTotalGymMemberList" parameterType="int" resultType="int">
+		select count(*)
+		from 
+		    (select Distinct m.*
+		        from gym_order o, member m, g_s_detail d
+		        where o.m_number=m.m_number
+		        and o.s_number=d.s_number
+		        and d.g_id = #{g_id}
+		    )
+	</select>
+	
+	<select id="getSumSale" parameterType="int" resultType="int">
+		select sum(o.use_point) 
+		from gym_order o, member m, g_s_detail d
+		where o.m_number=m.m_number
+		and o.s_number=d.s_number
+		and d.g_id = #{g_id}
+	</select>
+	
+	<select id="getGenderRatio" parameterType="int" resultType="Map">
+		SELECT 
+            ROUND((COUNT(CASE WHEN s.m_gender = 'M' THEN 1 END) / COUNT(*)) * 100, 2) AS maleRatio,
+            ROUND((COUNT(CASE WHEN s.m_gender = 'F' THEN 1 END) / COUNT(*)) * 100, 2) AS femaleRatio
+        FROM 
+            (SELECT DISTINCT m.*
+                FROM gym_order o, member m, g_s_detail d
+                WHERE o.m_number=m.m_number
+                AND o.s_number=d.s_number
+                AND d.g_id = #{g_id}
+            )s
+	</select>
+	
+	<select id="getAgeRatio" parameterType="int" resultType="Map">
+	<![CDATA[
+	    SELECT
+	        ROUND((COUNT(CASE WHEN s.m_age < 20 THEN 1 END) / NULLIF(COUNT(*), 0)) * 100, 2) AS "age10",
+	        ROUND((COUNT(CASE WHEN s.m_age >= 20 AND s.m_age < 30 THEN 1 END) / NULLIF(COUNT(*), 0)) * 100, 2) AS "age20",
+	        ROUND((COUNT(CASE WHEN s.m_age >= 30 AND s.m_age < 40 THEN 1 END) / NULLIF(COUNT(*), 0)) * 100, 2) AS "age30",
+	        ROUND((COUNT(CASE WHEN s.m_age >= 40 AND s.m_age < 50 THEN 1 END) / NULLIF(COUNT(*), 0)) * 100, 2) AS "age40",
+	        ROUND((COUNT(CASE WHEN s.m_age >= 50 THEN 1 END) / NULLIF(COUNT(*), 0)) * 100, 2) AS "age50"
+	    FROM
+	        (SELECT DISTINCT m.*
+	            FROM gym_order o, member m, g_s_detail d
+	            WHERE o.m_number = m.m_number
+	            AND o.s_number = d.s_number
+	            AND d.g_id = #{g_id}
+	        ) s
+	]]>
+	</select>
+
+
+</mapper>

@@ -1,5 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.TrainerMapper">
-
+	<select id="totalTrainer" parameterType="int" resultType="int">
+		SELECT Count(*) FROM trainer where g_id = #{g_id}
+	</select>
+	<select id="trainerList" parameterType="Trainer" resultType="Trainer">
+	    <![CDATA[
+	    SELECT *
+	    FROM (
+	        SELECT ROWNUM AS rn, a.*
+	        FROM (
+	            SELECT *
+	            FROM trainer
+	            WHERE g_id = #{g_id}
+	            order by t_id desc
+	        ) a
+	    )
+	    WHERE rn BETWEEN #{start} AND #{end}
+	    ]]>	
+	</select>
+	<insert id="trainerInsert" parameterType="Trainer">
+		insert into trainer(g_id, t_id,t_name, t_gender, t_age, t_regdate, t_tel, t_address, 
+							t_sal, t_matters, t_email, t_qualifications, t_experience, t_photoname, t_photostoredname )
+				 values(#{g_id},t_id_seq.nextval,#{t_name},#{t_gender},#{t_age},#{t_regdate},#{t_tel},#{t_address},
+				 		#{t_sal},#{t_matters},#{t_email},#{t_qualifications},#{t_experience},#{t_photoname},#{t_photostoredname})
+	</insert>
+	
+	<select id="gymIdTrainerId" parameterType="Trainer" resultType="Trainer">
+		select *
+		from trainer
+		where g_id = #{g_id}
+		and t_id = #{t_id}
+	</select>
+	
+	<select id="getTrainerById" parameterType="int" resultType="Trainer">
+		select * from trainer
+		where t_id = #{t_id}
+	</select>
+	
+	<update id="updateTrainer" parameterType="Trainer">
+		update trainer 
+		set t_name=#{t_name}, t_gender=#{t_gender}, t_age=#{t_age}, t_regdate=#{t_regdate}, t_tel=#{t_tel}, t_address=#{t_address},
+			t_sal=#{t_sal}, t_matters=#{t_matters}, t_email=#{t_email}, t_qualifications=#{t_qualifications}, t_experience=#{t_experience},
+			t_photoname=#{t_photoname}, t_photostoredname=#{t_photostoredname}
+		where t_id=#{t_id}
+	</update>
+	
+	
+	<delete id="getDeleteTrainer" parameterType="int">
+		delete from trainer where t_id = #{t_id}
+	</delete>
+	
+	<select id="getTotaltrainerSearch" parameterType="Trainer" resultType="int">
+		SELECT Count(*) FROM trainer
+		WHERE t_name LIKE '%' || #{keyword} || '%'
+		and g_id = #{g_id}
+	</select>
+	
+	<select id="getTrainerSearchList" parameterType="Trainer" resultType="Trainer">
+		SELECT *
+		FROM
+		(
+		    SELECT rownum rn, a.*
+		    FROM
+		    (
+		        SELECT * 
+		        FROM trainer 
+		        WHERE t_name LIKE '%' || #{keyword} || '%' 
+		        and g_id = #{g_id}
+		        ORDER BY t_id desc
+		    ) a
+		)   
+		WHERE rn BETWEEN #{start} AND #{end}
+	
+	</select>
+	
+	
+	<select id="getSelectTrainerList" parameterType="int" resultType="Trainer">
+		select * from trainer
+		where g_id = #{g_id}
+	</select>
+	
+	
 </mapper>

@@ -2,8 +2,9 @@ package com.oracle.hellong.model;
 
 import java.util.Date;
 
-import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
 
 @Data
 public class Board { //게시판 게시물 board
@@ -16,7 +17,6 @@ public class Board { //게시판 게시물 board
        private int b_readcount; //조회수
        private String  b_regdate; //생성일자(등록일자)
        private String  b_update; //수정일자
-       private int report_count; //신고수
        private int b_isreported; //신고여부
        private int b_recomm_count; //추천수
        private int b_isrecomm; //추천여부
@@ -29,6 +29,7 @@ public class Board { //게시판 게시물 board
       private String search;         private String keyword;
       private String pageNum;  
       private int start;              private int end;
+  	private int prevPage;			private int nextPage;
       // Page 정보
       private String currentPage;
 }

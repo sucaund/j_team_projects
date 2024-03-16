@@ -56,6 +56,7 @@ public class SHController {
 
 	}
 
+	
 
 	// 해당로그인 한계정이 있는지 확인...
 	@RequestMapping("authenticate")
@@ -497,6 +498,11 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 //===========================메인페이지=============================	
 
 	//index에서 클릭시 메인이동
+	 @GetMapping("/")
+	    public String index() {
+	        return "redirect:Default"; // JSP 파일 이름 (확장자 제외)
+	    }
+	
 	//페이지에 필요정보를 전달한다.
 	@RequestMapping("/Default")
 	public String Default(Model model) {

@@ -499,6 +499,10 @@ public class JMController {
 			return mail + "로 등록된 아이디가 없습니다.";
 		}
 	}
+	@RequestMapping("jmErrorPage")
+	public String getHeader() {
+		return "jm/jmErrorPage";
+	}
 
 //
 //	// interCeptor 시작화면
