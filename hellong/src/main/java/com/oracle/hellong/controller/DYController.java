@@ -48,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DYController {
 	private final DYService dys;
+	
 	// 게시글리스트
 	@GetMapping(value = "listBodyProfile")
 	public String bodyProfileList(Board board, BoardFile boardFile, Model model) {
