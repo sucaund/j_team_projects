@@ -232,7 +232,7 @@ public class SHController {
 		board.setCommon_mcd(Common_mcd);
 		board.setB_title(bTitle);
 		board.setB_content(bContent);
-		board.setB_isrecomm(B_ISRECOMM);
+		//board.setB_isreported(B_ISRECOMM);
 		System.out.println("SHController write board" + board);
 
 		sh.addAttribute(board);
