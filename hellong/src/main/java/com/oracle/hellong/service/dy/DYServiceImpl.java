@@ -172,16 +172,18 @@ public class DYServiceImpl implements DYService {
 		return listSearchBoardFileByBoardId;
 	}
 
+	// 게시글 조회수 증가
 	@Override
 	public void increaseReadCount(int b_number) {
 		dybd.increaseReadCount(b_number);
 		
 	}
-	
+
+	@Override
+	public int dyReported(Board board) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 
-	
-
-	
-	
 }
