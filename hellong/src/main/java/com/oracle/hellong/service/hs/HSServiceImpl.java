@@ -196,6 +196,24 @@ public class HSServiceImpl implements HSService {
 		return listPoint;
 	}
 
+		/* 포인트 충전 */
+	
+	@Override
+	public PointCharge insertAndGetPointCharge(PointCharge pointCharge) {
+		PointCharge insertAndGetPointCharge = null;
+		System.out.println("hsServiceImpl insertAndGetPointCharge start...");
+		insertAndGetPointCharge = pd.insertAndGetPointCharge(pointCharge);
+		return insertAndGetPointCharge;
+	}
+	
+	@Override
+	public int updatePointCharge(PointCharge insertAndGetPointCharge) {
+		int updateResult = 0;
+		System.out.println("hsServiceImpl updatePointCharge start...");
+		updateResult = pd.updatePointCharge(insertAndGetPointCharge);
+		System.out.println("hsServiceImpl updatePointCharge updateResult-> " + updateResult);
+		return updateResult;
+	}
 	
 		/* 헬스장 이용내역 조회 */
 	
@@ -313,7 +331,5 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl updatePointRefund updatePointRefundResult-> " + updatePointRefundResult);
 		return updatePointRefundResult;
 	}
-
-
 
 }

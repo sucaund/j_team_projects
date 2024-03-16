@@ -24,6 +24,12 @@ public interface HSPointDao {
 	int totalListGymOrderRefund(int member);
 
 	List<GymOrder> listGymOrderRefund(Member member);
+	
+	
+		/* 포인트 충전 */
+	
+	PointCharge insertAndGetPointCharge(PointCharge pointCharge);
 
+	int updatePointCharge(PointCharge insertAndGetPointCharge);
 
 }

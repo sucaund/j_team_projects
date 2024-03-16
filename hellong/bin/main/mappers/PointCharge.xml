@@ -2,7 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.PointChargeMapper">
 	
-		<!-- 현승 xml -->
+			<!-- 현승 xml -->
+		
+		<!-- 포인트 내역 조회 -->
 		
 	<!-- 포인트충전 내역 -->
 	<select id="hsTotalListPointChargeCnt" parameterType="int" resultType="int">
@@ -25,4 +27,19 @@
 			)
 		WHERE  rn BETWEEN #{start} and #{end} 
 	</select>
+	
+	
+		<!-- 포인트 충전 -->
+		
+	<!-- 포인트충전 데이터 추가 -->
+	<insert id="hsInsertAndGetPointCharge" parameterType="PointCharge" useGeneratedKeys="true" keyColumn="charge_number" keyProperty="charge_number">
+		INSERT INTO point_charge VALUES (#{m_number}, charge_number_seq.nextval, sysdate, #{charge_point}, null, null)
+	</insert>
+	
+	<!-- 회원 포인트 업데이트 -->
+	<update id="hsUpdatePointCharge" parameterType="PointCharge">
+		UPDATE member SET m_currpoint = m_currpoint + #{charge_point}
+		WHERE m_number = #{m_number}
+	</update>
+	
 </mapper>

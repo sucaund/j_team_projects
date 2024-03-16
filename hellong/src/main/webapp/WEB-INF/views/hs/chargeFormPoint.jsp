@@ -23,7 +23,7 @@
     function requestPay() {
         IMP.request_pay(
           {
-            pg: "html5_inicis",
+            pg: "kakaopay",
             pay_method: "card",
             merchant_uid: "57008833-33005",
             name: "당근 10kg",
@@ -84,7 +84,8 @@
                 success: function(response) {
                     // 성공 시 처리
                     console.log("충전 성공 " + charge_point);
-                    window.location.href = "hsChargePoint?m_number="+m_number+"&charge_point="+charge_point;
+                    //window.location.href = "hsChargePoint?m_number="+m_number+"&charge_point="+charge_point;
+                    
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     // 실패 시 처리
