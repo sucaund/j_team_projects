@@ -20,5 +20,7 @@ public interface TrainerDao {
 
 	// 체육관 홍보 글 트레이너 가져옴
 	List<Trainer> getSelectTrainerList(int g_id);
+	int getTotaltrainerSearch(Trainer trainer);
+	List<Trainer> getTrainerSearchList(Trainer trainer);
 
 }

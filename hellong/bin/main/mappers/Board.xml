@@ -385,8 +385,8 @@
 			order="BEFORE">
 			SELECT NVL(MAX(b_number), 0) + 1 FROM board
 		</selectKey>
-			INSERT INTO board ( b_number, b_title, b_content)
-		values( #{b_number}, #{b_title}, #{b_content})
+			INSERT INTO board ( b_number, b_title, b_content, common_bcd, common_mcd, m_number)
+		values( #{b_number}, #{b_title}, #{b_content}, 200, 20, #{m_number})
 	</insert>
 
 	<delete id="dyDeleteBodyProfile" parameterType="int">

@@ -15,16 +15,22 @@ import lombok.RequiredArgsConstructor;
 public class GymOrderDaoImpl implements GymOrderDao {
 	private final SqlSession session;
 
+//	@Override
+//	public List<GymOrder> selectOrder(int memberNumber) {
+//		List<GymOrder> selectOrderResult = null;
+//		System.out.println("MemberDaoImpl memberGymList Start ..." );
+//		try {                      
+//			selectOrderResult = session.selectList("selectOrder", memberNumber);
+//			System.out.println("GymOrderDaoImpl selectOrderResult.size()->"+selectOrderResult.size());
+//		} catch (Exception e) {
+//			System.out.println("GymOrderDaoImpl selectOrderResult e.getMessage()->"+e.getMessage());
+//		}
+//		return selectOrderResult;
+//	}
+
 	@Override
-	public List<GymOrder> selectOrder(int memberNumber) {
-		List<GymOrder> selectOrderResult = null;
-		System.out.println("MemberDaoImpl memberGymList Start ..." );
-		try {                      
-			selectOrderResult = session.selectList("selectOrder", memberNumber);
-			System.out.println("GymOrderDaoImpl selectOrderResult.size()->"+selectOrderResult.size());
-		} catch (Exception e) {
-			System.out.println("GymOrderDaoImpl selectOrderResult e.getMessage()->"+e.getMessage());
-		}
-		return selectOrderResult;
+	public List<GymOrder> selectOrder(int memberNumber, int g_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
