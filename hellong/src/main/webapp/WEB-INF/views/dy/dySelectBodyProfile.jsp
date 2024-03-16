@@ -89,7 +89,8 @@
 
 			<div class="body-profile-actions">
 				<button type="button" id="recommendButton"
-					class="btn btn-outline-dark">
+					data-bnumber="${board.b_number}"
+					class="btn btn-outline-dark ${isRecommended ? 'active' : ''}">
 					<i class="bi bi-hand-thumbs-up-fill"></i> 추천하기
 				</button>
 				<button type="button" class="btn btn-outline-dark">

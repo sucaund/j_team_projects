@@ -9,40 +9,25 @@ function confirmDeletion(element) {
     }
 }
 
-// 추천 버튼 클릭 시 이벤트 처리
-document.getElementById("recommendButton").addEventListener("click", function() {
-    // 현재 버튼의 상태를 가져옴 (추천 상태인지 아닌지)
-    var isRecommended = this.classList.contains("recommended");
-
-    if (isRecommended) {
-        // 이미 추천된 상태이면 추천 취소 처리
-        this.classList.remove("recommended");
-        // 추천 수 감소 로직 수행 (서버로 전송 등)
-        decreaseRecommendCount();
-    } else {
-        // 추천되지 않은 상태이면 추천 처리
-        this.classList.add("recommended");
-        // 추천 수 증가 로직 수행 (서버로 전송 등)
-        increaseRecommendCount();
-    }
+$('#recommendButton').on('click', function() {
+    var $this = $(this);
+    var b_number = $this.data('bnumber');
+    $.ajax({
+        type: 'POST',
+        url: '/board/' + b_number + '/recommend/toggle', // 추천 추가/취소 요청 처리 경로
+        success: function(response) {
+            if(response.recommended) {
+                alert("추천하셨습니다.");
+                $this.addClass('active');
+            } else {
+                alert("추천을 취소하셨습니다.");
+                $this.removeClass('active');
+            }
+            // 추천수 업데이트
+            $('.recommend-count').text(response.recommendCount);
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
 });
-
-// 추천 수 증가 함수
-function increaseRecommendCount() {
-    // 추천 수를 표시하는 HTML 요소를 가져옴
-    var recommendCountElement = document.getElementById("recommendCount");
-    // 추천 수 증가 로직 수행 (예: 서버로 요청 등)
-    // 여기서는 임의로 1씩 증가하는 것으로 가정
-    var currentCount = parseInt(recommendCountElement.textContent);
-    recommendCountElement.textContent = currentCount + 1;
-}
-
-// 추천 수 감소 함수
-function decreaseRecommendCount() {
-    // 추천 수를 표시하는 HTML 요소를 가져옴
-    var recommendCountElement = document.getElementById("recommendCount");
-    // 추천 수 감소 로직 수행 (예: 서버로 요청 등)
-    // 여기서는 임의로 1씩 감소하는 것으로 가정
-    var currentCount = parseInt(recommendCountElement.textContent);
-    recommendCountElement.textContent = currentCount - 1;
-}

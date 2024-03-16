@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oracle.hellong.dao.dydao.DYBoardDao;
 import com.oracle.hellong.dao.dydao.DYBoardFileDao;
+import com.oracle.hellong.dao.dydao.DYBoardRecommendDao;
 import com.oracle.hellong.dao.dydao.DYGymBoardDao;
 import com.oracle.hellong.dao.dydao.DYGymDao;
 import com.oracle.hellong.dao.dydao.DYGymReviewDao;
@@ -31,6 +32,7 @@ public class DYServiceImpl implements DYService {
 	private final DYGymBoardDao dygbd;
 	private final DYMemberDao dymd;
 	private final DYGymReviewDao dygrd;
+	private final DYBoardRecommendDao dybrd;
 
 	@Override
 	public int totalBodyProfile() {
@@ -178,12 +180,20 @@ public class DYServiceImpl implements DYService {
 		dybd.increaseReadCount(b_number);
 		
 	}
-
+	// 신고 기능
 	@Override
 	public int dyReported(Board board) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public int checkRecommendation(int m_number, int b_number) {
+		
+		return dybrd.checkRecommendation(m_number, b_number);
+	}
+
+	
 
 
 }

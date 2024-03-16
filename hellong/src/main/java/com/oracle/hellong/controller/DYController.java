@@ -100,6 +100,11 @@ public class DYController {
 		// 게시글 및 파일 조회
 		Board board = dys.selectBodyProfile(board1.getB_number());
 		List<BoardFile> boardFile = dys.selectBodyProfileFileList(boardFile1.getB_number());
+		
+		// 추천기능
+//		int m_number = (int) session.getAttribute("m_number");
+//		boolean isRecommended = dys.checkRecommendation(m_number, b_number) > 0;
+//		model.addAttribute("isRecommended", isRecommended);
 		model.addAttribute("board", board);
 		model.addAttribute("boardFile", boardFile);
 

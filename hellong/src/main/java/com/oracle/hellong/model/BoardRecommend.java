@@ -4,9 +4,8 @@ import lombok.Data;
 
 @Data
 public class BoardRecommend {
-	private int recommend_id;
 	private int m_number;
 	private int b_number;
-	private int isrecommended;
+	private int isrecommended; // 추천여부 기본값 0(추천안됨)
 	
 }

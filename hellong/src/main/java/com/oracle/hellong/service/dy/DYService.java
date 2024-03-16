@@ -51,5 +51,10 @@ public interface DYService {
 	// 게시글 조회수 증가
 	void increaseReadCount(int b_number);
 
+	int checkRecommendation(int m_number, int b_number);
+
+
+
+
 	
 }
