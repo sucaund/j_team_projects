@@ -136,8 +136,9 @@
         
         <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="w-full md:w-1/4 mb-1 md:mb-0 md:mr-2">
-            <form action="your_search_action" method="GET" class="flex items-center justify-center">
-                <input type="text" placeholder="서비스 검색..." name="search" class="flex-1 py-2 px-4 rounded-l-lg border border-gray-300 focus:outline-none focus:border-blue-500">
+            <form action="serviceSearch" method="POST" class="flex items-center justify-center">
+                <input type="text" name="keyword" placeholder="서비스명 검색..." name="search" class="flex-1 py-2 px-4 rounded-l-lg border border-gray-300 focus:outline-none focus:border-blue-500">
+                <input type="hidden" name="g_id" value="${g_id}">
                 <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-r-lg"><i class="fas fa-search"></i> 검색</button>
             </form>
          </div>
@@ -166,6 +167,7 @@
 	                	<td class="py-2 px-4">${num}</td>
 	                    <td class="py-2 px-4">
 	                    	<input type="hidden" id="s_number" value="${service.s_number}">
+	                    	<input type="hidden" id="sd_number" value="${service.sd_number}">
 	                    	<input type="hidden" id="g_id" value="${service.g_id}">
 	                    	${service.s_name}
 	                    </td>
@@ -232,6 +234,7 @@
                     <form id="serviceForm">
                         <input type="hidden" name="g_id" value="${g_id}">
                         <input type="hidden" name="s_number" id="s_number">
+                        <input type="hidden" name="sd_number" id="sd_number">                   
                         <div class="form-group">
                             <label for="serviceName">서비스 이름:</label>
                             <input type="text" name="s_name" class="form-control" id="serviceName">
@@ -401,7 +404,7 @@ $(document).ready(function() {
         
         // 서비스 삭제 AJAX 요청
         $.ajax({
-            type: 'DELETE',
+            type: 'POST',
             url: 'jh/deleteService/' + sNumber, // 삭제하는 엔드포인트 URL로 교체해야 함
             success: function(response) {
                 // 서비스 삭제에 성공했을 때의 동작

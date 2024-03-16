@@ -1,6 +1,5 @@
 package com.oracle.hellong.service.jh;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oracle.hellong.dao.jhdao.GSDao;
+import com.oracle.hellong.dao.jhdao.GSDetailDao;
+import com.oracle.hellong.dao.jhdao.GSGSDetailJoinDao;
 import com.oracle.hellong.dao.jhdao.GymBoardDao;
 import com.oracle.hellong.dao.jhdao.GymBoardFileDao;
 import com.oracle.hellong.dao.jhdao.GymBoardFileJoinDao;
@@ -17,9 +18,12 @@ import com.oracle.hellong.dao.jhdao.GymBoardReviewJoinDao;
 import com.oracle.hellong.dao.jhdao.GymBoardServiceJoinDao;
 import com.oracle.hellong.dao.jhdao.GymDao;
 import com.oracle.hellong.dao.jhdao.GymMemberServiceOrderJoinDao;
+import com.oracle.hellong.dao.jhdao.GymOrderDao;
+import com.oracle.hellong.dao.jhdao.GymReviewDao;
 import com.oracle.hellong.dao.jhdao.MemberDao;
 import com.oracle.hellong.dao.jhdao.TrainerDao;
 import com.oracle.hellong.model.GS;
+import com.oracle.hellong.model.GSGSDetailJoin;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymBoardFile;
@@ -28,6 +32,7 @@ import com.oracle.hellong.model.GymBoardJoin;
 import com.oracle.hellong.model.GymBoardReviewJoin;
 import com.oracle.hellong.model.GymBoardServiceJoin;
 import com.oracle.hellong.model.GymMemberServiceOrderJoin;
+import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.MemberGym;
 import com.oracle.hellong.model.Trainer;
 
@@ -48,6 +53,10 @@ public class JHServiceImpl implements JHService {
 	private final GymMemberServiceOrderJoinDao gmsojd;
 	private final GymBoardReviewJoinDao gbrjd;
 	private final GymBoardServiceJoinDao gbsjd;
+	private final GymOrderDao god;
+	private final GymReviewDao grd;
+	private final GSDetailDao gsdd;
+	private final GSGSDetailJoinDao gsdjd;
 	
 	private final GymBoardFileProcessor gymBoardFileProcessor;
 	private final TrainerFileProcessor trainerFileProcessor;
@@ -218,12 +227,24 @@ public class JHServiceImpl implements JHService {
 		return updateTrainerCount;	
 	}
 				
-
 	//트레이너 삭제
 	@Override
 	public int getDeleteTrainer(int t_id) {
 		int deleteCount = td.getDeleteTrainer(t_id);
 		return deleteCount;
+	}
+
+	// 트레이너 검색
+	@Override
+	public int getTotaltrainerSearch(Trainer trainer) {
+		int getTotaltrainerSearchResult = td.getTotaltrainerSearch(trainer);
+		return getTotaltrainerSearchResult;
+	}
+
+	@Override
+	public List<Trainer> getTrainerSearchList(Trainer trainer) {
+		List<Trainer> getTrainerSearchListResult = td.getTrainerSearchList(trainer);
+		return getTrainerSearchListResult;
 	}
 
 
@@ -236,8 +257,8 @@ public class JHServiceImpl implements JHService {
 	}
 
 	@Override
-	public List<GS> serviceList(GS gs) {
-		List<GS> serviceList = gsd.serviceList(gs);
+	public List<GSGSDetailJoin> serviceList(GS gs) {
+		List<GSGSDetailJoin> serviceList = gsdjd.serviceList(gs);
 		return serviceList;
 	}
 
@@ -247,6 +268,13 @@ public class JHServiceImpl implements JHService {
 		int createService = gsd.createService(gs);
 		return createService;
 	}
+	// 서비스 디테일 추가(서비스 추가되면 동시에 추가됨)
+	@Override
+	public int getCreateServiceDetail(GS gs) {
+		int getCreateServiceDetailResult = gsdd.getCreateServiceDetail(gs);
+		return getCreateServiceDetailResult;
+	}
+	
 
 	@Override
 	public GS fetchServiceDetails(int sNumber) {
@@ -260,6 +288,12 @@ public class JHServiceImpl implements JHService {
 		int updateService = gsd.updateService(sNumber);
 		return updateService;
 	}
+	//기존 서비스 디테일 만료
+	@Override
+	public int updateServiceDetail(GS gs) {
+		int updateServiceDetailResult = gsdd.updateServiceDetail(gs);
+		return updateServiceDetailResult;
+	}
 
 
 	// 서비스 삭제
@@ -268,6 +302,20 @@ public class JHServiceImpl implements JHService {
 		int deleteService = gsd.deleteService(s_number);
 		return deleteService;
 	}
+	
+	// 서비스 검색
+	@Override
+	public int getTotalSearchService(GS gs) {
+		int getTotalSearchServiceResult = gsd.getTotalSearchService(gs);
+		return getTotalSearchServiceResult;
+	}
+
+	@Override
+	public List<GSGSDetailJoin> getListSearchService(GS gs) {
+		List<GSGSDetailJoin> getListSearchServiceResult = gsdd.getListSearchService(gs);
+		return getListSearchServiceResult;
+	}
+	
 	
 	// 체육관 회원 리스트****************************************************************************************************************************
 	@Override
@@ -357,24 +405,34 @@ public class JHServiceImpl implements JHService {
 
 	//서비스 리스트 가져오기
 	@Override
-	public List<GS> getSelectServiceList(int g_id) {
-		List <GS> getSelectServiceListResult = gsd.getSelectServiceList(g_id);
+	public List<GSGSDetailJoin> getSelectServiceList(int g_id) {
+		List<GSGSDetailJoin> getSelectServiceListResult = gsdjd.getSelectServiceList(g_id);
 		return getSelectServiceListResult;
 	}
 	
 	//트레이너 리스트 가져오기
 	@Override
 	public List<Trainer> getSelectTrainerList(int g_id) {
-		List<Trainer> getSelectTrainerListResult = td.getSelectTrainerList(g_id);;
+		List<Trainer> getSelectTrainerListResult = td.getSelectTrainerList(g_id);
 		return getSelectTrainerListResult;
 	}
 
-	//세션에서 g_id 받아오기**********************************************************************************************************
+	// 리뷰 작성 -> 주문 목록 가져오기
 	@Override
-	public List<Gym> jhGetGymIdSelect(String m_id) {
-		List<Gym> jhGetGymIdSelectResult = gd.jhGetGymIdSelect(m_id);
-		return jhGetGymIdSelectResult;
+	public List<GymOrder> selectOrder(int memberNumber, int g_id) {
+		List<GymOrder> selectOrderResult = god.selectOrder(memberNumber,g_id);
+		return selectOrderResult;
 	}
+
+
+
+
+
+
+
+	
+
+
 
 
 

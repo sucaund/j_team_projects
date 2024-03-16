@@ -226,4 +226,10 @@
 		WHERE m_number = #{m_number}
 	</update>
 	
+	
+	<select id="selectOrder" parameterType="int" resultType="GymOrder">
+		select * from gym_review 
+		where m_number = {m_number}
+	</select>
+	
 </mapper>

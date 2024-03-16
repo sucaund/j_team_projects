@@ -29,6 +29,17 @@
             max-width: 960px; 
         }
         
+    .custom-pre {
+        background-color: #f0f0f0; /* 연한 회색 배경색으로 설정 */
+        color: #333; /* 텍스트 색상을 어두운 회색으로 설정 */
+        font-size: 18px; /* 원하는 폰트 크기로 설정 */
+        padding: 20px; /* 내부 여백 설정 */
+        border-radius: 5px; /* 둥근 테두리 설정 */
+        overflow-x: auto; /* 가로 스크롤이 필요한 경우 스크롤 표시 */
+        white-space: pre-wrap; /* 줄바꿈 유지 */
+        font-family: 'Roboto', sans-serif; /* 글꼴을 Roboto로 설정 */
+    }
+        
     </style>
 </head>
 <body class="bg-gray-100">
@@ -49,76 +60,95 @@
 					    <span class="ml-3 font-bold" style="color: #3366FF;">리뷰 ${avgReviewSelect.count_review_star}개</span>
 					</p>
                 </div>
-                <p class="text-lg text-gray-700">${board.gb_ment}</p>
+                <pre class="text-lg text-gray-700 custom-pre">${board.gb_ment}</pre>
             </div>
             
 
-            <div class="mb-8 border border-gray-300 p-4">
-                <div class="mb-4">
-                    <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-tags mr-2"></i> 헬스장 이용권 목록</h2>
-                    <div class="flex flex-col gap-4">
-					 <c:forEach var="service" items="${selectServiceList}" varStatus="loop">
-					       <div class="bg-gray-200 rounded-lg p-4 <c:if test='${loop.index > 2}'>more-services hidden</c:if>">
-                            <h5 class="text-lg font-bold text-gray-800 mb-2">${service.s_name}</h5>
-                            <p class="text-gray-700">${service.s_detail}</p>
-                            <p class="text-gray-700">가격: ${service.s_price}원</p>
-                            <p class="text-gray-700">이용기간: ${service.s_period} 일</p>
-                        </div>
-                        
-  
-                    </c:forEach>
-                    
-                   	<!-- 추가된 이용권 더보기 버튼 -->
-				    <button id="toggleServicesBtn" class="bg-blue-500 text-white py-2 px-4 rounded-lg 
-				    	<c:choose>
-				    		<c:when test="${selectServiceList.size() > 3}"></c:when>
-				    		<c:otherwise>hidden</c:otherwise>
-				    	</c:choose>"
-				    >
-				        <i id="toggleIcon" class="fas fa-plus-circle mr-2"></i> 이용권 더보기
-				    </button>
-                    
-                    </div>
-                </div>
-            </div>   
-
+			<div class="mb-8 border border-gray-300 p-4">
+			    <div class="mb-4">
+			        <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-tags mr-2"></i> 헬스장 이용권 목록</h2>
+			        <div class="flex flex-col gap-4">
+						<c:forEach var="service" items="${selectServiceList}" varStatus="loop">
+						    <div class="bg-gray-100 rounded-lg p-4 shadow-md <c:if test='${loop.index > 2}'>more-services hidden</c:if>'">
+						        <div class="flex items-center justify-between mb-2">
+						            <h5 class="text-lg font-bold text-gray-800">
+						                <strong style="font-size: 20px">${service.s_name}</strong>
+						            </h5>
+						            <span class="text-gray-700">
+						                <i class="fas fa-icon-class-name"></i> 
+						            </span>
+						        </div>
+						        <!-- Use <a> tag to pass parameters via URL -->
+						        <a href="movePaymentForm?sd_number=${service.sd_number}&g_id=${service.g_id}&s_number=${service.s_number}">
+						            <input type="hidden" name="sd_number" value="${service.sd_number}">
+						            <input type="hidden" name="g_id" value="${service.g_id}">
+						            <input type="hidden" name="s_number" value="${service.s_number}">
+						            <p class="text-gray-700">- 서비스 내용: <strong>${service.s_detail}</strong> </p>
+						            <p class="text-gray-700">- 이용기간: <strong>${service.s_period} 일</strong></p>
+						            <p class="text-gray-700 text-right">
+						                <strong style="font-size: 20px">
+						                    가격: 
+						                    <fmt:formatNumber type="number" value="${service.s_price}" pattern="#,###"/>원 
+						                </strong>
+						            </p>
+						        </a>
+						    </div>
+						</c:forEach>
+			            
+			            <!-- 추가된 이용권 더보기 버튼 -->
+			            <button id="toggleServicesBtn" class="bg-blue-500 text-white py-2 px-4 rounded-lg 
+			                <c:choose>
+			                    <c:when test="${selectServiceList.size() > 3}"></c:when>
+			                    <c:otherwise>hidden</c:otherwise>
+			                </c:choose>"
+			            >
+			                <i id="toggleIcon" class="fas fa-plus-circle mr-2"></i> 이용권 더보기
+			            </button>
+			            
+			        </div>
+			    </div>
+			</div> 
             
             
 			<!-- 트레이너 목록 -->
 			<div class="mb-8 border border-gray-300 p-4">
 			    <div class="mb-4">
-			        <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-user-friends mr-2"></i> 트레이너 목록</h2>
+			        <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-user-friends mr-2 mb-3"></i> 트레이너 목록</h2>
 			        <div class="flex flex-col gap-4">
-			            <!-- 트레이너 정보 반복문 시작 -->
-			            <c:forEach var="trainer" items="${trainerList}">
+			            <c:forEach var="trainer" items="${selectTrainerList}">
 			                <div class="flex items-center gap-4">
 			                    <!-- 트레이너 사진 -->
-			                    <img src="${trainer.photoUrl}" alt="Trainer" class="w-16 h-16 rounded-full">
+			                    <img src="<c:url value='/trainerUpload/${trainer.t_photostoredname }'/>" alt="Trainer Image" class="w-24 h-24 rounded-full">
 			                    <!-- 트레이너 이름 -->
-			                    <div>
-			                        <h5 class="font-bold text-gray-800">${trainer.name}</h5>
-			                        <!-- 추가적인 트레이너 정보 표시 가능 -->
+			                    <div class="flex flex-col"> 
+			                        <h5 class="font-bold text-gray-800">${trainer.t_name}</h5>
 			                    </div>
 			                </div>
 			            </c:forEach>
-			            <!-- 트레이너 정보 반복문 끝 -->
 			        </div>
 			    </div>
 			</div>
+						
 			
 			
+			<div class="mb-8 border border-gray-300 p-4">
+                <div class="mb-4">
+                  <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="far fa-clock mr-2"></i> 운영시간</h2>
+                  <pre class="text-lg text-gray-700">${board.gb_time}</pre>
+                </div>
+            </div>
           
             <div class="mb-8 border border-gray-300 p-4">
                 <div class="mb-4">
                   <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-dumbbell mr-2"></i> 운동기구</h2>
-                  <p class="text-lg text-gray-700">${board.gb_machine}</p>
+                  <pre class="text-lg text-gray-700">${board.gb_machine}</pre>
                 </div>
             </div>
           
             <div class="mb-8 border border-gray-300 p-4">
                 <div class="mb-4">
                   <h2 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-shower mr-2"></i> 편의시설</h2>
-                  <p class="text-lg text-gray-700">${board.gb_amen}</p>
+                  <pre class="text-lg text-gray-700">${board.gb_amen}</pre>
                 </div>
             </div>
           
@@ -161,40 +191,68 @@
             </div>
             
             <!-- 리뷰 카드 추가 -->
-            <div class="mb-8 border border-gray-300 p-4">
-                <div class="review-card p-4">
-                    <h2 class="text-lg font-bold text-gray-800 mb-4"><i class="fas fa-comment-alt mr-2"></i> 고객 리뷰</h2>
-                    
-                    <div class="flex items-center mb-4">
-                        <h3 class="font-bold text-gray-800 mr-3">평균평점: <span class="text-yellow-500">4.5</span></h3>
-                        <h3 class="font-bold text-gray-800">리뷰수: 20명</h3>
-                    </div>
-                    
+<div class="mb-8 border border-gray-300 p-4">
+    <div class="review-card p-4">
+        <h2 class="text-lg font-bold text-gray-800 mb-4"><i class="fas fa-comment-alt mr-2"></i> 고객 리뷰</h2>
+        
+        <!-- 리뷰 정보 및 평점 표시 -->
+        <div class="flex items-center mb-4">
+            <h3 class="font-bold text-gray-800 mr-3">평균평점: <span class="text-yellow-500">${avgReviewSelect.avg_review_star}</span></h3>
+            <h3 class="font-bold text-gray-800">리뷰수: ${avgReviewSelect.count_review_star}명</h3>
+        </div>
 
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-user-circle text-gray-600 mr-3 text-4xl"></i>
-                        <div>
-                            <h5 class="font-bold text-gray-800">고객 이름 <i class="fas fa-check-circle text-green-500">결제고객</i> <span class="text-yellow-500">★★★★★</span></h5>
-                            <p class="text-gray-700">리뷰 내용 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel dolor vitae neque consequat auctor.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Second Review -->
-                    <div class="flex items-center mb-4">
-                        <!-- Person Icon -->
-                        <i class="fas fa-user-circle text-gray-600 mr-3 text-4xl"></i>
-                        <div>
-                            <!-- Customer Name with Payment Verification and Star Rating -->
-                            <h5 class="font-bold text-gray-800">고객 이름 <i class="fas fa-check-circle text-green-500">결제고객</i> <span class="text-yellow-500">★★★★★</span></h5>
-                            <!-- Review Content -->
-                            <p class="text-gray-700">리뷰 내용 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel dolor vitae neque consequat auctor.</p>
-                        </div>
-                    </div>
-                    
-                    <button class="bg-blue-500 text-white py-2 px-4 rounded-lg mr-4" id="writeReviewBtn"><i class="fas fa-pencil-alt mr-2"></i> 리뷰 쓰기</button>
-                    <button class="bg-gray-500 text-white py-2 px-4 rounded-lg"><i class="fas fa-eye mr-2"></i> 리뷰 더보기</button>
-                </div>
-            </div>     
+ 		<!-- 첫 번째 리뷰 -->
+        <div class="flex items-center mb-4">
+            <!-- 사용자 프로필 사진 -->
+            <i class="fas fa-user-circle text-gray-600 mr-3 text-5xl"></i>
+            <div>
+                <h5 class="font-bold text-gray-800">고객 이름 
+                    <!-- 관리자 인증 아이콘 -->
+                    <i class="fas fa-check-circle text-green-500">결제고객</i> 
+                    <!-- 별점 표시 -->
+                    <span class="text-yellow-500">★★★★★</span>
+                    <!-- 작성일자 표시 -->
+                    <span class="text-gray-500 ml-2">작성일자</span>
+                </h5>
+                <p class="text-gray-700">리뷰 내용 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel dolor vitae neque consequat auctor.</p>
+            </div>
+        </div>
+        
+        <!-- 두 번째 리뷰 -->
+        <div class="flex items-center mb-4">
+            <!-- 사용자 프로필 사진 -->
+            <i class="fas fa-user-circle text-gray-600 mr-3 text-5xl"></i>
+            <div>
+                <h5 class="font-bold text-gray-800">고객 이름 
+                    <!-- 관리자 인증 아이콘 -->
+                    <i class="fas fa-check-circle text-green-500">결제고객</i>  
+                    <!-- 별점 표시 -->
+                    <span class="text-yellow-500">★★★★★</span>
+                    <!-- 작성일자 표시 -->
+                    <span class="text-gray-500 ml-2">작성일자</span>
+                </h5>
+                <p class="text-gray-700">리뷰 내용 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel dolor vitae neque consequat auctor.</p>
+            </div>
+        </div>
+
+        <!-- 리뷰 답글 폼 -->
+        <div class="flex items-center mb-4 ml-8">
+            <i class="fas fa-user-circle text-blue-500 mr-3 text-5xl"></i>
+            <div>
+                <h5 class="font-bold text-gray-800">관리자 이름 
+                    <!-- 관리자 인증 아이콘 -->
+                    <i class="fas fa-check-circle text-blue-500"></i>
+                    <span class="text-gray-500 ml-2">작성일자</span>
+                </h5>
+                <p class="text-gray-700">리뷰 답글 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel dolor vitae neque consequat auctor.</p>
+            </div>
+        </div>
+
+        <!-- 리뷰 작성 버튼 및 더보기 버튼 -->
+        <button class="bg-blue-500 text-white py-2 px-4 rounded-lg mr-4" id="writeReviewBtn"><i class="fas fa-pencil-alt mr-2"></i> 리뷰 쓰기</button>
+        <button class="bg-gray-500 text-white py-2 px-4 rounded-lg"><i class="fas fa-eye mr-2"></i> 리뷰 더보기</button>
+    </div>
+</div>
             
             
             
@@ -234,7 +292,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
               </div>
-              <input type="text" class="form-control" id="customerName" required>
+              <input type="text" class="form-control" id="customerName"  name="m_name" required>
             </div>
           </div>
                
@@ -284,6 +342,8 @@
 	$(document).ready(function() {
 	    var count = 0;
 	    var buttonText = ["이용권 감추기", "이용권 더보기"];
+	    
+	    var gId = ${g_id};
 
 	    $("#toggleServicesBtn").click(function() {
 	        $(".more-services").toggleClass("hidden"); // 이용권 목록 토글
@@ -313,10 +373,27 @@
         });
     }
 
-    // 리뷰 작성 모달 열기
-    $('#writeReviewBtn').click(function() {
-        $('#writeReviewModal').modal('show');
-    });
+    
+    // 리뷰 쓰기 버튼 누르면 서버로 로그인 여부 or 결제 고객인지 확인 -> 결제 고객이면 회원 정보 가져옴
+	$('#writeReviewBtn').click(function () {
+         // Ajax를 통해 서버로부터 유저 정보 받아오기
+         $.ajax({
+             type: "GET",
+             url: "/getUserInfo", // 유저 정보를 받아올 URL
+             data:{g_id: gId},
+             success: function (response) {
+                 // 서버로부터 받은 유저 정보를 모달에 채워넣기
+                 $('#customerName').val(response.m_name); 
+                 // 모달 열기
+                 $('#writeReviewModal').modal('show');
+             },
+             error: function () {
+                 alert('결제 회원이 아닙니다.');
+             }
+         });
+     });    
+    
+    
 
     // 현재 날짜 설정
     var today = new Date();
@@ -326,6 +403,13 @@
 
     today = yyyy + '-' + mm + '-' + dd;
     document.getElementById("reviewDate").setAttribute("value", today);
+    
+    
+    
+    
+    
+    
+    
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
 </body>
