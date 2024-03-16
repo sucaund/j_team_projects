@@ -10,6 +10,9 @@ public class GymOrder { //주문(체육관 서비스 등록) gym_order
     private int sd_number;//서비스상세 //pk //nn
     private int s_number;//서비스상세 //pk //nn
     private int m_number; //멤버변호 //pk foreign nn
+    
+    private int go_number;
+    
     private int use_point; //사용포인트
     private String  deal_date; //거래날짜
     private String  refund_date; //환불일자 nn

@@ -7,13 +7,17 @@ import lombok.Data;
 @Data
 public class GymMemberServiceOrderJoin {
 	//gs
-	private int g_id;//체육관id //pk //foreign //nn
+    private int g_id;//체육관id //pk //foreign //nn
     private int s_number;//서비스번호 //pk nn
     private String s_name;//서비스명 //nn
+    
     private String s_detail;//세부내용
+    
     private int s_price; //공지가격 //nn
     private int s_period;//이용적용기간 //nn
     private String s_matters;//특이사항
+    private int s_isdeleted;
+    
     
 	
 	//gs_detail
@@ -46,6 +50,8 @@ public class GymMemberServiceOrderJoin {
 	    
 
 	//gym_order
+    private int go_number;
+  
     private int use_point; //사용포인트
     private String  deal_date; //거래날짜
     private String  refund_date; //환불일자 nn
@@ -55,7 +61,7 @@ public class GymMemberServiceOrderJoin {
     private String go_end_date;	// 개인 종료 날짜
     private int go_isend; // 만료 여부
     
-    private String refund_criteria;  
+    private String refund_criteria;    
      
      
     //조회용

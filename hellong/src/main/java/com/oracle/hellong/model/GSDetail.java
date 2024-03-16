@@ -13,4 +13,9 @@ public class GSDetail { //체육관 상세서비스 g_s_detail
        private Date  sd_enddate;//이용종료기간
        private String sd_matters;//특이사항
        private int sd_isend;//만료구분
+       
+       
+       private int go_number;
+       private int m_number ;
+       private int s_period ;
 }
