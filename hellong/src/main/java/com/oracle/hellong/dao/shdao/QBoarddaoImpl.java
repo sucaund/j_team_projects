@@ -223,6 +223,8 @@ public class QBoarddaoImpl implements QBoarddao {
 			Map<String, Object> params = new HashMap<>();
 	        params.put("m_number", m_number);
 	        params.put("admin", admin);
+	        System.out.println("QBoarddaoImpl updateMember m_number->" + " "+m_number);
+	        System.out.println("QBoarddaoImpl updateMember admin->"+"   " +admin);
 			session.update("updateMember",params);
 		} catch (Exception e) {
 			System.out.println("QBoarddaoImpl updateMember e.getMessage()->" + e.getMessage());
