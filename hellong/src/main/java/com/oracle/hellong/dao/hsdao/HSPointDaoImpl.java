@@ -105,6 +105,34 @@ public class HSPointDaoImpl implements HSPointDao {
 		return listPoint;
 	}
 
+	@Override
+	public PointCharge insertAndGetPointCharge(PointCharge pointCharge) {
+		System.out.println("PointDaoImpl insertAndGetPointCharge start...");
+		
+		try {
+			session.insert("com.oracle.hellong.PointChargeMapper.hsInsertAndGetPointCharge", pointCharge);
+			System.out.println("PointDaoImpl insertAndGetPointCharge checek ->" + pointCharge.getCharge_number());
+			System.out.println("PointDaoImpl insertAndGetPointCharge checek ->" + pointCharge.getCharge_point());
+		} catch (Exception e) {
+			
+		}
+		return pointCharge;
+	}
+
+	@Override
+	public int updatePointCharge(PointCharge insertAndGetPointCharge) {
+		int updateResult = 0;
+		System.out.println("PointDaoImpl updatePointCharge start...");
+		
+		try {
+			updateResult = session.update("hsUpdatePointCharge", insertAndGetPointCharge);
+			System.out.println("PointDaoImpl updatePointCharge updateResult-> " + updateResult);
+		} catch (Exception e) {
+			
+		}
+		return updateResult;
+	}
+
 
 
 }
