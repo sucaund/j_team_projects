@@ -130,16 +130,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <select class="form-control">
-                                    <option>전체</option>
-                                    <option>피트니스</option>
-                                    <option>요가</option>
-                                    <option>수영</option>
-                                </select>
-                            </div>
+							<div class="col-md-6">
+							    <div class="input-group">
+							        <select class="form-control">
+							            <option>전체</option>
+							            <option>회원 이름</option>
+							            <option>이용 서비스</option>
+							            <option>전화번호</option>
+							            <option>이메일</option>
+							        </select>
+							        <div class="input-group-append">
+							            <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
+							        </div>
+							    </div>
+							</div>
                         </div>
-                        <h3 class="font-bold mb-3  text-2xl">회원 목록</h3>
+                        <h3 class="font-bold mb-3  text-2xl">현재 이용 중인 회원목록</h3>
                         <div class="table-responsive">
                              <table class="table table-bordered table-header-bg mb-0">
                                 <thead class="bg-primary text-white">
@@ -151,6 +157,8 @@
                                         <th>전화번호</th>
                                         <th>이메일</th>
                                         <th>이용중인 서비스</th>
+                                        <th>거래 일자</th>
+                                        <th>시작 일자</th>
                                         <th>만료 일자</th>
                                     </tr>
                                 </thead>
@@ -165,7 +173,9 @@
                                         <td>${gym.m_phone}</td>
                                         <td>${gym.m_email}</td>
                                         <td>${gym.s_name}</td>
-                                        <td>${gym.s_enddate}</td>
+                                        <td>${gym.deal_date}</td>
+                                        <td class="startdate">${gym.go_startdate}</td>
+                                        <td class="enddate">${gym.go_enddate}</td>
                                         <c:set var="num" value="${num - 1}"></c:set>         
                                     </tr>
                                     </c:forEach>
@@ -213,6 +223,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	
 	<script type="text/javascript">
+	
+		function formatDate(dateString) {
+	        var date = new Date(dateString);
+	        var year = date.getFullYear();
+	        var month = (1 + date.getMonth()).toString().padStart(2, '0');
+	        var day = date.getDate().toString().padStart(2, '0');
+	        return year + '-' + month + '-' + day;
+	    }
+	
+	
 	    function numberWithCommas(x) {
 	        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	    }
@@ -220,6 +240,22 @@
 	    window.onload = function() {
 	        var sumSale = ${sumSale}; 
 	        document.getElementById("formattedPrice").innerText = numberWithCommas(sumSale) + "원";
+	        
+	        // "go_startdate"를 형식화하여 엘리먼트에 할당
+	        var startdateElements = document.querySelectorAll(".startdate");
+	        startdateElements.forEach(function(element) {
+	            var dateString = element.innerText;
+	            element.innerText = formatDate(dateString);
+	        });
+
+	        // "go_enddate"를 형식화하여 엘리먼트에 할당
+	        var enddateElements = document.querySelectorAll(".enddate");
+	        enddateElements.forEach(function(element) {
+	            var dateString = element.innerText;
+	            element.innerText = formatDate(dateString);
+	        });
+	        
+	        
 	    };
 	</script>
 

@@ -42,6 +42,8 @@ public interface JMService {
 
 	int jmResetPw(int m_number, String m_pw);
 
+	int checkMail(String m_email);
+
 
 
 

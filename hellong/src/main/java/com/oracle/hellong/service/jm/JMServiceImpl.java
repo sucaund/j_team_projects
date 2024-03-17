@@ -197,6 +197,14 @@ public class JMServiceImpl implements JMService {
 		return resetPwCheck;
 	}
 
+	@Override
+	public int checkMail(String m_email) {
+		System.out.println("JmServiceImpl checkMail ...");
+		int checkMailCount=0;
+		checkMailCount=jmmd.jmCheckMail(m_email);
+		return checkMailCount;
+	}
+
 
 
 

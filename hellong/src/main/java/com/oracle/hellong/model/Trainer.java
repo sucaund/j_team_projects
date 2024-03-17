@@ -37,6 +37,7 @@ public class Trainer { //트레이너
 	private	String pageNum;
 	private int	start;
 	private	int end;
+	private int prevPage; private int nextPage;
 	
 	//page 정보
 	private String currentPage;

@@ -39,6 +39,8 @@ public interface JmMemberDao {
 	String jmCheckPwDuple(int m_number, String m_pw);
 
 	int jmResetPw(int m_number, String m_pw);
+
+	int jmCheckMail(String m_email);
 	
 	
 

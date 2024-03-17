@@ -6,29 +6,30 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.hellong.model.GymBoardReviewJoin;
-import com.oracle.hellong.model.GymBoardServiceJoin;
+import com.oracle.hellong.model.GymBoardFileServiceReviewJoin;
 
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class GymBoardServiceJoinDaoImpl implements GymBoardServiceJoinDao {
+public class GymBoardFileServiceReviewJoinDaoImpl implements GymBoardFileServiceReviewJoinDao {
 
 	private final SqlSession session;
 
+	// 지점 찾기 글 조회
 	@Override
-	public List<GymBoardServiceJoin> getMinPrice(GymBoardServiceJoin gymBoardServiceJoin) {
-		List <GymBoardServiceJoin> getMinPriceResult = null;
+	public List<GymBoardFileServiceReviewJoin> getGymSearchPage(GymBoardFileServiceReviewJoin gymBoardServiceJoin) {
+		List<GymBoardFileServiceReviewJoin>  getGymSearchPageResult = null;
 		try {							    
-			getMinPriceResult = session.selectList("getMinPrice",gymBoardServiceJoin);
-			System.out.println("GymBoardReviewJoinDaoImpl getAvgReview.size()->"+getMinPriceResult.size());
+			getGymSearchPageResult = session.selectList("getGymSearchPage",gymBoardServiceJoin);
+			System.out.println("GymBoardFileServiceReviewJoinDaoImpl GymBoardFileServiceReviewJoin.size()->"+getGymSearchPageResult.size());
 		} catch (Exception e) {
-			System.out.println("GymBoardReviewJoinDaoImpl getAvgReview Exception -> "+e.getMessage());
+			System.out.println("GymBoardFileServiceReviewJoinDaoImpl GymBoardFileServiceReviewJoin Exception -> "+e.getMessage());
 		}
-
-		return getMinPriceResult;
+		
+		return getGymSearchPageResult;
 	}
-
-
+	
+	
 }

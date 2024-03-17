@@ -26,14 +26,14 @@ public class JMController {
 
 	private final JMService jm;
 
-	@ResponseBody // ajax 회원가입시 아이디 체크 (사용하는 것)
+	@ResponseBody // 회원가입시 아이디 중복 체크
 	@RequestMapping(value = "jmConfirmMemberIdAjax2")
 	public int jmConfirmMemberIdAjax2(@RequestParam("m_id") String m_id) {
 		System.out.println("jmController jmConfirmMemberIdAjax2 Start...");
 		if (m_id == null || m_id == "")
 			return -1;
 		else
-			return jm.checkId(m_id); // isDeleted=0인것만
+			return jm.checkId(m_id); //입력한 아이디와 일치하는 아이디가 있는지 찾아옴, 0이어야 가입가능
 	} // 스트링을 보내서 인트를 받아옴
 
 	@ResponseBody // 비밀번호 재설정 시 중복 비밀번호 찾기
@@ -54,6 +54,19 @@ public class JMController {
 		System.out.println("jmController jmConfirmMemberPw result:" + result);
 		return result;
 	}
+	
+	@ResponseBody // 회원가입시 이메일 중복 체크
+	@RequestMapping(value = "jmConfirmMemberMailSame")
+	public int jmConfirmMemberMailSame(@RequestParam("m_email") String m_email) {
+		int result=0;
+		System.out.println("jmController jmConfirmMemberMailSame Start...");
+		if (m_email == null || m_email == "")
+			return -1;
+		else
+			result=jm.checkMail(m_email); //입력한 이메일과 일치하는 이메일이 있는지 찾아옴, 0이어야 가입가능
+			System.out.println(result);
+			return result; 
+	} // 스트링을 보내서 인트를 받아옴
 
 	@RequestMapping(value = "jmSignUpFormAjax2") // 회원가입 폼으로 이동시킴
 	public String jmSignUpFormAjax2() {
@@ -100,7 +113,7 @@ public class JMController {
 		String uri = request.getHeader("Referer"); // 로그인클릭 전 주소 저장
 		System.out.println("uri:" + uri);
 		if (uri != null && !uri.contains("/jmLoginForm") && !uri.contains("/jmLoginCheck")) {
-			// 그 전 주소가 없거나 로그인관련 주소가 아닐때만
+			// 그 전 주소가 없거나 로그인/가입 관련 주소가 아닐때만
 			request.getSession().setAttribute("prevPage", uri);
 		}
 		return "jm/jmLoginForm"; //
@@ -147,7 +160,8 @@ public class JMController {
 				uri = prevPage;
 
 				// 회원가입 - 로그인으로 넘어온 경우 "/"로 redirect
-				if (prevPage.contains("/jmSignUpFormAjax2") || prevPage.contains("/jmSignUpAjax2")) {
+				if (prevPage.contains("/jmSignUpFormAjax2") || prevPage.contains("/jmSignUpAjax2")
+					||prevPage.contains("/jmSignUpCorrect")) {
 					uri = "/";
 				}
 			} 
@@ -443,24 +457,6 @@ public class JMController {
 			return "jm/jmLoginForm";
 		}
 	}
-
-//	//가입/수정 시 이름 체크(중복 체크만)
-//	@RequestMapping(value = "jmConfirmMemberName")
-//	public String jmConfirmMemberName(Member member1, Model model) {
-//		Member member = jm.jmConfirmMemberName(member1.getM_name());
-//		model.addAttribute("m_name", member1.getM_name());
-//		if (member != null) { // 입력한 m_id와 같은 member가 있다면
-//			System.out.println("jmController jmConfirmMemberName 중복된 m_name");
-//			model.addAttribute("msg", "중복된 아이디입니다");
-//			return "forward:jmSignUpForm";
-//		} else {
-//			System.out.println("jmController jmConfirmMemberName 사용 가능한 m_name");
-//			model.addAttribute("msg", "사용 가능한 닉네임입니다");
-//			return "forward:jmSignUpForm";
-//
-//		}
-//
-//	}
 
 	@ResponseBody // 모든 이메일 인증에 사용
 	@RequestMapping(value = "jmMailCheck", method = RequestMethod.POST)

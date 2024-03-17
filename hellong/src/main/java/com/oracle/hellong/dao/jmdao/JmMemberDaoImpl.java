@@ -303,6 +303,19 @@ public class JmMemberDaoImpl implements JmMemberDao {
 			}
 			return updateCount;
 		}
+
+		@Override
+		public int jmCheckMail(String m_email) { //이메일 중복 체크
+			System.out.println("JmMemberDaoImpl jmCheckMail start..");
+			int checkMailCount= 0;
+			try {
+				checkMailCount = session.selectOne("jmCheckMail",m_email);
+				System.out.println("JmMemberDaoImpl jmCheckMail after select:"+checkMailCount);
+			} catch (Exception e) {
+				System.out.println("JmMemberDaoImpl jmCheckMail Exception->"+e.getMessage());
+			}
+			return checkMailCount;
+		}
 		
 //		@Override
 //		public List<Member> jmListMemberReal(Member member) { //멤버 리스트로 뽑아 출력용

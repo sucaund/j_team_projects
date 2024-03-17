@@ -25,11 +25,12 @@
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/tiny-slider.js"></script>
 	<script src="/js/glightbox.min.js"></script>
-	<script src="/js/main.js"></script>
-
-
-
+<!-- 	<script src="/js/main.js"></script> -->
+	
+	
+	
 	<style>
+
 	  .header {
 	    position: fixed; 
 	    top: 0; 
@@ -44,7 +45,7 @@
 	    padding-top: 200px; /* 고정된 헤더의 높이만큼 추가 */
 	  }
   	</style> 
-
+	
 
 </head>
 
@@ -57,7 +58,7 @@
     <!-- Start Header Area -->
     <header class="header navbar-area">
         <!-- Start Topbar -->
-
+       
         <!-- Start Header Middle -->
         <div class="header-middle">
             <div class="container">
@@ -122,7 +123,7 @@
                                         <% } %>
                                 </h3>
                             </div>
-
+                            
                         </div>
                     </div>
                 </div>
@@ -181,7 +182,7 @@
                                         <ul class="sub-menu collapse" id="submenu-1-3">
                                             <li class="nav-item"><a href="/communityBoard">자유게시판</a></li>
                                             <li class="nav-item"><a href="/listBodyProfile">바디프로필</a></li>
-
+                                            
                                         </ul>
                                     </li>
 
@@ -192,7 +193,7 @@
                                             <li class="nav-item"><a href="blog-grid-sidebar.html">작성글</a></li>
                                             <li class="nav-item"><a href="https://demo.graygrids.com/themes/shopgrids/blog-single-sidebar.html">결제</a></li>
                                             <li class="nav-item"><a href="/jmUpdateMemberForm">개인정보수정</a></li>
-
+                                            
                                         </ul>
                                     </li>
 

@@ -17,4 +17,7 @@ public interface GymMemberServiceOrderJoinDao {
 
 	Map<String, Double> getAgeRatio(int g_id);
 
+	// 현재 이용중인 회원
+	int getCurrentTotalMemberList(int g_id);
+
 }

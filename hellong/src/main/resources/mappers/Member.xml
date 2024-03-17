@@ -125,6 +125,10 @@
 		 where m_number=#{m_number} and m_isdeleted=0
 	</select>
 	
+	 <select id="jmCheckMail" parameterType = "String" resultType = "int">
+ 	 	SELECT COUNT(*) FROM MEMBER WHERE m_email= #{m_email} and m_isdeleted=0
+ 	 </select>
+	
 	
 	<update id="jmResetPw" parameterType="Member">
 		UPDATE member 
