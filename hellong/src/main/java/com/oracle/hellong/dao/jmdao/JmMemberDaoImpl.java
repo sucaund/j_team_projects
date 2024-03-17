@@ -6,6 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.hellong.model.GS;
+import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 
 import jakarta.validation.Valid;
@@ -315,6 +318,64 @@ public class JmMemberDaoImpl implements JmMemberDao {
 				System.out.println("JmMemberDaoImpl jmCheckMail Exception->"+e.getMessage());
 			}
 			return checkMailCount;
+		}
+
+		@Override
+		public int jmGetGymOrderGID(int m_number) {
+			System.out.println("jmMemberDaoImpl jmGetGymOrderGID start");
+			int g_id=0;
+			try {
+				g_id = session.selectOne("jmGetGymOrderGID",m_number);
+				System.out.println("JmMemberDaoImpl jmGetGymOrderGID after select:"+g_id);
+			} catch (Exception e) {
+				System.out.println("JmMemberDaoImpl jmGetGymOrderGID Exception->"+e.getMessage());
+			}
+			return g_id;
+		}
+
+		@Override
+		public Gym jmGetGymFromGID(int g_id) {
+			System.out.println("jmMemberDaoImpl jmGetGymFromGID start");
+			Gym gym=new Gym();
+			try {
+				g_id = session.selectOne("jmGetGymFromGID",g_id);
+				System.out.println("JmMemberDaoImpl jmGetGymFromGID after select:"+g_id);
+			} catch (Exception e) {
+				System.out.println("JmMemberDaoImpl jmGetGymFromGID Exception->"+e.getMessage());
+			}
+			return gym;
+		}
+
+		@Override
+		public GymOrder jmGetGymOrder(int g_id) {
+			System.out.println("jmMemberDaoImpl jmGetGymOrder start");
+			GymOrder gymOrder=new GymOrder();
+			try {
+				g_id = session.selectOne("jmGetGymOrder",g_id);
+				System.out.println("JmMemberDaoImpl jmGetGymOrder after select:"+g_id);
+			} catch (Exception e) {
+				System.out.println("JmMemberDaoImpl jmGetGymOrder Exception->"+e.getMessage());
+			}
+			return gymOrder;
+		}
+		
+		public String jmGetS_name(int g_id, int s_number) {
+			System.out.println("JmMemberDaoImpl jmGetS_name start..");
+			System.out.println(g_id);
+			System.out.println(s_number);
+			GS gs= new GS();
+			gs.setG_id(g_id);
+			gs.setS_number(s_number);
+			String s_name= "";
+			try {
+				s_name = session.selectOne("jmGetS_name", gs);
+				System.out.println("JmMemberDaoImpl jmGetS_name s_name->" + s_name);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				System.out.println("해당 체육관id와 서비스번호로 생성된 서비스의 이름(s_name)이 없음");
+				s_name="";
+			}
+			return s_name;
 		}
 		
 //		@Override

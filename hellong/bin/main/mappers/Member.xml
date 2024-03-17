@@ -136,6 +136,36 @@
 		WHERE m_number=#{m_number}
 	</update>
 	
+	<select id="jmGetGymOrderGID" parameterType = "int" resultType = "int">
+ 	 	select g_id
+		from gym_order
+		where m_number=${m_number}
+		and go_isend=0
+ 	 </select>
+ 	 
+	 <select id="jmGetGymFromGID" parameterType = "int" resultType = "Gym">
+	 	select *
+		from gym
+		where g_id=${g_id}
+		and g_isdeleted=0
+	 </select>
+	 
+	 <select id="jmGetGymOrder" parameterType = "int" resultType = "GymOrder">
+ 	 	select *
+		from gym_order
+		where g_id=${g_id}
+		and go_isend=0
+ 	 </select>
+	 
+	 <select id="jmGetS_name" parameterType = "String" resultType = "GymOrder">
+	 	select s_name
+		from G_S
+		where g_id=${g_id}
+		and s_number=${s_number}
+		and s_isdeleted=0
+	 </select>
+ 
+	
 	
 
 	<select id="getMember" resultType="Member" parameterType="int">

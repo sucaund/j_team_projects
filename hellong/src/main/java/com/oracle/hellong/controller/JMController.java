@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.service.jm.JMService;
 
@@ -217,11 +219,28 @@ public class JMController {
 		if (session.getAttribute("m_number") != null) { // 세션에 등록되어있을때=로그인했을때
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
-			// member에서 등록헬스장, 찜한 헬스장 몇개, 현재 서비스, 현재 서비스 기간, 현재 서비스 가격,
-			// 작성글 몇개, 스크랩 몇개, 결제내역 가져오고
-			model.addAttribute("member", member); //Member 객체 : session 대신 모델로 전송 :
-			//지금 세션에 들어있는 m_number와 일치하는 것만  
-			// 나머지는 페이지에서 링크로..
+			model.addAttribute("member", member); 
+			
+			int g_id=0;
+			g_id=jm.jmGetGymOrderGID((int) session.getAttribute("m_number")); //주문, 만료되지 않은 체육관 번호 가져옴
+			System.out.println("jmController jmMyPage에서 jmGetGymOrderGID로 g_id 꺼내온 값:"+g_id);
+			model.addAttribute("g_id", g_id); //유저가 이용중인 체육관 있을 때
+			if(g_id>0) {
+				Gym gym=new Gym();
+				gym=jm.jmGetGymFromGID(g_id); //유저가 가입한 체육관의 정보
+				System.out.println("jmController jmMyPage에서 jmGetGymFromGID로 꺼내온 체육관 이름:"+gym.getG_name());
+				model.addAttribute("gym", gym);
+				
+				GymOrder gymOrder=new GymOrder();
+				gymOrder=jm.jmGetGymOrder(g_id); //활성화된 주문이 하나라는 가정하에 
+				System.out.println("jmController jmMyPage에서 jmGetGymOrder로 꺼내온 주문의 서비스 넘버:"+gymOrder.getS_number());
+				
+				String s_name="";
+				
+				s_name=jm.jmGetS_name(g_id, gymOrder.getS_number()); //체육관id와 서비스번호가 일치하는 서비스이름을 GS에서 가져옴
+				model.addAttribute("s_name", s_name);
+			}
+			
 			// null일 때 msg같은거 보냄
 			// 몇개씩 보내는건 ListMember 참고해서 보내면 될 것 같은데. List 보내는 식
 //			session.getAttribute(null)
