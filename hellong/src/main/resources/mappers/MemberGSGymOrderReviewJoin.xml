@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oracle.hellong.MemberGSGymOrderReviewJoinMapper">
+	<select id="getReviewSearch" parameterType="MemberGSGymOrderReviewJoin" resultType="MemberGSGymOrderReviewJoin">
+	 <![CDATA[  
+	    SELECT s.s_name, o.sd_number, o.s_number, m.m_name, o.go_number
+	    FROM member m, gym_order o, gym_review r, g_s s
+	    WHERE m.m_number = o.m_number
+	        AND s.g_id = o.g_id
+	        AND s.s_number = o.s_number
+	        AND r.g_id(+) = o.g_id
+	        AND r.s_number(+) = o.s_number
+	        AND r.m_number(+) = o.m_number
+	        AND r.go_number(+) = o.go_number
+	        AND o.m_number = #{m_number}
+	        AND o.g_id = #{g_id}
+	        AND r.go_number IS NULL
+	  ]]>      
+	</select>
+	
+	<select id="getselectReviewList" parameterType="int" resultType="MemberGSGymOrderReviewJoin">
+		select *
+		from gym_review r, member m
+		where r.m_number = m.m_number
+		and g_id = #{g_id}
+		order by review_regdate desc
+	</select>
+	
+	<select id="gymManagerSelectOne" parameterType="MemberGym" resultType="MemberGSGymOrderReviewJoin">
+		select * 
+		from gym g, member m
+		where g.m_number = m.m_number
+		and	g.m_number = #{m_number}
+		and g_id = #{g_id}
+	</select>
+
+</mapper>

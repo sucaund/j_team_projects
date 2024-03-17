@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GymBoardReviewJoinMapper">
-	<select id="getAvgReview" parameterType="GymBoardReviewJoin" resultType="GymBoardReviewJoin">
-	    SELECT *
-	    FROM (
-	        SELECT ROWNUM AS rn, a.*
-	        FROM (
-                SELECT b.g_id, COALESCE(AVG(r.review_star), 0) AS avg_review_star, count(r.review_star) AS count_review_star
-                FROM gym_board b
-                LEFT JOIN gym_review r ON r.g_id = b.g_id
-                GROUP BY b.g_id
-                ORDER BY b.g_id DESC
-	        ) a
-	    )
-	    WHERE rn BETWEEN #{start} AND #{end}
-	</select>
 	
 	<select id="getAvgReviewSelect" parameterType="int" resultType="GymBoardReviewJoin">
 		SELECT b.g_id, COALESCE(AVG(r.review_star), 0) AS avg_review_star, count(r.review_star) AS count_review_star

@@ -21,23 +21,7 @@
 		delete from gym_board_file where g_id=#{g_id}
 	</delete>
 	
-	<select id="JHgymBoardFileList" parameterType="GymBoardFile" resultType="GymBoardFile">
-	    SELECT *
-	    FROM (
-	        SELECT ROWNUM AS rn, a.*
-	        FROM (
-                SELECT g_id, gbf_storedfilename
-                FROM (
-                    SELECT g_id, gbf_storedfilename, 
-                           ROW_NUMBER() OVER (PARTITION BY g_id ORDER BY gbf_storedfilename DESC) AS rn
-                    FROM gym_board_file
-                ) 
-                WHERE rn = 1
-                ORDER BY g_id desc
-	        ) a
-	    )
-	    WHERE rn BETWEEN #{start} AND #{end}
-	</select>
+
 	
 	<select id="gymBoardFileListRead" parameterType="int" resultType="GymBoardFile">
 		select * 

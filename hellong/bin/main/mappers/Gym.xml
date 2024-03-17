@@ -21,7 +21,6 @@
 		from gym
 		where m_number = #{m_number}
 		where m_number = #{m_number}
-		and common_bcd = 100
 		and common_mcd = 20
 		and g_isdeleted = 0
 	</select>
@@ -31,7 +30,6 @@
 		select*
 		from gym
 		where m_number = #{m_number}
-		and common_bcd = 100
 		and common_mcd = 20
 		and g_isdeleted = 0
 	</select>

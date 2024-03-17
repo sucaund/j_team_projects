@@ -16,8 +16,7 @@ public interface GymBoardFileDao {
 	
 	//사진 삭제
 	void deleteGymFile(int g_id);
-	//사진 리스트
-	List<GymBoardFile> gymBoardFileList(GymBoardFile gymBoardFile);
+
 	//지점찾기 글 상세
 	List<GymBoardFile> gymBoardFileListRead(int g_id);
 	

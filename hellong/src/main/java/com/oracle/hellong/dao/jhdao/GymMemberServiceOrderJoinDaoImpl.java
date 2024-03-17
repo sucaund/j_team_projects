@@ -81,5 +81,18 @@ public class GymMemberServiceOrderJoinDaoImpl implements GymMemberServiceOrderJo
 		}		
 		return getAgeRatioResult;
 	}
+
+	// 현재 이용중인 회원
+	@Override
+	public int getCurrentTotalMemberList(int g_id) {
+		int  getCurrentTotalMemberListResult = 0;
+		try {
+			getCurrentTotalMemberListResult = session.selectOne("getCurrentTotalMemberList",g_id);
+			System.out.println("GymMemberServiceOrderJoinDaoImpl getCurrentTotalMemberList");
+		}catch(Exception e) {
+			System.out.println("GymMemberServiceOrderJoinDaoImpl getCurrentTotalMemberList Exception -> "+e.getMessage());
+		}		
+		return getCurrentTotalMemberListResult;
+	}
 	
 }

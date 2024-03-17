@@ -31,15 +31,13 @@ public class Trainer { //트레이너
 	    private MultipartFile trainerPhotoFile;
 	    
 	    
-		//조회용
-		private String search;
-		private	String keyword;
-		private	String pageNum;
-		private int	start;
-		private	int end;
-		
-		//page 정보
-		private String currentPage;
+	    // 조회용
+	      private String search;         private String keyword;
+	      private String pageNum;  
+	      private int start;              private int end;
+	  	private int prevPage;			private int nextPage;
+	      // Page 정보
+	      private String currentPage;
 	    
 	    
 }

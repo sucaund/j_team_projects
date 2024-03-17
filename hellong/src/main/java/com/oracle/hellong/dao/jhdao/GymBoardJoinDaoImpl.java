@@ -16,17 +16,6 @@ public class GymBoardJoinDaoImpl implements GymBoardJoinDao {
 	
 	private final SqlSession session;
 
-	@Override
-	public List<GymBoardJoin> gymGymBoardList(GymBoardJoin gymBoardJoin) {
-		List<GymBoardJoin> gymGymBoardResult = null;
-		try {
-			gymGymBoardResult = session.selectList("gymGymBoard",gymBoardJoin);
-			System.out.println(gymGymBoardResult.size());
-		}catch(Exception e) {
-			System.out.println("GymBoardJoinDaoImpl gymGymBoardList Exception -> "+e.getMessage());
-		}		
-		return gymGymBoardResult;
-	}
 
 	@Override
 	public List<GymBoardJoin> gymBoardDetailRead(int g_id) {

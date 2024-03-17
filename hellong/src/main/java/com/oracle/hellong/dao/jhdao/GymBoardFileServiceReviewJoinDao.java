@@ -2,10 +2,11 @@ package com.oracle.hellong.dao.jhdao;
 
 import java.util.List;
 
-import com.oracle.hellong.model.GymBoardServiceJoin;
+import com.oracle.hellong.model.GymBoardFileServiceReviewJoin;
 
-public interface GymBoardServiceJoinDao {
+public interface GymBoardFileServiceReviewJoinDao {
 
-	List<GymBoardServiceJoin> getMinPrice(GymBoardServiceJoin gymBoardServiceJoin);
+	// 지점찾기 글 조회
+	List<GymBoardFileServiceReviewJoin> getGymSearchPage(GymBoardFileServiceReviewJoin gymBoardServiceJoin);
 
 }

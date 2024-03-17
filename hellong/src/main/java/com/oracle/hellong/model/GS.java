@@ -16,15 +16,13 @@ public class GS { //체육관 서비스 g_s
        private int s_isdeleted;
        
        
-       //조회용
-       private String search;
-       private String keyword;
- 	   private	String pageNum;
- 	   private int	start;
- 	   private	int end;
- 		
- 	   //page 정보
- 	   private String currentPage;
+       // 조회용
+       private String search;         private String keyword;
+       private String pageNum;  
+       private int start;              private int end;
+   		private int prevPage;			private int nextPage;
+       // Page 정보
+       private String currentPage;
 
 		/*
 		 * public int getS_number() { return s_number; }
