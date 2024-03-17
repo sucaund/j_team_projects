@@ -119,7 +119,7 @@
                                 <li><a href="/communityBoard">자유게시판</a></li>
                                 <li><a href="/listBodyProfile">바디프로필</a></li>
                                 <li><a href="/jmMyPage">마이페이지</a></li>
-                                <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">작성글</a></li>
+                                <li><a href="/dyMyPagelist">작성글</a></li>
                                 <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">결제</a></li>
                                 <li><a href="/jmUpdateMemberForm">개인정보수정</a></li>
                                 <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">비즈니스 개설/관리</a></li>
@@ -165,7 +165,7 @@
                                         <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#submenu-1-4" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">내 정보</a>
                                         <ul class="sub-menu collapse" id="submenu-1-4">
                                             <li class="nav-item"><a href="/jmMyPage">마이페이지</a></li>
-                                            <li class="nav-item"><a href="blog-grid-sidebar.html">작성글</a></li>
+                                            <li class="nav-item"><a href="/dyMyPagelist">작성글</a></li>
                                             <li class="nav-item"><a href="https://demo.graygrids.com/themes/shopgrids/blog-single-sidebar.html">결제</a></li>
                                             <li class="nav-item"><a href="/jmUpdateMemberForm">개인정보수정</a></li>
                                             

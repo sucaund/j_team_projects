@@ -68,6 +68,12 @@ public interface HSService {
 	
 	List<GymOrder> listGymOrderRefund(Member member);
 	
+	
+		/* 포인트 충전 */
+	
+	PointCharge insertAndGetPointCharge(PointCharge pointCharge);
+	
+	int updatePointCharge(PointCharge insertAndGetPointCharge);
 
 		/* 헬스장 이용내역 조회 */
 	
@@ -108,11 +114,6 @@ public interface HSService {
 
 	// Member 환불포인트 업데이트
 	int updatePointRefund(Map<String, Object> params);
-
-
-
-
-
 
 
 

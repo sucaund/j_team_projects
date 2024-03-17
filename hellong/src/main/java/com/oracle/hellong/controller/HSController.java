@@ -1,3 +1,4 @@
+
 package com.oracle.hellong.controller;
 
 import java.util.ArrayList;
@@ -398,7 +399,15 @@ public class HSController { //////
 	@GetMapping(value = "hsChargePoint")
 	public String hsChargePoint(PointCharge pointCharge, Model model) {
 		System.out.println("charge check: " + pointCharge.getM_number() + " " +  pointCharge.getCharge_point());
-		return "redirect:hsMemberIndex?m_number=" + pointCharge.getM_number();
+		System.out.println("hsController hsChargePoint start...");
+		
+		PointCharge insertAndGetPointCharge = hs.insertAndGetPointCharge(pointCharge);
+		
+		int updatePointChargeResult = hs.updatePointCharge(insertAndGetPointCharge);
+		Member memberData = hs.getMemberData(insertAndGetPointCharge.getM_number());
+		System.out.println("charge check: " + memberData.getM_currpoint());
+		
+		return null;
 	}
 
 	/* 헬스장 이용내역 조회 */

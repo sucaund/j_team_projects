@@ -75,34 +75,26 @@
 	</select>
 	
 	<select id="hsListDetailUsingGym" parameterType="Member" resultType="GymOrder">
-		SELECT get_period_of_use(go.g_id, go.m_number) period_of_use,
-		        g.g_id, g.g_name, go.go_startdate first_regist_date
+				SELECT DISTINCT g.g_id, g.g_name, go.m_number,
+						get_period_of_use(go.g_id, go.m_number) period_of_use,
+		          		get_first_regist_date(go.g_id, go.m_number) first_regist_date
 		FROM gym g, gym_order go
 		WHERE g.g_id = go.g_id
-		     AND go.g_id = 3
-		     AND go.m_number = 1
-		     AND go.go_startdate = (SELECT min(go_startdate)
-		                            FROM gym_order go
-		                            WHERE g_id = 3
-		                                AND m_number = 1)
+		     AND go.m_number = #{m_number}
 
-<!-- 		SELECT get_period_of_use(go.g_id, go.m_number) period_of_use,
-				g.g_id, g.g_name, a.gbf_storedfilename, go.go_startdate first_regist_date
-		FROM gym g, gym_order go, 
-		    (SELECT g_id, gbf_storedfilename
-		     FROM 
-		         (SELECT g_id, gbf_storedfilename, 
-		                 ROW_NUMBER() OVER (PARTITION BY g_id ORDER BY gbf_storedfilename DESC) AS rn
-		          FROM gym_board_file) 
-		     WHERE rn = 1) a
-		WHERE g.g_id = a.g_id
-		     AND g.g_id = go.g_id
-		     AND go.g_id = 3
-		     AND go.m_number = 1
-		     AND go.go_startdate = (SELECT min(go_startdate)
-		                            FROM gym_order go
-		                            WHERE g_id = 3
-		                                AND m_number = 1) -->
+<!-- SELECT DISTINCT g.g_id, g.g_name, go.m_number, a.gbf_storedfilename,
+                get_period_of_use(go.g_id, go.m_number) period_of_use,
+                get_first_regist_date(go.g_id, go.m_number) first_regist_date
+FROM gym g, gym_order go, 
+    (SELECT g_id, gbf_storedfilename
+    FROM 
+        (SELECT g_id, gbf_storedfilename, 
+                ROW_NUMBER() OVER (PARTITION BY g_id ORDER BY gbf_storedfilename DESC) AS rn
+        FROM gym_board_file) 
+    WHERE rn = 1) a
+WHERE g.g_id = a.g_id
+    AND g.g_id = go.g_id
+    AND go.m_number = 1 -->
 	</select>
 	
 	
