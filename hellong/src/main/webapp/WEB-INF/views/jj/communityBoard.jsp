@@ -35,11 +35,11 @@
 			<th>
 				<form action="" method="get">
 					<select name="cateSearch"   id="cateSearch" onchange="goCateSearch()">
-						<option value="cate-all" ${param.cateSearch == 'cate-all' ? 'selected' : ''}>전체</option>
+						<%-- <option value="cate-all" ${param.cateSearch == 'cate-all' ? 'selected' : ''}>전체</option> --%>
 				        <option value="cate-free" ${param.cateSearch == 'cate-free' ? 'selected' : ''}>자유글</option>
-				        <option value="cate-body" ${param.cateSearch == 'cate-body' ? 'selected' : ''}>바디프로필</option>
+				        <%-- <option value="cate-body" ${param.cateSearch == 'cate-body' ? 'selected' : ''}>바디프로필</option>
 				        <option value="cate-notice" ${param.cateSearch == 'cate-notice' ? 'selected' : ''}>공지</option>
-				        <option value="cate-question" ${param.cateSearch == 'cate-question' ? 'selected' : ''}>문의</option>
+				        <option value="cate-question" ${param.cateSearch == 'cate-question' ? 'selected' : ''}>문의</option> --%>
 					</select>
 				</form>
 			</th>
@@ -56,10 +56,10 @@
 				<td>
 					<c:choose>
 						<c:when test="${board.common_mcd == 10}">자유글</c:when>
-						<c:when test="${board.common_mcd == 20}">바디프로필</c:when>
+						<%-- <c:when test="${board.common_mcd == 20}">바디프로필</c:when>
 						<c:when test="${board.common_mcd == 110}">공지</c:when>
 						<c:when test="${board.common_mcd == 120}">문의</c:when>
-						<c:otherwise>기타</c:otherwise>
+						<c:otherwise>기타</c:otherwise> --%>
 					</c:choose>
 				</td>
 				<td><a href="detailBoard?b_number=${board.b_number}">${board.b_title}</a></td> 
