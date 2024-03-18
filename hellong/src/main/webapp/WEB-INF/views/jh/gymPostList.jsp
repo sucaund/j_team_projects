@@ -125,15 +125,16 @@
 
 <div class="bg-light p-3"> <!-- 새로운 배경으로 감싸는 div -->
     <!--   검색창 및 필터-->
-    <div class="row mb-4 justify-content-center">
+    <div class="row mb-4 justify-content-center mt-4">
         <div class="col-md-6">
-            <form class="form-inline" id="searchForm">
-                <select class="form-control mr-2" id="filterOptions">
+            <form class="form-inline" id="searchForm" action="/GymPostList">
+                <select class="form-control mr-2"  name="search" id="filterOptions">
                     <option value="all" selected>모두</option>
-                    <option value="4.0">별점 4.0 이상</option>
-                    <option value="500">리뷰 500 이상</option>
+                    <option value="g_name">이름</option>
+                    <option value="gb_title">제목</option>
+                    <option value="g_address">주소</option>
                 </select>
-                <input type="text" class="form-control mr-2 search-input" id="searchInput" placeholder="헬스장 검색" style="width: 50%;">
+                <input type="text" name="keyword" class="form-control mr-2 search-input" id="searchInput" placeholder="헬스장 검색" style="width: 50%;">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> 검색</button>
             </form>
         </div>
@@ -159,7 +160,7 @@
     <form id="sortStarsForm" action="/GymPostList" method="GET">
         <input type="hidden" name="sortType" value="stars">
     </form>
-
+</div>
      
 
 	<!-- 카드 내용 -->
@@ -210,10 +211,10 @@
 	                <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
 		                <c:choose>
 		                    <c:when test="${page.currentPage == i}">
-		                        <li class="page-item"><a class="page-link" href="GymPostList?&currentPage=${i}">${i}</a></li>
+		                        <li class="page-item"><a class="page-link hover:bg-blue-700 transition duration-300" href="GymPostList?&currentPage=${i}">${i}</a></li>
 		                    </c:when>
 		                    <c:otherwise>
-		                        <li class="page-item"><a class="page-link" href="GymPostList?&currentPage=${i}">${i}</a></li>
+		                        <li class="page-item"><a class="page-link hover:bg-blue-500 hover:text-white transition duration-300" href="GymPostList?&currentPage=${i}">${i}</a></li>
 		                    </c:otherwise>
 		                </c:choose>
 		             </c:forEach>
@@ -248,78 +249,7 @@
 
 <script>
     $(document).ready(function () {
-   	 	$('#searchForm').submit(function (event) {
-   	        event.preventDefault();
-   	        var searchText = $('#searchInput').val().toLowerCase();
-   	        var filterOption = $('#filterOptions').val();
 
-   	        $('.card').each(function () {
-   	            var cardText = $(this).text().toLowerCase();
-   	            var stars = parseFloat($(this).find('.stars').text().trim());
-   	            var reviews = parseInt($(this).find('.review').text().match(/\d+/)[0]);
-
-   	            var showCard = true;
-
-   	            // 검색어로 필터링
-   	            if (searchText !== '') {
-   	                if (cardText.indexOf(searchText) === -1) {
-   	                    showCard = false;
-   	                }
-   	            }
-
-   	            // 선택한 필터 옵션에 따라 필터링
-   	            if (filterOption === '4.0') {
-   	                if (stars < 4.0) {
-   	                    showCard = false;
-   	                }
-   	            } else if (filterOption === '500') {
-   	                if (reviews < 500) {
-   	                    showCard = false;
-   	                }
-   	            }
-
-   	            // 카드의 display 속성 변경
-   	            if (showCard) {
-   	                $(this).css('display', 'flex'); // 카드를 보이도록 함
-   	            } else {
-   	                $(this).css('display', 'none'); // 카드를 숨김
-   	            }
-   	        });
-   	    });
-        
-        
-        
-        // 리뷰 많은 순 정렬 버튼 클릭 시
-        $('#sortReviews').click(function () {
-            // 리뷰 수에 따라 내림차순으로 정렬
-            $('.card').sort(function (a, b) {
-                return parseInt($(b).find('.review').text().match(/\d+/)[0]) - parseInt($(a).find('.review').text().match(/\d+/)[0]);
-            }).appendTo('.row');
-        });
-
-        // 높은 별점 순 정렬 버튼 클릭 시
-        $('#sortStars').click(function () {
-            // 별점에 따라 내림차순으로 정렬
-            $('.card').sort(function (a, b) {
-                return parseFloat($(b).find('.stars').text().trim()) - parseFloat($(a).find('.stars').text().trim());
-            }).appendTo('.row');
-        });
-
-        // 낮은 가격 순 정렬 버튼 클릭 시
-        $('#sortPrice').click(function () {
-            // 가격에 따라 오름차순으로 정렬
-            $('.card').sort(function (a, b) {
-                return parseInt($(a).find('.price').text().replace(/\D/g, '')) - parseInt($(b).find('.price').text().replace(/\D/g, ''));
-            }).appendTo('.row');
-        });
-        
-        
-        
-        
-        
-        
-        
-        
 
         // 각 카드의 좋아요 버튼에 대한 이벤트 핸들링
         $('.like-btn').click(function (event) {

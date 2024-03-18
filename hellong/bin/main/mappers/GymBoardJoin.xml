@@ -9,12 +9,6 @@
 		and b.g_id =#{g_id}
 	</select>
 	
-	<select id="getGymImformationCount" resultType="int">
-		select count(*)
-		from (
-				select *
-				from gym g, gym_board b 
-				where g.g_id = b.g_id
-			)	
-	</select>
+	
+	
 </mapper>

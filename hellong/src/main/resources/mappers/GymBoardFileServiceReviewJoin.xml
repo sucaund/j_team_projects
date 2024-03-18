@@ -32,7 +32,21 @@
 					LEFT JOIN 
 					    gym_review r ON b.g_id = r.g_id
 					LEFT JOIN 
-					    g_s s ON b.g_id = s.g_id    
+					    g_s s ON b.g_id = s.g_id
+					<choose>
+						<when test="search == 'g_name'">
+							where g.g_name like '%' || #{keyword} || '%'
+						</when>
+						<when test="search == 'gb_title'">
+							where b.gb_title like '%' || #{keyword} || '%'
+						</when>
+						<when test="search == 'g_address'">
+							where g.g_address like '%' || #{keyword} || '%'
+						</when>
+						<otherwise>
+							where g.g_name like '%'
+						</otherwise>	
+					</choose>	        
 					GROUP BY 
 					    g.g_id, g.g_name, b.gb_title, g.g_address, gbff.gbf_storedfilename		    
 	                <choose>
@@ -53,6 +67,70 @@
 			)
 		WHERE rn BETWEEN #{start} AND #{end}    
 		    		    
+	</select>
+	
+	
+	<select id="getGymImformationCount" parameterType="GymBoardFileServiceReviewJoin" resultType="int">
+			select count(*)		
+			from(	
+					SELECT 
+					    g.g_id,
+					    g.g_name,
+					    b.gb_title,
+					    g.g_address,
+					    COALESCE(AVG(r.review_star), 0) AS avg_review_star,
+					    COUNT(r.review_star) / 4 AS count_review_star, 
+					    COALESCE(MIN(s.s_price), 0) AS min_s_price,
+					    gbff.gbf_storedfilename
+					FROM 
+					    gym g
+					JOIN 
+					    gym_board b ON g.g_id = b.g_id
+					LEFT JOIN 
+					    (
+					        SELECT 
+					            g_id, 
+					            gbf_storedfilename, 
+					            ROW_NUMBER() OVER (PARTITION BY g_id ORDER BY gbf_storedfilename DESC) AS rn
+					        FROM 
+					            gym_board_file
+					    ) gbff ON g.g_id = gbff.g_id AND gbff.rn = 1
+					LEFT JOIN 
+					    gym_review r ON b.g_id = r.g_id
+					LEFT JOIN 
+					    g_s s ON b.g_id = s.g_id  	 
+					<choose>
+						<when test="search == 'g_name'">
+							where g.g_name like '%' || #{keyword} || '%'
+						</when>
+						<when test="search == 'gb_title'">
+							where b.gb_title like '%' || #{keyword} || '%'
+						</when>
+						<when test="search == 'g_address'">
+							where g.g_address like '%' || #{keyword} || '%'
+						</when>
+						<otherwise>
+							where g.g_name like '%'
+						</otherwise>	
+					</choose>
+					GROUP BY 
+					    g.g_id, g.g_name, b.gb_title, g.g_address, gbff.gbf_storedfilename		    
+	                <choose>
+	                    <when test="sortType == 'price'">
+	                        ORDER BY min_s_price ASC
+	                    </when>
+	                    <when test="sortType == 'reviews'">
+	                        ORDER BY count_review_star DESC
+	                    </when>
+	                    <when test="sortType == 'stars'">
+	                        ORDER BY avg_review_star DESC
+	                    </when>
+	                    <otherwise>
+	                        ORDER BY g.g_id DESC
+	                    </otherwise>
+	                </choose>					   
+				)
+	
 	</select>
 	
 	
