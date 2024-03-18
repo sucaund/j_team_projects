@@ -2,7 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GymReviewMapper">
 
-	<insert id="getSaveGymReview" parameterType="GymReview" >
+<select id="dySearchGymReviews" parameterType="GymReview" resultType="GymReview">
+		SELECT
+		review_title, review_content, review_star
+		FROM gym_review
+		WHERE review_title LIKE '%' || #{totKeyword} || '%'
+		OR review_content LIKE '%' || #{totKeyword} || '%'
+	</select>
+	
+		<insert id="getSaveGymReview" parameterType="GymReview" >
 	    insert into gym_review 
 	        (g_id, s_number, sd_number, m_number, go_number, 
 	        review_title, review_content, review_regdate , review_star)
@@ -10,12 +18,11 @@
 	        (#{g_id}, #{s_number}, #{sd_number}, #{m_number}, #{go_number},
 	        #{review_title}, #{review_content}, sysdate ,#{review_star})
 	</insert>
-	
+
 	<update id="updateReview" parameterType="GymReview">
 		update gym_review
 		set review_comment = #{review_comment}, review_comment_date = sysdate
 		where go_number = #{go_number}
 	</update>
-
-
+	
 </mapper>

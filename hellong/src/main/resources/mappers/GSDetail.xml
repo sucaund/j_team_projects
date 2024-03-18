@@ -6,14 +6,20 @@
 		insert into G_S_DETAIL(g_id, s_number, sd_number, sd_price, sd_startdate,sd_matters)
 				values(#{g_id}, #{s_number}, sd_number_seq.nextval, #{s_price}, sysdate, #{s_matters})
 	</insert>
-	
+
 	<update id="updateServiceDetail" parameterType="GS">
 	update G_S_DETAIL
 	set sd_enddate = sysdate,
 	    sd_isend = 1
 	where s_number = #{s_number}
 	  and sd_isend = 0
-	
-	</update>
 
+	</update>
+	
+	
+	
+	
+	
+	
+	
 </mapper>

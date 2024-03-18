@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
@@ -27,7 +26,7 @@
     </div>
     
 
-     <!-- 로그인 상태일 때 로그인 버튼 클릭(비정상 접근) -->
+     <!-- 로그인 상태일 때(비정상 접근) -->
     <c:if test="${m_number!=null}">
 	<div class="account-login section">
 	<div class="container">
@@ -63,6 +62,7 @@
                             <div class="title">
                                 <h3>회원가입</h3>
                                 <p>Hellong의 회원이 되어주세요.</p>
+                                <c:if test="${signUpError!=null}">${signUpError}</c:if>
                             </div>
                             
                             <div class="form-group input-group">
@@ -71,10 +71,9 @@
                                 class="form-control" id="m_id" placeholder="5~15자의 영문자와 숫자를 조합"
                                 oninput="checkId(), activateSignUpBtn()" name="m_id"
                                 autocomplete='off' required="required"> 
-                                <font color="red" id="failid"
-					            style="display: none">5~15자의 영문자와 숫자를 조합해서 입력해주세요.</font> 
-					            <font
-					            color="red" id="fail" style="display: none">이미 존재하는 ID입니다.</font>
+                                <p style="color:red; display: none;" id="failid">
+                                    5~15자의 영문자와 숫자를 조합해서 입력해주세요.</p> 
+					            <p style="color:red; display: none" id="fail">이미 존재하는 ID입니다.</p>
                             </div>
 
                             <div class="form-group input-group">
@@ -82,8 +81,8 @@
                                 <input type="password"
 					class="form-control" id="m_pw" placeholder="8~16자의 영문자와 숫자를 조합"
 					oninput="checkPwReg(), activateSignUpBtn(), checkPwSame()" name="m_pw" required="required">
-                                <font color="red" id="failpwreg"
-					style="display: none">8~16자의 영문자와 숫자를 조합해서 입력해주세요.</font> 
+                                <p style="color:red; display: none" id="failpwreg">
+                                    8~16자의 영문자와 숫자를 조합해서 입력해주세요.</p> 
                             </div>
 
                             <div class="form-group input-group">
@@ -91,8 +90,7 @@
                                 <input type="password"
 					class="form-control" id="m_pw_check" placeholder="동일한 비밀번호를 입력해주세요"
 					oninput="checkPwSame(),activateSignUpBtn()" name="m_pw_check" required="required">
-                    <font
-					color="red" id="failpwsame" style="display: none">비밀번호가 일치하는지 확인해주세요</font>
+                                <p style="color:red; display: none" id="failpwsame">비밀번호가 일치하는지 확인해주세요</p>
                                 </div>
 
                             <!-- 이름-->
@@ -119,9 +117,9 @@
                             <!-- 성별-->
 			                <div class="form-group input-group">
                                 <label for="reg-gender">성별</label>
-                                <font color="black">남성 <input type="radio"
+                                <p style="color:black">남성 <input type="radio"
 					name='m_gender' class="m_gender" value="M"> &nbsp; 여성 <input
-					type="radio" name='m_gender' class="m_gender" value="F"> </font>
+					type="radio" name='m_gender' class="m_gender" value="F"> </p>
                             </div>
 
                             <!-- 전화번호-->
@@ -138,9 +136,14 @@
                                 <label for="reg-email">이메일</label>
                                 <input type="text"
 					class="form-control" id="m_email" placeholder="이메일"  name="m_email"
-					oninput="checkMailReg()"
+					oninput="checkMailReg(), activateSignUpBtn()"
                     autocomplete='off' required="required">
-                    <button type="button" class="btn btn-primary" id="sendMailBtn" name="sendMailBtn" onclick="sendMailNumber()">인증번호 받기</button>
+                    <p style="color:red; display: none;" id="failmailreg">
+                        이메일 양식을 준수해주세요.</p> <pre>
+                                    </pre>
+                    <p style="color:red; display: none" id="failmailunique">이미 존재하는 이메일입니다.</p> <pre>
+                                                               </pre>
+                    <button type="button" class="btn btn-primary" id="sendMailBtn" name="sendMailBtn" onclick="sendMailNumber()" style="margin-top: 10px;">인증번호 받기</button>
                     
                             </div>
 
@@ -157,9 +160,9 @@
 			                <div class="form-group input-group">
                                 <label for="reg-email-check">주소</label>
                                 <input type="text"
-					class="form-control" id="m_address" name="m_address" placeholder="주소"
+					class="form-control" id="m_address" name="m_address" placeholder="주소" oninput="checkAddress(), activateSignUpBtn()"
 					autocomplete='off' required="required">
-								<input type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()" value="주소 찾기">
+								<input type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()" value="주소 찾기" style="margin-top: 10px; margin-bottom: 10px;">
 
 								<input type="text"
 					class="form-control" id="sample6_postcode" placeholder="우편번호"

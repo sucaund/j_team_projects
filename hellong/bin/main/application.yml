@@ -32,6 +32,7 @@ spring:
 
 #  메일 전송
   mail:
+    protocol: smtp
     host: smtp.gmail.com
     port: 587 
     username: woakswoaks@gmail.com
@@ -41,8 +42,8 @@ spring:
       mail:
         smtp:
           auth: true
-          timeout: 5000
-          writetimeout: 5000
+          timeout: 10000
+          writetimeout: 10000
           starttls.enable: true
     auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
     

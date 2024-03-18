@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oracle.hellong.dao.jmdao.JmMemberDao;
+import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 
 import jakarta.mail.internet.MimeMessage;
@@ -195,6 +198,54 @@ public class JMServiceImpl implements JMService {
 		int resetPwCheck=0;
 		resetPwCheck=jmmd.jmResetPw(m_number, m_pw);
 		return resetPwCheck;
+	}
+
+	@Override
+	public int checkMail(String m_email) {
+		System.out.println("JmServiceImpl checkMail ...");
+		int checkMailCount=0;
+		checkMailCount=jmmd.jmCheckMail(m_email);
+		return checkMailCount;
+	}
+
+	@Override
+	public int jmGetGymOrderGID(int m_number) {
+		System.out.println("jmServiceImpl jmGetGymOrderGID start");
+		int g_id=0;
+		g_id=jmmd.jmGetGymOrderGID(m_number);
+		return g_id;
+	}
+
+	@Override
+	public Gym jmGetGymFromGID(int g_id) {
+		System.out.println("jmServiceImpl jmGetGymFromGID start");
+		Gym gym=null;
+		gym=jmmd.jmGetGymFromGID(g_id);
+		return gym;
+	}
+
+	@Override
+	public GymOrder jmGetGymOrder(int g_id) {
+		System.out.println("jmServiceImpl jmGetGymOrder start");
+		GymOrder gymOrder=null;
+		gymOrder=jmmd.jmGetGymOrder(g_id);
+		return gymOrder;
+	}
+
+	@Override
+	public String jmGetS_name(int g_id, int s_number) {
+		System.out.println("jmServiceImpl jmGetS_name start");
+		String s_name="";
+		s_name=jmmd.jmGetS_name(g_id, s_number);
+		return s_name;
+	}
+
+	@Override
+	public List<Board> jmMyPageBoardList(Board board) {
+		List<Board> myPageList = null;
+		myPageList = jmmd.jmMyPageBoardList(board);
+		System.out.println("jmServiceImpl jmMyPageBoardList.size -> " + myPageList.size());
+		return myPageList;
 	}
 
 

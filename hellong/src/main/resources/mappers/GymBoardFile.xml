@@ -21,7 +21,6 @@
 		delete from gym_board_file where g_id=#{g_id}
 	</delete>
 	
-
 	
 	<select id="gymBoardFileListRead" parameterType="int" resultType="GymBoardFile">
 		select * 
@@ -29,6 +28,12 @@
 		where g_id = #{g_id} 
 	</select>
 
+   <select id="getGymPhoto" parameterType="int" resultType="GymBoardFile">
+        SELECT GBF_STOREDFILENAME
+			FROM GYM_BOARD_FILE
+			WHERE G_ID = #{g_id2}
+			AND ROWNUM = 1
+    </select>
 
 
 </mapper>

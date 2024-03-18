@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Member;
 import com.oracle.hellong.service.jj.JJPaging;
 import com.oracle.hellong.service.jj.JJService;
 
@@ -31,15 +32,17 @@ public class JJController {
 	
 	// 게시판 메인페이지
 	@RequestMapping(value = "communityBoard")
-	public String communityBoard(Board board, Model model) {
+	public String communityBoard(Board board, Member member, Model model) {
 		System.out.println("JJController Start communityBoard...");
 		int totalBoard = js.totalBoard();
 		System.out.println("JJController Start totalBoard->"+totalBoard);
 		
+		// paging
 		JJPaging page = new JJPaging(totalBoard, board.getCurrentPage());
 		board.setStart(page.getStart());
 		board.setEnd(page.getEnd());
 		
+		// list
 		List<Board> listBoard = js.listBoard(board);
 		System.out.println("JJController list listBoard.size()=>"+listBoard.size());
 		
@@ -47,7 +50,7 @@ public class JJController {
 		model.addAttribute("listBoard", listBoard);
 		model.addAttribute("page", page);
 		
-		return "communityBoard";
+		return "jj/communityBoard";
 		
 	}
 	
@@ -55,10 +58,11 @@ public class JJController {
 	@GetMapping(value = "detailBoard")
 	public String detailBoard(Board pboard, Model model) {
 		System.out.println("JJController detailBoard Start...");
+		System.out.println("JJController detailBoard pboard->"+pboard);
 		Board board = js.detailBoard(pboard.getB_number());
 		System.out.println("JJController detailBoard board->"+board);
 		model.addAttribute("board", board);
-		return "detailBoard";
+		return "jj/detailBoard";
 	}
 	
 	// 게시글 수정페이지
@@ -78,7 +82,7 @@ public class JJController {
 		System.out.println("b_regdate->"+b_regdate);
 		
 		model.addAttribute("board", board);
-		return "updateFormBoard";
+		return "jj/updateFormBoard";
 	}
 	
 	// 게시글 수정 적용
@@ -102,13 +106,14 @@ public class JJController {
 		System.out.println("JJController writeFormBoard boardList.size--->" + boardList.size());
 		model.addAttribute("boardList", boardList);
 		
-		return "writeFormBoard";
+		return "jj/writeFormBoard";
 	}
 	
 	// 글쓰기 입력 적용
 	@PostMapping(value = "writeBoard")
 	public String writeBoard(Board board, Model model) {
 		System.out.println("JJController writeBoard Start...");
+		System.out.println("JJController writeBoard board->"+board);
 		
 		int insertResult = js.insertBoard(board);
 		if (insertResult > 0) return "redirect:communityBoard";
@@ -120,7 +125,7 @@ public class JJController {
 	
 	// 게시글 삭제 적용
 	@RequestMapping(value = "deleteBoard")
-	public String deleteBoard(Board board, Model model) {
+	public String deleteBoard(Board board) {
 		System.out.println("JJController deleteBoard Start...");
 		int result = js.deleteBoard(board.getB_number());
 		return "redirect:communityBoard";
@@ -128,10 +133,49 @@ public class JJController {
 	
 	// 게시글 추천수 카운트
 	@RequestMapping(value = "hitCnt")
-	public String HitCnt(Board board, Model model) {
+	public String hitCnt(Board board) {
 		System.out.println("JJController HitCnt Start...");
-		int result = js.HitCnt(board.getB_number());
+		int result = js.hitCnt(board.getB_number());
 		return "redirect:communityBoard";
+	}
+	
+	// 게시글 신고
+	@RequestMapping(value = "jjReported")
+	public String jjReported(Board board) {
+		System.out.println("JJController jjReported Start...");
+		System.out.println("JJController jjReported board->"+board);
+
+		int result = js.jjReported(board);
+		
+		return "redirect:communityBoard";
+	}
+	
+	// 게시글의 카테고리+검색어로 글을 조회
+	@RequestMapping(value = "jjCategorySearch")
+	public String jjThCategory(Board board, Model model) {
+		System.out.println("JJController jjThCategory Start...");
+		System.out.println("JJController jjThCategory board1->" + board);
+		
+		//total cate count
+		int totalCategorySearchCnt = js.totalCategorySearchCnt(board);
+		System.out.println("JJController totalCategorySearchCnt->"+totalCategorySearchCnt);
+		
+		//paging
+		JJPaging page = new JJPaging(totalCategorySearchCnt, board.getCurrentPage());
+		System.out.println("JJController totalCategorySearchCnt page->"+page);
+		
+		board.setStart(page.getStart());
+		board.setEnd(page.getEnd());
+		System.out.println("JJController JJPaging board2->" + board);
+		
+		List<Board> listCategorySearchBoard = js.listCategorySearchBoard(board);
+		System.out.println("JJController listCateBoard listCategorySearchBoard.size()->" + listCategorySearchBoard.size());
+		
+		model.addAttribute("totalBoard", totalCategorySearchCnt);
+		model.addAttribute("listBoard", listCategorySearchBoard);
+		model.addAttribute("page", page);
+		model.addAttribute("board", board);
+		return "jj/communityBoard";
 	}
 
 }

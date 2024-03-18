@@ -56,16 +56,10 @@ public class DYBoardDaoImpl implements DYBoardDao {
 	}
 
 	@Override
-	public int dyUpdateBodyProfile(Board board) {
+	public void dyUpdateBodyProfile(Board board) {
 		System.out.println("DYBoardDaoImpl Update Start...");
 		System.out.println("DYBoardDaoImpl dyUpdateBodyProfile  board->"+board);
-		int updateCount = 0;
-		try {
-			updateCount = session.update("dyBodyProfileUpdate", board);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return updateCount;
+		session.update("dyBodyProfileUpdate", board);
 	}
 
 	@Override
@@ -86,6 +80,7 @@ public class DYBoardDaoImpl implements DYBoardDao {
 		System.out.println("DYBoardDaoImpl Insert Start...");
 		try {
 			result = session.insert("dyInsertBodyProfile", board);
+			System.out.println("DYBoardDaoImpl dyInsertBodyProfile"+ board);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -132,6 +127,29 @@ public class DYBoardDaoImpl implements DYBoardDao {
 			System.out.println("dyDaoImpl listBoard Exception -> " + e.getMessage());
 		}
 		return boardSearchList;
+	}
+	
+	// 통합검색 (게시판)
+	@Override
+	public List<Board> searchBoards(Board board) {
+		List<Board> searchBoards = null;
+		
+		searchBoards = session.selectList("dySearchBoards", board);
+		
+		return searchBoards;
+	}
+	// 마이페이지 게시글 조회
+	@Override
+	public List<Board> searchMyPageList(Board board) {
+		List<Board> searchMyPageList = null;
+		searchMyPageList = session.selectList("dyMyPageSearch", board);
+		return searchMyPageList;
+	}
+
+	@Override
+	public void increaseReadCount(int b_number) {
+		session.update("dyIncreaseReadCount", b_number);
+		
 	}
 
 }

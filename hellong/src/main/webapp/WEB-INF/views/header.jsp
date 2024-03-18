@@ -4,7 +4,6 @@
 	uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@ taglib prefix="fmt"
 	uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page session = "true" %>
 <!DOCTYPE html>
 <html>
@@ -13,14 +12,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.svg">
 
-    <!-- ========================= CSS here ========================= -->
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/LineIcons.3.0.css" />
     <link rel="stylesheet" type="text/css" href="/css/tiny-slider.css" />
     <link rel="stylesheet" type="text/css" href="/css/glightbox.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
 
-	<!-- ========================= JS here ========================= -->
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/tiny-slider.js"></script>
@@ -93,8 +90,8 @@
                         <div class="middle-right-area">
                             <div class="nav-hotline">
                                 <h3><% if (session.getAttribute("m_name") != null) { %>
-                                    <span><a href="jmMyPage">${sessionScope.m_name}님</a>, 안녕하세요</span>
-									<a href="jmLogOut">로그아웃</a>
+                                    <a href="jmMyPage" style="color: blue;">${sessionScope.m_name}님</a>, 안녕하세요
+									                  <span><a href="jmLogOut">로그아웃</a></span>
                                     <% } else { %>
                                         <a href="jmLoginForm">로그인</a> &nbsp; &nbsp;
                                         <a href="jmSignUpFormAjax2">회원가입</a>
@@ -122,21 +119,34 @@
                                 <li><a href="/communityBoard">자유게시판</a></li>
                                 <li><a href="/listBodyProfile">바디프로필</a></li>
                                 <li><a href="/jmMyPage">마이페이지</a></li>
-                                <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">작성글</a></li>
+                                <li><a href="/dyMyPagelist">작성글</a></li>
                                 <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">결제</a></li>
                                 <li><a href="/jmUpdateMemberForm">개인정보수정</a></li>
-                                <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">비즈니스 개설/관리</a></li>
+                                <li><a href="/listGymManager">비즈니스 개설/관리</a></li>
                                 <li><a href="/GymPostList">헬스장(지점찾기)</a></li>
                                 <li>
-                                    <a href="/communityBoard"
+                                    <a href="/jmCustomerCenter"
                                       >고객센터 <i class="lni lni-chevron-right"></i
                                     ></a>
                                     <ul class="inner-sub-category">
                                         <li><a href="product-grids.html">1대1 문의</a></li>
                                         <li><a href="/listBodyProfile">공지사항</a></li>
                                     </ul>
-                                </li>
-                                <li><a href="product-grids.html">관리자페이지</a></li>
+                                </li>	<%
+								// 세션에서 사용자 ID 가져오기
+								Integer userId = (Integer)session.getAttribute("member_common_mcd");
+								// 여기서 "adminId"는 DB에서 조회한 관리자의 ID입니다.
+								// 실제 어플리케이션에서는 이 값을 DB나 환경설정 등에서 동적으로 가져와야 할 수 있습니다.
+								int adminId = 30; // 예시로 사용된 관리자 ID
+
+								// 사용자 ID가 관리자 ID와 일치하는지 확인
+								if (userId != null && userId == adminId) {
+								%>
+								<!-- 관리자일 경우에만 보여줄 링크 -->
+								<li><a href="/manager">관리자페이지</a></li>
+								<%
+								}
+								%>
                             </ul>
                         </div>
                         <!-- End Mega Category Menu -->
@@ -168,7 +178,7 @@
                                         <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#submenu-1-4" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">내 정보</a>
                                         <ul class="sub-menu collapse" id="submenu-1-4">
                                             <li class="nav-item"><a href="/jmMyPage">마이페이지</a></li>
-                                            <li class="nav-item"><a href="blog-grid-sidebar.html">작성글</a></li>
+                                            <li class="nav-item"><a href="/dyMyPagelist">작성글</a></li>
                                             <li class="nav-item"><a href="https://demo.graygrids.com/themes/shopgrids/blog-single-sidebar.html">결제</a></li>
                                             <li class="nav-item"><a href="/jmUpdateMemberForm">개인정보수정</a></li>
                                             
@@ -176,7 +186,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="https://demo.graygrids.com/themes/shopgrids/contact.html" aria-label="Toggle navigation">고객센터</a>
+                                        <a href="/jmCustomerCenter" aria-label="Toggle navigation">고객센터</a>
                                     </li>
                                 </ul>
                             </div> <!-- navbar collapse -->

@@ -113,7 +113,7 @@ public interface JHService {
 	// 지점찾기 페이지*****************************************************************************
 
 	//전체 지점 글 카운트
-	int getGymImformationCount();
+	int getGymImformationCount(GymBoardFileServiceReviewJoin gymBoardServiceJoin);
 	List<GymBoardFileServiceReviewJoin> getGymSearchPage(GymBoardFileServiceReviewJoin gymBoardServiceJoin);
 	
 	

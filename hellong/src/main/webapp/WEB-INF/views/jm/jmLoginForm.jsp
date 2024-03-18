@@ -60,7 +60,7 @@
                     <form class="card login-form" method="get" id="login" action="jmLoginCheck">
                         <div class="card-body">
                             <div class="title">
-                                <h3>로그인을 해주세요</h3>
+                                <h3>로그인</h3>
                                 <p><c:if test="${msg!=null}">${msg}</c:if></p>
                             </div>
 

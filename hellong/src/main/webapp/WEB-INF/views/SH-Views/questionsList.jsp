@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,14 @@
 
 </head>
 <body>
-
+<main id="main" class="main">
+		<section class="section container">
+			<div class="row align-items-top col-8" style="margin: 0 auto">
+<% if (request.getAttribute("errorMessage") != null) { %>
+    <script>
+        alert('<%= request.getAttribute("errorMessage") %>');
+    </script>
+<% } %>
 	<c:set var="num" value="${page.total-page.start+1 }"></c:set>
 	<table class="table" >
 		<thead  style="background-color: #5494e8; color: white;">
@@ -60,7 +68,6 @@
 	</table>
 	<a href="write_view?M_NUMBER=${board.m_number}" class="float-end"
 		style="text-decoration: none;"><i class="bi bi-pencil-fill"></i>&nbsp;글작성&nbsp;&nbsp;&nbsp;</a>
-	<!-- ========================하단페이징=============================== -->
 	<div class="container">
 		<div class="row">
 			<div class="col">
@@ -81,6 +88,8 @@
 			</div>
 		</div>
 	</div>
-
+	</div>
+		</section>
+	</main>
 </body>
 </html>

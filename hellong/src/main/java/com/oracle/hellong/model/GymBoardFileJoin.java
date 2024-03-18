@@ -12,23 +12,23 @@ public class GymBoardFileJoin { // gym + gym board + gymBoardFile 조인
 	
 	// 조인 컬럼
 	//체육관 id
-	private int g_id; //체육관 id  pk nn
+	private int 	g_id; //체육관 id  pk nn
 	
 	//체육관 테이블 
-   private int m_number; //멤버번호-사장 f
-   private int common_bcd; //진행상태-대분류 f 500
-   private int common_mcd; //진행상태-중분류 f ex 10 20 30
-   private String g_name; //상호명 //nn
-   private String g_address; //주소 //nn
-   private String g_tel; //전화번호
-   private Date g_regdate; //등록날짜 //nn
-   private int g_isdeleted; //삭제여부
-   private int g_companynumber; //사업자등록번호
-   private String g_document; //등록신청서류
+   private int 		m_number; //멤버번호-사장 f
+   private int 		common_bcd; //진행상태-대분류 f 500
+   private int 		common_mcd; //진행상태-중분류 f ex 10 20 30
+   private String 	g_name; //상호명 //nn
+   private String 	g_address; //주소 //nn
+   private String 	g_tel; //전화번호
+   private Date 	g_regdate; //등록날짜 //nn
+   private int 		g_isdeleted; //삭제여부
+   private int 		g_companynumber; //사업자등록번호
+   private String 	g_document; //등록신청서류
 
 	
 	//파일 테이블
-	private final int gbf_id;	//파일 아이디
+	private final int 	gbf_id;	//파일 아이디
 	private final String gbf_originalFileName;	// 파일 이름
 	private final String gbf_storedFileName;		// 저장 이름
 	
@@ -46,7 +46,7 @@ public class GymBoardFileJoin { // gym + gym board + gymBoardFile 조인
 	private String gb_amen;//편의시설
 	
 	private String gb_map;//지도및주소
-	private int gb_hit; //nn //조회수
+	private int 	gb_hit; //nn //조회수
 	
 	private int fileAttached;
 	private List<MultipartFile> gymBoardFile;

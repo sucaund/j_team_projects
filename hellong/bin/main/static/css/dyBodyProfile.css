@@ -1,47 +1,125 @@
-@charset "UTF-8";
-/* 전체 페이지 스타일 */
+/* 전체 페이지에 대한 스타일 */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f8f9fa;
 }
 
-/* 헤더 스타일 */
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
+header, footer {
     text-align: center;
+    padding: 20px 0;
+    background-color: #343a40;
+    color: white;
 }
 
-header h1 {
-    margin: 0;
+.navigation {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background-color: #007bff;
+    padding: 10px 0;
 }
 
-/* 컨테이너 스타일 */
+.navigation button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.navigation button:hover {
+    background-color: #0056b3;
+}
+
 .container {
-    margin: 20px;
+    padding: 20px;
 }
 
-/* 포스트 그리드 스타일 */
-.post-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 한 줄에 2개의 게시글 */
-    gap: 20px; /* 각 게시글 사이의 간격 */
+.body-profile-details, .comments-section {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-/* 게시글 스타일 */
-.post {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    max-height: 100vh;
+    object-fit: contain;
 }
 
-.post img {
-    max-width: 100%; /* 이미지 크기 조정 */
-}
-
-.post h2 {
+.comments-section h3 {
     margin-top: 10px;
-    font-size: 18px;
+}
+
+.comment {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.comment p {
+    margin: 0; /* 댓글 내용 간격 제거 */
+}
+
+.comment:last-child {
+    border-bottom: none; /* 마지막 댓글의 밑줄 제거 */
+}
+
+.comments-section form {
+    margin-top: 20px;
+}
+
+.comments-section textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.comments-section input[type="submit"] {
+    cursor: pointer;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.comments-section input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.footer-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-outline-dark {
+    cursor: pointer;
+    padding: 10px 20px;
+    color: #007bff;
+    background-color: transparent;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+    margin: 0 5px;
+}
+
+.btn-outline-dark:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* 미디어 쿼리를 사용한 반응형 디자인 */
+@media (max-width: 768px) {
+    .navigation {
+        flex-direction: column;
+    }
 }

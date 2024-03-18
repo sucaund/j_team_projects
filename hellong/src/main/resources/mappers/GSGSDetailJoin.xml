@@ -1,58 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.oracle.hellong.GSGSDetailJoinMapper">
+
 	<select id="serviceListJoin" parameterType="GS" resultType="GSGSDetailJoin">
+
 		select*
+
 		from
+
 		(
+
 			select rownum rn, a.*
+
 			from
+
 				(SELECT s.*, d.sd_number
+
 				FROM g_s s
+
 				INNER   JOIN  g_s_detail d ON  s.g_id = d.g_id
+
 				                          AND  s.s_number = d.s_number
+
 				WHERE s.g_id = #{g_id}
+
 				AND s.s_isdeleted = 0
+
 				AND d.sd_isend = 0
+
 				order by s.s_number desc)a
+
 		)
+
 		where rn between #{start} and #{end}
+
 	</select>
-	
+
+
+
+
 	<select id="getListSearchService" parameterType="GS" resultType="GSGSDetailJoin">
+
 		SELECT *
+
 		FROM
+
 		(
+
 		    SELECT rownum rn, a.*
+
 		    FROM
+
 		    	(
+
 			        SELECT b.* 
+
 			        FROM 
+
 						(SELECT s.*, d.sd_number
+
 						FROM g_s s
+
 						INNER   JOIN  g_s_detail d ON  s.g_id = d.g_id
+
 						                          AND  s.s_number = d.s_number
+
 						WHERE s.g_id = #{g_id}
+
 						AND s.s_isdeleted = 0
+
 						AND d.sd_isend = 0)b				
+
 			        WHERE b.s_name LIKE '%' || #{keyword} || '%' 
+
 			        ORDER BY b.s_number desc
+
 		    	) a
+
 		)   
+
 		WHERE rn BETWEEN #{start} AND #{end}
-	
+
+
+
+
 	</select>
-	
+
+
+
+
 	<select id="getSelectServiceJoinList" parameterType="int" resultType="GSGSDetailJoin">
+
 		SELECT s.*, d.sd_number
+
 		FROM g_s s
+
 		INNER   JOIN  g_s_detail d ON  s.g_id = d.g_id
+
 		                          AND  s.s_number = d.s_number
+
 		WHERE s.g_id = #{g_id}
+
 		AND s.s_isdeleted = 0
+
 		AND d.sd_isend = 0
+
 		order by s.s_number desc
+
 	</select>
-	
+
+
+
+
+
+
 
 </mapper>

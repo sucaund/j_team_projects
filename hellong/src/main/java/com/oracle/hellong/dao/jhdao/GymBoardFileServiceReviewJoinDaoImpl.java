@@ -30,6 +30,19 @@ public class GymBoardFileServiceReviewJoinDaoImpl implements GymBoardFileService
 		
 		return getGymSearchPageResult;
 	}
+
+	//지점찾기 글 개수
+	@Override
+	public int getGymImformationCount(GymBoardFileServiceReviewJoin gymBoardServiceJoin) {
+		int getGymImformationCountResult =0;
+		try {
+			getGymImformationCountResult = session.selectOne("getGymImformationCount",gymBoardServiceJoin);
+			System.out.println("GymBoardJoinDaoImpl getGymImformationCount"+getGymImformationCountResult);
+		}catch(Exception e) {
+			System.out.println("GymBoardJoinDaoImpl getGymImformationCount Exception -> "+e.getMessage());
+		}		
+		return getGymImformationCountResult;
+	}
 	
 	
 }

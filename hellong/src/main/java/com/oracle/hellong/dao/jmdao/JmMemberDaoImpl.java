@@ -1,11 +1,16 @@
 package com.oracle.hellong.dao.jmdao;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.GS;
+import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 
 import jakarta.validation.Valid;
@@ -85,7 +90,7 @@ public class JmMemberDaoImpl implements JmMemberDao {
 		System.out.println("JmMemberDaoImpl jmGetMemberFromNumber start..");
 		Member member = new Member();
 		try {
-			member = session.selectOne("jmMemberSelectOne", m_number);
+			member = session.selectOne("jmGetMemberFromNumber", m_number);
 			System.out.println("JmMemberDaoImpl jmGetMemberFromNumber getM_number->" + member.getM_number());
 		} catch (Exception e) {
 			System.out.println("JmMemberDaoImpl jmGetMemberFromNumber Exception->" + e.getMessage());
@@ -98,7 +103,7 @@ public class JmMemberDaoImpl implements JmMemberDao {
 		System.out.println("JmMemberDaoImpl jmUpdateMember start..");
 		int updateCount= 0;
 		Member member1= session.selectOne("jmGetMemberFromNumber", member.getM_number());
-//		try {
+		try {
 			if(member.getM_phone()==null|| member.getM_phone()=="") {member.setM_phone(member1.getM_phone());}
 			if(member.getM_email()==null|| member.getM_email()=="") {member.setM_email(member1.getM_email());}
 			if(member.getM_address()==null|| member.getM_address()=="") {member.setM_address(member1.getM_address());}
@@ -109,9 +114,9 @@ public class JmMemberDaoImpl implements JmMemberDao {
 			System.out.println(member.getM_email());
 			System.out.println(member.getM_address());
 			updateCount = session.update("jmMemberUpdate",member);
-//		} catch (Exception e) {
-//			System.out.println("JmMemberDaoImpl jmUpdateMember Exception->"+e.getMessage());
-//		}
+		} catch (Exception e) {
+			System.out.println("JmMemberDaoImpl jmUpdateMember Exception->"+e.getMessage());
+		}
 		return updateCount;
 	}
 
@@ -302,6 +307,89 @@ public class JmMemberDaoImpl implements JmMemberDao {
 				System.out.println("JmMemberDaoImpl jmResetPw Exception->"+e.getMessage());
 			}
 			return updateCount;
+		}
+
+		@Override
+		public int jmCheckMail(String m_email) { //이메일 중복 체크
+			System.out.println("JmMemberDaoImpl jmCheckMail start..");
+			int checkMailCount= 0;
+			try {
+				checkMailCount = session.selectOne("jmCheckMail",m_email);
+				System.out.println("JmMemberDaoImpl jmCheckMail after select:"+checkMailCount);
+			} catch (Exception e) {
+				System.out.println("JmMemberDaoImpl jmCheckMail Exception->"+e.getMessage());
+			}
+			return checkMailCount;
+		}
+
+		@Override
+		public int jmGetGymOrderGID(int m_number) {
+			System.out.println("jmMemberDaoImpl jmGetGymOrderGID start");
+			int g_id=0;
+			try {
+				g_id = session.selectOne("jmGetGymOrderGID",m_number);
+				System.out.println("JmMemberDaoImpl jmGetGymOrderGID after select:"+g_id);
+			} catch (Exception e) {
+				System.out.println("JmMemberDaoImpl jmGetGymOrderGID Exception->"+e.getMessage());
+			}
+			return g_id;
+		}
+
+		@Override
+		public Gym jmGetGymFromGID(int g_id) {
+			System.out.println("jmMemberDaoImpl jmGetGymFromGID start");
+			Gym gym=new Gym();
+			try {
+				gym = session.selectOne("jmGetGymFromGID",g_id);
+				System.out.println("JmMemberDaoImpl jmGetGymFromGID after select:"+g_id);
+			} catch (Exception e) {
+				System.out.println("JmMemberDaoImpl jmGetGymFromGID Exception->"+e.getMessage());
+			}
+			return gym;
+		}
+
+		@Override
+		public GymOrder jmGetGymOrder(int g_id) {
+			System.out.println("jmMemberDaoImpl jmGetGymOrder start");
+			GymOrder gymOrder=new GymOrder();
+			try {
+				gymOrder = session.selectOne("jmGetGymOrder",g_id);
+				System.out.println("JmMemberDaoImpl jmGetGymOrder after select:"+g_id);
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 mm월 dd일");
+				gymOrder.setGo_enddate(sdf.format(gymOrder.getGo_enddate()));
+				gymOrder.setDeal_date(sdf.format(gymOrder.getDeal_date()));
+				
+			} catch (Exception e) {
+				System.out.println("JmMemberDaoImpl jmGetGymOrder Exception->"+e.getMessage());
+			}
+			return gymOrder;
+		}
+		
+		public String jmGetS_name(int g_id, int s_number) {
+			System.out.println("JmMemberDaoImpl jmGetS_name start..");
+			System.out.println("g_id"+g_id);
+			System.out.println("s_number"+s_number);
+			GS gs= new GS();
+			gs.setG_id(g_id);
+			gs.setS_number(s_number);
+			String s_name= "";
+			try {
+				s_name = session.selectOne("jmGetS_name", gs);
+				System.out.println("JmMemberDaoImpl jmGetS_name s_name->" + s_name);
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				System.out.println("해당 체육관id와 서비스번호로 생성된 서비스의 이름(s_name)이 없음");
+				s_name="";
+			}
+			return s_name;
+		}
+
+		@Override
+		public List<Board> jmMyPageBoardList(Board board) {
+			List<Board> jmMyPageBoardList = null;
+			jmMyPageBoardList = session.selectList("jmMyPageBoardList", board);
+			return jmMyPageBoardList;
 		}
 		
 //		@Override

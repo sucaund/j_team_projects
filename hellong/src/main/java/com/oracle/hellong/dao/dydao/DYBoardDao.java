@@ -12,7 +12,7 @@ public interface DYBoardDao {
 
 	Board selectBodyProfile(int b_number);
 
-	int dyUpdateBodyProfile(Board board);
+	void dyUpdateBodyProfile(Board board);
 
 	List<Board> listManager();
 
@@ -23,6 +23,12 @@ public interface DYBoardDao {
 	int condTotalBodyProfile(Board board);
 
 	List<Board> boardSearchList(Board board);
+
+	List<Board> searchBoards(Board board);
+	// 마이페이지 게시글 조회
+	List<Board> searchMyPageList(Board board);
+
+	void increaseReadCount(int b_number);
 
 
 

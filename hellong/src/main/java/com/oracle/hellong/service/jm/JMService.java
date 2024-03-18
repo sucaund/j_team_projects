@@ -2,6 +2,9 @@ package com.oracle.hellong.service.jm;
 
 import java.util.List;
 
+import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 
 import jakarta.validation.Valid;
@@ -41,6 +44,18 @@ public interface JMService {
 	String checkPwDuple(int m_number, String m_pw);
 
 	int jmResetPw(int m_number, String m_pw);
+
+	int checkMail(String m_email);
+
+	int jmGetGymOrderGID(int m_number);
+
+	Gym jmGetGymFromGID(int g_id);
+
+	GymOrder jmGetGymOrder(int g_id);
+
+	String jmGetS_name(int g_id, int s_number);
+
+	List<Board> jmMyPageBoardList(Board board);
 
 
 

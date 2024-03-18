@@ -37,7 +37,7 @@
 		select * from trainer
 		where t_id = #{t_id}
 	</select>
-	
+
 	<update id="updateTrainer" parameterType="Trainer">
 		update trainer 
 		set t_name=#{t_name}, t_gender=#{t_gender}, t_age=#{t_age}, t_regdate=#{t_regdate}, t_tel=#{t_tel}, t_address=#{t_address},
@@ -45,41 +45,15 @@
 			t_photoname=#{t_photoname}, t_photostoredname=#{t_photostoredname}
 		where t_id=#{t_id}
 	</update>
-	
-	
+
+
 	<delete id="getDeleteTrainer" parameterType="int">
 		delete from trainer where t_id = #{t_id}
 	</delete>
-	
-	<select id="getTotaltrainerSearch" parameterType="Trainer" resultType="int">
-		SELECT Count(*) FROM trainer
-		WHERE t_name LIKE '%' || #{keyword} || '%'
-		and g_id = #{g_id}
-	</select>
-	
-	<select id="getTrainerSearchList" parameterType="Trainer" resultType="Trainer">
-		SELECT *
-		FROM
-		(
-		    SELECT rownum rn, a.*
-		    FROM
-		    (
-		        SELECT * 
-		        FROM trainer 
-		        WHERE t_name LIKE '%' || #{keyword} || '%' 
-		        and g_id = #{g_id}
-		        ORDER BY t_id desc
-		    ) a
-		)   
-		WHERE rn BETWEEN #{start} AND #{end}
-	
-	</select>
-	
 	
 	<select id="getSelectTrainerList" parameterType="int" resultType="Trainer">
 		select * from trainer
 		where g_id = #{g_id}
 	</select>
-	
 	
 </mapper>

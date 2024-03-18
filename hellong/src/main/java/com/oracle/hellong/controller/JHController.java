@@ -425,7 +425,7 @@ public class JHController {
 	@GetMapping(value = "/GymPostList")
 	public String gymPostList(GymBoardFileServiceReviewJoin GymBoardServiceJoin , Model model) {
 		//페이징 작업
-		int gymImformationCount = jh.getGymImformationCount();
+		int gymImformationCount = jh.getGymImformationCount(GymBoardServiceJoin);
 		Paging page = new Paging(gymImformationCount,GymBoardServiceJoin.getCurrentPage());
 		GymBoardServiceJoin.setStart(page.getStart());
 		GymBoardServiceJoin.setEnd(page.getEnd());

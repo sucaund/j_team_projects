@@ -29,18 +29,5 @@ public class GymBoardJoinDaoImpl implements GymBoardJoinDao {
 		return gymBoardDetailRead;
 	}
 	
-	//지점찾기 글 카운트 조회
-	@Override
-	public int getGymImformationCount() {
-		int getGymImformationCountResult =0;
-		try {
-			getGymImformationCountResult = session.selectOne("getGymImformationCount");
-			System.out.println("GymBoardJoinDaoImpl getGymImformationCount"+getGymImformationCountResult);
-		}catch(Exception e) {
-			System.out.println("GymBoardJoinDaoImpl getGymImformationCount Exception -> "+e.getMessage());
-		}		
-		return getGymImformationCountResult;
-	}
-	
 	
 }

@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.MemberMapper">
 	<!-- mybatis에서 사용(configuration.xml도 마찬가지) -->
+	<select id="getAllMember" resultType="Member">
+		SELECT *
+		FROM MEMBER WHERE M_ISDELETED = 0
+	</select>
+	
 	<select id="jmMemberTotal" resultType="int"> <!-- 이 타입은 DaoImpl에서 이걸 꺼내 쓰는 타입 -->
 		SELECT Count(*) FROM member
 	</select>
@@ -9,11 +14,12 @@
 	<select id="jmMemberTotalReal" resultType="int"> <!-- 이 타입은 DaoImpl에서 이걸 꺼내 쓰는 타입 -->
 		SELECT Count(*) FROM member where m_isDeleted=0
 	</select>
-
-	<select id="getAllMember" resultType="Member">
-		SELECT *
-		FROM MEMBER WHERE M_ISDELETED = 0
-	</select>
+	
+	<select id="jmGetMemberFromNumber" parameterType="int" resultType="Member">
+		select *
+		  from member
+		 where m_number=#{m_number} and m_isdeleted=0
+	</select>	
 
 	<!-- jmMemberDaoImpl -> jmDetailMember에서 사용 -->			<!-- 이 타입은 configuration에서 alias로 정해준것 -->
 	<select id="jmMemberListAll" parameterType="Member"
@@ -49,15 +55,6 @@
 		]]> 	<!-- # 여기 안에 있는게 파라미터 타입 -->
 	</select>
 	
-	
-
-	<!-- jmMemberDaoImpl -> jmDetailMember에서 사용 -->
-	<select id="jmMemberSelectOne" parameterType="int"
-		resultType="Member">
-		SELECT * FROM member WHERE m_number = #{m_number}
-	</select>
-	
-
 	<update id="jmMemberUpdate" parameterType="Member">
 		UPDATE member SET
 		
@@ -80,11 +77,11 @@
 		</selectKey>
 
 		insert into member (m_number, m_id, m_pw, m_name, m_age,
-		m_gender, m_phone, m_email, m_address, m_regdate )
+		m_gender, m_phone, m_email, m_address, m_regdate, m_currpoint, m_isdeleted )
 		values ( #{m_number},
 		#{m_id}, #{m_pw}, #{m_name}, #{m_age},
 		#{m_gender}, #{m_phone},
-		#{m_email}, #{m_address}, sysdate)
+		#{m_email}, #{m_address}, sysdate, 0, 0)
 	</insert>
 	
 		<!-- jmMemberDaoImpl -> jmGetMemberFromId에서 사용 -->
@@ -128,18 +125,46 @@
 		 where m_number=#{m_number} and m_isdeleted=0
 	</select>
 	
-	<!-- 비밀번호 중복 체크 위해, 입력자의 m_number와 일치하는 (암호화된) 비밀번호를 꺼내옴 -->
-	<select id="jmGetMemberFromNumber" parameterType="int" resultType="Member">
-		select *
-		  from member
-		 where m_number=#{m_number} and m_isdeleted=0
-	</select>	
+	 <select id="jmCheckMail" parameterType = "String" resultType = "int">
+ 	 	SELECT COUNT(*) FROM MEMBER WHERE m_email= #{m_email} and m_isdeleted=0
+ 	 </select>
+	
 	
 	<update id="jmResetPw" parameterType="Member">
 		UPDATE member 
 		set m_pw=#{m_pw}
 		WHERE m_number=#{m_number}
 	</update>
+	
+	<select id="jmGetGymOrderGID" parameterType = "int" resultType = "int">
+ 	 	select g_id
+		from gym_order
+		where m_number=${m_number}
+		and go_isend=0
+ 	 </select>
+ 	 
+	 <select id="jmGetGymFromGID" parameterType = "int" resultType = "Gym">
+	 	select *
+		from gym
+		where g_id=${g_id}
+		and g_isdeleted=0
+	 </select>
+	 
+	 <select id="jmGetGymOrder" parameterType = "int" resultType = "GymOrder">
+ 	 	select *
+		from gym_order
+		where g_id=${g_id}
+		and go_isend=0
+ 	 </select>
+	 
+	 <select id="jmGetS_name" parameterType = "GymOrder" resultType = "String">
+	 	select s_name
+		from G_S
+		where g_id=${g_id}
+		and s_number=${s_number}
+		and s_isdeleted=0
+	 </select>
+ 
 	
 	
 
@@ -159,13 +184,24 @@
     SET M_ISDELETED = 1
     WHERE M_NUMBER =#{m_number}
 	</update>
+	
+	<!-- 현승 xml -->
+
+	<!-- 공통 - 회원정보 조회 -->
+
+	<select id="hsGetMemberData" parameterType="int" resultType="Member">
+		SELECT *
+		FROM member
+		WHERE m_number=#{m_number}
+	</select>
+
+	<!-- 임시 로그인 -->
 
 	<select id="hsTotalMemberCnt" resultType="int">
 		SELECT count(*) FROM member
 	</select>
 	
 	<select id="hsListMember" parameterType="Member" resultType="Member">
-	<![CDATA[
 		SELECT * 
 		FROM
 			(SELECT rownum rn, a.*
@@ -174,84 +210,16 @@
 			 	 FROM member
 			 	 ORDER BY m_number) a
 			)
-	]]>
+		<!-- 일부러 paging작업 안함 -->
 	</select>
 	
-	<select id="hsBoardMemberName" parameterType="Board" resultType="String">
-		SELECT m_name 
-		FROM member WHERE m_number=#{m_number}
-	</select>
-	
-	<select id="hsGetMemberData" parameterType="int" resultType="Member">
-		SELECT *
-		FROM member
-		WHERE m_number=#{m_number}
-	</select>
-	
-<!-- 	<select id="hsCondTotalListPointCount" resultType="int">
-		SELECT count(*) 
-		<choose>
-			<when test="select == 'point_charge'">
-				FROM member m, point_charge p 
-				WHERE m.m_number = p.m_number
-				AND m.m_number = 40
-			</when>
-			<when test="select == 'gym_order_deal'">
-				FROM member m, gym_order g
-				WHERE m.m_number = g.m_number
-				AND m.m_number = 40
-				AND g.refund_date IS NULL
-			</when>
-			<when test="select == 'gym_order_refund'">
-				FROM member m, gym_order g
-				WHERE m.m_number = g.m_number
-				AND m.m_number = 40
-				AND g.refund_date IS NOT NULL
-			</when>
-		</choose>
-	</select> -->
 
-<!-- 	<select id="hsListPointCharge" parameterType="Member" resultType="PointCharge">
-		<choose>
-			<when test="select == 'point_charge'">
-				SELECT *
-				FROM 
-					(SELECT rownum rn, a.*
-					 FROM
-						(SELECT *
-						 FROM member m, point_charge p
-						 WHERE m.m_number = p.m_number
-						 AND m.m_number = 40
-						 ORDER BY p.charge_date DESC
-						) a
-					)
-				WHERE rn BETWEEN #{start} and #{end} 
-			</when>
-		</choose>
-	</select>
 	
-	<select id="hsListGymOrder" parameterType="Member" resultType="GymOrder">
-		SELECT *
-		FROM
-			(SELECT rownum rn, a.*
-			 FROM
-			 	(SELECT *
-			 	 FROM member m, gym_order g 
-			 	 WHERE m.m_number = g.m_number
-			 	 AND m.m_number = 40
-			 	 	<choose>
-			 	 		<when test="select == 'gym_order_deal'">
-			 	 			AND g.refund_date IS NULL
-			 	 	    	ORDER BY g.deal_date DESC
-			 	 		</when>
-			 	 		<when test="select == 'gym_order_refund'">
-			 	 			AND g.refund_date IS NOT NULL
-			 	 			ORDER BY g.refund_date DESC
-			 	 		</when>
-			 	 	</choose>
-			 	) a
-			)
-		WHERE rn BETWEEN #{start} and #{end}
-	</select> -->
+
+
+
+
+	
+
 
 </mapper>

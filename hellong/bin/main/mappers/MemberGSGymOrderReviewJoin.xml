@@ -17,7 +17,7 @@
 	        AND r.go_number IS NULL
 	  ]]>      
 	</select>
-	
+
 	<select id="getselectReviewList" parameterType="int" resultType="MemberGSGymOrderReviewJoin">
 		select *
 		from gym_review r, member m
@@ -25,7 +25,7 @@
 		and g_id = #{g_id}
 		order by review_regdate desc
 	</select>
-	
+
 	<select id="gymManagerSelectOne" parameterType="MemberGym" resultType="MemberGSGymOrderReviewJoin">
 		select * 
 		from gym g, member m

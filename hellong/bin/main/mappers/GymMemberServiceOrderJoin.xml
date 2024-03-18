@@ -12,7 +12,7 @@
 		         where o.m_number=m.m_number
 		         and o.s_number=s.s_number
 		         and o.g_id = s.g_id
-		         and o.g_id = 1
+		         and o.g_id = #{g_id}
 		         and o.go_isend= 0
 		         order by o.go_enddate asc)a
 		    )

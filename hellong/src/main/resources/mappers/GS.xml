@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GSMapper">
-	<select id="totalService" parameterType="int" resultType="int">
+		<select id="totalService" parameterType="int" resultType="int">
 		SELECT Count(*) FROM G_S where g_id = #{g_id} and s_isdeleted = 0
 	</select>
 
@@ -74,5 +74,21 @@
 		from g_s
 		where g_id = #{g_id}
 	</select> -->
-	
+
+    <select id="getGymPrice" parameterType="int" resultType="GS">
+        
+        SELECT *
+		FROM (
+		  SELECT S_PRICE
+		  FROM HELLONG.G_S
+		  WHERE G_ID = #{g_id1}
+		  ORDER BY S_PRICE ASC
+		)
+		WHERE ROWNUM = 1
+
+    </select>
+    
+    
+    
+
 </mapper>

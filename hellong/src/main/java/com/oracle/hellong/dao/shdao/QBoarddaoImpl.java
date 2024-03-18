@@ -13,7 +13,9 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymBoardFile;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.model.Report;
 
@@ -221,6 +223,8 @@ public class QBoarddaoImpl implements QBoarddao {
 			Map<String, Object> params = new HashMap<>();
 	        params.put("m_number", m_number);
 	        params.put("admin", admin);
+	        System.out.println("QBoarddaoImpl updateMember m_number->" + " "+m_number);
+	        System.out.println("QBoarddaoImpl updateMember admin->"+"   " +admin);
 			session.update("updateMember",params);
 		} catch (Exception e) {
 			System.out.println("QBoarddaoImpl updateMember e.getMessage()->" + e.getMessage());
@@ -337,6 +341,110 @@ public class QBoarddaoImpl implements QBoarddao {
 
 		}
 	}
+
+	@Override
+	public Gym getNewGym() {
+	    Gym getNewGym = null;
+	    try {
+	        getNewGym = session.selectOne("getNewGym");
+	    } catch (Exception e) {
+	        System.out.println("QBoarddaoImpl getNewGym e.getMessage() -> " + e.getMessage());
+	    }
+	    return getNewGym;
+	}
+
+	@Override
+	public Gym getCheapGym() {
+	    Gym getCheapGym = null;
+	    try {
+	        getCheapGym = session.selectOne("getCheapGym");
+	    } catch (Exception e) {
+	        System.out.println("QBoarddaoImpl getCheapGym e.getMessage() -> " + e.getMessage());
+	    }
+	    return getCheapGym;
+	}
+
+	@Override
+	public Gym getManyGym() {
+	    Gym getManyGym = null;
+	    try {
+	        getManyGym = session.selectOne("getManyGym");
+	    } catch (Exception e) {
+	        System.out.println("QBoarddaoImpl getManyGym e.getMessage() -> " + e.getMessage());
+	    }
+	    return getManyGym;
+	}
+
+	@Override
+	public Gym getStarGym() {
+	    Gym getStarGym = null;
+	    try {
+	        getStarGym = session.selectOne("getStarGym");
+	    } catch (Exception e) {
+	        System.out.println("QBoarddaoImpl getStarGym e.getMessage() -> " + e.getMessage());
+	    }
+	    return getStarGym;
+	}
+
+
+	@Override
+	public GS getGymPrice(int g_id1) {
+	    GS gymPrice = null;
+	    try {
+	        gymPrice = session.selectOne("getGymPrice", g_id1);
+	        System.out.println("QBoarddaoImpl getGymPrice gym price: g_id1 "+"  " + g_id1);
+	        System.out.println("QBoarddaoImpl getGymPrice gym price: " + gymPrice);
+
+	    } catch (Exception e) {
+	        System.out.println("Error fetching gym price: " + e.getMessage());
+	    }
+	    return gymPrice;
+	}
+
+	@Override
+	public GymBoardFile getGymPhoto(int g_id2) {
+	    GymBoardFile gymPhoto = null;
+	    try {
+	        gymPhoto = session.selectOne("getGymPhoto", g_id2);
+	    } catch (Exception e) {
+	        System.out.println("Error fetching gym photo: " + e.getMessage());
+	    }
+	    return gymPhoto;
+	}
+
+	@Override
+	public Board getNotice() {
+	    Board notice = null;
+	    try {
+	        notice = session.selectOne("getNotice");
+	    } catch (Exception e) {
+	        System.out.println("Error fetching notice: " + e.getMessage());
+	    }
+	    return notice;
+	}
+
+	@Override
+	public Board getPopular() {
+	    Board popular = null;
+	    try {
+	        popular = session.selectOne("getPopular");
+	    } catch (Exception e) {
+	        System.out.println("Error fetching popular post: " + e.getMessage());
+	    }
+	    return popular;
+	}
+
+	@Override
+	public Board getbodyProfile() {
+	    Board bodyProfile = null;
+	    try {
+	        bodyProfile = session.selectOne("getbodyProfile");
+	    } catch (Exception e) {
+	        System.out.println("Error fetching body profile: " + e.getMessage());
+	    }
+	    return bodyProfile;
+	}
+
 
 
 }
