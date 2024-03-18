@@ -76,12 +76,19 @@
 	</select> -->
 
     <select id="getGymPrice" parameterType="int" resultType="GS">
-        SELECT * FROM (
-    	 SELECT S_PRICE
-  		 FROM G_S_DETAIL
-   		 WHERE G_ID = #{g_id1}
-   		 ORDER BY S_PRICE ASC
-		) WHERE ROWNUM = 1
+        
+        SELECT *
+		FROM (
+		  SELECT S_PRICE
+		  FROM HELLONG.G_S
+		  WHERE G_ID = #{g_id1}
+		  ORDER BY S_PRICE ASC
+		)
+		WHERE ROWNUM = 1
+
     </select>
+    
+    
+    
 
 </mapper>

@@ -32,9 +32,23 @@
 					LEFT JOIN 
 					    gym_review r ON b.g_id = r.g_id
 					LEFT JOIN 
-					    g_s s ON b.g_id = s.g_id
+					    g_s s ON b.g_id = s.g_id    
 					GROUP BY 
-					    g.g_id, g.g_name, b.gb_title, g.g_address, gbff.gbf_storedfilename
+					    g.g_id, g.g_name, b.gb_title, g.g_address, gbff.gbf_storedfilename		    
+	                <choose>
+	                    <when test="sortType == 'price'">
+	                        ORDER BY min_s_price ASC
+	                    </when>
+	                    <when test="sortType == 'reviews'">
+	                        ORDER BY count_review_star DESC
+	                    </when>
+	                    <when test="sortType == 'stars'">
+	                        ORDER BY avg_review_star DESC
+	                    </when>
+	                    <otherwise>
+	                        ORDER BY g.g_id DESC
+	                    </otherwise>
+	                </choose>					    
 				)a
 			)
 		WHERE rn BETWEEN #{start} AND #{end}    

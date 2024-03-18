@@ -75,6 +75,6 @@ public class GymBoardFileServiceReviewJoin { //체육관 게시물 + 체육관 �
     // Page 정보
     private String currentPage;
     
-    
+    private String sortType;
     
 }

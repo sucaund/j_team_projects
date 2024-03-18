@@ -140,15 +140,25 @@
     </div> 
     
     <div class="row mb-4 justify-content-center"> 
-        <div class="col-md-6">
-            <div class="btn-group mr-2" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary" id="sortPrice">낮은 가격 순</button>
-                <button type="button" class="btn btn-secondary" id="sortReviews">리뷰 많은 순</button>
-                <button type="button" class="btn btn-secondary" id="sortStars">높은 별점 순</button>
-            </div>
-        </div>
+	    <div class="col-md-6">
+	        <div class="btn-group mr-2" role="group" aria-label="Basic example">
+	            <button type="submit" form="sortPriceForm" class="btn btn-secondary">낮은 가격 순</button>
+	            <button type="submit" form="sortReviewsForm" class="btn btn-secondary">리뷰 많은 순</button>
+	            <button type="submit" form="sortStarsForm" class="btn btn-secondary">높은 별점 순</button>
+	        </div>
+	    </div>
     </div>
-</div>
+    
+    <!-- 추가된 form들 -->
+    <form id="sortPriceForm" action="/GymPostList" method="GET">
+        <input type="hidden" name="sortType" value="price">
+    </form>
+    <form id="sortReviewsForm" action="/GymPostList" method="GET">
+        <input type="hidden" name="sortType" value="reviews">
+    </form>
+    <form id="sortStarsForm" action="/GymPostList" method="GET">
+        <input type="hidden" name="sortType" value="stars">
+    </form>
 
      
 
@@ -167,7 +177,7 @@
 						        <strong>${board.g_name}</strong>
 						    </h4>
 						    <div class="like-btn" onclick="toggleLike(this)">
-						        <i class="fas fa-heart"></i> 찜하기
+						        <i class="fas fa-heart"></i>
 						    </div>
 						</div>
 						<div class="card-subtitle text-3xl font-bold mb-2" style="color: #800080;">

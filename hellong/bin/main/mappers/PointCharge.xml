@@ -32,14 +32,20 @@
 		<!-- 포인트 충전 -->
 		
 	<!-- 포인트충전 데이터 추가 -->
-	<insert id="hsInsertAndGetPointCharge" parameterType="PointCharge" useGeneratedKeys="true" keyColumn="charge_number" keyProperty="charge_number">
+<!--	<insert id="hsInsertAndGetPointCharge" parameterType="PointCharge" useGeneratedKeys="true" keyColumn="charge_number" keyProperty="charge_number">
 		INSERT INTO point_charge VALUES (#{m_number}, charge_number_seq.nextval, sysdate, #{charge_point}, null, null)
+	</insert>-->
+	<insert id="hsInsertPointCharge" parameterType="map">
+		INSERT INTO point_charge VALUES (#{m_number}, charge_number_seq.nextval, sysdate, #{charge_point}, null, null, #{charge_type}, #{merchant_uid})
+		
 	</insert>
 	
 	<!-- 회원 포인트 업데이트 -->
-	<update id="hsUpdatePointCharge" parameterType="PointCharge">
+	<update id="hsUpdatePointCharge" parameterType="map">
 		UPDATE member SET m_currpoint = m_currpoint + #{charge_point}
 		WHERE m_number = #{m_number}
 	</update>
+	
+
 	
 </mapper>

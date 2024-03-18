@@ -24,9 +24,9 @@ public interface HSGymDao {
 	
 		/* 헬스장 회원권 구매 */
 
-	GSDetail getGSDetailDataBuy(GSDetail gsDetail);
+		/* GSDetail getGSDetailDataBuy(GSDetail gsDetail); */
 
-	GSDetail insertAndGetGymOrder(GSDetail gsDetailData);
+	GSDetail insertAndGetGymOrder(GSDetail gsDetail);
 	
 	int updateGymOrderBuy(GSDetail insertAndGetGymOrder);
 
