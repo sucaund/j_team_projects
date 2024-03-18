@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.BoardFile;
+import com.oracle.hellong.model.Common;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymReview;
@@ -94,7 +96,7 @@ public class DYController {
 
 	// 클릭한 게시글 조회
 	@GetMapping(value = "dySelectBodyProfile")
-	public String dySelectBodyProfile(Board board1, BoardFile boardFile1, Model model, HttpSession session) {
+	public String dySelectBodyProfile(Board board1, BoardFile boardFile1, Common common, Model model, HttpSession session) {
 		System.out.println("DYController dySelectBodyProfile Start...");
 		// 조회수 증가
 		int b_number = board1.getB_number();
@@ -102,23 +104,39 @@ public class DYController {
 		// 게시글 및 파일 조회
 		Board board = dys.selectBodyProfile(board1.getB_number());
 		List<BoardFile> boardFile = dys.selectBodyProfileFileList(boardFile1.getB_number());
-
+		List<Common> commonList = dys.commonList(common);
+		System.out.println("*********** " + commonList);
+		
 		model.addAttribute("board", board);
 		model.addAttribute("boardFile", boardFile);
-
+		model.addAttribute("reportTypes", commonList);
+		
 		return "dy/dySelectBodyProfile";
 	}
+
 	// 게시글 추천
 	@PostMapping("/recommend")
 	@ResponseBody
 	public ResponseEntity<?> recommend(@RequestParam("b_number") int b_number, HttpSession session) {
-	
-	    if (session.getAttribute("m_number") == null) {
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("로그인이 필요한 기능입니다.");
-	    } else { 
-	    String result = dys.recommendBoard(b_number, (int)session.getAttribute("m_number"));
-	    return ResponseEntity.ok(result);
-	    }
+
+		if (session.getAttribute("m_number") == null) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("로그인이 필요한 기능입니다.");
+		} else {
+			String result = dys.recommendBoard(b_number, (int) session.getAttribute("m_number"));
+			return ResponseEntity.ok(result);
+		}
+	}
+	// 게시글 신고
+	@RequestMapping(value = "dyReported")
+	public String dyReported(Board board) {
+	    System.out.println("dyController dyReported Start...");
+	    System.out.println("dyController dyReported board->" + board);
+
+	    int result = dys.dyReported(board);
+
+	    
+	    // 신고 처리 후, 조회 페이지로 리디렉션
+	    return "redirect:listBodyProfile";
 	}
 
 	// 게시글 업데이트 폼

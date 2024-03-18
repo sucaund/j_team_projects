@@ -507,13 +507,21 @@
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
-
+	<!-- 추천 -->
 	<update id="dyIncreaseRecommCount" parameterType="int">
 		UPDATE board
 		SET b_recomm_count = b_recomm_count + 1
 		WHERE b_number = #{b_number}
 	</update>
-
+	<!-- 신고여부 쿼리 -->
+	<update id="dyUpReported" parameterType="int">
+		UPDATE board
+		SET b_isreported = CASE 
+		                     WHEN b_isreported = 0 THEN 1 
+		                     ELSE b_isreported 
+		                   END
+		WHERE b_number = #{b_number}
+	</update>
 
 	<!-- 현승 xml -->
 
@@ -627,5 +635,8 @@
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
-
+	
+	<select id="dyCommonList" parameterType="Common" resultType="Common">
+		select * from common where common_mcd != 999
+	</select>
 </mapper>

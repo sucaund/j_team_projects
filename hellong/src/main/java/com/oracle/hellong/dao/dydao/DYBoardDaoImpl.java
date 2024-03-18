@@ -8,6 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Common;
+import com.oracle.hellong.model.Report;
 
 import lombok.RequiredArgsConstructor;
 
@@ -157,6 +159,34 @@ public class DYBoardDaoImpl implements DYBoardDao {
 	@Override
 	public void increaseRecommCount(int b_number) {
 		session.update("dyIncreaseRecommCount", b_number);
+	}
+
+	@Override
+	public int dyReported(Board board) {
+		System.out.println("DYBoardDaoImpl dyReported Start...");
+		int result = 0;
+		System.out.println("DYBoardDaoImpl dyReported board->" + board);
+		try {
+			result = session.update("dyUpReported", board.getB_number());
+			System.out.println("DYBoardDaoImpl dyReported result->"+result);
+			int insertReported = session.insert("dyInReported", board);
+			
+			System.out.println("DYBoardDaoImpl dyReported insertReported->" + insertReported);
+		} catch(Exception e) {
+			System.out.println("DYBoardDaoImpl dyReported Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<Common> commonList(Common common) {
+		List<Common> commonList = null;
+		try {
+			commonList = session.selectList("dyCommonList", common);
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		return commonList;
 	}
 
 

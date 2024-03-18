@@ -14,6 +14,7 @@ import com.oracle.hellong.dao.dydao.DYMemberDao;
 import com.oracle.hellong.dao.dydao.DYRecommCheckDao;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.BoardFile;
+import com.oracle.hellong.model.Common;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymReview;
@@ -187,8 +188,10 @@ public class DYServiceImpl implements DYService {
 
 	@Override
 	public int dyReported(Board board) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		System.out.println("dyServiceImpl dyReported Start...");
+		result = dybd.dyReported(board);
+		return result;
 	}
 
 	@Override
@@ -205,6 +208,13 @@ public class DYServiceImpl implements DYService {
 	    dyrcd.insertRecomm(rec); // 수정된 부분
 	    dybd.increaseRecommCount(b_number);
 	    return "추천되었습니다.";
+	}
+
+	@Override
+	public List<Common> commonList(Common common) {
+		List<Common> commonList = null;
+		commonList = dybd.commonList(common);
+		return commonList;
 	}
 
 	

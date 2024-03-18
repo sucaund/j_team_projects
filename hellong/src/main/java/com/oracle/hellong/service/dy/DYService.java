@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.BoardFile;
+import com.oracle.hellong.model.Common;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymReview;
@@ -52,6 +53,8 @@ public interface DYService {
 	void increaseReadCount(int b_number);
 
 	String recommendBoard(int b_number, int m_number);
+
+	List<Common> commonList(Common common);
 
 
 

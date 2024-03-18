@@ -10,6 +10,19 @@ function confirmDeletion(element) {
 	}
 }
 
+function submitReport() {
+    var reportSelect = $("#reportSelect").val();
+    var b_number = $("#b_number").val(); // 게시글 번호를 input 필드로 받아옴
+    var m_number = $("#m_number").val(); // m_number를 input 필드로 받아옴
+
+    if (reportSelect) {
+        var formAction = 'dyReported?b_number=' + b_number + '&m_number=' + m_number + '&common_bcd=400&common_mcd=' + reportSelect;
+        $("#reportForm").attr('action', formAction).submit();
+    } else {
+        alert("신고 유형을 선택해주세요.");
+    }
+}
+
 
 document.addEventListener("DOMContentLoaded", function() {
 	const recommendButton = document.getElementById("recommendButton");
@@ -28,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				alert(data); // 서버로부터 받은 응답(메시지)를 알림으로 표시합니다.
 				if (data === "추천되었습니다.") {
 					let recommCountElement = document.getElementById("recommCount");
-    recommCountElement.innerText = parseInt(recommCountElement.innerText) + 1;
+					recommCountElement.innerText = parseInt(recommCountElement.innerText) + 1;
 				}
 			})
 			.catch(error => console.error('Error:', error));
