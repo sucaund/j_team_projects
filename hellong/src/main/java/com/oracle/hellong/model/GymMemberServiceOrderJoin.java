@@ -60,11 +60,11 @@ public class GymMemberServiceOrderJoin {
     private String refund_criteria;  
 
     //조회용
- 	private String search;
- 	private	String keyword;
- 	private	String pageNum;
- 	private int	start;
- 	private	int end;
+    // 조회용
+    private String 	search;        		private String 	keyword;
+    private String 	pageNum;  			
+    private int 	start;              private int 	end;
+  	private int 	prevPage;			private int 	nextPage;
 
  	//page 정보
  	private String currentPage;

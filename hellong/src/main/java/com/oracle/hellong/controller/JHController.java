@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oracle.hellong.dao.jhdao.MemberGSGymOrderReviewJoinDao;
@@ -392,7 +393,7 @@ public class JHController {
 			int totalGymMemberList = jh.getTotalGymMemberList(gym.getG_id());
 			//page
 			// 현재 이용 회원
-			int currentTotalMemberList = jh.getCurrentTotalMemberList(gym.getG_id());
+			int currentTotalMemberList = jh.getCurrentTotalMemberList(gymMember);
 			Paging page = new Paging(currentTotalMemberList,gymMember.getCurrentPage());
 			gymMember.setStart(page.getStart());
 			gymMember.setEnd(page.getEnd());
