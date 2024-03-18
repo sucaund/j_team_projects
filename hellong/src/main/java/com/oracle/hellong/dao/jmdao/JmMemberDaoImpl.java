@@ -1,11 +1,13 @@
 package com.oracle.hellong.dao.jmdao;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymOrder;
@@ -338,7 +340,7 @@ public class JmMemberDaoImpl implements JmMemberDao {
 			System.out.println("jmMemberDaoImpl jmGetGymFromGID start");
 			Gym gym=new Gym();
 			try {
-				g_id = session.selectOne("jmGetGymFromGID",g_id);
+				gym = session.selectOne("jmGetGymFromGID",g_id);
 				System.out.println("JmMemberDaoImpl jmGetGymFromGID after select:"+g_id);
 			} catch (Exception e) {
 				System.out.println("JmMemberDaoImpl jmGetGymFromGID Exception->"+e.getMessage());
@@ -351,8 +353,12 @@ public class JmMemberDaoImpl implements JmMemberDao {
 			System.out.println("jmMemberDaoImpl jmGetGymOrder start");
 			GymOrder gymOrder=new GymOrder();
 			try {
-				g_id = session.selectOne("jmGetGymOrder",g_id);
+				gymOrder = session.selectOne("jmGetGymOrder",g_id);
 				System.out.println("JmMemberDaoImpl jmGetGymOrder after select:"+g_id);
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 mm월 dd일");
+				gymOrder.setGo_enddate(sdf.format(gymOrder.getGo_enddate()));
+				gymOrder.setDeal_date(sdf.format(gymOrder.getDeal_date()));
+				
 			} catch (Exception e) {
 				System.out.println("JmMemberDaoImpl jmGetGymOrder Exception->"+e.getMessage());
 			}
@@ -361,8 +367,8 @@ public class JmMemberDaoImpl implements JmMemberDao {
 		
 		public String jmGetS_name(int g_id, int s_number) {
 			System.out.println("JmMemberDaoImpl jmGetS_name start..");
-			System.out.println(g_id);
-			System.out.println(s_number);
+			System.out.println("g_id"+g_id);
+			System.out.println("s_number"+s_number);
 			GS gs= new GS();
 			gs.setG_id(g_id);
 			gs.setS_number(s_number);
@@ -370,12 +376,20 @@ public class JmMemberDaoImpl implements JmMemberDao {
 			try {
 				s_name = session.selectOne("jmGetS_name", gs);
 				System.out.println("JmMemberDaoImpl jmGetS_name s_name->" + s_name);
+				
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				System.out.println("해당 체육관id와 서비스번호로 생성된 서비스의 이름(s_name)이 없음");
 				s_name="";
 			}
 			return s_name;
+		}
+
+		@Override
+		public List<Board> jmMyPageBoardList(Board board) {
+			List<Board> jmMyPageBoardList = null;
+			jmMyPageBoardList = session.selectList("jmMyPageBoardList", board);
+			return jmMyPageBoardList;
 		}
 		
 //		@Override

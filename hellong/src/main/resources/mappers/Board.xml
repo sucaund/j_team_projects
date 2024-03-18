@@ -561,4 +561,12 @@
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 	
+		<select id="jmMyPageBoardList" parameterType="Board"
+		resultType="Board">
+		select * from board
+		WHERE m_number = #{m_number}
+		order by b_number desc
+		LIMIT 5
+	</select>
+	
 </mapper>

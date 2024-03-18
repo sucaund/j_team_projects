@@ -122,10 +122,10 @@
                                 <li><a href="/dyMyPagelist">작성글</a></li>
                                 <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">결제</a></li>
                                 <li><a href="/jmUpdateMemberForm">개인정보수정</a></li>
-                                <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">비즈니스 개설/관리</a></li>
+                                <li><a href="/listGymManager">비즈니스 개설/관리</a></li>
                                 <li><a href="/GymPostList">헬스장(지점찾기)</a></li>
                                 <li>
-                                    <a href="/communityBoard"
+                                    <a href="/jmCustomerCenter"
                                       >고객센터 <i class="lni lni-chevron-right"></i
                                     ></a>
                                     <ul class="inner-sub-category">
@@ -186,7 +186,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="https://demo.graygrids.com/themes/shopgrids/contact.html" aria-label="Toggle navigation">고객센터</a>
+                                        <a href="/jmCustomerCenter" aria-label="Toggle navigation">고객센터</a>
                                     </li>
                                 </ul>
                             </div> <!-- navbar collapse -->

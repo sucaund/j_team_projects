@@ -28,7 +28,7 @@
     <section class="section blog-section blog-list">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-md-12 col-12">
+                <div class="col-lg-8 col-md-12 col-12" style="margin:0 auto; ">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-12">
                             <!-- Start Single Blog -->
@@ -67,7 +67,7 @@
                                 <div class="blog-content">
                                     <a class="category">서비스</a>
 
-                                    <c:if test="${g_id==null}">
+                                    <c:if test="${g_id==0}">
                                     <h4>
                                         <a href="blog-single-sidebar.html">현재 이용중인 헬스장이 없습니다.</a>
                                     </h4>
@@ -77,7 +77,7 @@
                                     </div>
                                     </c:if>
 
-                                    <c:if test="${g_id!=null}">
+                                    <c:if test="${g_id>0}">
                                         <h4>
                                             <a href="blog-single-sidebar.html">현재 헬스장: &nbsp; &nbsp; <a style="color: #0167F3;">
                                                 ${gym.g_name}
@@ -85,7 +85,7 @@
                                         </h4>
                                         <p>${s_name}</p> <!-- 서비스명 -->
 
-                                        <fmt:formatDate value="${gymOrder.go_enddate}" pattern="yyyy/MM/dd"></fmt:formatDate> 까지
+                                        ${gymOrder.go_enddate}"까지
                                         <!-- 이용종료일 -->
 
                                         <p>${gym.g_address}</p>
@@ -108,7 +108,7 @@
                                         </a>
                                     </h4>
                                     <p>이용중인 서비스 가격: ${gymOrder.use_point}</p>
-                                    <p>마지막 결제일자:  <fmt:formatDate value="${gymOrder.deal_date}" pattern="yyyy/MM/dd"></fmt:formatDate></p>
+                                    <p>마지막 결제일자:  ${gymOrder.deal_date}
                                     <div class="button">
                                         <a href="javascript:void(0)" class="btn">결제 내역 보기</a>
                                     </div>
@@ -126,7 +126,7 @@
                                         style="text-decoration: underline; color: #03E041;">일대일 문의하기</a>
                                         <br>
                                         <br>
-                                        <a href="blog-single-sidebar.html"
+                                        <a href="/listGymManager"
                                         style="text-decoration: underline; color:#00BFFD">비즈니스 개설/관리하기</a>
                                     </h4>
                                    
@@ -141,50 +141,11 @@
                     </div>
                     
                 </div>
-                <aside class="col-lg-4 col-md-12 col-12">
-                    <div class="sidebar blog-grid-page">
-                        <!-- Start Single Widget -->
-                        <div class="widget search-widget">
-                            <h5 class="widget-title">작성글 보기</h5>
-                            <form action="#">
-                                input 또는 버튼으로 작성글 보기 페이지로 링크
-                                <input type="text" placeholder="Search Here...">
-                                <button type="submit"><i class="lni lni-search-alt"></i></button>
-                            </form>
-                        </div>
-                        <!-- End Single Widget -->
-                        <!-- Start Single Widget -->
-                        <div class="widget popular-feeds">
-                            <h5 class="widget-title">작성글보기 2? &nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <a style="color:#0167F3;" href="/dyMyPageList">전체보기</a></h5>
-                            <div class="popular-feed-loop">
-                                <div class="single-popular-feed">
-                                    <div class="feed-desc">
-                                        <h6 class="post-title"><a href="blog-single-sidebar.html">${board.b_title}</a></h6>
-                                        <span class="time"><i class="lni lni-calendar"></i> ${board.b_regdate}</span>
-                                    </div>
-                                </div>
-                                <div class="single-popular-feed">
-                                    <div class="feed-desc">
-                        
-                                        <h6 class="post-title"><a href="blog-single-sidebar.html">2</a></h6>
-                                        <span class="time"><i class="lni lni-calendar"></i> 24th March 2023</span>
-                                    </div>
-                                </div>
-                                <div class="single-popular-feed">
-                                    <div class="feed-desc">
-                                  
-                                        <h6 class="post-title"><a href="blog-single-sidebar.html">3 </a></h6>
-                                        <span class="time"><i class="lni lni-calendar"></i> 30th Jan 2023</span>
-                                                                            <div class="button">
-                                     
-                                    </div>
-                                    </div>
-                                </div>
+                
                             </div>
                         </div>
                         <!-- End Single Widget -->
+                        </section>
 
 </body>
 </html>
