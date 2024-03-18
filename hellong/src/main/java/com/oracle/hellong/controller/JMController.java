@@ -250,19 +250,7 @@ public class JMController {
 				s_name=jm.jmGetS_name(g_id, gymOrder.getS_number()); //체육관id와 서비스번호가 일치하는 서비스이름을 GS에서 가져옴
 				model.addAttribute("s_name", s_name);
 				
-//				//작성글
-//				Board board = new Board();
-//				board.setM_number(m_number);
-//				
-//				List<Board> jmMyPageBoardList=null;
-//				jmMyPageBoardList = jm.jmMyPageBoardList(board); 
-//				//m_number로 작성된 board를 5개 리스트에 담아 가져옴
-//				System.out.println(jmMyPageBoardList);
-//				model.addAttribute("jmMyPageBoardList", jmMyPageBoardList);
 			}
-			
-			// null일 때 msg같은거 보냄
-			// 몇개씩 보내는건 ListMember 참고해서 보내면 될 것 같은데. List 보내는 식
 
 			return "jm/jmMyPage";
 		} else { // 로그인 되지 않았을 때
