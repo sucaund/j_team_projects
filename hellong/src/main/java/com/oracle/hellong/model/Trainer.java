@@ -1,7 +1,6 @@
 package com.oracle.hellong.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +14,7 @@ public class Trainer { //트레이너
 	private String 	t_name;// 이름 nn
 	private String 	t_gender;// 성별 nn
 	private int 	t_age;// 연령 nn
-	private Date 	t_regdate; // 계약일자
+	private LocalDate t_regdate;
 	private String 	t_tel; // 전화번호 nn
 	private String 	t_address; // 주소
 	private int 	t_sal; // 급여 nn
@@ -37,6 +36,7 @@ public class Trainer { //트레이너
 	private	String pageNum;
 	private int	start;
 	private	int end;
+	private int prevPage; private int nextPage;
 	
 	//page 정보
 	private String currentPage;

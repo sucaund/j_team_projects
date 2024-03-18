@@ -232,7 +232,7 @@ public class SHController {
 		board.setCommon_mcd(Common_mcd);
 		board.setB_title(bTitle);
 		board.setB_content(bContent);
-		board.setB_isrecomm(B_ISRECOMM);
+		//board.setB_isrecomm(B_ISRECOMM);
 		System.out.println("SHController write board" + board);
 
 		sh.addAttribute(board);
@@ -337,6 +337,7 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		List<Gym> allGym =sh.getAllGym();//모든 헬스장
 		List<Report> allReport = sh.getAllReport();//신고글
 		System.out.println("SHController manger allReport"+"  "+allReport);
+		System.out.println("SHController manger getAllGym"+" "+allGym);
 
 		List<Board> allQnA = sh.getallQnA();//문의글
 		System.out.println("SHController manger allQnA"+"  "+allQnA);

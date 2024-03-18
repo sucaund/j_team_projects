@@ -71,9 +71,11 @@ public interface HSService {
 	
 		/* 포인트 충전 */
 	
-	PointCharge insertAndGetPointCharge(PointCharge pointCharge);
+	// PointCharge insertAndGetPointCharge(PointCharge pointCharge);
 	
-	int updatePointCharge(PointCharge insertAndGetPointCharge);
+	int insertPointCharge(Map<String, Object> chargeData);
+	
+	int updatePointCharge(Map<String, Object> chargeData);
 
 		/* 헬스장 이용내역 조회 */
 	
@@ -88,10 +90,10 @@ public interface HSService {
 	
 		/* 헬스장 회원권 구매 */
 
-	GSDetail getGSDetailDataBuy(GSDetail gsDetail);
+		/* GSDetail getGSDetailDataBuy(GSDetail gsDetail); */
 	
 	// GymOrder에 구매정보 insert
-	GSDetail insertAndGetGymOrder(GSDetail gsDetailData);
+	GSDetail insertAndGetGymOrder(GSDetail gsDetail);
 	
 	int updateGymOrderBuy(GSDetail insertAndGetGymOrder);
 	
@@ -114,8 +116,6 @@ public interface HSService {
 
 	// Member 환불포인트 업데이트
 	int updatePointRefund(Map<String, Object> params);
-
-
 
 
 }

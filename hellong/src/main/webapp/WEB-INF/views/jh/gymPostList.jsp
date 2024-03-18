@@ -110,10 +110,7 @@
         }
         
         
-        /* 컨테이너와 헤더 사이의 여백 설정 */
-	    .bo {
-	        margin-top: 30px; /* 원하는 여백 크기 */
-	    }
+
         
 
         
@@ -125,31 +122,54 @@
 <div class="container bo">
 
 
-  
-<!--     검색창 및 필터
+
+<div class="bg-light p-3"> <!-- 새로운 배경으로 감싸는 div -->
+    <!--   검색창 및 필터-->
     <div class="row mb-4 justify-content-center">
         <div class="col-md-6">
             <form class="form-inline" id="searchForm">
                 <select class="form-control mr-2" id="filterOptions">
                     <option value="all" selected>모두</option>
                     <option value="4.0">별점 4.0 이상</option>
-                    <option value="500">리뷰 수 500 이상</option>
-                    필요한 다른 필터 옵션들을 추가
+                    <option value="500">리뷰 500 이상</option>
                 </select>
                 <input type="text" class="form-control mr-2 search-input" id="searchInput" placeholder="헬스장 검색" style="width: 50%;">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> 검색</button>
             </form>
         </div>
-    </div> -->
+    </div> 
+    
+    <div class="row mb-4 justify-content-center"> 
+	    <div class="col-md-6">
+	        <div class="btn-group mr-2" role="group" aria-label="Basic example">
+	            <button type="submit" form="sortPriceForm" class="btn btn-secondary">낮은 가격 순</button>
+	            <button type="submit" form="sortReviewsForm" class="btn btn-secondary">리뷰 많은 순</button>
+	            <button type="submit" form="sortStarsForm" class="btn btn-secondary">높은 별점 순</button>
+	        </div>
+	    </div>
+    </div>
+    
+    <!-- 추가된 form들 -->
+    <form id="sortPriceForm" action="/GymPostList" method="GET">
+        <input type="hidden" name="sortType" value="price">
+    </form>
+    <form id="sortReviewsForm" action="/GymPostList" method="GET">
+        <input type="hidden" name="sortType" value="reviews">
+    </form>
+    <form id="sortStarsForm" action="/GymPostList" method="GET">
+        <input type="hidden" name="sortType" value="stars">
+    </form>
+
+     
 
 	<!-- 카드 내용 -->
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-3">
     	<c:set var="num" value="${page.total - page.start + 1}"></c:set>
-        <c:forEach var="board" items="${gymImformation}" varStatus="boardLoop">
+        <c:forEach var="board" items="${gymSearchPage}" varStatus="boardLoop">
             <!-- 각 헬스장 카드 -->
             <div class="col-md-5 mb-3">
                 <div class="card h-100 p-4 bg-gray-100 rounded-lg shadow-md" onclick="location.href='gymPostDetail?g_id=${board.g_id}'">
-                    <img class="card-img-top" src="<c:url value='/upload/${gymBoardFileList[boardLoop.index].gbf_storedFileName}'/>" alt="헬스장 이미지">
+                    <img class="card-img-top" src="<c:url value='/upload/${board.gbf_storedFileName}'/>" alt="헬스장 이미지">
                     <div class="card-body">
                     	<input type="hidden" value="${num}">
                         <div class="card-title">
@@ -157,7 +177,7 @@
 						        <strong>${board.g_name}</strong>
 						    </h4>
 						    <div class="like-btn" onclick="toggleLike(this)">
-						        <i class="fas fa-heart"></i> 찜하기
+						        <i class="fas fa-heart"></i>
 						    </div>
 						</div>
 						<div class="card-subtitle text-3xl font-bold mb-2" style="color: #800080;">
@@ -165,11 +185,11 @@
 						</div>
                         <p class="address text-gray-600"><i class="fas fa-map-marker-alt icon"></i>${board.g_address}</p>
                         <p class="stars text-yellow-500"><i class="fas fa-star icon"></i>
-                        								 ${avgReview[boardLoop.index].avg_review_star} 
-                        								<span class="review">(리뷰 수:${avgReview[boardLoop.index].count_review_star})</span>
+                        								 ${board.avg_review_star} 
+                        								<span class="review">(리뷰 수:${board.count_review_star})</span>
                         </p>
                         <!-- 가격 정보 -->
-                        <p class="price"><i class="fas fa-won-sign"></i>${minPrice[boardLoop.index].min_s_price}원부터~</p>
+                        <p class="price"><i class="fas fa-won-sign"></i>${board.min_s_price}원부터~</p>
                         <c:set var="num" value="${num - 1}"></c:set> 
                     </div>
                 </div>
@@ -228,44 +248,78 @@
 
 <script>
     $(document).ready(function () {
-        $('#searchForm').submit(function (event) {
-            event.preventDefault();
-            var searchText = $('#searchInput').val().toLowerCase();
-            var filterOption = $('#filterOptions').val();
+   	 	$('#searchForm').submit(function (event) {
+   	        event.preventDefault();
+   	        var searchText = $('#searchInput').val().toLowerCase();
+   	        var filterOption = $('#filterOptions').val();
 
-            $('.card').each(function () {
-                var cardText = $(this).text().toLowerCase();
-                var stars = parseFloat($(this).find('.stars').text().trim());
-                var reviews = parseInt($(this).find('.review').text().match(/\d+/)[0]);
+   	        $('.card').each(function () {
+   	            var cardText = $(this).text().toLowerCase();
+   	            var stars = parseFloat($(this).find('.stars').text().trim());
+   	            var reviews = parseInt($(this).find('.review').text().match(/\d+/)[0]);
 
-                var showCard = true;
+   	            var showCard = true;
 
-                // 검색어로 필터링
-                if (searchText !== '') {
-                    if (cardText.indexOf(searchText) === -1) {
-                        showCard = false;
-                    }
-                }
+   	            // 검색어로 필터링
+   	            if (searchText !== '') {
+   	                if (cardText.indexOf(searchText) === -1) {
+   	                    showCard = false;
+   	                }
+   	            }
 
-                // 선택한 필터 옵션에 따라 필터링
-                if (filterOption === '4.0') {
-                    if (stars < 4.0) {
-                        showCard = false;
-                    }
-                } else if (filterOption === '500') {
-                    if (reviews < 500) {
-                        showCard = false;
-                    }
-                }
+   	            // 선택한 필터 옵션에 따라 필터링
+   	            if (filterOption === '4.0') {
+   	                if (stars < 4.0) {
+   	                    showCard = false;
+   	                }
+   	            } else if (filterOption === '500') {
+   	                if (reviews < 500) {
+   	                    showCard = false;
+   	                }
+   	            }
 
-                // 카드 보이기 또는 숨기기
-                if (showCard) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
+   	            // 카드의 display 속성 변경
+   	            if (showCard) {
+   	                $(this).css('display', 'flex'); // 카드를 보이도록 함
+   	            } else {
+   	                $(this).css('display', 'none'); // 카드를 숨김
+   	            }
+   	        });
+   	    });
+        
+        
+        
+        // 리뷰 많은 순 정렬 버튼 클릭 시
+        $('#sortReviews').click(function () {
+            // 리뷰 수에 따라 내림차순으로 정렬
+            $('.card').sort(function (a, b) {
+                return parseInt($(b).find('.review').text().match(/\d+/)[0]) - parseInt($(a).find('.review').text().match(/\d+/)[0]);
+            }).appendTo('.row');
         });
+
+        // 높은 별점 순 정렬 버튼 클릭 시
+        $('#sortStars').click(function () {
+            // 별점에 따라 내림차순으로 정렬
+            $('.card').sort(function (a, b) {
+                return parseFloat($(b).find('.stars').text().trim()) - parseFloat($(a).find('.stars').text().trim());
+            }).appendTo('.row');
+        });
+
+        // 낮은 가격 순 정렬 버튼 클릭 시
+        $('#sortPrice').click(function () {
+            // 가격에 따라 오름차순으로 정렬
+            $('.card').sort(function (a, b) {
+                return parseInt($(a).find('.price').text().replace(/\D/g, '')) - parseInt($(b).find('.price').text().replace(/\D/g, ''));
+            }).appendTo('.row');
+        });
+        
+        
+        
+        
+        
+        
+        
+        
 
         // 각 카드의 좋아요 버튼에 대한 이벤트 핸들링
         $('.like-btn').click(function (event) {

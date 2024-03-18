@@ -99,7 +99,7 @@ public class GymDaoImpl implements GymDao {
 		return gymId;
 	}
 
-
+	
 	// 세션에 g_id 추가하기***************************************************************************************
 	@Override
 	public List <Gym> jhGetGymIdSelect(String m_id) {
@@ -111,6 +111,9 @@ public class GymDaoImpl implements GymDao {
 		}
 		return jhGetGymIdSelectResult;
 	}
+
+
+
 	
 	
 	

@@ -17,8 +17,18 @@ public interface TrainerDao {
 	int updateTrainer(Trainer trainer);
 	// 트레이너 삭제
 	int getDeleteTrainer(int t_id);
-
+	// 트레이너 조회
+	int getTotaltrainerSearch(Trainer trainer);
+	List<Trainer> getTrainerSearchList(Trainer trainer);
+	
+	
 	// 체육관 홍보 글 트레이너 가져옴
 	List<Trainer> getSelectTrainerList(int g_id);
+
+
+	
+
+
+
 
 }

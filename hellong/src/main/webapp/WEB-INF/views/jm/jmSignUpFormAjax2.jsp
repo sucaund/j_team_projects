@@ -136,8 +136,13 @@
                                 <label for="reg-email">이메일</label>
                                 <input type="text"
 					class="form-control" id="m_email" placeholder="이메일"  name="m_email"
-					oninput="checkMailReg()"
+					oninput="checkMailReg(), activateSignUpBtn()"
                     autocomplete='off' required="required">
+                    <p style="color:red; display: none;" id="failmailreg">
+                        이메일 양식을 준수해주세요.</p> <pre>
+                                    </pre>
+                    <p style="color:red; display: none" id="failmailunique">이미 존재하는 이메일입니다.</p> <pre>
+                                                               </pre>
                     <button type="button" class="btn btn-primary" id="sendMailBtn" name="sendMailBtn" onclick="sendMailNumber()" style="margin-top: 10px;">인증번호 받기</button>
                     
                             </div>
@@ -155,7 +160,7 @@
 			                <div class="form-group input-group">
                                 <label for="reg-email-check">주소</label>
                                 <input type="text"
-					class="form-control" id="m_address" name="m_address" placeholder="주소"
+					class="form-control" id="m_address" name="m_address" placeholder="주소" oninput="checkAddress(), activateSignUpBtn()"
 					autocomplete='off' required="required">
 								<input type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()" value="주소 찾기" style="margin-top: 10px; margin-bottom: 10px;">
 

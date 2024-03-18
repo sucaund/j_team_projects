@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -28,7 +29,7 @@
 							var newCommentHtml ='<li>' +
 						    '<div class="comment-details">' +
 						    '<h4 class="comment-author" style="font-size: 11px">' +
-						    (board.m_number != board.b_comm_group ?  '질문자' : '관리자') +
+						    (board.m_number != board.b_comm_group ?  '관리자' : '질문자') +
 						    '</h4>' +
 						    '<p class="comment-description" style="font-size: 18px;">' + board.b_content + '</p>' +
 						    '<span style="font-size: 12px; color: #757575;">' + board.b_regdate + '</span>' +
@@ -150,4 +151,5 @@
 	<script type="text/javascript"
 		src="<%=request.getContextPath()%>/js/index.js"></script>
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

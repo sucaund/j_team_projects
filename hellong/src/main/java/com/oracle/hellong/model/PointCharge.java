@@ -24,4 +24,8 @@ public class PointCharge { //포인트충전 point_charge
     private String pl_date;
     private String pl_content;
     private String pl_point;
+    
+    //통합이후 현승
+    private String merchant_uid;
+    private String charge_type; 
 }

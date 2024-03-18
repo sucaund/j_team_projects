@@ -1,6 +1,7 @@
 package com.oracle.hellong.dao.hsdao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
@@ -28,8 +29,10 @@ public interface HSPointDao {
 	
 		/* 포인트 충전 */
 	
-	PointCharge insertAndGetPointCharge(PointCharge pointCharge);
+	// PointCharge insertAndGetPointCharge(PointCharge pointCharge);
 
-	int updatePointCharge(PointCharge insertAndGetPointCharge);
+	int insertPointCharge(Map<String, Object> chargeData);
+
+	int updatePointCharge(Map<String, Object> chargeData);
 
 }

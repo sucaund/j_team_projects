@@ -38,5 +38,5 @@ public class GSGSDetailJoinDaoImpl implements GSGSDetailJoinDao {
 		}
 		return getSelectServiceListResult;
 	}
-
+	
 }

@@ -201,6 +201,11 @@
 
 <!-- 재준 mappers 끝 -->
 
+	<select id="shboardTotal" parameterType="int" resultType="int">
+		SELECT
+		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200 AND COMMON_MCD = 120
+	</select>
+
 	<select id="ContentBoard" parameterType="int" resultType="Board">
 		SELECT
 		* FROM BOARD where B_NUMBER = #{b_NUMBER}
@@ -304,12 +309,12 @@
 	
 	 	<select id="SHgetallQnA" resultType="Board">
 		SELECT
-		* FROM BOARD where COMMON_MCD = 120 AND B_ISRECOMM !=3
+		* FROM BOARD where COMMON_MCD = 120 AND B_ISREPORTED !=3
 	</select>
 
 	<update id="delThisTable" parameterType="int">
 		UPDATE BOARD
-		SET B_ISRECOMM = 3
+		SET B_ISREPORTED = 3
 		WHERE B_NUMBER = #{b_number}
 	</update>
 	
@@ -385,8 +390,8 @@
 			order="BEFORE">
 			SELECT NVL(MAX(b_number), 0) + 1 FROM board
 		</selectKey>
-			INSERT INTO board ( b_number, b_title, b_content)
-		values( #{b_number}, #{b_title}, #{b_content})
+			INSERT INTO board ( b_number, b_title, b_content, common_bcd, common_mcd, m_number)
+		values( #{b_number}, #{b_title}, #{b_content}, 200, 20, #{m_number})
 	</insert>
 
 	<delete id="dyDeleteBodyProfile" parameterType="int">

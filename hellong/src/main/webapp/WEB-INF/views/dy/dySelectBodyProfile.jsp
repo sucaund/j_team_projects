@@ -132,7 +132,7 @@
 				</c:if>
 				<c:if test="${board.m_number == sessionScope.m_number}">
 					<button type="button" class="btn btn-outline-dark"
-						data-bnumber="${board.b_number}"
+						data-b_number="${board.b_number}"
 						onclick="return confirmDeletion(this);">게시글 삭제</button>
 				</c:if>
 			</div>

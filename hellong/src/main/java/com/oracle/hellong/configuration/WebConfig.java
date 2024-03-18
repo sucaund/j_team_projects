@@ -1,6 +1,11 @@
 package com.oracle.hellong.configuration;
 
+import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -22,6 +27,12 @@ public class WebConfig implements WebMvcConfigurer {
 	      registry.addResourceHandler(uploadPath2).addResourceLocations(resourcePath2);
 	      registry.addResourceHandler(uploadPath3).addResourceLocations(resourcePath3);
 	  }
+	  
+	  @Bean
+	     public PlatformTransactionManager transactionManager(DataSource dataSource) {
+	         return new DataSourceTransactionManager(dataSource);
+	     }
+	  
 
 	//    private String resourcePath = "file:///C:/Users/admin/git/j_team_projects/hellong/uploads/";// 실제 파일 저장 경로 
     // private String uploadPath = "/upload/**"; // view에서 사용할 경로

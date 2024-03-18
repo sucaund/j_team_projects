@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oracle.hellong.GymBoardFileServiceReviewJoinMapper">
+	
+	<select id="getGymSearchPage" parameterType="GymBoardFileServiceReviewJoin" resultType="GymBoardFileServiceReviewJoin">
+		SELECT *
+	    FROM (
+	        SELECT ROWNUM AS rn, a.*
+			FROM(
+					SELECT 
+					    g.g_id,
+					    g.g_name,
+					    b.gb_title,
+					    g.g_address,
+					    COALESCE(AVG(r.review_star), 0) AS avg_review_star,
+					    COUNT(r.review_star) / 4 AS count_review_star, 
+					    COALESCE(MIN(s.s_price), 0) AS min_s_price,
+					    gbff.gbf_storedfilename
+					FROM 
+					    gym g
+					JOIN 
+					    gym_board b ON g.g_id = b.g_id
+					LEFT JOIN 
+					    (
+					        SELECT 
+					            g_id, 
+					            gbf_storedfilename, 
+					            ROW_NUMBER() OVER (PARTITION BY g_id ORDER BY gbf_storedfilename DESC) AS rn
+					        FROM 
+					            gym_board_file
+					    ) gbff ON g.g_id = gbff.g_id AND gbff.rn = 1
+					LEFT JOIN 
+					    gym_review r ON b.g_id = r.g_id
+					LEFT JOIN 
+					    g_s s ON b.g_id = s.g_id    
+					GROUP BY 
+					    g.g_id, g.g_name, b.gb_title, g.g_address, gbff.gbf_storedfilename		    
+	                <choose>
+	                    <when test="sortType == 'price'">
+	                        ORDER BY min_s_price ASC
+	                    </when>
+	                    <when test="sortType == 'reviews'">
+	                        ORDER BY count_review_star DESC
+	                    </when>
+	                    <when test="sortType == 'stars'">
+	                        ORDER BY avg_review_star DESC
+	                    </when>
+	                    <otherwise>
+	                        ORDER BY g.g_id DESC
+	                    </otherwise>
+	                </choose>					    
+				)a
+			)
+		WHERE rn BETWEEN #{start} AND #{end}    
+		    		    
+	</select>
+	
+	
+</mapper>

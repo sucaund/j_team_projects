@@ -20,7 +20,6 @@
 		select*
 		from gym
 		where m_number = #{m_number}
-		and common_bcd = 100
 		and common_mcd = 20
 		and g_isdeleted = 0
 	
@@ -31,7 +30,6 @@
 		select*
 		from gym
 		where m_number = #{m_number}
-		and common_bcd = 100
 		and common_mcd = 20
 		and g_isdeleted = 0
 	</select>
@@ -67,8 +65,8 @@
 	</select>
 	
 	<insert id="shregisterGym" parameterType="Gym">
-		INSERT INTO GYM (G_ID,    M_NUMBER,   G_NAME,    G_ADDRESS,   G_TEL,    G_COMPANYNUMBER,  G_DOCUMENT)
-		VALUES (G_ID_SEQ.NEXTVAL, #{m_number},#{g_name}, #{g_address},#{g_tel}, #{g_companynumber},#{g_document})
+		INSERT INTO GYM (G_ID,    M_NUMBER,   G_NAME,    G_ADDRESS,   G_TEL,    G_COMPANYNUMBER,  G_DOCUMENT,G_REGDATE,COMMON_BCD,COMMON_MCD,G_ISDELETED)
+		VALUES (G_ID_SEQ.NEXTVAL, #{m_number},#{g_name}, #{g_address},#{g_tel}, #{g_companynumber},#{g_document},SYSDATE,500,10,0)
 	</insert>
 	<update id="deleteGym" parameterType="int">
 	    UPDATE Gym
