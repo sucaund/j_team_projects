@@ -7,13 +7,14 @@
 		 select*
 		 from(
 		    SELECT ROWNUM AS rn, a.*
-		 	from(SELECT m.*, d.s_enddate, o.g_id, o.s_number, s.s_name
-				FROM gym_order o
-				JOIN member m ON o.m_number = m.m_number
-				JOIN g_s_detail d ON o.s_number = d.s_number
-				JOIN g_s s ON o.s_number = s.s_number AND s.g_id = #{g_id}
-				WHERE d.g_id = #{g_id}
-				ORDER BY m.m_number DESC)a
+		 	from(select m.*, s.s_name, o.deal_date , o.go_startdate , o.go_enddate
+		         from gym_order o, member m, g_s s
+		         where o.m_number=m.m_number
+		         and o.s_number=s.s_number
+		         and o.g_id = s.g_id
+		         and o.g_id = 1
+		         and o.go_isend= 0
+		         order by o.go_enddate asc)a
 		    )
 		 where rn BETWEEN #{start} AND #{end}
 	]]>
@@ -25,7 +26,9 @@
 		    (select Distinct m.*
 		        from gym_order o, member m, g_s_detail d
 		        where o.m_number=m.m_number
-		        and o.s_number=d.s_number
+        		and o.s_number=d.s_number
+		        and o.g_id = d.g_id
+		        and o.sd_number = d.sd_number
 		        and d.g_id = #{g_id}
 		    )
 	</select>
@@ -35,6 +38,8 @@
 		from gym_order o, member m, g_s_detail d
 		where o.m_number=m.m_number
 		and o.s_number=d.s_number
+        and o.g_id = d.g_id
+        and o.sd_number = d.sd_number
 		and d.g_id = #{g_id}
 	</select>
 	
@@ -46,7 +51,9 @@
             (SELECT DISTINCT m.*
                 FROM gym_order o, member m, g_s_detail d
                 WHERE o.m_number=m.m_number
-                AND o.s_number=d.s_number
+				AND o.s_number=d.s_number
+		        AND o.g_id = d.g_id
+		        AND o.sd_number = d.sd_number
                 AND d.g_id = #{g_id}
             )s
 	</select>
@@ -63,11 +70,25 @@
 	        (SELECT DISTINCT m.*
 	            FROM gym_order o, member m, g_s_detail d
 	            WHERE o.m_number = m.m_number
-	            AND o.s_number = d.s_number
+				AND o.s_number=d.s_number
+		        AND o.g_id = d.g_id
+		        AND o.sd_number = d.sd_number
 	            AND d.g_id = #{g_id}
 	        ) s
 	]]>
 	</select>
+	
+	<select id="getCurrentTotalMemberList" parameterType="int" resultType="int">
+		select count(*)
+        from gym_order o, member m, g_s_detail d
+        where o.m_number=m.m_number
+        and o.s_number=d.s_number
+        and o.g_id = d.g_id
+        and o.sd_number = d.sd_number
+        and o.g_id =#{g_id}
+        and o.go_isend= 0
+	</select>
+	
 
 
 </mapper>

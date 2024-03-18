@@ -68,36 +68,36 @@ public class HSGymDaoImpl implements HSGymDao {
 	
 		/* 헬스장 회원권 구매 */
 
-	@Override
-	public GSDetail getGSDetailDataBuy(GSDetail gsDetail) {
-		GSDetail gsDetailData = null;
-		System.out.println("hsServiceImpl getGSDetailDataBuy start...");
-		try {
-			gsDetailData = session.selectOne("hsGetGSDetailDataBuy", gsDetail);
-		} catch (Exception e) {
-			
-		}
-		return gsDetailData;
-	}
+		/*
+		 * @Override public GSDetail getGSDetailDataBuy(GSDetail gsDetail) { GSDetail
+		 * gsDetailData = null;
+		 * System.out.println("hsServiceImpl getGSDetailDataBuy start..."); try {
+		 * gsDetailData = session.selectOne("hsGetGSDetailDataBuy", gsDetail); } catch
+		 * (Exception e) {
+		 * 
+		 * } return gsDetailData; }
+		 */
 
 	@Override
-	public GSDetail insertAndGetGymOrder(GSDetail gsDetailData) {
-		System.out.println("hsServiceImpl insertAndGetGymOrder start...");
+	public GSDetail insertAndGetGymOrder(GSDetail gsDetail) {
+		System.out.println("hsGymDaoImpl insertAndGetGymOrder start...");
 		try {
-			session.insert("hsInsertAndGetGymOrder", gsDetailData);
-			System.out.println("insertAndGetGymOrder check: " + gsDetailData.getGo_number());
+			session.insert("hsInsertAndGetGymOrder", gsDetail);
+			System.out.println("insertAndGetGymOrder check: " + gsDetail.getGo_number());
 		} catch (Exception e) {
 			
+			
 		}
-		return gsDetailData;
+		return gsDetail;
 	}
 	
 	@Override
 	public int updateGymOrderBuy(GSDetail insertAndGetGymOrder) {
 		int updateGymOrderBuyResult = 0;
-		System.out.println("hsServiceImpl updateGymOrderBuy start...");
+		System.out.println("hsGymDaoImpl updateGymOrderBuy start...");
 		try {
 			updateGymOrderBuyResult = session.update("hsUpdateGymOrderBuy", insertAndGetGymOrder);
+			System.out.println("updateGymOrderBuy check-> " + updateGymOrderBuyResult);
 		} catch (Exception e) {
 			
 		}
@@ -107,9 +107,10 @@ public class HSGymDaoImpl implements HSGymDao {
 	@Override
 	public int updatePointBuy(GSDetail insertAndGetGymOrder) {
 		int updatePointBuyResult = 0;
-		System.out.println("hsServiceImpl updatePointBuy start...");
+		System.out.println("hsGymDaoImpl updatePointBuy start...");
 		try {
 			updatePointBuyResult = session.update("hsUpdatePointBuy", insertAndGetGymOrder);
+			System.out.println("updatePointBuy check-> " + updatePointBuyResult);
 		} catch (Exception e) {
 			
 		}

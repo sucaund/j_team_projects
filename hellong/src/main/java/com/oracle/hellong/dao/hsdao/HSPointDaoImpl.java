@@ -1,6 +1,7 @@
 package com.oracle.hellong.dao.hsdao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -103,6 +104,47 @@ public class HSPointDaoImpl implements HSPointDao {
 			System.out.println("PointDaoImpl listGymOrderRefund Exception ->" + e.getMessage());
 		}
 		return listPoint;
+	}
+
+//	@Override
+//	public PointCharge insertAndGetPointCharge(PointCharge pointCharge) {
+//		System.out.println("PointDaoImpl insertAndGetPointCharge start...");
+//		
+//		try {
+//			session.insert("com.oracle.hellong.PointChargeMapper.hsInsertAndGetPointCharge", pointCharge);
+//
+//		} catch (Exception e) {
+//			
+//		}
+//		return pointCharge;
+//	}
+
+	@Override
+	public int insertPointCharge(Map<String, Object> chargeData) {
+		int insertResult = 0;
+		System.out.println("PointDaoImpl insertPointCharge start...");
+		
+		try {
+			insertResult = session.update("com.oracle.hellong.PointChargeMapper.hsInsertPointCharge", chargeData);
+			System.out.println("PointDaoImpl insertPointCharge insertResult-> " + insertResult);
+		} catch (Exception e) {
+			System.out.println("PointDaoImpl insertPointCharge Exception-> " + e.getMessage());
+		}
+		return insertResult;
+	}
+
+	@Override
+	public int updatePointCharge(Map<String, Object> chargeData) {
+		int updateResult = 0;
+		System.out.println("PointDaoImpl updatePointCharge start...");
+		
+		try {
+			updateResult = session.update("com.oracle.hellong.PointChargeMapper.hsUpdatePointCharge", chargeData);
+			System.out.println("PointDaoImpl updatePointCharge insertResult-> " + updateResult);
+		} catch (Exception e) {
+			System.out.println("PointDaoImpl updatePointCharge Exception-> " + e.getMessage());
+		}
+		return updateResult;
 	}
 
 

@@ -22,6 +22,7 @@ public class GS { //체육관 서비스 g_s
 	private	int end;
 	
 	//page 정보
+	private int prevPage; private int nextPage;
 	private String currentPage;
 	
 	 public int getS_number() { 

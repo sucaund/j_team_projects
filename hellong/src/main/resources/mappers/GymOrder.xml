@@ -75,42 +75,47 @@
 	</select>
 	
 	<select id="hsListDetailUsingGym" parameterType="Member" resultType="GymOrder">
-		SELECT get_period_of_use(go.g_id, go.m_number) period_of_use,
-		        g.g_id, g.g_name, go.go_startdate first_regist_date
+		SELECT DISTINCT g.g_id, g.g_name, go.m_number,
+						get_period_of_use(go.g_id, go.m_number) period_of_use,
+		          		get_first_regist_date(go.g_id, go.m_number) first_regist_date
 		FROM gym g, gym_order go
 		WHERE g.g_id = go.g_id
-		     AND go.g_id = 3
-		     AND go.m_number = 1
-		     AND go.go_startdate = (SELECT min(go_startdate)
-		                            FROM gym_order go
-		                            WHERE g_id = 3
-		                                AND m_number = 1)
+		     AND go.m_number = #{m_number}
 
-<!-- 		SELECT get_period_of_use(go.g_id, go.m_number) period_of_use,
-				g.g_id, g.g_name, a.gbf_storedfilename, go.go_startdate first_regist_date
-		FROM gym g, gym_order go, 
-		    (SELECT g_id, gbf_storedfilename
-		     FROM 
-		         (SELECT g_id, gbf_storedfilename, 
-		                 ROW_NUMBER() OVER (PARTITION BY g_id ORDER BY gbf_storedfilename DESC) AS rn
-		          FROM gym_board_file) 
-		     WHERE rn = 1) a
-		WHERE g.g_id = a.g_id
-		     AND g.g_id = go.g_id
-		     AND go.g_id = 3
-		     AND go.m_number = 1
-		     AND go.go_startdate = (SELECT min(go_startdate)
-		                            FROM gym_order go
-		                            WHERE g_id = 3
-		                                AND m_number = 1) -->
+<!-- SELECT DISTINCT g.g_id, g.g_name, go.m_number, a.gbf_storedfilename,
+                get_period_of_use(go.g_id, go.m_number) period_of_use,
+                get_first_regist_date(go.g_id, go.m_number) first_regist_date
+FROM gym g, gym_order go, 
+    (SELECT g_id, gbf_storedfilename
+    FROM 
+        (SELECT g_id, gbf_storedfilename, 
+                ROW_NUMBER() OVER (PARTITION BY g_id ORDER BY gbf_storedfilename DESC) AS rn
+        FROM gym_board_file) 
+    WHERE rn = 1) a
+WHERE g.g_id = a.g_id
+    AND g.g_id = go.g_id
+    AND go.m_number = 1 -->
 	</select>
 	
 	
 	
 		<!-- 헬스장 회원권 구매 -->
 		
-		 <!-- 지훈님한테 값 받은걸로 정보 통합조회 -->
-	<select id="hsGetGymOrderData" parameterType="GSDetail" resultType="GSDetail">
+	<!-- 지훈님 form에서 받는 데이터로 GSDetail 정보 조회 + s_period, sd_price 가져오기 -->
+	<select id="hsGetGSDetailData" parameterType="GSDetail" resultType="GSDetail">
+		SELECT g.g_name g_name, gs.s_name s_name, gs.s_period s_period, gsd.*
+		FROM gym g, g_s gs, g_s_detail gsd
+		WHERE g.g_id = gs.g_id
+			AND g.g_id = gsd.g_id		
+			AND gs.s_number = gsd.s_number
+			AND gsd.g_id = #{g_id}
+			AND gsd.s_number = #{s_number}
+			AND gsd.sd_number = #{sd_number}
+			AND gsd.sd_isend = 0
+	</select>
+		
+	<!-- 지훈님한테 값 받은걸로 정보 통합조회 -->
+<!--	<select id="hsGetGymOrderData" parameterType="GSDetail" resultType="GSDetail">
 		SELECT g.g_name g_name, gs.s_name s_name, gsd.*
 		FROM gym g, g_s gs, g_s_detail gsd
 		WHERE g.g_id = gs.g_id
@@ -120,8 +125,8 @@
 			AND gsd.s_number = #{s_number}
 			AND gsd.sd_number = #{sd_number}
 	</select>
-
-	<!-- GSDetail 정보 조회 + s_period, sd_price 가져오기 -->	
+-->
+<!--	 GSDetail 정보 조회 + s_period, sd_price 가져오기 	
 	<select id="hsGetGSDetailDataBuy" parameterType="GSDetail" resultType="GSDetail">
 		SELECT gsd.*, gs.s_period
 		FROM g_s gs, g_s_detail gsd
@@ -131,8 +136,7 @@
 		    AND gsd.s_number = #{s_number}
 		    AND gsd.sd_number = #{sd_number}
 		    AND gsd.sd_isend = 0
-	</select>
-		
+	</select>-->
 	
 	<insert id="hsInsertAndGetGymOrder" parameterType="GSDetail" useGeneratedKeys="true" keyColumn="go_number" keyProperty="go_number">
 		INSERT INTO gym_order VALUES (#{g_id}, #{s_number}, #{sd_number}, #{m_number}, go_number_seq.nextval, #{sd_price}, sysdate, null, 0, null, sysdate, null, 0)
@@ -158,6 +162,14 @@
 					                                  	   AND go_number = #{go_number}
 					                                       AND go_isend = 0)
 		WHERE m_number = #{m_number}
+		WHERE m_currpoint >= (SELECT use_point
+                             FROM gym_order
+                             WHERE g_id = #{g_id}
+                                 AND s_number = #{s_number}
+                                 AND sd_number = #{sd_number}
+                                 AND m_number = #{m_number}
+                           	     AND go_number = #{go_number}
+                                 AND go_isend = 0)
 	</update>
 	
 	

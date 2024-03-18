@@ -16,17 +16,6 @@ public class GymBoardJoinDaoImpl implements GymBoardJoinDao {
 	
 	private final SqlSession session;
 
-	@Override
-	public List<GymBoardJoin> gymGymBoardList(GymBoardJoin gymBoardJoin) {
-		List<GymBoardJoin> gymGymBoardResult = null;
-		try {
-			gymGymBoardResult = session.selectList("gymGymBoard",gymBoardJoin);
-			System.out.println(gymGymBoardResult.size());
-		}catch(Exception e) {
-			System.out.println("GymBoardJoinDaoImpl gymGymBoardList Exception -> "+e.getMessage());
-		}		
-		return gymGymBoardResult;
-	}
 
 	@Override
 	public List<GymBoardJoin> gymBoardDetailRead(int g_id) {
@@ -38,19 +27,6 @@ public class GymBoardJoinDaoImpl implements GymBoardJoinDao {
 			System.out.println("GymBoardJoinDaoImpl gymAddress Exception -> "+e.getMessage());
 		}		
 		return gymBoardDetailRead;
-	}
-	
-	//지점찾기 글 카운트 조회
-	@Override
-	public int getGymImformationCount() {
-		int getGymImformationCountResult =0;
-		try {
-			getGymImformationCountResult = session.selectOne("getGymImformationCount");
-			System.out.println("GymBoardJoinDaoImpl getGymImformationCount"+getGymImformationCountResult);
-		}catch(Exception e) {
-			System.out.println("GymBoardJoinDaoImpl getGymImformationCount Exception -> "+e.getMessage());
-		}		
-		return getGymImformationCountResult;
 	}
 	
 	

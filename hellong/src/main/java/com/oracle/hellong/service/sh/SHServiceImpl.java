@@ -352,6 +352,12 @@ public class SHServiceImpl implements SHService {
 	    return bodyProfile;
 	}
 
+	@Override
+	public Gym gymMapDetail(int gId) {
+		Gym gym = qd.gymMapDetail(gId);
+		return gym;
+	}
+
 	
 
 }

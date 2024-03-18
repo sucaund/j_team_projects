@@ -38,9 +38,7 @@ public class GymBoardFileProcessor {
 			try {
 				Files.createDirectories(Paths.get(backupFolderPath));
 			} catch (IOException e) {
-				
 				e.printStackTrace();
-				
 			}
 		}
 

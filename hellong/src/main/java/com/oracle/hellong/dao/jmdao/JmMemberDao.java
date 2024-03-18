@@ -2,6 +2,8 @@ package com.oracle.hellong.dao.jmdao;
 
 import java.util.List;
 
+import com.oracle.hellong.model.Gym;
+import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 
 import jakarta.validation.Valid;
@@ -39,6 +41,16 @@ public interface JmMemberDao {
 	String jmCheckPwDuple(int m_number, String m_pw);
 
 	int jmResetPw(int m_number, String m_pw);
+
+	int jmCheckMail(String m_email);
+
+	int jmGetGymOrderGID(int m_number);
+
+	Gym jmGetGymFromGID(int g_id);
+
+	GymOrder jmGetGymOrder(int g_id);
+
+	String jmGetS_name(int g_id, int s_number);
 	
 	
 

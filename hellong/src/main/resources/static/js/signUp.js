@@ -10,10 +10,6 @@
     	   var regExp = /^01(?:0|1|[6-9])-(?:\d{3})-\d{5}$/;
     	   return regExp.test(m_phone);
     	}
-    	/*function regMemberName(m_name) { //이름
-    	   var regExp = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
-    	   return regExp.test(m_name);
-    	}*/
     	function regEmail(m_email) {
 			var regExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return regExp.test(m_email);
@@ -29,6 +25,7 @@
     	var authCheck = 0;
     	var emailCheck=0;
     	var mailRegCheck=0;
+		var addressCheck=0;
 
     	
     	 	function checkId() { /* 아이디 : 정규식뿐이 아닌 중복처리 위해 컨트롤러에 */
@@ -37,7 +34,7 @@
     		      data : {
     		         m_id : inputed //입력한 값을 m_id라는 변수에 담음
     		      },
-    		      url : "jmConfirmMemberIdAjax2", // data를 checkid url에 보냄 (Controller에서 받아처리한다. 중복이 되면 1, 아니면 0을 반환하는 함수를 구현했다.)
+    		      url : "jmConfirmMemberIdAjax2", // data를 checkid url에 보냄 (Controller에서 받아처리한다. 중복이 되면 1, 아니면 0을 반환)
     		      success : function(data) {
     		         if(data == '1') { //아이디가 중복되었을 때
     		            $("#fail").css("display", "block"); //에러메세지를 띄운다
@@ -139,22 +136,40 @@
 
 			var mailauthnumber=0;
 
-	function checkMailReg() { //메일 정규식 체크
+	function checkMailReg() { //메일 정규식+중복 체크
 		var inputed = $('#m_email').val();
 		
 		$.ajax({
-		   success: function() {
-			  if(regEmail(inputed) == false) {
-				 $("#sendMailBtn").prop("disabled", true);
-				 $("#m_email").css("background-color", "#FFCECE");
-				
-				 mailRegCheck = 0; //실패
-			  } else if(regEmail(inputed) == true) {
-				 $("#sendMailBtn").prop("disabled", false);
-				 $("#m_email").css("background-color", "#B0F6AC");
-				 mailRegCheck = 1; //성공
-			  }
-		   }
+			data : {
+				m_email : inputed 
+			 },
+			 url : "jmConfirmMemberMailSame", // data를 컨트롤러에 보냄
+		   success: function(data) {
+			  if(data=='1') { //이메일 중복 시
+				$("#failmailunique").css("display", "block"); //중복에러메세지를 띄운다
+				$("#failmailreg").css("display","none"); //중복에러메세지 말고 다른 에러 메세지를 지운다.
+				$("#signupbtn").prop("disabled", true);
+				$("#sendMailBtn").prop("disabled", true);
+				$("#m_email").css("background-color", "#FFCECE");
+				console.log('이메일 중복');
+				mailRegCheck = 0; //실패
+			  } else if (regEmail(inputed) == false) { //이메일 양식에 실패했을 때
+				$("#failmailreg").css("display","block");
+				$("#failmailunique").css("display","none");
+				$("#signupbtn").prop("disabled", true);
+				$("#sendMailBtn").prop("disabled", true);
+				$("#m_email").css("background-color", "#FFCECE");
+				console.log('이메일 양식 실패');
+				mailRegCheck = 0;
+			 } else if( data == '0' && regEmail(inputed)) { //중복되지않고, 정규식을 통과할 때
+				$("#m_email").css("background-color", "#B0F6AC");
+				$("#failmailreg").css("display","none");
+				$("#failmailunique").css("display","none");
+				mailRegCheck = 1;  
+				$("#sendMailBtn").prop("disabled", false); //인증번호 보내기 버튼 누르기 가능
+				console.log('중복체크까지 성공');
+			 }
+			}
 		})
 	 }
 
@@ -193,7 +208,7 @@
 	 
 /*주소*/
 
-/* 	function checkAdd() { //주소가 입력되어야 가입창 활성화되게
+function checkAddress() { //주소가 입력되어야 가입창 활성화되게
 		var inputed = $('#m_address').val();
 		$.ajax({
 		success: function() {
@@ -205,18 +220,15 @@
 			}
 		}
 		})
-	} */
+	}
 
     function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                 var addr = ''; // 주소 변수
 
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+
                 if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                     addr = data.roadAddress;
                 } else { // 사용자가 지번 주소를 선택했을 경우(J)
@@ -243,8 +255,11 @@
     		console.log('pwSameCheck'+pwSameCheck);
     		console.log('phoneCheck'+phoneCheck);
     		console.log('emailCheck'+emailCheck);
+			console.log('mailRegCheck'+mailRegCheck);
+			console.log('addressCheck'+addressCheck);
     		   
-    		   if( idCheck == 1 && pwRegCheck == 1  && pwSameCheck == 1 && phoneCheck==1 && emailCheck==1) {
+    		   if( idCheck == 1 && pwRegCheck == 1  && pwSameCheck == 1 && phoneCheck==1 && emailCheck==1 &&
+				mailRegCheck==1&& addressCheck==1) {
     		      $("#signupbtn").prop("disabled", false);   
 				  $("#signupbtn").css("background-color", "#0D6CF9");
     		   }

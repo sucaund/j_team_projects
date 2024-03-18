@@ -48,5 +48,5 @@ public class GSDetailDaoImpl implements GSDetailDao {
 		}
 		return getListSearchServiceResult;
 	}
-
+	
 }

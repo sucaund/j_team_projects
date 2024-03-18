@@ -34,7 +34,7 @@ public class QBoarddaoImpl implements QBoarddao {
 		System.out.println("QBoarddaoImpl Start totalQue...");
 
 		try {
-			totQueCount = session.selectOne("boardTotal", M_NUMBER);
+			totQueCount = session.selectOne("shboardTotal", M_NUMBER);
 
 		} catch (Exception e) {
 			System.out.println("QBoarddaoImpl totalQue Exception->" + e.getMessage());
@@ -223,6 +223,8 @@ public class QBoarddaoImpl implements QBoarddao {
 			Map<String, Object> params = new HashMap<>();
 	        params.put("m_number", m_number);
 	        params.put("admin", admin);
+	        System.out.println("QBoarddaoImpl updateMember m_number->" + " "+m_number);
+	        System.out.println("QBoarddaoImpl updateMember admin->"+"   " +admin);
 			session.update("updateMember",params);
 		} catch (Exception e) {
 			System.out.println("QBoarddaoImpl updateMember e.getMessage()->" + e.getMessage());
@@ -391,22 +393,28 @@ public class QBoarddaoImpl implements QBoarddao {
 	    try {
 	        gymPrice = session.selectOne("getGymPrice", g_id1);
 	        System.out.println("QBoarddaoImpl getGymPrice gym price: g_id1 "+"  " + g_id1);
-	        System.out.println("QBoarddaoImpl getGymPrice gym price: " + gymPrice);
+	        System.out.println("QBoarddaoImpl getGymPrice gym price: " + gymPrice.getS_price());
 
 	    } catch (Exception e) {
-	        System.out.println("Error fetching gym price: " + e.getMessage());
+	        System.out.println("!!Error fetching gym price: " + e.getMessage());
 	    }
 	    return gymPrice;
 	}
 
 	@Override
 	public GymBoardFile getGymPhoto(int g_id2) {
-	    GymBoardFile gymPhoto = null;
+	    
+		GymBoardFile gymPhoto = null;
+        System.out.println("????QBoarddaoImpl getGymPhoto  g_id2 "+"  " + g_id2);
+
 	    try {
 	        gymPhoto = session.selectOne("getGymPhoto", g_id2);
 	    } catch (Exception e) {
-	        System.out.println("Error fetching gym photo: " + e.getMessage());
+	        System.out.println("!!!!!Error fetching gym photo: " + e.getMessage());
 	    }
+        System.out.println("QBoarddaoImpl getGymPhoto g_id2: "+"   " + g_id2);
+        System.out.println("QBoarddaoImpl getGymPhoto gymPhoto: "+"   " + gymPhoto);
+
 	    return gymPhoto;
 	}
 
@@ -441,6 +449,17 @@ public class QBoarddaoImpl implements QBoarddao {
 	        System.out.println("Error fetching body profile: " + e.getMessage());
 	    }
 	    return bodyProfile;
+	}
+	
+	@Override
+	public Gym gymMapDetail(int gId) {
+		Gym gymMapDetail = null;
+	    try {
+	    	gymMapDetail = session.selectOne("getGym",gId);
+	    } catch (Exception e) {
+	        System.out.println("QBoarddaoImpl getStarGym e.getMessage() -> " + e.getMessage());
+	    }
+	    return gymMapDetail;
 	}
 
 

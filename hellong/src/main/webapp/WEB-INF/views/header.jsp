@@ -119,7 +119,7 @@
                                 <li><a href="/communityBoard">자유게시판</a></li>
                                 <li><a href="/listBodyProfile">바디프로필</a></li>
                                 <li><a href="/jmMyPage">마이페이지</a></li>
-                                <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">작성글</a></li>
+                                <li><a href="/dyMyPagelist">작성글</a></li>
                                 <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">결제</a></li>
                                 <li><a href="/jmUpdateMemberForm">개인정보수정</a></li>
                                 <li><a href="https://demo.graygrids.com/themes/shopgrids/product-grids.html">비즈니스 개설/관리</a></li>
@@ -132,8 +132,21 @@
                                         <li><a href="product-grids.html">1대1 문의</a></li>
                                         <li><a href="/listBodyProfile">공지사항</a></li>
                                     </ul>
-                                </li>
-                                <li><a href="product-grids.html">관리자페이지</a></li>
+                                </li>	<%
+								// 세션에서 사용자 ID 가져오기
+								Integer userId = (Integer)session.getAttribute("member_common_mcd");
+								// 여기서 "adminId"는 DB에서 조회한 관리자의 ID입니다.
+								// 실제 어플리케이션에서는 이 값을 DB나 환경설정 등에서 동적으로 가져와야 할 수 있습니다.
+								int adminId = 30; // 예시로 사용된 관리자 ID
+
+								// 사용자 ID가 관리자 ID와 일치하는지 확인
+								if (userId != null && userId == adminId) {
+								%>
+								<!-- 관리자일 경우에만 보여줄 링크 -->
+								<li><a href="/manager">관리자페이지</a></li>
+								<%
+								}
+								%>
                             </ul>
                         </div>
                         <!-- End Mega Category Menu -->
@@ -165,7 +178,7 @@
                                         <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#submenu-1-4" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">내 정보</a>
                                         <ul class="sub-menu collapse" id="submenu-1-4">
                                             <li class="nav-item"><a href="/jmMyPage">마이페이지</a></li>
-                                            <li class="nav-item"><a href="blog-grid-sidebar.html">작성글</a></li>
+                                            <li class="nav-item"><a href="/dyMyPagelist">작성글</a></li>
                                             <li class="nav-item"><a href="https://demo.graygrids.com/themes/shopgrids/blog-single-sidebar.html">결제</a></li>
                                             <li class="nav-item"><a href="/jmUpdateMemberForm">개인정보수정</a></li>
                                             

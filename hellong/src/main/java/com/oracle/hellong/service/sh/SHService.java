@@ -89,6 +89,8 @@ public interface SHService {
 	Board getPopular();
 
 	Board getbodyProfil();
+
+	Gym gymMapDetail(int gId);
 	
 
 

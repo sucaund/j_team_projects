@@ -113,6 +113,11 @@ public interface QBoarddao {
 	Board getbodyProfile();
 
 
+	Gym gymMapDetail(int gId);
+
+
+
+
 
 
 
