@@ -18,6 +18,21 @@
     <!-- Custom CSS 추가 -->
 
     <style>
+	    header {
+	        position: fixed; /* 고정 위치 설정 */
+	        top: 0; /* 상단에 고정 */
+	        width: 100%; /* 전체 너비로 설정 */
+	        z-index: 1000; /* 다른 요소 위로 표시 */
+	        display: flex; /* 요소를 가로로 나열하기 위해 필요 */
+	        justify-content: center; /* 가운데 정렬 */
+	        background-color: #0d6efd; /* 인디고 색상 */
+	    }
+	    .back-btn {
+	        color: #fff; /* 헤더 배경색과 대비되는 색상으로 설정 */
+	        margin-right: 10px; /* 아이콘과 텍스트 간격 설정 */
+	        display: flex; /* 아이콘과 텍스트를 가로로 나열하기 위해 필요 */
+	        align-items: center; /* 수직 중앙 정렬 */
+	    }
         .gym-name {
             font-family: 'Roboto', sans-serif; 
             font-size: 24px; 
@@ -29,24 +44,39 @@
             max-width: 960px; 
         }
         
-    .custom-pre {
-        background-color: #f0f0f0; /* 연한 회색 배경색으로 설정 */
-        color: #333; /* 텍스트 색상을 어두운 회색으로 설정 */
-        font-size: 18px; /* 원하는 폰트 크기로 설정 */
-        padding: 20px; /* 내부 여백 설정 */
-        border-radius: 5px; /* 둥근 테두리 설정 */
-        overflow-x: auto; /* 가로 스크롤이 필요한 경우 스크롤 표시 */
-        white-space: pre-wrap; /* 줄바꿈 유지 */
-        font-family: 'Roboto', sans-serif; /* 글꼴을 Roboto로 설정 */
-    }
-        
+	    .custom-pre {
+	        background-color: #f0f0f0; /* 연한 회색 배경색으로 설정 */
+	        color: #333; /* 텍스트 색상을 어두운 회색으로 설정 */
+	        font-size: 18px; /* 원하는 폰트 크기로 설정 */
+	        padding: 20px; /* 내부 여백 설정 */
+	        border-radius: 5px; /* 둥근 테두리 설정 */
+	        overflow-x: auto; /* 가로 스크롤이 필요한 경우 스크롤 표시 */
+	        white-space: pre-wrap; /* 줄바꿈 유지 */
+	        font-family: 'Roboto', sans-serif; /* 글꼴을 Roboto로 설정 */
+	    }
+	        
     </style>
 </head>
 <body class="bg-gray-100">
 
+    <header>
+    	<c:forEach var="board" items="${gymBoardDetail}"> 
+        <nav class="navbar navbar-dark bg-indigo">
+            <div class="container d-flex justify-content-between align-items-center">
+                <!-- 뒤로가기 버튼 (아이콘 형태) -->
+                <a href="javascript:history.go(-1);" class="back-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M7.854 1.646a.5.5 0 0 0 0 .708L3.207 6.793l.708.708L8.207 2.5H14.5a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5H8.207l-4.793-4.793-.708.708 4.647 4.647a.5.5 0 0 0 .708 0l6-6a.5.5 0 0 0 0-.708l-6-6a.5.5 0 0 0-.708 0z"/>
+                    </svg>
+                </a>
+                <a class="navbar-brand" href="#">${board.g_name}</a>
+                <div style="width: 24px;"></div> <!-- 뒤로가기 버튼과 헬스장 이름 간의 간격 유지 -->
+            </div>
+        </nav>
+        </c:forEach>
+    </header>
 
-
-   <div class="container-md mx-auto py-8"> 
+   <div class="container-md mx-auto py-8 mt-4"> 
     <c:forEach var="board" items="${gymBoardDetail}"> 
         <div class="bg-white rounded-lg shadow-lg p-8 mb-8 border border-gray-300">
             <!-- 헬스장 이름을 폰트로 스타일링 -->
@@ -204,6 +234,7 @@
 			        </div>
 			
 			 		<c:forEach var="rv" items="${selectReviewList}" varStatus="status">
+				       <c:if test="${status.index < 3}"> 
 				        <div class="flex items-center mb-4">
 				            <!-- 사용자 프로필 사진 -->
 				            <i class="fas fa-user-circle text-gray-600 mr-3 text-5xl"></i>
@@ -242,6 +273,7 @@
 					            </div>
 					        </div>
 					    </c:if>
+					  </c:if>
 				    </c:forEach>
 			
 			        <!-- 리뷰 작성 버튼 및 더보기 버튼 -->

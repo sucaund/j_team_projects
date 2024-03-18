@@ -89,7 +89,6 @@ public class GymBoardDaoimpl implements GymBoardDao {
 
 
 
-
 }
 
 

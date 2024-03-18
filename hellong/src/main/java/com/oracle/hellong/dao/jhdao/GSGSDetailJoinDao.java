@@ -6,7 +6,7 @@ import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.GSGSDetailJoin;
 
 public interface GSGSDetailJoinDao {
-
+	
 	// 서비스 리스트 가져오기
 	List<GSGSDetailJoin> serviceList(GS gs);
 
