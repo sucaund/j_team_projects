@@ -90,7 +90,7 @@ public interface SHService {
 
 	Board getbodyProfil();
 	
-
+	Gym gymMapDetail(int gId);
 
 
 	

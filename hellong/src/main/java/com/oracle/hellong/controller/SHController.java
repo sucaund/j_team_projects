@@ -489,6 +489,16 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 
 	}
 	@ResponseBody
+	@RequestMapping("/gymMapDetail")
+	public Gym gymMapDetail(@RequestParam("g_id") int gId) {
+		Gym gymMapDetail =sh.gymMapDetail(gId);
+		System.out.println("SHController gymMapDetail start...");
+		System.out.println("SHController gymMapDetail gymMapDetail->"+""+ gymMapDetail.getG_address());
+		
+		return gymMapDetail;
+		
+	}
+	@ResponseBody
 	@GetMapping("/gyms")
 	    public List<Gym> getAllGyms() {
 	        List<Gym> gyms = sh.getAllGym();
@@ -514,7 +524,8 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		GS newGymPrice = sh.getGymPrice(g_id1);//신규헬스장가격
 		System.out.println("SHController Default newGymPrice"+newGymPrice);
 		GymBoardFile newGymPhoto = sh.getGymPhoto(g_id1);//신규헬스장 대표사진
-		
+		System.out.println("*&&&&&&&&&&&SHController Default newGymPhoto...->"+""+newGymPhoto);
+
 		Gym cheapGym = sh.getCheapGym();//최저가헬스장 id
 		int g_id2 = cheapGym.getG_id();
 		GS cheapGymPrice = sh.getGymPrice(g_id2);//최저가헬스장가격

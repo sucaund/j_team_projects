@@ -2,31 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.ReportMapper">
 	<select id="getAllReport" resultType="Report">
-		SELECT 
+		SELECT
 
-		    r.B_NUMBER AS b_number,
-		    b.B_TITLE AS b_title,
-		    r.REPORT_DATE AS report_date,
-		    c.COMMON_MCD AS common_mcd, 
-		    COUNT(r.REPORT_ID) OVER (PARTITION BY r.B_NUMBER) AS report_count
-		FROM 
-		    HELLONG.REPORT r
-		INNER JOIN 
-		    HELLONG.BOARD b ON r.B_NUMBER = b.B_NUMBER
-		INNER JOIN 
-		    HELLONG.COMMON c ON r.COMMON_BCD = c.COMMON_BCD AND r.COMMON_MCD = c.COMMON_MCD
-		ORDER BY 
-		    r.REPORT_DATE DESC
+		r.B_NUMBER AS
+		b_number,
+		b.B_TITLE AS b_title,
+		r.REPORT_DATE AS report_date,
+		c.COMMON_MCD AS common_mcd,
+		COUNT(r.REPORT_ID) OVER (PARTITION BY
+		r.B_NUMBER) AS report_count
+		FROM
+		HELLONG.REPORT r
+		INNER JOIN
+		HELLONG.BOARD b ON r.B_NUMBER = b.B_NUMBER
+		INNER JOIN
+		HELLONG.COMMON c
+		ON r.COMMON_BCD = c.COMMON_BCD AND r.COMMON_MCD = c.COMMON_MCD
+		ORDER BY
+		r.REPORT_DATE DESC
 
 	</select>
-	
+
 	<!-- 새 글을 쓰는 쿼리 -->
 	<insert id="jjInReported" parameterType="int">
-		INSERT INTO report ( b_number, report_id, m_number, common_bcd, common_mcd )
-		VALUES ( #{b_number}, (SELECT NVL(MAX(report_id), 0) + 1 FROM report),
-		         #{m_number}, #{common_bcd}, #{common_mcd}
-		       )
+		INSERT INTO report (
+		b_number,
+		report_id,
+		m_number,
+		common_bcd,
+		common_mcd
+		
+		)VALUES (
+		#{b_number},
+		(SELECT NVL(MAX(report_id), 0) + 1 FROM report),
+		#{m_number},
+		#{common_bcd},
+		#{common_mcd}
+		
+		)
+	</insert>
 
+	<insert id="dyInReported" parameterType="int">
+		INSERT INTO report (
+		b_number, report_id, m_number, common_bcd, common_mcd )
+		VALUES (
+		#{b_number}, (SELECT NVL(MAX(report_id), 0) + 1 FROM report),
+		#{m_number}, #{common_bcd}, #{common_mcd}
+		)
 
 	</insert>
+
 </mapper>

@@ -39,22 +39,23 @@
                         <!-- Start Hero Slider -->
                         <div class="hero-slider">
                             <!-- Start Single Slider  헬스장 정보 가져오기=>ajax로 카카오맵으로 현재 위치받고  -->
-                            <div class="single-slider" style="background-image: url(https://via.placeholder.com/800x500);">
-                                <div class="content">
+                            <div class="single-slider"
+                                style="background-image: url('<c:url value='/upload/${newGymPhoto.gbf_storedFileName}'/>');">
+                                <div class="content bg-light p-3">
                                     <h2><span>득근득근! 신규 헬스장!</span>
                                         ${newGym.g_name}
                                     </h2>
                                     <p>${newGym.g_address}</p>
-                                    <h3><span>1달기준 아무것도 안나오는이유 : 해당 g_id의 gs는 아직 없어서이다 문제는없다</span> ${newGymPrice.s_price}</h3>
+                                    <h3><span>1달기준!</span> ${newGymPrice.s_price}</h3>
                                     <div class="button">
-                                        <a href="product-grids.html" class="btn">링크연결은 지훈님의 헬스장페이지 와 연관!</a>
+                                        <a href="/gymPostDetail?g_id=${newGym.g_id}" class="btn">자세히 알아보기</a>
                                     </div>
                                 </div>
                             </div>
                             <!-- End Single Slider -->
                             <!-- Start Single Slider -->
-                            <div class="single-slider"
-                                style="background-image: url('<c:url value='/upload/${newGymPhoto.gbf_storedFileName}'/>');">
+                             <div class="single-slider"
+                                style="background-image: url('<c:url value='/upload/${cheapGymPhoto.gbf_storedFileName}'/>');">
                                 <div class="content bg-light p-3">
                                     <h2><span>그돈헬! 최저가 헬스장</span>
                                         ${cheapGym.g_name}
@@ -62,37 +63,37 @@
                                     <p>${cheapGym.g_address}</p>
                                     <h3><span>1달기준!</span> ${cheapGymPrice.s_price}</h3>
                                     <div class="button mt-2">
-                                        <a href="product-grids.html" class="btn btn-light">자세히 알아보기</a>
+                                        <a href="/gymPostDetail?g_id=${cheapGym.g_id}" class="btn btn-light">자세히 알아보기</a>
                                     </div>
                                 </div>
                             </div>
                             <!-- End Single Slider -->
                             <!-- Start Single Slider -->
-                            <div class="single-slider"
-                                style="background-image: url(https://via.placeholder.com/800x500);">
-                                <div class="content">
+                             <div class="single-slider"
+                                style="background-image: url('<c:url value='/upload/${manyGymPhoto.gbf_storedFileName}'/>');">
+                                <div class="content bg-light p-3">
                                     <h2><span>모두 헬롱! 최다인원 헬스장!</span>
                                         ${manyGym.g_name}
                                     </h2>
                                     <p>${manyGym.g_address}</p>
                                     <h3><span>최저가!</span> ${manyGymPrice.s_price}</h3>
                                     <div class="button">
-                                        <a href="product-grids.html" class="btn">자세히 알아보기</a>
+                                        <a href="/gymPostDetail?g_id=${manyGym.g_id}" class="btn">자세히 알아보기</a>
                                     </div>
                                 </div>
                             </div>
                             <!-- End Single Slider -->
                             <!-- Start Single Slider -->
                             <div class="single-slider"
-                                style="background-image: url(https://via.placeholder.com/800x500);">
-                                <div class="content">
+                                style="background-image: url('<c:url value='/upload/${starGymPhoto.gbf_storedFileName}'/>');">
+                                <div class="content bg-light p-3">
                                     <h2><span>별이빛나는 Gym에... 높은 별점</span>
                                         ${starGym.g_name}
                                     </h2>
                                     <p>${starGym.g_address}</p>
                                     <h3><span>최저가!</span> ${starGymPrice.s_price}</h3>
                                     <div class="button">
-                                        <a href="product-grids.html" class="btn">자세히 알아보기</a>
+                                        <a href="/gymPostDetail?g_id=${starGym.g_id}" class="btn">자세히 알아보기</a>
                                     </div>
                                 </div>
                             </div>

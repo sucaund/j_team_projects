@@ -3,6 +3,7 @@ package com.oracle.hellong.dao.jjdao;
 import java.util.List;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Common;
 
 public interface BoardDao {
 
@@ -17,5 +18,6 @@ public interface BoardDao {
 	int 		jjReported(Board board);
 	List<Board> listCategorySearchBoard(Board board);
 	int 		totalCategorySearchCnt(Board board);
+	List<Common> commonList(Common common);
 
 }

@@ -3,7 +3,6 @@
 <mapper namespace="com.oracle.hellong.GymMemberServiceOrderJoinMapper">
 
 	<select id="getGymMemberList" parameterType="GymMemberServiceOrderJoin" resultType="GymMemberServiceOrderJoin">
-	<![CDATA[
 		 select*
 		 from(
 		    SELECT ROWNUM AS rn, a.*
@@ -17,7 +16,6 @@
 		         order by o.go_enddate asc)a
 		    )
 		 where rn BETWEEN #{start} AND #{end}
-	]]>
 	</select>
 	
 	<select id="getTotalGymMemberList" parameterType="int" resultType="int">
@@ -78,7 +76,7 @@
 	]]>
 	</select>
 	
-	<select id="getCurrentTotalMemberList" parameterType="int" resultType="int">
+	<select id="getCurrentTotalMemberList" parameterType="GymMemberServiceOrderJoin" resultType="int">
 		select count(*)
         from gym_order o, member m, g_s_detail d
         where o.m_number=m.m_number

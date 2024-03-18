@@ -11,12 +11,15 @@ import com.oracle.hellong.dao.dydao.DYGymBoardDao;
 import com.oracle.hellong.dao.dydao.DYGymDao;
 import com.oracle.hellong.dao.dydao.DYGymReviewDao;
 import com.oracle.hellong.dao.dydao.DYMemberDao;
+import com.oracle.hellong.dao.dydao.DYRecommCheckDao;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.BoardFile;
+import com.oracle.hellong.model.Common;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymReview;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.RecommCheck;
 import com.oracle.hellong.model.SearchResults;
 
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,7 @@ public class DYServiceImpl implements DYService {
 	private final DYGymBoardDao dygbd;
 	private final DYMemberDao dymd;
 	private final DYGymReviewDao dygrd;
+	private final DYRecommCheckDao dyrcd;
 
 	@Override
 	public int totalBodyProfile() {
@@ -47,6 +51,7 @@ public class DYServiceImpl implements DYService {
 		bodyProfileList = dybd.listBodyProfile(board);
 		return bodyProfileList;
 	}
+
 	@Override
 	public List<BoardFile> listFileBodyProfile(BoardFile boardFile) {
 		List<BoardFile> bodyProfileFileList = null;
@@ -61,7 +66,7 @@ public class DYServiceImpl implements DYService {
 		board = dybd.selectBodyProfile(b_number);
 		return board;
 	}
-	
+
 	@Override
 	public List<BoardFile> selectBodyProfileFileList(int b_number) {
 		List<BoardFile> boardFileList = null;
@@ -77,11 +82,12 @@ public class DYServiceImpl implements DYService {
 		System.out.println("DYServiceImpl boardList.size() -> " + boardList.size());
 		return boardList;
 	}
-	// 게시글 업데이트 
+
+	// 게시글 업데이트
 	@Override
 	public void dyUpdateBodyProfile(Board board) {
 		dybd.dyUpdateBodyProfile(board);
-		
+
 	}
 
 	@Override
@@ -99,6 +105,7 @@ public class DYServiceImpl implements DYService {
 		result = dybfd.insertFileBodyProfile(boardFile);
 		return result;
 	}
+
 	// 게시글 삭제
 	@Override
 	public int deleteBodyProfile(int b_number) {
@@ -107,11 +114,12 @@ public class DYServiceImpl implements DYService {
 		result = dybd.deleteBodyProfile(b_number);
 		return result;
 	}
+
 	// 게시글 파일 삭제
 	@Override
 	public void deleteFileById(int bf_id) {
 		dybfd.deleteFileById(bf_id);
-		
+
 	}
 
 	@Override
@@ -153,7 +161,7 @@ public class DYServiceImpl implements DYService {
 
 		return result;
 	}
-	
+
 	// 마이페이지 작성글 조회
 	@Override
 	public List<Board> myPageBoardList(Board board) {
@@ -163,7 +171,6 @@ public class DYServiceImpl implements DYService {
 		return myPageList;
 	}
 
-	
 	// 게시판 내 파일 검색
 	@Override
 	public List<BoardFile> listSearchBoardFileByBoardId(int b_number) {
@@ -176,14 +183,41 @@ public class DYServiceImpl implements DYService {
 	@Override
 	public void increaseReadCount(int b_number) {
 		dybd.increaseReadCount(b_number);
-		
+
 	}
 
 	@Override
 	public int dyReported(Board board) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		System.out.println("dyServiceImpl dyReported Start...");
+		result = dybd.dyReported(board);
+		return result;
 	}
 
+	@Override
+	public String recommendBoard(int b_number, int m_number) {
+		RecommCheck check = dyrcd.checkRecomm(b_number, m_number);
+	    if (check != null) {
+	        return "이미 추천하셨습니다.";
+	    }
+	    RecommCheck rec = new RecommCheck();
+	    // 객체의 필드에 값을 설정하는 부분
+	    rec.setB_number(b_number);
+	    rec.setM_number(m_number);
+	    rec.setRc_isrecomm(1); // 추천 상태 설정
+	    dyrcd.insertRecomm(rec); // 수정된 부분
+	    dybd.increaseRecommCount(b_number);
+	    return "추천되었습니다.";
+	}
+
+	@Override
+	public List<Common> commonList(Common common) {
+		List<Common> commonList = null;
+		commonList = dybd.commonList(common);
+		return commonList;
+	}
+
+	
+	
 
 }

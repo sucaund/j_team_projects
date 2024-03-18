@@ -29,7 +29,8 @@ public class Board { //게시판 게시물 board
     private int 	start;              private int 	end;
   	private int 	prevPage;			private int 	nextPage;
 
-  	private int report_id;// report
+  	private int		report_id;// report
+  	private String  reportSelect;
 
   	// Page 정보
     private String currentPage;

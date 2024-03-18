@@ -83,11 +83,10 @@ public class GymMemberServiceOrderJoinDaoImpl implements GymMemberServiceOrderJo
 	}
 
 	// 현재 이용중인 회원
-	@Override
-	public int getCurrentTotalMemberList(int g_id) {
+	public int getCurrentTotalMemberList(GymMemberServiceOrderJoin gymMember) {
 		int  getCurrentTotalMemberListResult = 0;
 		try {
-			getCurrentTotalMemberListResult = session.selectOne("getCurrentTotalMemberList",g_id);
+			getCurrentTotalMemberListResult = session.selectOne("getCurrentTotalMemberList",gymMember);
 			System.out.println("GymMemberServiceOrderJoinDaoImpl getCurrentTotalMemberList");
 		}catch(Exception e) {
 			System.out.println("GymMemberServiceOrderJoinDaoImpl getCurrentTotalMemberList Exception -> "+e.getMessage());

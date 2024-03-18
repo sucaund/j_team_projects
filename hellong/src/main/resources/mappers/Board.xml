@@ -2,17 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.BoardMapper">
 
-<!-- 재준 mappers 시작 -->
+<!-- ============================ 재준 mappers 시작 ============================ -->
 
 	<!-- 글의 총 갯수 파악하는 쿼리 -->
 	<select id="boardTotal" parameterType="int" resultType="int">
-		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200
-		AND COMMON_MCD = 120
+		Count(*) FROM BOARD where COMMON_BCD = 200 AND COMMON_MCD = 10
 	</select>
 	
 	<!-- 자유게시판의 글들을 불러오는 쿼리. -->
 	<select id="jjBoardListAll" parameterType="Board" resultType="Board">
-		<![CDATA[
+		<!-- <![CDATA[
 		SELECT * 
 		FROM (
 		    SELECT ROWNUM rn, b.*, m.m_name 
@@ -20,6 +19,20 @@
 		    	select *
 		    	from board
 		    	order by b_number desc) b
+		    JOIN member m ON b.m_number = m.m_number 
+		)
+		WHERE rn >= #{start} 
+		AND rn <= #{end}
+		]]> -->
+		<![CDATA[
+		SELECT * 
+		FROM (
+		    SELECT ROWNUM rn, b.*, m.m_name 
+		    FROM (
+		        SELECT *
+		        FROM board
+		        WHERE COMMON_BCD = 200 AND COMMON_MCD = 10
+		        ORDER BY b_number desc) b
 		    JOIN member m ON b.m_number = m.m_number 
 		)
 		WHERE rn >= #{start} 
@@ -62,6 +75,7 @@
 	<select id="jjSelectManager" resultType="Board">
 		SELECT 	*
 		FROM 	board
+		where COMMON_BCD = 200 AND COMMON_MCD = 10
 	</select>
 	
 	<!-- 새 글을 쓰는 쿼리 -->
@@ -78,9 +92,9 @@
 			200,
 			<choose>
 				<when test="jjcategory == 'jjfree'">10</when>
-				<when test="jjcategory == 'jjbody'">20</when>
+				<!-- <when test="jjcategory == 'jjbody'">20</when>
 				<when test="jjcategory == 'jjnotice'">110</when>
-				<when test="jjcategory == 'jjquestion'">120</when>
+				<when test="jjcategory == 'jjquestion'">120</when> -->
 			</choose>,
 			#{b_number}
 		)
@@ -107,8 +121,9 @@
 	    FROM board b
 	    JOIN member m ON b.m_number = m.m_number
 	        <where>
-	            <choose>
-	                <when test="cateSearch == 'cate-all'">
+	            b.common_mcd = 10
+	            <!-- <choose>
+	               <when test="cateSearch == 'cate-all'">
 	                    b.common_bcd = b.common_bcd AND b.common_mcd = b.common_mcd
 	                </when>
 	                <when test="cateSearch == 'cate-free'">
@@ -123,7 +138,7 @@
 	                <when test="cateSearch == 'cate-question'">
 	                    b.common_bcd = 200 AND b.common_mcd = 120
 	                </when>
-	            </choose>
+	            </choose>-->
 	            <choose>
 	                <when test="search == 'all'">
 	                    and (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
@@ -156,7 +171,8 @@
 	        FROM board b
 	        JOIN member m ON b.m_number = m.m_number
 	        <where>
-	            <choose>
+	            b.common_mcd = 10
+	            <!-- <choose>
 	                <when test="cateSearch == 'cate-all'">
 	                    b.common_bcd = b.common_bcd AND b.common_mcd = b.common_mcd
 	                </when>
@@ -172,7 +188,7 @@
 	                <when test="cateSearch == 'cate-question'">
 	                    b.common_bcd = 200 AND b.common_mcd = 120
 	                </when>
-	            </choose>
+	            </choose>-->
 	            
 	            <choose>
 	                <when test="search == 'all'">
@@ -198,8 +214,21 @@
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	
+	<select id="commonList" parameterType="Common" resultType="Common">
+		SELECT *
+		FROM common
+		WHERE common_mcd != 999
 
-<!-- 재준 mappers 끝 -->
+	</select>
+	
+	<select id="ContentBoard" parameterType="int" resultType="Board">
+		SELECT
+		* FROM BOARD
+		WHERE B_NUMBER = #{b_NUMBER}
+	</select>
+	
+
+<!-- ============================ 재준 mappers 끝 ============================ -->
 
 	<select id="shboardTotal" parameterType="int" resultType="int">
 		SELECT
@@ -267,8 +296,10 @@
 
 
 	<insert id="addComment" parameterType="Board">
-		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
-		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_content},#{m_number}, #{b_comm_group})
+		INSERT INTO BOARD
+		(B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd},
+		#{b_content},#{m_number}, #{b_comm_group})
 	</insert>
 
 
@@ -462,7 +493,26 @@
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
+	<!-- 추천 -->
+	<update id="dyIncreaseRecommCount" parameterType="int">
+		UPDATE board
+		SET b_recomm_count = b_recomm_count + 1
+		WHERE b_number = #{b_number}
+	</update>
 	
+	<!-- 신고여부 쿼리 -->
+	<update id="dyUpReported" parameterType="int">
+		UPDATE board
+		SET b_isreported = CASE 
+		                     WHEN b_isreported = 0 THEN 1 
+		                     ELSE b_isreported 
+		                   END
+		WHERE b_number = #{b_number}
+	</update>
+	
+	<select id="dyCommonList" parameterType="Common" resultType="Common">
+		select * from common where common_mcd != 999
+	</select>
 	
 	<!-- 현승 xml -->
 	

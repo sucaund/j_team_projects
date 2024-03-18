@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Common;
 import com.oracle.hellong.model.Report;
 
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,7 @@ public class BoardDaoImpl implements BoardDao {
 			int updateCount = session.update("plusCnt", b_number);
 			System.out.println("BoardDaoImpl updateCount--->" + updateCount);
 			board = session.selectOne("jjBoardOne", b_number);
-			System.out.println("BoardDaoImpl detailBoard getB_number--->"+board.getB_number());
+			System.out.println("BoardDaoImpl detailBoard board--->"+board);
 		} catch (Exception e) {
 			System.out.println("BoardDaoImpl detailBoard Exception->"+e.getMessage());
 		}
@@ -171,6 +172,20 @@ public class BoardDaoImpl implements BoardDao {
 			System.out.println("BoardDaoImpl totalCategorySearchCnt Exception ->" + e.getMessage());
 		}
 		return totalCategorySearchCnt;
+	}
+
+	@Override
+	public List<Common> commonList(Common common) {
+		List<Common> commonList = null;
+		System.out.println("BoardDaoImpl commonList Start!");
+		System.out.println("BoardDaoImpl commonList common->"+common);
+		try {
+			commonList = session.selectList("commonList", common);
+			System.out.println("BoardDaoImpl commonList->"+commonList);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl commonList Exception->" + e.getMessage());
+		}
+		return commonList;
 	}
 
 

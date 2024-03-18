@@ -8,6 +8,15 @@
 	<title>상세게시판</title>
 
 <script type="text/javascript">
+function submitReport() {
+	var reportSelect = $("#reportSelect").val();
+	if(reportSelect) {
+		var formAction = 'jjReported?b_number=${board.b_number}&m_number=${board.m_number}&common_bcd=400&common_mcd=' + reportSelect;
+		$("#reportForm").attr('action', formAction).submit();
+	} else {
+		alert("신고 유형을 선택해주세요.");
+	}
+}
 
 </script>
 </head>
@@ -25,17 +34,27 @@
 			<tr><th>내용</th><td>${board.b_content}</td></tr>
 		</table>
 	<p>
-	<div style="text-align:center">
-		<button type="button" class="btn btn-outline-secondary" 
-	  		  onclick="location.href='updateFormBoard?b_number=${board.b_number}'">수정</button>
-		<button type="button" class="btn btn-outline-secondary" 
-	  		  data-bs-toggle="modal" data-bs-target="#delModal">삭제</button>
-	  	<button type="button" class="btn btn-outline-primary" 
-	  		  data-bs-toggle="modal" data-bs-target="#recommModal">추천</button>
-	  	<button type="button" class="btn btn-outline-danger" 
-	  		  data-bs-toggle="modal" data-bs-target="#reportedModal">신고</button>
+	<div style="text-align:center">		
+		<!-- 수정, 삭제 버튼: 작성자 본인에게만 표시 -->
+		<c:if test="${board.m_number == sessionScope.m_number}">
+			<button type="button" class="btn btn-outline-secondary" 
+		  		  onclick="location.href='updateFormBoard?b_number=${board.b_number}'">수정</button>
+			<button type="button" class="btn btn-outline-secondary" 
+		  		  data-bs-toggle="modal" data-bs-target="#delModal">삭제</button>
+	  	</c:if>
+		
+		<!-- 신고, 추천 버튼: 다른 회원에게만 표시 -->
+		<c:if test="${sessionScope.m_number != null && sessionScope.m_number != board.m_number}">
+		<button type="button" class="btn btn-outline-primary" 
+				data-bs-toggle="modal" data-bs-target="#recommModal">추천</button>
+		<button type="button" class="btn btn-outline-danger" 
+				data-bs-toggle="modal" data-bs-target="#reportedModal">신고</button>
+		</c:if>
+		
+		<!-- 목록버튼: 모두에게 표시 -->  
 	  	<button type="button" class="btn btn-outline-secondary" 
-	  		  onclick="location.href='communityBoard'">목록</button>
+	  			onclick="location.href='communityBoard'">목록</button>
+
 	</div>
 	<!-- 이전글, 다음글 링크 수정 -->
 	<p>
@@ -48,26 +67,74 @@
 	  	</button>
 	</div>	
 
+	<!-- 댓글 -->
 	<hr />
-	<div style="display: grid; place-items: center;">
-		<form action="commentForm">
-			<input style="width:768px;" type="text" id="commentInput" name="comment" placeholder="댓글을 입력해주세요" />
-			<input type="submit" value="입력" />
-		</form>
+
+	
+	<div class="col-md-8 offset-md-1 col-lg-8 offset-lg-1"
+		style="margin: 0 auto">
+		<!-- 댓글!!! -->
+		<div class="title-box-d">
+			<h3 class="title-d">Comments</h3>
+		</div>
+		<div class="all_comments">
+			<!-- 댓글 입력파트 -->
+			<form id="comment_form">
+				<input type="hidden" name="cmId" value="${M_NUMBER}">
+				<input type="hidden" name="bId" value="${board.b_number}">
+
+				<div class="row">
+					<div class="col-md-11 mb-2" style="padding: 0">
+						<textarea name="comment_body" class="form-control"
+							style="height: 50px;" name="re_content"></textarea>
+					</div>
+					<div class="col-md-1 mb-2" style="padding: 0">
+						<button type="button" class="btn btn-primary btn-block"
+							style="width: 60px; height: 50px; font-size: 17px"
+							id="repInsert">확인</button>
+					</div>
+				</div>
+			</form>
+
+
+			<!-- 댓글리스트 -->
+			<div id="slist">
+				<div class="box_comments">
+					<ul class="list_comments">
+						<c:forEach var="CommList" items="${boardCommList}">
+						    <li>
+							  <div class="comment-details">
+								 <h4 class="comment-author" style="font-size: 11px">
+								 	<c:if test="${CommList.m_number == board.m_number}">
+								            질문자
+								    </c:if>
+								    <c:if test="${CommList.m_number != board.m_number}">
+								            관리자
+								     </c:if>
+								 </h4>
+								 <p id="p_584" class="comment-description" style="font-size: 18px;">${CommList.b_content}</p>
+								 <span style="font-size: 12px; color: #757575;">${CommList.b_regdate}</span>	
+								        <div id="btn_584">
+										<a href="/deleteComment?Comm_number=${CommList.b_number }&bId=${board.b_number}" onclick="return confirm('댓글을 삭제하시겠습니까?');">삭제</a>
+								        </div> 
+									</div>
+							</li>
+							<hr>
+						</c:forEach>
+					</ul>
+				</div>
+			</div>
+		</div>
 	</div>
-	<hr />
-	<h6 id="commentCount">댓글 0개</h6>
-	<div id="commentsContainer">
-		<table>
-			<tr><th>${board.m_name}</th><td rowspan="2">&emsp;${board.b_title}</td></tr>
-			<tr><td style="font-size:10px">${board.b_regdate}</td></tr>
-			
-		</table>
-	</div>
+				
 
 
 
 
+
+
+
+	<!-- ======================== Modal 구현 ======================== -->
 
 
 	<!-- ======================== 삭제 Modal 구현 ======================== -->
@@ -269,21 +336,19 @@
 					<h4 class="modal-title">신고 결과</h4>
 				</div>
 
-				<!-- Modal body -->
+ 				<!-- Modal body -->
 				<div class="modal-body">
-					정말 신고하시겠습니까?
-					<form action="" method="get">
-						<select name="cateSearch" id="cateSearch"
-							onchange="goCateSearch()">
+					신고할 유형을 선택해주세요.(광고/욕설/음란)
+					<form id="reportForm" method="post">
+						<select name="reportSelect" id="reportSelect">
 							<option value="">선택사항</option>
-							<option value="cate-free"
-								${param.cateSearch == 'cate-free' ? 'selected' : ''}></option>
-							<option value="cate-body"
-								${param.cateSearch == 'cate-body' ? 'selected' : ''}>광고</option>
-							<option value="cate-notice"
-								${param.cateSearch == 'cate-notice' ? 'selected' : ''}>욕설</option>
-							<option value="cate-question"
-								${param.cateSearch == 'cate-question' ? 'selected' : ''}>음란</option>
+							<c:forEach var="reportType" items="${reportTypes}">
+								<c:if test="${reportType.common_bcd == '400'}"> <!-- COMMON_BCD가 400인 경우에만 옵션을 생성 -->
+									<option value="${reportType.common_mcd}" ${param.reportSelect == reportType.common_mcd ? 'selected' : ''}>
+										${reportType.common_content}
+									</option>
+								</c:if>
+							</c:forEach>
 						</select>
 					</form>
 				</div>
@@ -294,7 +359,7 @@
 						data-bs-dismiss="modal">취소</button>
 					<button type="button" class="btn btn-outline-danger"
 						data-bs-toggle="modal"
-						onclick="location.href='jjReported?b_number=${board.b_number}&m_number=${board.m_number}&common_bcd=${board.common_bcd}&common_mcd=${board.common_mcd}'">신고</button>
+						onclick="submitReport()">신고</button>
 				</div>
 
 			</div>

@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>바디프로필 조회</title>
+
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/dySelectBodyProfile.css">
 
@@ -74,29 +75,45 @@
 			<div class="body-profile-details">
 				<p>${board.b_content}</p>
 			</div>
-			<!-- 조회수, 추천수, 등록일자 -->
 			<div class="row mt-4">
 				<div class="col-md-4">
 					<p>조회수 : ${board.b_readcount}</p>
 				</div>
 				<div class="col-md-4">
-					<p>추천수 : ${board.b_recomm_count}</p>
+					<p>
+						추천수 : <span id="recommCount">${board.b_recomm_count}</span>
+					</p>
 				</div>
 				<div class="col-md-4">
 					<p>등록일 : ${board.b_regdate}</p>
 				</div>
 			</div>
-
 			<div class="body-profile-actions">
 				<button type="button" id="recommendButton"
-					class="btn btn-outline-dark">
-					<i class="bi bi-hand-thumbs-up-fill"></i> 추천하기
+					class="btn btn-outline-dark" data-b_number="${board.b_number}">
+					<i class="bi bi-hand-thumbs-up-fill"></i> 추천
 				</button>
-				<button type="button" class="btn btn-outline-dark">
-					<i class="bi bi-megaphone-fill"></i> 신고하기
-				</button>
+
+				<c:if
+					test="${sessionScope.m_number != null && sessionScope.m_number != board.m_number}">
+					<button type="button" class="btn btn-outline-danger"
+						data-bs-toggle="modal" data-bs-target="#reportedModal">
+						<i class="bi bi-megaphone-fill"></i>신고
+					</button>
+				</c:if>
 			</div>
 
+
+			<%-- <button type="button" class="btn btn-outline-danger"
+					data-bs-toggle="modal"
+					<c:if test="${sessionScope.user != null}">
+        data-bs-target="#reportedModal"
+    </c:if>
+					<c:if test="${sessionScope.user == null}">
+        onclick="location.href='/jmLoginForm'"
+    </c:if>>
+					<i class="bi bi-megaphone-fill"></i> 신고하기
+				</button> --%>
 			<!-- 댓글 섹션 -->
 			<div class="comments-section">
 				<h3>댓글</h3>
@@ -139,7 +156,96 @@
 		</div>
 	</div>
 
+	<!-- ======================== 신고 Modal 구현 ======================== -->
+	<div class="modal fade" id="reportedModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
 
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">신고 확인</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">신고하시겠습니까?</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary"
+						data-bs-dismiss="modal">아니오</button>
+					<button type="button" class="btn btn-outline-danger"
+						data-bs-toggle="modal" data-bs-target="#reportedYes">네</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- reportedYes -->
+	<div class="modal fade" id="reportedYes">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">신고 결과</h4>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					신고할 유형을 선택해주세요.(광고/욕설/음란)
+					<form id="reportForm" method="post">
+						<input type="hidden" id="b_number" value="${board.b_number}" /> <input
+							type="hidden" id="m_number" value="${board.m_number}" /> <select
+							name="reportSelect" id="reportSelect">
+							<option value="">선택사항</option>
+							<c:forEach var="reportType" items="${reportTypes}">
+								<c:if test="${reportType.common_bcd == '400'}">
+									<!-- COMMON_BCD가 400인 경우에만 옵션을 생성 -->
+									<option value="${reportType.common_mcd}"
+										${param.reportSelect == reportType.common_mcd ? 'selected' : ''}>
+										${reportType.common_content}</option>
+								</c:if>
+							</c:forEach>
+						</select>
+					</form>
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-outline-danger"
+						data-bs-toggle="modal" onclick="submitReport()">신고</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- reportedNo -->
+	<div class="modal fade" id="reportedNo">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">신고 결과</h4>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">취소되었습니다.</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary"
+						data-bs-dismiss="modal">닫기</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
 	<footer>
 		<p>2024 Hellong. All rights reserved.</p>
 	</footer>
