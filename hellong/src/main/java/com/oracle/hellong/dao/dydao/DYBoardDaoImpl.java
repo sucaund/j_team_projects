@@ -1,6 +1,8 @@
 package com.oracle.hellong.dao.dydao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -145,11 +147,18 @@ public class DYBoardDaoImpl implements DYBoardDao {
 		searchMyPageList = session.selectList("dyMyPageSearch", board);
 		return searchMyPageList;
 	}
-
+	// 조회수 증가
 	@Override
 	public void increaseReadCount(int b_number) {
 		session.update("dyIncreaseReadCount", b_number);
 		
 	}
 
+	@Override
+	public void increaseRecommCount(int b_number) {
+		session.update("dyIncreaseRecommCount", b_number);
+	}
+
+
+	
 }

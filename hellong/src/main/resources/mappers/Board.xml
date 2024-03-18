@@ -2,16 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.BoardMapper">
 
-<!-- 재준 mappers 시작 -->
+	<!-- 재준 mappers 시작 -->
 
 	<!-- 글의 총 갯수 파악하는 쿼리 -->
 	<select id="boardTotal" parameterType="int" resultType="int">
-		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200
-		AND COMMON_MCD = 120
+		Count(*)
+		FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200
+		AND
+		COMMON_MCD = 120
 	</select>
-	
+
 	<!-- 자유게시판의 글들을 불러오는 쿼리. -->
-	<select id="jjBoardListAll" parameterType="Board" resultType="Board">
+	<select id="jjBoardListAll" parameterType="Board"
+		resultType="Board">
 		<![CDATA[
 		SELECT * 
 		FROM (
@@ -26,180 +29,203 @@
 		AND rn <= #{end}
 		]]>
 	</select>
-	
+
 	<!-- 자유게시판에서 글 제목을 선택 시 상세게시판 여는 쿼리 -->
 	<select id="jjBoardOne" parameterType="int" resultType="Board">
-		SELECT  b.*, m.m_name
-			  , board_min_max(b_number,1)  prevPage
-			  , board_min_max(b_number,2)  nextPage
+		SELECT
+		b.*, m.m_name
+		, board_min_max(b_number,1) prevPage
+		,
+		board_min_max(b_number,2) nextPage
 		FROM board b, member m
-		WHERE b.m_number = m.m_number 
+		WHERE
+		b.m_number = m.m_number
 		AND b_number = #{b_number}
-		
+
 	</select>
-	
+
 	<!-- 상세게시판 접속 시 조회수 1을 올려주는 쿼리 -->
 	<update id="plusCnt" parameterType="int">
-		UPDATE board SET b_readcount = b_readcount + 1
+		UPDATE board SET b_readcount
+		= b_readcount + 1
 		WHERE b_number = #{b_number}
 	</update>
-	
+
 	<!-- 추천 수 버튼을 누르면 추천이 1 올라가는 쿼리 -->
 	<update id="hitCnt" parameterType="int">
-		UPDATE board SET b_recomm_count = b_recomm_count + 1
+		UPDATE board SET
+		b_recomm_count = b_recomm_count + 1
 		WHERE b_number = #{b_number}
 	</update>
-	
+
 	<!-- 게시글을 수정해주는 쿼리 -->
 	<update id="jjBoardUpdate" parameterType="Board">
-		UPDATE board SET b_title   = #{b_title},
-						 b_content = #{b_content},
-						 b_update  = sysdate
-		WHERE b_number = #{b_number}
+		UPDATE board SET
+		b_title = #{b_title},
+		b_content = #{b_content},
+		b_update = sysdate
+		WHERE
+		b_number = #{b_number}
 	</update>
-	
+
 	<!-- 보드의 전체글을 불러주는 쿼리 -->
 	<select id="jjSelectManager" resultType="Board">
-		SELECT 	*
-		FROM 	board
+		SELECT *
+		FROM board
 	</select>
-	
+
 	<!-- 새 글을 쓰는 쿼리 -->
 	<insert id="jjinsertBoard" parameterType="Board">
-		<selectKey keyProperty="b_number" resultType="int" order="BEFORE">
+		<selectKey keyProperty="b_number" resultType="int"
+			order="BEFORE">
 			SELECT NVL(MAX(b_number), 0) + 1 FROM board
 		</selectKey>
-		
+
 		INSERT INTO board ( b_number, b_title, b_content, m_number,
-							common_bcd, common_mcd, b_comm_group )
+		common_bcd, common_mcd, b_comm_group )
 		values
 		(
-			#{b_number}, #{b_title}, #{b_content}, #{m_number},
-			200,
-			<choose>
-				<when test="jjcategory == 'jjfree'">10</when>
-				<when test="jjcategory == 'jjbody'">20</when>
-				<when test="jjcategory == 'jjnotice'">110</when>
-				<when test="jjcategory == 'jjquestion'">120</when>
-			</choose>,
-			#{b_number}
+		#{b_number}, #{b_title},
+		#{b_content}, #{m_number},
+		200,
+		<choose>
+			<when test="jjcategory == 'jjfree'">10</when>
+			<when test="jjcategory == 'jjbody'">20</when>
+			<when test="jjcategory == 'jjnotice'">110</when>
+			<when test="jjcategory == 'jjquestion'">120</when>
+		</choose>
+		,
+		#{b_number}
 		)
 	</insert>
-	
+
 	<!-- 글을 삭제하는 쿼리 -->
 	<delete id="deleteBoard" parameterType="Board">
-		DELETE FROM board where b_number = #{b_number}
+		DELETE FROM board where
+		b_number = #{b_number}
 	</delete>
-	
+
 	<!-- 신고여부 쿼리 -->
 	<update id="jjUpReported" parameterType="int">
 		UPDATE board
-		SET b_isreported = CASE 
-		                     WHEN b_isreported = 0 THEN 1 
-		                     ELSE b_isreported 
-		                   END
+		SET
+		b_isreported = CASE
+		WHEN b_isreported = 0 THEN 1
+		ELSE b_isreported
+		END
 		WHERE b_number = #{b_number}
 	</update>
-	
+
 	<!-- 카테고리+검색어 로 조회된 글을 카운트하는 쿼리 -->
-	<select id="totalCategorySearchCnt" parameterType="Board" resultType="int">
-	    SELECT Count(*)
-	    FROM board b
-	    JOIN member m ON b.m_number = m.m_number
-	        <where>
-	            <choose>
-	                <when test="cateSearch == 'cate-all'">
-	                    b.common_bcd = b.common_bcd AND b.common_mcd = b.common_mcd
-	                </when>
-	                <when test="cateSearch == 'cate-free'">
-	                    b.common_bcd = 200 AND b.common_mcd = 10
-	                </when>
-	                <when test="cateSearch == 'cate-body'">
-	                    b.common_bcd = 200 AND b.common_mcd = 20
-	                </when>
-	                <when test="cateSearch == 'cate-notice'">
-	                    b.common_bcd = 200 AND b.common_mcd = 110
-	                </when>
-	                <when test="cateSearch == 'cate-question'">
-	                    b.common_bcd = 200 AND b.common_mcd = 120
-	                </when>
-	            </choose>
-	            <choose>
-	                <when test="search == 'all'">
-	                    and (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
-	                </when>
-	                <when test="search == 'title'">
-	                    and b.b_title LIKE '%' || #{keyword} || '%'
-	                </when>
-	                <when test="search == 'name'">
-	                    and m.m_name LIKE '%' || #{keyword} || '%'
-	                </when>
-	                <when test="search == 'content'">
-	                    and b.b_content LIKE '%' || #{keyword} || '%'
-	                </when>
-	                <otherwise> 
-	                   and b.b_content LIKE '%' 
-	                </otherwise>
-	            </choose>
-	        </where>
-	</select>	
-	
+	<select id="totalCategorySearchCnt" parameterType="Board"
+		resultType="int">
+		SELECT Count(*)
+		FROM board b
+		JOIN member m ON b.m_number = m.m_number
+		<where>
+			<choose>
+				<when test="cateSearch == 'cate-all'">
+					b.common_bcd = b.common_bcd AND b.common_mcd =
+					b.common_mcd
+				</when>
+				<when test="cateSearch == 'cate-free'">
+					b.common_bcd = 200 AND b.common_mcd = 10
+				</when>
+				<when test="cateSearch == 'cate-body'">
+					b.common_bcd = 200 AND b.common_mcd = 20
+				</when>
+				<when test="cateSearch == 'cate-notice'">
+					b.common_bcd = 200 AND b.common_mcd = 110
+				</when>
+				<when test="cateSearch == 'cate-question'">
+					b.common_bcd = 200 AND b.common_mcd = 120
+				</when>
+			</choose>
+			<choose>
+				<when test="search == 'all'">
+					and (b.b_title LIKE '%' || #{keyword} || '%' OR
+					b.b_content LIKE '%'
+					|| #{keyword} || '%' OR m.m_name LIKE '%' ||
+					#{keyword} || '%')
+				</when>
+				<when test="search == 'title'">
+					and b.b_title LIKE '%' || #{keyword} || '%'
+				</when>
+				<when test="search == 'name'">
+					and m.m_name LIKE '%' || #{keyword} || '%'
+				</when>
+				<when test="search == 'content'">
+					and b.b_content LIKE '%' || #{keyword} || '%'
+				</when>
+				<otherwise>
+					and b.b_content LIKE '%'
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+
 	<!-- 게시글을 카테고리 + 검색어로 조회하는 쿼리 -->
-	<select id="listCategorySearchBoard" parameterType="Board" resultType="Board">
-	    SELECT *
-	    FROM 
-	     (
-	       SELECT ROWNUM rn, f.*
-		   FROM
-		   (
-	        SELECT b.*, m.m_name
-	        FROM board b
-	        JOIN member m ON b.m_number = m.m_number
-	        <where>
-	            <choose>
-	                <when test="cateSearch == 'cate-all'">
-	                    b.common_bcd = b.common_bcd AND b.common_mcd = b.common_mcd
-	                </when>
-	                <when test="cateSearch == 'cate-free'">
-	                    b.common_bcd = 200 AND b.common_mcd = 10
-	                </when>
-	                <when test="cateSearch == 'cate-body'">
-	                    b.common_bcd = 200 AND b.common_mcd = 20
-	                </when>
-	                <when test="cateSearch == 'cate-notice'">
-	                    b.common_bcd = 200 AND b.common_mcd = 110
-	                </when>
-	                <when test="cateSearch == 'cate-question'">
-	                    b.common_bcd = 200 AND b.common_mcd = 120
-	                </when>
-	            </choose>
-	            
-	            <choose>
-	                <when test="search == 'all'">
-	                    and (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
-	                </when>
-	                <when test="search == 'title'">
-	                    and b.b_title LIKE '%' || #{keyword} || '%'
-	                </when>
-	                <when test="search == 'name'">
-	                    and m.m_name LIKE '%' || #{keyword} || '%'
-	                </when>
-	                <when test="search == 'content'">
-	                    and b.b_content LIKE '%' || #{keyword} || '%'
-	                </when>
-	                <otherwise> 
-	                   and b.b_content LIKE '%' 
-	                </otherwise>
-	            </choose>
-	        </where>
-	       ORDER BY b.b_number DESC
-	       ) f
-	    )   
+	<select id="listCategorySearchBoard" parameterType="Board"
+		resultType="Board">
+		SELECT *
+		FROM
+		(
+		SELECT ROWNUM rn, f.*
+		FROM
+		(
+		SELECT b.*, m.m_name
+		FROM board
+		b
+		JOIN member m ON b.m_number = m.m_number
+		<where>
+			<choose>
+				<when test="cateSearch == 'cate-all'">
+					b.common_bcd = b.common_bcd AND b.common_mcd =
+					b.common_mcd
+				</when>
+				<when test="cateSearch == 'cate-free'">
+					b.common_bcd = 200 AND b.common_mcd = 10
+				</when>
+				<when test="cateSearch == 'cate-body'">
+					b.common_bcd = 200 AND b.common_mcd = 20
+				</when>
+				<when test="cateSearch == 'cate-notice'">
+					b.common_bcd = 200 AND b.common_mcd = 110
+				</when>
+				<when test="cateSearch == 'cate-question'">
+					b.common_bcd = 200 AND b.common_mcd = 120
+				</when>
+			</choose>
+
+			<choose>
+				<when test="search == 'all'">
+					and (b.b_title LIKE '%' || #{keyword} || '%' OR
+					b.b_content LIKE '%'
+					|| #{keyword} || '%' OR m.m_name LIKE '%' ||
+					#{keyword} || '%')
+				</when>
+				<when test="search == 'title'">
+					and b.b_title LIKE '%' || #{keyword} || '%'
+				</when>
+				<when test="search == 'name'">
+					and m.m_name LIKE '%' || #{keyword} || '%'
+				</when>
+				<when test="search == 'content'">
+					and b.b_content LIKE '%' || #{keyword} || '%'
+				</when>
+				<otherwise>
+					and b.b_content LIKE '%'
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY b.b_number DESC
+		) f
+		)
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
-	
 
-<!-- 재준 mappers 끝 -->
+
+	<!-- 재준 mappers 끝 -->
 
 	<select id="ContentBoard" parameterType="int" resultType="Board">
 		SELECT
@@ -214,7 +240,7 @@
 		FROM MEMBER
 		WHERE M_ID = #{member_id}
 	</select>
-	
+
 	<select id="countCommentsByBNumber" parameterType="int"
 		resultType="int">
 		SELECT COUNT(*) FROM BOARD
@@ -253,17 +279,21 @@
 	</delete>
 	<delete id="COMM_delete" parameterType="int">
 		DELETE FROM BOARD
-		WHERE B_COMM_GROUP = #{bId}
+		WHERE
+		B_COMM_GROUP = #{bId}
 	</delete>
 	<delete id="que_delete" parameterType="int">
 		DELETE FROM BOARD
-		WHERE B_NUMBER = #{bId}
+		WHERE
+		B_NUMBER = #{bId}
 	</delete>
 
 
 	<insert id="addComment" parameterType="Board">
-		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
-		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_content},#{m_number}, #{b_comm_group})
+		INSERT INTO BOARD
+		(B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd},
+		#{b_content},#{m_number}, #{b_comm_group})
 	</insert>
 
 
@@ -273,73 +303,87 @@
 		SELECT *
 		FROM BOARD
 		WHERE B_COMM_GROUP = #{b_comm_group}
-		AND M_NUMBER = #{m_number}
+		AND
+		M_NUMBER = #{m_number}
 		AND COMMON_BCD = #{common_bcd}
-		AND common_mcd = #{common_mcd}
+		AND common_mcd =
+		#{common_mcd}
 		AND B_CONTENT = #{b_content}
 		AND B_NUMBER = (
-		SELECT MAX(B_NUMBER) FROM BOARD
+		SELECT
+		MAX(B_NUMBER) FROM BOARD
 		)
 
 
 	</select>
 
 	<select id="getComments" parameterType="int" resultType="Board">
-		SELECT * FROM BOARD WHERE COMMON_BCD = 200 AND COMMON_MCD = 121
-		AND B_COMM_GROUP = #{B_NUMBER}
+		SELECT *
+		FROM BOARD WHERE COMMON_BCD = 200 AND COMMON_MCD = 121
+		AND B_COMM_GROUP
+		= #{B_NUMBER}
 		ORDER BY B_NUMBER DESC
 
 	</select>
 
 	<delete id="deleteComment" parameterType="int">
-		DELETE FROM BOARD WHERE B_NUMBER = #{b_number}
+		DELETE FROM BOARD WHERE
+		B_NUMBER = #{b_number}
 	</delete>
 
 	<update id="updateAttribute" parameterType="Board">
 		UPDATE BOARD
-		SET B_TITLE = #{b_title},
+		SET
+		B_TITLE = #{b_title},
 		B_CONTENT = #{b_content}
-		WHERE B_NUMBER = #{b_number}
+		WHERE B_NUMBER =
+		#{b_number}
 	</update>
-	
-	 	<select id="SHgetallQnA" resultType="Board">
+
+	<select id="SHgetallQnA" resultType="Board">
 		SELECT
-		* FROM BOARD where COMMON_MCD = 120 AND B_ISRECOMM !=3
+		* FROM BOARD where
+		COMMON_MCD = 120 AND B_ISRECOMM !=3
 	</select>
 
 	<update id="delThisTable" parameterType="int">
 		UPDATE BOARD
-		SET B_ISRECOMM = 3
+		SET
+		B_ISRECOMM = 3
 		WHERE B_NUMBER = #{b_number}
 	</update>
-	
-		<select id="getNotice" resultType="Board">
+
+	<select id="getNotice" resultType="Board">
 		SELECT * FROM (
-		    SELECT *
-		    FROM BOARD
-		    WHERE COMMON_BCD = 200
-		      AND COMMON_MCD = 110
-		    ORDER BY B_REGDATE DESC
+		SELECT *
+		FROM
+		BOARD
+		WHERE COMMON_BCD = 200
+		AND COMMON_MCD = 110
+		ORDER BY B_REGDATE DESC
 		) WHERE ROWNUM = 1
 	</select>
 
 	<select id="getPopular" resultType="Board">
 		SELECT * FROM (
-		    SELECT *
-		    FROM BOARD
-		    WHERE COMMON_BCD = 200
-		      AND COMMON_MCD = 10
-		    ORDER BY B_RECOMM_COUNT DESC
+		SELECT *
+		FROM
+		BOARD
+		WHERE COMMON_BCD = 200
+		AND COMMON_MCD = 10
+		ORDER BY B_RECOMM_COUNT
+		DESC
 		) WHERE ROWNUM = 1
 	</select>
 
 	<select id="getbodyProfile" resultType="Board">
 		SELECT * FROM (
-		    SELECT *
-		    FROM BOARD
-		    WHERE COMMON_BCD = 200
-		      AND COMMON_MCD = 20
-		    ORDER BY B_RECOMM_COUNT DESC
+		SELECT *
+		FROM BOARD
+		WHERE COMMON_BCD = 200
+		AND COMMON_MCD = 20
+		ORDER BY
+		B_RECOMM_COUNT DESC
 		) WHERE ROWNUM = 1
 	</select>
 
@@ -385,34 +429,40 @@
 			order="BEFORE">
 			SELECT NVL(MAX(b_number), 0) + 1 FROM board
 		</selectKey>
-			INSERT INTO board ( b_number, b_title, b_content, common_bcd, common_mcd, m_number)
-		values( #{b_number}, #{b_title}, #{b_content}, 200, 20, #{m_number})
+		INSERT INTO board ( b_number, b_title, b_content, common_bcd,
+		common_mcd, m_number)
+		values( #{b_number}, #{b_title}, #{b_content},
+		200, 20, #{m_number})
 	</insert>
 
 	<delete id="dyDeleteBodyProfile" parameterType="int">
 		delete from board
 		where b_number = #{b_number}
 	</delete>
-	
-	<select id="dySearchBoards" parameterType="Board" resultType="Board">
+
+	<select id="dySearchBoards" parameterType="Board"
+		resultType="Board">
 		SELECT
-		b_number, b_title, b_content, b_readcount, b_recomm_count
+		b_number, b_title, b_content, b_readcount,
+		b_recomm_count
 		FROM board
 		WHERE b_title LIKE '%' || #{totKeyword} || '%'
 		OR b_content LIKE '%' || #{totKeyword} || '%'
 	</select>
-	
+
 	<select id="dyMyPageSearch" parameterType="Board"
 		resultType="Board">
 		select * from board
 		WHERE m_number = #{m_number}
-		order by b_number desc
+		order by
+		b_number desc
 	</select>
-	
+
 	<update id="dyIncreaseReadCount" parameterType="int">
 		UPDATE board
-        SET b_readcount = b_readcount + 1
-        WHERE b_number = #{b_number}
+		SET
+		b_readcount = b_readcount + 1
+		WHERE b_number = #{b_number}
 	</update>
 
 	<select id="dyCondBodyProfileTotal" parameterType="Board"
@@ -439,37 +489,45 @@
 		(
 		SELECT rownum rn, a.*
 		FROM
-				(select * from board
-				<choose>
-					<when test="search == 'all'">
-						WHERE b_title like '%' || #{keyword} || '%' OR
-						b_content like '%' || #{keyword} || '%'
-					</when>
-					<when test="search == 'title'">
-						WHERE b_title like '%' || #{keyword} || '%'
-					</when>
-					<when test="search == 'content'">
-						WHERE b_content like '%' || #{keyword} || '%'
-					</when>
-				</choose>
-				order by b_number
-				) a
+		(select * from board
+		<choose>
+			<when test="search == 'all'">
+				WHERE b_title like '%' || #{keyword} || '%' OR
+				b_content like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 'title'">
+				WHERE b_title like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 'content'">
+				WHERE b_content like '%' || #{keyword} || '%'
+			</when>
+		</choose>
+		order by b_number
+		) a
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
-	
-	
+
+	<update id="dyIncreaseRecommCount" parameterType="int">
+		UPDATE board
+		SET b_recomm_count = b_recomm_count + 1
+		WHERE b_number = #{b_number}
+	</update>
+
+
 	<!-- 현승 xml -->
-	
-		<!-- 공지사항 -->
+
+	<!-- 공지사항 -->
 
 	<!-- 공지글 리스트 -->
 	<select id="hsNoticeBoardTotal" resultType="int">
-		SELECT count(*) FROM board WHERE common_mcd = 110
+		SELECT count(*) FROM
+		board WHERE common_mcd = 110
 
 	</select>
-	
-	<select id="hsNoticeBoardListAll" parameterType="Member" resultType="Board">
+
+	<select id="hsNoticeBoardListAll" parameterType="Member"
+		resultType="Board">
 		<![CDATA[
 			SELECT *
 			FROM
@@ -486,74 +544,88 @@
 			AND rn <= #{end}
 		]]>
 	</select>
-	
+
 	<!-- 공지글 세부내용 + 조회수 증가 -->
 	<update id="hsUpdateNoticeBoardReadCount" parameterType="int">
-		UPDATE board SET b_readcount= b_readcount+1
+		UPDATE
+		board SET b_readcount= b_readcount+1
 		WHERE b_number=#{b_number}
 
 	</update>
-	
-	<select id="hsNoticeBoardSelOne" parameterType="Board" resultType="Board">
-		SELECT m.m_name, b.* 
-		FROM member m, board b 
-		WHERE m.m_number = b.m_number
-		AND b.common_mcd=110 
+
+	<select id="hsNoticeBoardSelOne" parameterType="Board"
+		resultType="Board">
+		SELECT m.m_name, b.*
+		FROM member m, board b
+		WHERE m.m_number
+		= b.m_number
+		AND b.common_mcd=110
 		AND b.b_number= #{b_number}
 	</select>
-	
+
 	<!-- 공지글 작성 -->
-	<insert id="hsCreateNoticeBoard" parameterType="Board" useGeneratedKeys="true" keyColumn="b_number" keyProperty="b_number">
-		INSERT INTO board VALUES (b_number_seq.nextval, #{m_number}, 200, 110, #{b_title}, #{b_content}, 0, sysdate, 
-									sysdate, 0, 0, 0, 'image', null, null, null)
+	<insert id="hsCreateNoticeBoard" parameterType="Board"
+		useGeneratedKeys="true" keyColumn="b_number" keyProperty="b_number">
+		INSERT INTO
+		board VALUES (b_number_seq.nextval, #{m_number}, 200, 110, #{b_title},
+		#{b_content}, 0, sysdate,
+		sysdate, 0, 0, 0, 'image', null, null, null)
 	</insert>
 
-	<!-- 공지글 수정 -->		
+	<!-- 공지글 수정 -->
 	<update id="hsUpdateNoticeBoard" parameterType="Board">
-		UPDATE board SET b_title=#{b_title}, b_content=#{b_content}, b_update=sysdate
-		WHERE b_number=#{b_number}
+		UPDATE board SET
+		b_title=#{b_title}, b_content=#{b_content}, b_update=sysdate
+		WHERE
+		b_number=#{b_number}
 	</update>
-	
+
 	<!-- 공지글 삭제 -->
 	<delete id="hsDeleteScrap" parameterType="Board">
-		DELETE FROM scrap WHERE b_number=#{b_number}
+		DELETE FROM scrap WHERE
+		b_number=#{b_number}
 	</delete>
-	
+
 	<delete id="hsDeleteNoticeBoard" parameterType="Board">
-		DELETE FROM board WHERE b_number=#{b_number}
+		DELETE FROM board
+		WHERE b_number=#{b_number}
 	</delete>
-	
+
 	<!-- 공지글 검색 -->
-	<select id="hsCondTotalNoticeBoardCnt" parameterType="Board" resultType="int">
+	<select id="hsCondTotalNoticeBoardCnt" parameterType="Board"
+		resultType="int">
 		SELECT Count(*) FROM board WHERE common_mcd=110
 		<choose>
 			<when test="search == 'b_title'">
 				AND b_title like '%' || #{keyword} || '%'
 			</when>
-			<when test="search == 'b_content'">	
+			<when test="search == 'b_content'">
 				AND b_content like '%' || #{keyword} || '%'
 			</when>
 		</choose>
 	</select>
-	
-	<select id="hsSearchNoticeBoard" parameterType="Board" resultType="Board">
+
+	<select id="hsSearchNoticeBoard" parameterType="Board"
+		resultType="Board">
 		SELECT *
 		FROM
 		(
-			SELECT rownum rn, a.*
-			FROM
-				(SELECT m.m_name, b.* FROM member m, board b WHERE m.m_number = b.m_number AND b.common_mcd=110
-				<choose>
-					<when test="search == 'b_title'">
-						AND b.b_title like '%' || #{keyword} || '%'
-					</when>
-					<when test="search == 'b_content'">
-						AND b.b_content like '%' || #{keyword} || '%'
-					</when>
-				</choose>
-				ORDER BY b.b_update DESC) a
+		SELECT rownum rn, a.*
+		FROM
+		(SELECT m.m_name, b.* FROM
+		member m, board b WHERE m.m_number = b.m_number
+		AND b.common_mcd=110
+		<choose>
+			<when test="search == 'b_title'">
+				AND b.b_title like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 'b_content'">
+				AND b.b_content like '%' || #{keyword} || '%'
+			</when>
+		</choose>
+		ORDER BY b.b_update DESC) a
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
-	
+
 </mapper>

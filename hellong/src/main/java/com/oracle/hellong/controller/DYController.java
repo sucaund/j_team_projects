@@ -14,6 +14,8 @@ import java.util.UUID;
 
 import javax.naming.directory.SearchResult;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DYController {
 	private final DYService dys;
-	
+
 	// 게시글리스트
 	@GetMapping(value = "listBodyProfile")
 	public String bodyProfileList(Board board, BoardFile boardFile, Model model) {
@@ -70,7 +72,6 @@ public class DYController {
 		for (BoardFile file : listFileBodyProfile) {
 			System.out.println("File B_number: " + file.getB_number());
 		}
-		System.out.println("미안해 얘들아!!!!!");
 
 		Map<Integer, String> firstImageMap = new HashMap<>();
 		for (Board boardItem : listBodyProfile) {
@@ -102,15 +103,22 @@ public class DYController {
 		Board board = dys.selectBodyProfile(board1.getB_number());
 		List<BoardFile> boardFile = dys.selectBodyProfileFileList(boardFile1.getB_number());
 
-		// 추천기능
-//		int m_number = (int) session.getAttribute("m_number");
-		
-//		boolean isRecommended = dys.checkRecommendation(m_number, b_number) > 0;
-//		model.addAttribute("isRecommended", isRecommended);
 		model.addAttribute("board", board);
 		model.addAttribute("boardFile", boardFile);
 
 		return "dy/dySelectBodyProfile";
+	}
+	// 게시글 추천
+	@PostMapping("/recommend")
+	@ResponseBody
+	public ResponseEntity<?> recommend(@RequestParam("b_number") int b_number, HttpSession session) {
+	
+	    if (session.getAttribute("m_number") == null) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("로그인이 필요한 기능입니다.");
+	    } else { 
+	    String result = dys.recommendBoard(b_number, (int)session.getAttribute("m_number"));
+	    return ResponseEntity.ok(result);
+	    }
 	}
 
 	// 게시글 업데이트 폼

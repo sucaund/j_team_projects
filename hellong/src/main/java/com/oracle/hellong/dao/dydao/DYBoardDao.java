@@ -30,6 +30,9 @@ public interface DYBoardDao {
 
 	void increaseReadCount(int b_number);
 
+	void increaseRecommCount(int b_number);
+
+
 
 
 }

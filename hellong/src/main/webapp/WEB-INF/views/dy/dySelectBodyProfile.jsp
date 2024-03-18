@@ -72,30 +72,21 @@
 			</div>
 
 			<div class="body-profile-details">
-				<p>${board.b_content}</p>
-			</div>
-			<!-- 조회수, 추천수, 등록일자 -->
-			<div class="row mt-4">
-				<div class="col-md-4">
-					<p>조회수 : ${board.b_readcount}</p>
-				</div>
-				<div class="col-md-4">
-					<p>추천수 : ${board.b_recomm_count}</p>
-				</div>
-				<div class="col-md-4">
-					<p>등록일 : ${board.b_regdate}</p>
-				</div>
-			</div>
-
-			<div class="body-profile-actions">
-				<button type="button" id="recommendButton"
-					class="btn btn-outline-dark">
-					<i class="bi bi-hand-thumbs-up-fill"></i> 추천하기
-				</button>
-				<button type="button" class="btn btn-outline-dark">
-					<i class="bi bi-megaphone-fill"></i> 신고하기
-				</button>
-			</div>
+                <p>${board.b_content}</p>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-4"><p>조회수 : ${board.b_readcount}</p></div>
+                <div class="col-md-4"><p>추천수 : <span id="recommCount">${board.b_recomm_count}</span></p></div>
+                <div class="col-md-4"><p>등록일 : ${board.b_regdate}</p></div>
+            </div>
+            <div class="body-profile-actions">
+                <button type="button" id="recommendButton" class="btn btn-outline-dark" data-b_number="${board.b_number}">
+                    <i class="bi bi-hand-thumbs-up-fill"></i> 추천하기
+                </button>
+                <button type="button" class="btn btn-outline-dark">
+                    <i class="bi bi-megaphone-fill"></i> 신고하기
+                </button>
+            </div>
 
 			<!-- 댓글 섹션 -->
 			<div class="comments-section">

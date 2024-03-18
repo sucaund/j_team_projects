@@ -118,6 +118,18 @@ public class TrainerDaoImpl implements TrainerDao {
 		return getSelectTrainerListResult;
 	}
 
+	@Override
+	public int getTotaltrainerSearch(Trainer trainer) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<Trainer> getTrainerSearchList(Trainer trainer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 }

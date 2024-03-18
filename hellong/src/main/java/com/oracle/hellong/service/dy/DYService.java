@@ -51,5 +51,14 @@ public interface DYService {
 	// 게시글 조회수 증가
 	void increaseReadCount(int b_number);
 
+	String recommendBoard(int b_number, int m_number);
+
+
+
+
+
+	
+	
+	
 	
 }
