@@ -9,7 +9,6 @@ public interface GymBoardJoinDao {
 
 	//지점 찾기 글 상세
 	List<GymBoardJoin> gymBoardDetailRead(int g_id);
-	//지점 찾기 글 카운트
-	int getGymImformationCount();
+
 
 }

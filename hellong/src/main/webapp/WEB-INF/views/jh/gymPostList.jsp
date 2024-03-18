@@ -108,9 +108,18 @@
         .card-body {
             padding-bottom: 0;
         }
+	    /* 페이지 번호 활성화 스타일 */
+	    .page-item.active .page-link {
+	        background-color: #007bff; /* 배경색 변경 */
+	        color: #ffffff; /* 텍스트 색상 변경 */
+	    }
         
-        
-
+		.bg-light-p3 {
+		    background-color: #f8f9fa; /* 배경색 추가 */
+		    padding: 1.5rem; /* 내부 여백 조정 */
+		    border-radius: 10px; /* 모서리를 둥글게 만듦 */
+		    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+		}
         
 
         
@@ -123,33 +132,44 @@
 
 
 
-<div class="bg-light p-3"> <!-- 새로운 배경으로 감싸는 div -->
-    <!--   검색창 및 필터-->
-    <div class="row mb-4 justify-content-center">
-        <div class="col-md-6">
-            <form class="form-inline" id="searchForm">
-                <select class="form-control mr-2" id="filterOptions">
-                    <option value="all" selected>모두</option>
-                    <option value="4.0">별점 4.0 이상</option>
-                    <option value="500">리뷰 500 이상</option>
-                </select>
-                <input type="text" class="form-control mr-2 search-input" id="searchInput" placeholder="헬스장 검색" style="width: 50%;">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> 검색</button>
-            </form>
-        </div>
-    </div> 
-    
-    <div class="row mb-4 justify-content-center"> 
-        <div class="col-md-6">
-            <div class="btn-group mr-2" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary" id="sortPrice">낮은 가격 순</button>
-                <button type="button" class="btn btn-secondary" id="sortReviews">리뷰 많은 순</button>
-                <button type="button" class="btn btn-secondary" id="sortStars">높은 별점 순</button>
-            </div>
-        </div>
-    </div>
-</div>
-
+	<div class="bg-light p-3"> <!-- 새로운 배경으로 감싸는 div -->
+	    <!--   검색창 및 필터-->
+	    <div class="row mb-4 justify-content-center mt-4">
+	        <div class="col-md-6">
+	            <form class="form-inline" id="searchForm" action="/GymPostList">
+	                <select class="form-control mr-2"  name="search" id="filterOptions">
+	                    <option value="all" selected>모두</option>
+	                    <option value="g_name">이름</option>
+	                    <option value="gb_title">제목</option>
+	                    <option value="g_address">주소</option>
+	                </select>
+	                <input type="text" name="keyword" class="form-control mr-2 search-input" id="searchInput" placeholder="헬스장 검색" style="width: 50%;">
+	                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> 검색</button>
+	            </form>
+	        </div>
+	    </div> 
+	    
+	    <div class="row mb-4 justify-content-center"> 
+		    <div class="col-md-6">
+		        <div class="btn-group mr-2" role="group" aria-label="Basic example">
+		            <button type="submit" form="sortPriceForm" class="btn btn-secondary">낮은 가격 순</button>
+		            <button type="submit" form="sortReviewsForm" class="btn btn-secondary">리뷰 많은 순</button>
+		            <button type="submit" form="sortStarsForm" class="btn btn-secondary">높은 별점 순</button>
+		        </div>
+		    </div>
+	    </div>
+	    
+	    <!-- 추가된 form들 -->
+	    <form id="sortPriceForm" action="/GymPostList" method="GET">
+	        <input type="hidden" name="sortType" value="price">
+	    </form>
+	    <form id="sortReviewsForm" action="/GymPostList" method="GET">
+	        <input type="hidden" name="sortType" value="reviews">
+	    </form>
+	    <form id="sortStarsForm" action="/GymPostList" method="GET">
+	        <input type="hidden" name="sortType" value="stars">
+	    </form>
+	</div>
      
 
 	<!-- 카드 내용 -->
@@ -167,7 +187,7 @@
 						        <strong>${board.g_name}</strong>
 						    </h4>
 						    <div class="like-btn" onclick="toggleLike(this)">
-						        <i class="fas fa-heart"></i> 찜하기
+						        <i class="fas fa-heart"></i>
 						    </div>
 						</div>
 						<div class="card-subtitle text-3xl font-bold mb-2" style="color: #800080;">
@@ -189,7 +209,7 @@
   
                      
 
-    <!-- 페이지 번호 -->
+   <!-- 페이지 번호 -->
 	<div class="row mt-1 justify-content-center">
 	    <div class="col-md-6">
 	        <nav aria-label="페이지 네비게이션">
@@ -198,15 +218,19 @@
 	                    <a class="page-link" href="GymPostList?currentPage=${page.startPage - page.pageBlock}" tabindex="-1" aria-disabled="true">이전</a>
 	                </li>
 	                <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-		                <c:choose>
-		                    <c:when test="${page.currentPage == i}">
-		                        <li class="page-item"><a class="page-link" href="GymPostList?&currentPage=${i}">${i}</a></li>
-		                    </c:when>
-		                    <c:otherwise>
-		                        <li class="page-item"><a class="page-link" href="GymPostList?&currentPage=${i}">${i}</a></li>
-		                    </c:otherwise>
-		                </c:choose>
-		             </c:forEach>
+	                    <c:choose>
+	                        <c:when test="${page.currentPage == i}">
+	                            <li class="page-item active"> <!-- 현재 페이지에 active 클래스 추가 -->
+	                                <a class="page-link" href="GymPostList?&currentPage=${i}">${i}</a>
+	                            </li>
+	                        </c:when>
+	                        <c:otherwise>
+	                            <li class="page-item">
+	                                <a class="page-link" href="GymPostList?&currentPage=${i}">${i}</a>
+	                            </li>
+	                        </c:otherwise>
+	                    </c:choose>
+	                 </c:forEach>
 	                <li class="page-item ${page.endPage == page.totalPage ? 'disabled' : ''}">
 	                    <a class="page-link" href="GymPostList?currentPage=${page.startPage + page.pageBlock}">다음</a>
 	                </li>
@@ -214,6 +238,7 @@
 	        </nav>
 	    </div>
 	</div>
+
      
     
     
@@ -238,78 +263,7 @@
 
 <script>
     $(document).ready(function () {
-   	 	$('#searchForm').submit(function (event) {
-   	        event.preventDefault();
-   	        var searchText = $('#searchInput').val().toLowerCase();
-   	        var filterOption = $('#filterOptions').val();
 
-   	        $('.card').each(function () {
-   	            var cardText = $(this).text().toLowerCase();
-   	            var stars = parseFloat($(this).find('.stars').text().trim());
-   	            var reviews = parseInt($(this).find('.review').text().match(/\d+/)[0]);
-
-   	            var showCard = true;
-
-   	            // 검색어로 필터링
-   	            if (searchText !== '') {
-   	                if (cardText.indexOf(searchText) === -1) {
-   	                    showCard = false;
-   	                }
-   	            }
-
-   	            // 선택한 필터 옵션에 따라 필터링
-   	            if (filterOption === '4.0') {
-   	                if (stars < 4.0) {
-   	                    showCard = false;
-   	                }
-   	            } else if (filterOption === '500') {
-   	                if (reviews < 500) {
-   	                    showCard = false;
-   	                }
-   	            }
-
-   	            // 카드의 display 속성 변경
-   	            if (showCard) {
-   	                $(this).css('display', 'flex'); // 카드를 보이도록 함
-   	            } else {
-   	                $(this).css('display', 'none'); // 카드를 숨김
-   	            }
-   	        });
-   	    });
-        
-        
-        
-        // 리뷰 많은 순 정렬 버튼 클릭 시
-        $('#sortReviews').click(function () {
-            // 리뷰 수에 따라 내림차순으로 정렬
-            $('.card').sort(function (a, b) {
-                return parseInt($(b).find('.review').text().match(/\d+/)[0]) - parseInt($(a).find('.review').text().match(/\d+/)[0]);
-            }).appendTo('.row');
-        });
-
-        // 높은 별점 순 정렬 버튼 클릭 시
-        $('#sortStars').click(function () {
-            // 별점에 따라 내림차순으로 정렬
-            $('.card').sort(function (a, b) {
-                return parseFloat($(b).find('.stars').text().trim()) - parseFloat($(a).find('.stars').text().trim());
-            }).appendTo('.row');
-        });
-
-        // 낮은 가격 순 정렬 버튼 클릭 시
-        $('#sortPrice').click(function () {
-            // 가격에 따라 오름차순으로 정렬
-            $('.card').sort(function (a, b) {
-                return parseInt($(a).find('.price').text().replace(/\D/g, '')) - parseInt($(b).find('.price').text().replace(/\D/g, ''));
-            }).appendTo('.row');
-        });
-        
-        
-        
-        
-        
-        
-        
-        
 
         // 각 카드의 좋아요 버튼에 대한 이벤트 핸들링
         $('.like-btn').click(function (event) {

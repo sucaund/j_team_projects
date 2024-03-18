@@ -362,8 +362,8 @@ public class JHServiceImpl implements JHService {
 	//체육관 지점 찾기*****************************************************************************
 	
 	@Override
-	public int getGymImformationCount() {
-		int getGymImformationCountResult = gbjd.getGymImformationCount();
+	public int getGymImformationCount(GymBoardFileServiceReviewJoin gymBoardServiceJoin) {
+		int getGymImformationCountResult = gbfsrjd.getGymImformationCount(gymBoardServiceJoin);
 		return getGymImformationCountResult;
 	}
 

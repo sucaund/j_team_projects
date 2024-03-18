@@ -198,19 +198,28 @@ public class HSServiceImpl implements HSService {
 
 		/* 포인트 충전 */
 	
+//	@Override
+//	public PointCharge insertAndGetPointCharge(PointCharge pointCharge) {
+//		PointCharge insertAndGetPointCharge = null;
+//		System.out.println("hsServiceImpl insertAndGetPointCharge start...");
+//		insertAndGetPointCharge = pd.insertAndGetPointCharge(pointCharge);
+//		return insertAndGetPointCharge;
+//	}
+	
 	@Override
-	public PointCharge insertAndGetPointCharge(PointCharge pointCharge) {
-		PointCharge insertAndGetPointCharge = null;
-		System.out.println("hsServiceImpl insertAndGetPointCharge start...");
-		insertAndGetPointCharge = pd.insertAndGetPointCharge(pointCharge);
-		return insertAndGetPointCharge;
+	public int insertPointCharge(Map<String, Object> chargeData) {
+		int insertResult = 0;
+		System.out.println("hsServiceImpl insertPointCharge start...");
+		insertResult = pd.insertPointCharge(chargeData);
+		System.out.println("hsServiceImpl insertPointCharge insertResult-> " + insertResult);
+		return insertResult;
 	}
 	
 	@Override
-	public int updatePointCharge(PointCharge insertAndGetPointCharge) {
+	public int updatePointCharge(Map<String, Object> chargeData) {
 		int updateResult = 0;
 		System.out.println("hsServiceImpl updatePointCharge start...");
-		updateResult = pd.updatePointCharge(insertAndGetPointCharge);
+		updateResult = pd.updatePointCharge(chargeData);
 		System.out.println("hsServiceImpl updatePointCharge updateResult-> " + updateResult);
 		return updateResult;
 	}
@@ -247,19 +256,17 @@ public class HSServiceImpl implements HSService {
 	
 		/* 헬스장 회원권 구매 */
 	
+		/*
+		 * @Override public GSDetail getGSDetailDataBuy(GSDetail gsDetail) { GSDetail
+		 * gsDetailData = null;
+		 * System.out.println("hsServiceImpl getGSDetailDataBuy start..."); gsDetailData
+		 * = gd.getGSDetailDataBuy(gsDetail); return gsDetailData; }
+		 */
 	@Override
-	public GSDetail getGSDetailDataBuy(GSDetail gsDetail) {
-		GSDetail gsDetailData = null;
-		System.out.println("hsServiceImpl getGSDetailDataBuy start...");
-		gsDetailData = gd.getGSDetailDataBuy(gsDetail);
-		return gsDetailData;
-	}
-
-	@Override
-	public GSDetail insertAndGetGymOrder(GSDetail gsDetailData) {
+	public GSDetail insertAndGetGymOrder(GSDetail gsDetail) {
 		GSDetail insertAndGetGymOrder = null;
 		System.out.println("hsServiceImpl insertAndGetGymOrder start...");
-		insertAndGetGymOrder = gd.insertAndGetGymOrder(gsDetailData);
+		insertAndGetGymOrder = gd.insertAndGetGymOrder(gsDetail);
 		return insertAndGetGymOrder;
 	}
 	

@@ -28,6 +28,12 @@
 		where g_id = #{g_id} 
 	</select>
 
+   <select id="getGymPhoto" parameterType="int" resultType="GymBoardFile">
+        SELECT GBF_STOREDFILENAME
+			FROM GYM_BOARD_FILE
+			WHERE G_ID = #{g_id2}
+			AND ROWNUM = 1
+    </select>
 
 
 </mapper>

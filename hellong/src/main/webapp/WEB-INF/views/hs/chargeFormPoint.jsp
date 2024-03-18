@@ -20,37 +20,12 @@
 	var IMP = window.IMP; // 생략 가능
 	IMP.init("imp08244126"); // 예: imp00000000a
 	
-    function requestPay() {
-        IMP.request_pay(
-          {
-            pg: "kakaopay",
-            pay_method: "card",
-            merchant_uid: "57008833-33005",
-            name: "당근 10kg",
-            amount: 1,
-            buyer_email: "Iamport@chai.finance",
-            buyer_name: "포트원 기술지원팀",
-            buyer_tel: "010-1234-5678",
-            buyer_addr: "서울특별시 강남구 삼성동",
-            buyer_postcode: "123-456",
-          },
-          function (rsp) {
-        	  
-        	  if (rsp.success) {
-        		  console.log(rsp);
-        	  } else {
-        		  console.log(rsp);
-        	  }
-            // callback
-            //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
-          }
-        );
-      }
 </script>
 
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script type="text/javascript">
+
     $(document).ready(function() {
     	
         // 입력 칸에 포커스를 받았을 때 입력 안내 문구를 숨김
@@ -83,8 +58,63 @@
                 		charge_point: charge_point }, // 전송할 데이터
                 success: function(response) {
                     // 성공 시 처리
-                    console.log("충전 성공 " + charge_point);
-                    //window.location.href = "hsChargePoint?m_number="+m_number+"&charge_point="+charge_point;
+          
+                    var memberData = response.memberData;
+                    var charge_point = response.charge_point;
+                    
+                    IMP.request_pay({
+                        pg: "kakaopay",
+                        pay_method: "card",
+                        merchant_uid: "merchant_uid"+new Date().getTime(),
+                        //merchant_uid: "merchant_uid"+new Date().getTime()+"-"+pointChargeData.charge_number;,
+                        name: "헬롱 포인트 충전",
+                        amount: charge_point, // 충전 금액 설정
+                        buyer_email: memberData.m_email,
+                        buyer_number : memberData.m_number,
+                        buyer_name: memberData.m_name,
+                        buyer_tel: memberData.m_phone,
+                        buyer_addr: memberData.m_address,
+                        
+                    }, function(rsp) {
+                    	
+                    	if (rsp.success) {
+
+                            console.log("결제성공1");
+
+                            $.ajax({
+                                        type: "GET",
+                                        url: "hsInsertChargePoint", // 컨트롤러의 URL
+                                        data: { m_number: m_number, 
+                                        		charge_point: charge_point,
+                                        		merchant_uid: rsp.merchant_uid,
+                                                pg: "kakaopay"}, // 전송할 데이터
+                                        success: function(response) {
+                                            if (response.success) {
+                                                // 결제 성공 시 비즈니스 로직 실행
+                                                console.log("결제 성공2");
+                                                // 여기에 서버에서 받은 응답을 처리하는 코드 추가
+                                            } else {
+                                                // 결제 실패 시 처리
+                                                console.log("결제 실패");
+                                            }
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            // 실패 시 처리
+                                            console.log("충전 실패B ");
+                                            console.log(m_number);
+                                            console.log(charge_point);
+                                            console.log(rsp.merchant_uid);
+
+                                            // 여기에 필요한 처리를 추가하세요.
+                                        }
+                                    });
+    
+                        }
+                    	
+                         else {
+                            console.log(rsp);
+                        }
+                    });
                     
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
