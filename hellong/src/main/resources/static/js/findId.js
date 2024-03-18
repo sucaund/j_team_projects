@@ -11,14 +11,14 @@
     	      success: function() {
     	         if(regEmail(inputed) == false) {
     	            $("#sendMailBtn").prop("disabled", true);
-    	            $("#sendMailBtn").css("background-color", "#aaaaaa");
     	            $("#m_email").css("background-color", "#FFCECE");
+                    $("#failmailreg").css("display","block");
     	           
                     
     	         } else if(regEmail(inputed) == true) {
 					$("#sendMailBtn").prop("disabled", false);
-					 $("#sendMailBtn").css("background-color", "#B0F6AC");
     	            $("#m_email").css("background-color", "#B0F6AC");
+                    $("#failmailreg").css("display","none");
     	            
     	         }
     	      }
