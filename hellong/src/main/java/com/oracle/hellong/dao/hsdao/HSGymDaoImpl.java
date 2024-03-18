@@ -68,16 +68,19 @@ public class HSGymDaoImpl implements HSGymDao {
 	}
 	
 		/* 헬스장 회원권 구매 */
-
-		/*
-		 * @Override public GSDetail getGSDetailDataBuy(GSDetail gsDetail) { GSDetail
-		 * gsDetailData = null;
-		 * System.out.println("hsServiceImpl getGSDetailDataBuy start..."); try {
-		 * gsDetailData = session.selectOne("hsGetGSDetailDataBuy", gsDetail); } catch
-		 * (Exception e) {
-		 * 
-		 * } return gsDetailData; }
-		 */
+	
+	@Override
+	public GSDetail getGSDetailDataBuy(Map<String, Object> params) {
+		GSDetail gsDetailData = null;
+		System.out.println("hsGymDaoImpl getGSDetailDataBuy start...");
+		try {
+			gsDetailData = session.selectOne("hsGetGSDetailDataBuy", params);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return gsDetailData;
+	}
 
 	@Override
 	public GSDetail insertAndGetGymOrder(GSDetail gsDetail) {
@@ -90,20 +93,6 @@ public class HSGymDaoImpl implements HSGymDao {
 			
 		}
 		return gsDetail;
-	}
-	
-	@Override
-	public String getEndDateGymOrder(GSDetail insertAndGetGymOrder) {
-		String go_enddate = null;
-		System.out.println("hsGymDaoImpl getEndDateGymOrder start...");
-		
-		try {
-			go_enddate = session.selectOne("hsGetEndDateGymOrder", insertAndGetGymOrder);
-			System.out.println("hsGymDaoImpl getEndDateGymOrder result-> " + go_enddate);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return go_enddate;
 	}
 	
 	@Override
@@ -223,6 +212,5 @@ public class HSGymDaoImpl implements HSGymDao {
 		}
 		return updatePointRefundResult;
 	}
-
 
 }

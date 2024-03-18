@@ -105,6 +105,7 @@
 				},
 				success: function(response) {
 					console.log(g_id + " & " + s_number + " & " + sd_number + " & " + m_number + " & " + refund_point + " & " + refund_criteria);
+					alert("환불이 완료되었습니다.");
 					window.location.href = "hsMemberIndex?m_number=" + m_number;
 					
 				},

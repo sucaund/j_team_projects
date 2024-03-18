@@ -25,11 +25,9 @@ public interface HSGymDao {
 	
 		/* 헬스장 회원권 구매 */
 
-		/* GSDetail getGSDetailDataBuy(GSDetail gsDetail); */
-
-	GSDetail insertAndGetGymOrder(GSDetail gsDetail);
+	GSDetail getGSDetailDataBuy(Map<String, Object> params);
 	
-	String getEndDateGymOrder(GSDetail insertAndGetGymOrder);
+	GSDetail insertAndGetGymOrder(GSDetail gsDetail);
 	
 	int updateGymOrderBuy(GSDetail insertAndGetGymOrder);
 

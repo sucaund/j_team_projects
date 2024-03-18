@@ -21,25 +21,25 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class HSServiceImpl implements HSService { 
-	     
+public class HSServiceImpl implements HSService {
+
 	private final HSNoticeBoardDao nbd;
 	private final HSMemberDao md;
 	private final HSPointDao pd;
 	private final HSGymDao gd;
-	
-		/* 공통 - 회원정보 받기 */
-		
+
+	/* 공통 - 회원정보 받기 */
+
 	@Override
 	public Member getMemberData(int m_number) {
 		System.out.println("hsServiceImpl getMemberData start...");
 		Member memberData = md.getMemberData(m_number);
-		System.out.println("hsServiceImpl getMemberData memberNumber-> " +memberData.getM_number());
+		System.out.println("hsServiceImpl getMemberData memberNumber-> " + memberData.getM_number());
 		return memberData;
 	}
 
-		/* 임시로그인 */ 
-	
+	/* 임시로그인 */
+
 	@Override
 	public int totalMember() {
 		System.out.println("hsServiceImpl start total...");
@@ -56,19 +56,19 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl listMember listMember.size()-> " + listMember.size());
 		return listMember;
 	}
-	
-		/* 공지사항 */
-	
+
+	/* 공지사항 */
+
 	// 공지글 리스트
 	@Override
 	public int totalNoticeBoard() {
 		System.out.println("hsServiceImpl start total...");
 		int totNoticeBoardCnt = nbd.totalNoticeBoard();
-		System.out.println("hsServiceImpl totalNoticeBoard totNoticeBoardCnt->" +totNoticeBoardCnt);
+		System.out.println("hsServiceImpl totalNoticeBoard totNoticeBoardCnt->" + totNoticeBoardCnt);
 		return totNoticeBoardCnt;
-	} 
- 
-	@Override 
+	}
+
+	@Override
 	public List<Board> listNoticeBoard(Board board) {
 		List<Board> noticeBoardList = null;
 		System.out.println("hsServiceImpl listNoticeBoard start...");
@@ -76,7 +76,7 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl listNoticeBoard noticeBoardList.size()->" + noticeBoardList.size());
 		return noticeBoardList;
 	}
-	
+
 	// 공지글 세부내용 + 조회수 증가
 	@Override
 	public int updateReadCount(int b_number) {
@@ -85,11 +85,11 @@ public class HSServiceImpl implements HSService {
 		result = nbd.updateReadCount(b_number);
 		return result;
 	}
-	
+
 	@Override
 	public Board detailNoticeBoard(int b_number) {
 		System.out.println("hsServiceImpl detail start...");
-		Board board = null; 
+		Board board = null;
 		board = nbd.detailNoticeBoard(b_number);
 		return board;
 	}
@@ -99,10 +99,10 @@ public class HSServiceImpl implements HSService {
 	public int createNoticeBoard(Board board) {
 		int result = 0;
 		System.out.println("hsServiceImpl createNoticeBoard start...");
-		result = nbd.createNoticeBoard(board); 
+		result = nbd.createNoticeBoard(board);
 		return result;
 	}
-	
+
 	// 공지글 수정
 	@Override
 	public int updateNoticeBoard(Board board) {
@@ -111,7 +111,7 @@ public class HSServiceImpl implements HSService {
 		updateCount = nbd.updateNoticeBoard(board);
 		return updateCount;
 	}
-	
+
 	// 공지글 삭제
 	@Override
 	public int deleteNoticeBoard(int b_number) {
@@ -120,7 +120,7 @@ public class HSServiceImpl implements HSService {
 		result = nbd.delteNoticeBoard(b_number);
 		return result;
 	}
-	
+
 	// 공지글 검색
 	@Override
 	public int condTotalNoticeBoard(Board board) {
@@ -138,9 +138,9 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl searchNoticeBoard searchBoard.size() ->" + searchBoard.size());
 		return searchBoard;
 	}
-	
-		/* 포인트 내역 조회 */
-	
+
+	/* 포인트 내역 조회 */
+
 	// 포인트충전 내역
 	@Override
 	public int totalListPointCharge(int m_number) {
@@ -150,23 +150,24 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl totalListPointCharge totalListPointChargeCnt ->" + totalListPointChargeCnt);
 		return totalListPointChargeCnt;
 	}
-	
+
 	@Override
 	public List<PointCharge> listPointCharge(Member member) {
 		List<PointCharge> listPoint = null;
 		System.out.println("hsServiceImpl listPointCharge start...");
 		listPoint = pd.listPointCharge(member);
-		System.out.println("hsServiceImpl listPointCharge listPoint.size() ->" +listPoint.size());
-		 
+		System.out.println("hsServiceImpl listPointCharge listPoint.size() ->" + listPoint.size());
+
 		return listPoint;
 	}
-	 
+
 	// 포인트사용 내역
 	@Override
 	public int totalListGymOrderDeal(int m_number) {
 		System.out.println("hsServiceImpl totalListGymOrderDeal start...");
 		int totalListGymOrderDealCnt = pd.totalListGymOrderDeal(m_number);
-		System.out.println("hsServiceImpl totalListGymOrderDeal totalListGymOrderDealCnt ->" + totalListGymOrderDealCnt);
+		System.out
+				.println("hsServiceImpl totalListGymOrderDeal totalListGymOrderDealCnt ->" + totalListGymOrderDealCnt);
 		return totalListGymOrderDealCnt;
 	}
 
@@ -175,7 +176,7 @@ public class HSServiceImpl implements HSService {
 		List<GymOrder> listPoint = null;
 		System.out.println("hsServiceImpl listGymOrderDeal start...");
 		listPoint = pd.listGymOrderDeal(member);
-		System.out.println("hsServiceImpl listGymOrderDeal listPoint.size() ->" +listPoint.size());
+		System.out.println("hsServiceImpl listGymOrderDeal listPoint.size() ->" + listPoint.size());
 		return listPoint;
 	}
 
@@ -184,7 +185,8 @@ public class HSServiceImpl implements HSService {
 	public int totalListGymOrderRefund(int m_number) {
 		System.out.println("hsServiceImpl totalListGymOrderRefund start...");
 		int totalListGymOrderRefundCnt = pd.totalListGymOrderRefund(m_number);
-		System.out.println("hsServiceImpl totalListGymOrderRefund totalListGymOrderRefundCnt ->" + totalListGymOrderRefundCnt);
+		System.out.println(
+				"hsServiceImpl totalListGymOrderRefund totalListGymOrderRefundCnt ->" + totalListGymOrderRefundCnt);
 		return totalListGymOrderRefundCnt;
 	}
 
@@ -193,12 +195,12 @@ public class HSServiceImpl implements HSService {
 		List<GymOrder> listPoint = null;
 		System.out.println("hsServiceImpl listGymOrderRefund start...");
 		listPoint = pd.listGymOrderRefund(member);
-		System.out.println("hsServiceImpl listGymOrderRefund listPoint.size() ->" +listPoint.size());
+		System.out.println("hsServiceImpl listGymOrderRefund listPoint.size() ->" + listPoint.size());
 		return listPoint;
 	}
 
-		/* 포인트 충전 */
-	
+	/* 포인트 충전 */
+
 //	@Override
 //	public PointCharge insertAndGetPointCharge(PointCharge pointCharge) {
 //		PointCharge insertAndGetPointCharge = null;
@@ -206,7 +208,7 @@ public class HSServiceImpl implements HSService {
 //		insertAndGetPointCharge = pd.insertAndGetPointCharge(pointCharge);
 //		return insertAndGetPointCharge;
 //	}
-	
+
 	@Override
 	public int insertPointCharge(Map<String, Object> chargeData) {
 		int insertResult = 0;
@@ -215,7 +217,7 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl insertPointCharge insertResult-> " + insertResult);
 		return insertResult;
 	}
-	
+
 	@Override
 	public int updatePointCharge(Map<String, Object> chargeData) {
 		int updateResult = 0;
@@ -224,9 +226,9 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl updatePointCharge updateResult-> " + updateResult);
 		return updateResult;
 	}
-	
-		/* 헬스장 이용내역 조회 */
-	
+
+	/* 헬스장 이용내역 조회 */
+
 	@Override
 	public int totalUsingGym(int m_number) {
 		int totalGym = 0;
@@ -244,9 +246,9 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl listDetailUsingGym listUsingGym.size()-> " + listUsingGym.size());
 		return listUsingGym;
 	}
-	
-		/* 헬스장 회원권 구매,환불 공통 - getGymOrder */
-	
+
+	/* 헬스장 회원권 구매,환불 공통 - getGymOrder */
+
 	@Override
 	public GSDetail getGSDetailData(GSGSDetailJoin gsd) {
 		GSDetail gymOrderData = null;
@@ -254,15 +256,17 @@ public class HSServiceImpl implements HSService {
 		gymOrderData = gd.getGSDetailData(gsd);
 		return gymOrderData;
 	}
-	
-		/* 헬스장 회원권 구매 */
-	
-		/*
-		 * @Override public GSDetail getGSDetailDataBuy(GSDetail gsDetail) { GSDetail
-		 * gsDetailData = null;
-		 * System.out.println("hsServiceImpl getGSDetailDataBuy start..."); gsDetailData
-		 * = gd.getGSDetailDataBuy(gsDetail); return gsDetailData; }
-		 */
+
+	/* 헬스장 회원권 구매 */
+
+	@Override
+	public GSDetail getGSDetailDataBuy(Map<String, Object> params) {
+		GSDetail gsDetailData = null;
+		System.out.println("hsServiceImpl getGSDetailDataBuy start...");
+		gsDetailData = gd.getGSDetailDataBuy(params);
+		return gsDetailData;
+	}
+
 	@Override
 	public GSDetail insertAndGetGymOrder(GSDetail gsDetail) {
 		GSDetail insertAndGetGymOrder = null;
@@ -270,17 +274,7 @@ public class HSServiceImpl implements HSService {
 		insertAndGetGymOrder = gd.insertAndGetGymOrder(gsDetail);
 		return insertAndGetGymOrder;
 	}
-	
 
-	@Override
-	public String getEndDateGymOrder(GSDetail insertAndGetGymOrder) {
-		String go_enddate = null;
-		System.out.println("hsServiceImpl getEndDateGymOrder start...");
-		go_enddate = gd.getEndDateGymOrder(insertAndGetGymOrder);
-		
-		return go_enddate;
-	}
-	
 	@Override
 	public int updateGymOrderBuy(GSDetail insertAndGetGymOrder) {
 		int updateGymOrderResultBuy = 0;
@@ -297,9 +291,8 @@ public class HSServiceImpl implements HSService {
 		return updatePointBuyResult;
 	}
 
-	
-		/* 헬스장 회원권 환불 */
-	
+	/* 헬스장 회원권 환불 */
+
 	// 이용중인 헬스장 이름 조회
 	@Override
 	public List<GymOrder> getListGymName(int m_number) {
@@ -309,7 +302,7 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl getListGymOrder listGymOrder.size()-> " + listGymName.size());
 		return listGymName;
 	}
- 
+
 	// 이용중인 헬스장 서비스 조회
 	@Override
 	public List<GymOrder> getListGymService(int g_id, int m_number) {
@@ -319,14 +312,14 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl getListGymService listGymService.size()-> " + listGymService.size());
 		return listGymService;
 	}
-  
+
 	// 이용중인 헬스장 예상 환불금액 조회
 	@Override
 	public GymOrder getRefundData(int g_id, int s_number, int sd_number, int m_number, int go_number) {
 		GymOrder refundData = null;
 		System.out.println("hsServiceImpl getRefundData start...");
 		refundData = gd.getRefundData(g_id, s_number, sd_number, m_number, go_number);
-		System.out.println("hsServiceImpl getRefundPrice refundData-> " + refundData.getRefund_point()); 
+		System.out.println("hsServiceImpl getRefundPrice refundData-> " + refundData.getRefund_point());
 		return refundData;
 	}
 

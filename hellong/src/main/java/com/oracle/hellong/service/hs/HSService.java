@@ -94,9 +94,10 @@ public interface HSService {
 		/* GSDetail getGSDetailDataBuy(GSDetail gsDetail); */
 	
 	// GymOrder에 구매정보 insert
-	GSDetail insertAndGetGymOrder(GSDetail gsDetail);
 	
-	String getEndDateGymOrder(GSDetail insertAndGetGymOrder);
+	GSDetail getGSDetailDataBuy(Map<String, Object> params);
+	
+	GSDetail insertAndGetGymOrder(GSDetail gsDetail);
 	
 	int updateGymOrderBuy(GSDetail insertAndGetGymOrder);
 	
@@ -119,7 +120,6 @@ public interface HSService {
 
 	// Member 환불포인트 업데이트
 	int updatePointRefund(Map<String, Object> params);
-
 
 
 }

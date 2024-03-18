@@ -567,7 +567,7 @@ public class JHController {
 	
 	
 	
-	
+	 
 	
 	// 결제 폼 뷰 이동
 	@GetMapping(value="movePaymentForm")
@@ -577,7 +577,7 @@ public class JHController {
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
 			
 			GSDetail gsDetailData = hs.getGSDetailData(gsd);
-			
+			System.out.println("check: " +member.getM_number());
 			model.addAttribute("memberData", member);
 			model.addAttribute("gsDetailData", gsDetailData);
 			
@@ -586,7 +586,7 @@ public class JHController {
 		else {
 			return "jm/jmLoginForm";
 		}
-		
+		 
 	}
 	
 	

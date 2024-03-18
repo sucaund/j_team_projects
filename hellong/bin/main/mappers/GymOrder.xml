@@ -91,7 +91,6 @@
 		      AND go.m_number = 1
 				      -->
 		     
-
 <!-- SELECT DISTINCT g.g_id, g.g_name, go.m_number, a.gbf_storedfilename,
                 get_period_of_use(go.g_id, go.m_number) period_of_use,
                 get_first_regist_date(go.g_id, go.m_number) first_regist_date
@@ -121,21 +120,19 @@ WHERE g.g_id = a.g_id
 			AND gsd.sd_number = #{sd_number}
 			AND gsd.sd_isend = 0
 	</select>
-
 	
+	<select id="hsGetGSDetailDataBuy" parameterType="map" resultType="GSDetail">
+		SELECT *
+		FROM g_s_detail
+		WHERE g_id = #{g_id}
+            AND s_number = #{s_number}
+            AND sd_number = #{sd_number}
+            AND sd_isend = 0
+	</select>
+
 	<insert id="hsInsertAndGetGymOrder" parameterType="GSDetail" useGeneratedKeys="true" keyColumn="go_number" keyProperty="go_number">
 		INSERT INTO gym_order VALUES (#{g_id}, #{s_number}, #{sd_number}, #{m_number}, go_number_seq.nextval, #{sd_price}, sysdate, null, 0, null, sysdate, null, 0)
 	</insert>
-	
-	<select id="hsGetEndDateGymOrder" parameterType="GSDetail" resultType="String">
-		SELECT get_end_date(#{g_id}, #{s_number}, #{sd_number}, #{m_number}, #{go_number})
-		FROM gym_order
-		WHERE g_id = #{g_id}
-           AND s_number = #{s_number}
-           AND sd_number = #{sd_number}
-           AND m_number = #{m_number}
-      	   AND go_number = #{go_number} 
-	</select>
 	
 	<update id="hsUpdateGymOrderBuy" parameterType="GSDetail">
 		UPDATE gym_order SET go_enddate = (SELECT 

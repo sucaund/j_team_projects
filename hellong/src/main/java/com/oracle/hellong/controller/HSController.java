@@ -483,6 +483,10 @@ public class HSController { //////
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
 			
 			System.out.println("체크체크: " +member.getM_number());
+			System.out.println(m_number);
+			System.out.println(charge_point);
+			System.out.println(merchant_uid);
+			System.out.println(pg);
 
 			Map<String, Object> chargeData = new HashMap<>();
 			chargeData.put("m_number", member.getM_number());
@@ -496,7 +500,7 @@ public class HSController { //////
 			// 회원 포인트 업데이트
 			int updatePointChargeResult = hs.updatePointCharge(chargeData);
 			
-			return "redirect:hsMemberIndex?m_number=" + member.getM_number();
+			return null;
 		}	
 		else {
 			return "jm/jmLoginForm";
@@ -530,8 +534,11 @@ public class HSController { //////
 	/* 헬스장 회원권 구매 */
 	
 	// 결제 버튼 클릭 시 g_id, s_number, m_number 제공받아 시작
-	@PostMapping(value = "hsBuyGymMembership")
-	public String hsBuyGymMembership(GSDetail gsDetail, Model model, HttpSession session) {
+	@ResponseBody
+	@RequestMapping(value = "hsBuyGymMembership")
+	public String hsBuyGymMembership(@RequestParam("m_number") int m_number, @RequestParam("g_id") int g_id, 
+										@RequestParam("s_number") int s_number, @RequestParam("sd_number") int sd_number,  
+									   @RequestParam("sd_price") int sd_price, HttpSession session) {
 
 		System.out.println("hsController hsBuyGymMembership start...");
 		
@@ -544,18 +551,26 @@ public class HSController { //////
 			TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
 			
 			try {
+				Map<String,Object> params = new HashMap<>();
+				params.put("g_id", g_id);
+				params.put("s_number", s_number);
+				params.put("sd_number", sd_number);
+				params.put("m_number", member.getM_number());
+				params.put("sd_price", sd_price);
+				
+				// 1. params 값 GSDetail에 입력
+				System.out.println("1. GSDetail select");
+				GSDetail gsDetailData = hs.getGSDetailDataBuy(params);
+				gsDetailData.setM_number(member.getM_number());
+				
 				// 2. GymOrder insert
 				System.out.println("2. GymOrder insert");
-
-				gsDetail.setM_number(member.getM_number());
-				
-				GSDetail insertAndGetGymOrder = hs.insertAndGetGymOrder(gsDetail);
+				GSDetail insertAndGetGymOrder = hs.insertAndGetGymOrder(gsDetailData);
 				System.out.println("hsController hsBuyGymMembership insertAndGetGymOrder.getGo_number-> " + insertAndGetGymOrder.getGo_number());
 				
 				// 3. GymOrder 업데이트 (go_enddate)
 				System.out.println("3. GymOrder 업데이트 - go_enddate");
 				int updateGymOrderBuyReuslt = hs.updateGymOrderBuy(insertAndGetGymOrder);
-				
 				
 				// 4. member 정보 업데이트
 				System.out.println("3. Member 포인트 업데이트");
