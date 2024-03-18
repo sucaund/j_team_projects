@@ -201,6 +201,14 @@
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 
+	<select id="commonList" parameterType="Common" resultType="Common">
+		SELECT *
+		FROM common
+		WHERE common_mcd != 999
+	
+	</select>
+
+
 
 <!-- 재준 mappers 끝 -->
 

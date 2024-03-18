@@ -1,14 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="header.jsp"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+	<%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>재만에러페이지</title>
+<title>에러 페이지</title>
 </head>
 <body>
-에러페이지(재만)
+	<div class="error-area">
+		<div class="d-table">
+		  <div class="d-table-cell">
+			<div class="container">
+			  <div class="error-content">
+				<h1>Error</h1>
+				<h2>알 수 없는 에러가 발생했습니다.</h2>
+				<div class="button">
+				  <a class="btn" onclick="history.back();" style="background-color: #8258FA;">뒤로 가기</a>
+				  <a href="/" class="btn">메인페이지로 이동</a>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
 </body>
 </html>

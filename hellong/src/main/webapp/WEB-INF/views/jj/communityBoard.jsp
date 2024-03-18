@@ -73,10 +73,12 @@
 		</c:forEach>
 	</table>
 	<p>
-	<div style="text-align: right; padding: 0 5%;">
-		<button type="button" class="btn btn-primary" 
-	  		  onclick="location.href='writeFormBoard'">글쓰기</button>
-	</div>
+	<c:if test="${sessionScope.m_number != null}">
+		<div style="text-align: right; padding: 0 5%;">
+			<button type="button" class="btn btn-primary" 
+		  		  onclick="location.href='writeFormBoard'">글쓰기</button>
+		</div>
+	</c:if>
 	<div style="display: grid; place-items: center;">
 		<form action="jjCategorySearch" id="formCateSearch" method="get">
 			<select name="search" >

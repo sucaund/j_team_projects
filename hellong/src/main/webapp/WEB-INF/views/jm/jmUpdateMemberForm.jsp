@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <%@ taglib prefix="fmt"
-uri="http://java.sun.com/jsp/jstl/fmt" %> <%@ include file="header.jsp"%>
+pageEncoding="UTF-8"%> <%@ include file="../header.jsp"%>
 
 <!DOCTYPE html>
 <html>
@@ -9,199 +8,201 @@ uri="http://java.sun.com/jsp/jstl/fmt" %> <%@ include file="header.jsp"%>
     <title>Insert title here</title>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script type="text/javascript" src="js/updateMember.js"></script>
+    <style>
+      a.btn {
+          margin-top: 10px;
+          margin-bottom: 10px;
+              }
+    </style>
   </head>
   <body>
-    <!-- 로그인/비로그인 막는건 컨트롤러에서 -->
-    <c:if test="${msg!=null}">${msg}</c:if>
-    <h2>회원정보 수정</h2>
-    <!-- controller에서 특정 member만 가져온 상태 -->
-    회원명 : ${m_name}
-    <form action="jmUpdateMember" method="post" modelAttribute="member">
-      <table>
-        <tr>
-          <th>아이디</th>
-          <td>${m_id}</td>
-        </tr>
-        <tr>
-          <th>회원유형</th>
-          <td>
-            <c:if test="${member.common_mcd==10}">헬롱 회원</c:if>
-            <c:if test="${member.common_mcd==20}">사장님</c:if>
-            <c:if test="${member.common_mcd==30}">관리자</c:if>
-          </td>
-        </tr>
+    <!-- 상단 시작 -->
+    <div class="breadcrumbs">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 col-md-6 col-12">
+            <div class="breadcrumbs-content">
+              <h1 class="page-title">회원 정보 수정</h1>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-12">
+            <ul class="breadcrumb-nav">
+              <li>
+                <a href="/jmMyPage"><i class="lni lni-home"></i>마이페이지</a>
+              </li>
+              <li>회원정보수정</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 상단 끝 -->
 
-        <tr>
-          <th>비밀번호</th>
-          <td>
-            <input type="button" value="비밀번호 변경" onclick="resetPw()" />
-          </td>
-        </tr>
 
-        <tr>
-          <th>이름(닉네임)</th>
-          <td>
-            <input
-              type="text"
-              id="m_name"
-              name="m_name"
-              required="required"
-              value="${member.m_name}"
-            />
-          </td>
-        </tr>
-        <tr>
-          <th>나이</th>
-          <td>
-            <select name="m_age" id="m_age" value="${member.m_age}">
-              <script>
-                for (i = 10; i < 100; i++) {
-                  document.write("<option>" + [i] + "</option>");
-                }
-              </script>
-            </select>
-          </td>
-        </tr>
-
-        <tr>
-          <th>성별</th>
-          <td>
-            <c:if test="${member.m_gender=='F'}">여성</c:if>
-            <c:if test="${member.m_gender=='M'}">남성</c:if>
-          </td>
-        </tr>
-
-        <tr>
-          <th>전화번호</th>
-          <td>
-            <input
-              type="text"
-              class="form-control"
-              id="m_phone"
-              name="m_phone"
-              placeholder="전화번호"
-              value="${member.m_phone}"
-              oninput="addhyphen(),checkPhone(),activateUpdateBtn()"
-              autocomplete="off"
-            />
-			   <!-- , activateUpdateBtn() -->
-          </td>
-        </tr>
-
-        <tr>
-          <th class="email_old">이메일</th>
-          <td>
-            ${member.m_email}
-            <input type="button" value="이메일 변경" onclick="changeMail()" />
-          </td>
-        </tr>
-
-        <tr class="email_change" style="display: none">
-          <th>변경할 이메일</th>
-          <td>
-            <input
-              type="text"
-              class="form-control"
-              id="m_email"
-              placeholder="변경할 이메일을 입력해주세요"
-              name="m_email"
-              oninput="checkMailReg()"
-              autocomplete="off"
-            />
-            <button
-              type="button"
-              id="sendMailBtn"
-              name="sendMailBtn"
-              onclick="sendMailNumber()"
-            >
-              인증번호 받기
-            </button>
-          </td>
-        </tr>
-
-        <tr class="mail_check" style="display: none">
-          <th>인증번호 입력</th>
-          <td>
-            <input
-              type="text"
-              name="input_mail_number"
-              id="input_mail_number"
-              style="width: 250px; margin-top: -10px"
-              placeholder="인증번호 입력"
-            />
-            <button
-              type="button"
-              name="confirmMailBtn"
-              id="confirmMailBtn"
-              onclick="confirmMailNumber(),activateUpdateBtn()"
-            >
-						  <!-- , activateUpdateBtn() -->
-              인증
-            </button>
-          </td>
-        </tr>
-
-        <tr class="address_old" style="display: block">
-          <th id="address_old_value">주소</th>
-          <td>
-            ${member.m_address}
-            <input type="button" value="주소 변경" onclick="changeAdress()" />
-          </td>
-        </tr>
-
-        <tr class="address_change" style="display: none">
-          <th></th>
-          <td>
-            <input type="text" id="sample6_postcode" placeholder="우편번호" />
-            <input
-              type="button"
-              onclick="sample6_execDaumPostcode()"
-              value="우편번호 찾기"
-            />
-          </td>
-        </tr>
-
-        <tr class="address_change" style="display: none">
-          <th></th>
-          <td>
-            <input
-              type="text"
-              id="m_address"
-              name="m_address"
-              placeholder="주소"
-            />
-          </td>
-        </tr>
-
-        <tr class="address_change" style="display: none">
-          <th></th>
-          <td>
-            <input
-              type="text"
-              id="sample6_detailAddress"
-              placeholder="상세주소"
-            />
-            <input
-              type="text"
-              id="sample6_extraAddress"
-              placeholder="참고항목"
-            />
-          </td>
-        </tr>
-      </table>
-
-      <a href="/jmWithdrawalMemberForm">회원 탈퇴</a> <br />
-
-      <input type="button" value="취소" onclick="location.reload();" />
-
-      <button
-        type="submit"
-        class="btn btn-secondary"
-        style="padding: 2% 0 2%"
-        id="updatebtn"
-      >
-        완료
-      </button>
-    </form>
+      <!-- 비로그인 상태일 때(비정상 접근) : 실질 접근 x (컨트롤러에서 막아놨기에) -->
+      <c:if test="${m_number==null}">
+        <div class="account-login section">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+              <form class="card login-form" method="get" id="login" action="jmLoginForm">
+                <div class="card-body">
+                  <div class="title">
+                    <h3>로그인을 먼저 해주세요.</h3>
+                    <p><c:if test="${msg!=null}">${msg}</c:if></p>
+                  </div>
+      
+                  <div class="button">
+                    <button class="btn" type="submit" form="login">로그인</button>
+                  </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+          </c:if> 
+        <!--닫기: c:if m_number != null -->
+      
+         <!-- 로그인 안되어있을때(즉 정상 접근 때) : member를 받아온 상태 -->
+          <c:if test="${m_number!=null}">
+          <div class="account-login section">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                          <form class="register-form" action="jmUpdateMember" method="post" name="frm"
+                          modelAttribute="member">
+                              <div class="card-body">
+                                  <div class="title">
+                                      <h3>회원 정보 수정</h3>
+                                      <c:if test="${update_msg!=null}">${update_msg}</c:if>
+                                  </div>
+                                  
+      
+                                  <div class="form-group input-group">
+                                      <label for="reg-id">아이디</label>
+                                      <p style="color:black;">${m_id}</p>
+                                  </div>
+      
+                                  <div class="form-group input-group">
+                                      <label for="reg-rank">회원 유형</label>
+                                      <p style="color:black;">
+                                          <c:if test="${member.common_mcd==10}">헬롱 회원</c:if>
+                                          <c:if test="${member.common_mcd==20}">사장님</c:if>
+                                          <c:if test="${member.common_mcd==30}">관리자</c:if>
+                                      </p>
+                                  </div>
+      
+                                  <div class="form-group input-group">
+                                      <label for="reg-pass">비밀번호</label>
+                                      <input type="button" class="btn btn-primary" onclick="resetPw()" value="비밀번호 변경" >   
+                                  </div>
+      
+                  
+                                  <!-- 이름-->
+                            <div class="form-group input-group">
+                                      <label for="reg-fn">이름</label>
+                                      <input type="text"
+                class="form-control" id="m_name" placeholder="이름 또는 닉네임"  name="m_name"
+                autocomplete='off' required="required" value="${m_name}">
+                                  </div>
+      
+                                  <div class="form-group input-group">
+                                      <label for="age-select">나이</label>
+                                      <select name="m_age"
+                                id="m_age" value="${member.m_age}">
+                        <option value="${member.m_age}">${member.m_age}</option>
+                                <script>
+                              for (i = 10; i < 100; i++) {
+                            document.write("<option>" + [ i ] + "</option>");
+                              }
+                                </script>
+                              </select>
+                                  </div>
+      
+                                  <!-- 성별-->
+                            <div class="form-group input-group">
+                                      <label for="reg-gender">성별</label>
+                                      <p style="color:black;">
+                                          <c:if test="${member.m_gender=='F'}">여성</c:if>
+                                          <c:if test="${member.m_gender=='M'}">남성</c:if> 
+                                      </p>
+                                  </div>
+      
+                                  <!-- 전화번호-->
+                            <div class="form-group input-group">
+                                      <label for="reg-phone">전화번호</label>
+                                      <input type="text" value="${member.m_phone}"
+                class="form-control" id="m_phone" placeholder="전화번호"  name="m_phone"
+                oninput="addhyphen(),checkPhone(), activateUpdateBtn()"
+                          autocomplete='off' required="required">
+                                  </div>
+      
+                                  <!-- 이메일-->
+                                  <div class="form-group input-group">
+                                      <label for="reg-email" id="email_old">이메일</label>
+                                      <label for="reg-email"><p style="color:black;">${member.m_email}</p> </label>
+                                      <input type="button" class="btn btn-primary" value="이메일 변경" 
+                                      onclick="changeMail()"/>
+                                  </div>
+      
+                                  <!-- 변경할 이메일-->
+                            <div class="form-group input-group" id="email_change" style="display: none;">
+                                      <label for="reg-email">변경할 이메일</label>
+                                      <input type="text"
+                class="form-control" id="m_email" placeholder="변경할 이메일을 입력해주세요"  name="m_email"
+                oninput="checkMailReg()"
+                          autocomplete='off'>
+                          <button type="button" class="btn btn-primary" id="sendMailBtn" name="sendMailBtn" onclick="sendMailNumber()" style="margin-top: 10px;">인증번호 받기</button>
+                                  </div>
+      
+                                  <!-- 인증번호 입력-->
+                            <div class="form-group input-group" id="mail_check" name="mail_check" style="display: none">
+                                      <label for="reg-email-check">인증번호 입력</label>
+                                      <input type="text"
+                class="form-control" id="input_mail_number" placeholder="이메일로 인증번호가 전송되었습니다."  name="input_mail_number"
+                autocomplete='off'>
+                          <button type="button" class="btn btn-primary" id="confirmMailBtn" name="confirmMailBtn" onclick="confirmMailNumber(), activateUpdateBtn()" style="margin-top: 10px;">인증</button>
+                                  </div>
+      
+                                  <!-- 주소-->
+                            <div class="form-group input-group" id="address_old" style="display: block;">
+                                      <label for="reg-email-check" id="address_old_value">주소</label>
+                                      <p style="color:black;">${member.m_address}</p> 
+                                      <button type="button" class="btn btn-primary" onclick="changeAdress()" 
+                                      style="margin-top: 10px; margin-bottom: 10px;">주소 변경</button>
+                                  </div>
+                            
+                              <!-- 버튼 누를시 보여지는 변경 주소란 -->
+                                  <div class="form-group input-group" id="address_change" style="display: none;">
+                                      <label for="reg-email-check">변경할 주소</label>
+      
+                                      <input type="text"
+                                      class="form-control" id="m_address" name="m_address" placeholder="변경할 주소"
+                                      autocomplete='off' >
+      
+                                      <input type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()" value="주소 찾기" style="margin-top: 10px; margin-bottom: 10px;">
+                                     
+                                      <input type="text"
+                class="form-control" id="sample6_postcode" placeholder="우편번호"
+                autocomplete='off'>
+                                  </div> <!-- 주소 끝 -->
+                                      
+         
+                                  <div class="button">
+                                      <button class="btn" id="updatebtn" type="submit" 
+                                      style="margin-bottom: 10px;">회원 정보 수정</button>
+                                      <button class="btn" onclick="location.reload();" 
+                                      style="margin-bottom: 10px; background-color: #8258FA">취소</button>
+                                      <a href="/jmWithdrawalMemberForm" style="color: #A4A4A4;"
+                                      >회원 탈퇴하기</a>
+                                  </div>
+                                  
+                              </div> <!-- card-body -->
+                          </form> <!-- form : register -->
+                      </div>
+                  </div>
+              </div>
+          </div>
+          </c:if>
   </body>
 </html>

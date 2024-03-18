@@ -21,6 +21,7 @@
 		<typeAlias alias="Zzim"  type="com.oracle.hellong.model.Zzim"/>
 		<typeAlias alias="GymBoardFile" type="com.oracle.hellong.model.GymBoardFile"/>
 		<typeAlias alias="BoardFile" type="com.oracle.hellong.model.BoardFile" />
+		<typeAlias alias="Common" type="com.oracle.hellong.model.Common" />
 	</typeAliases>
 	
 	
