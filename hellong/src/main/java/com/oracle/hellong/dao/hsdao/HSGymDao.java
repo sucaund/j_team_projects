@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.GSDetail;
+import com.oracle.hellong.model.GSGSDetailJoin;
 import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 
@@ -19,7 +20,7 @@ public interface HSGymDao {
 	
 		/* 헬스장 회원권 구매,환불 공통 - getGymOrder */
 	
-	GSDetail getGSDetailData(GSDetail gsDetail);
+	GSDetail getGSDetailData(GSGSDetailJoin gsd);
 	
 	
 		/* 헬스장 회원권 구매 */
@@ -27,6 +28,8 @@ public interface HSGymDao {
 		/* GSDetail getGSDetailDataBuy(GSDetail gsDetail); */
 
 	GSDetail insertAndGetGymOrder(GSDetail gsDetail);
+	
+	String getEndDateGymOrder(GSDetail insertAndGetGymOrder);
 	
 	int updateGymOrderBuy(GSDetail insertAndGetGymOrder);
 
@@ -48,5 +51,6 @@ public interface HSGymDao {
 
 	// Member 환불포인트 업데이트
 	int updatePointRefund(Map<String, Object> params);
+
 
 }

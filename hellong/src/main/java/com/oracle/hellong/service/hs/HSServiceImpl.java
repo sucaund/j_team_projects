@@ -12,6 +12,7 @@ import com.oracle.hellong.dao.hsdao.HSPointDao;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.GSDetail;
+import com.oracle.hellong.model.GSGSDetailJoin;
 import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.model.PointCharge;
@@ -66,7 +67,7 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl totalNoticeBoard totNoticeBoardCnt->" +totNoticeBoardCnt);
 		return totNoticeBoardCnt;
 	} 
-
+ 
 	@Override 
 	public List<Board> listNoticeBoard(Board board) {
 		List<Board> noticeBoardList = null;
@@ -247,10 +248,10 @@ public class HSServiceImpl implements HSService {
 		/* 헬스장 회원권 구매,환불 공통 - getGymOrder */
 	
 	@Override
-	public GSDetail getGSDetailData(GSDetail gsDetail) {
+	public GSDetail getGSDetailData(GSGSDetailJoin gsd) {
 		GSDetail gymOrderData = null;
 		System.out.println("hsServiceImpl getGSDetailData start...");
-		gymOrderData = gd.getGSDetailData(gsDetail);
+		gymOrderData = gd.getGSDetailData(gsd);
 		return gymOrderData;
 	}
 	
@@ -268,6 +269,16 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl insertAndGetGymOrder start...");
 		insertAndGetGymOrder = gd.insertAndGetGymOrder(gsDetail);
 		return insertAndGetGymOrder;
+	}
+	
+
+	@Override
+	public String getEndDateGymOrder(GSDetail insertAndGetGymOrder) {
+		String go_enddate = null;
+		System.out.println("hsServiceImpl getEndDateGymOrder start...");
+		go_enddate = gd.getEndDateGymOrder(insertAndGetGymOrder);
+		
+		return go_enddate;
 	}
 	
 	@Override

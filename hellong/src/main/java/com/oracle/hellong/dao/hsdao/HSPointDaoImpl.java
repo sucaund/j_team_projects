@@ -140,7 +140,7 @@ public class HSPointDaoImpl implements HSPointDao {
 		
 		try {
 			updateResult = session.update("com.oracle.hellong.PointChargeMapper.hsUpdatePointCharge", chargeData);
-			System.out.println("PointDaoImpl updatePointCharge insertResult-> " + updateResult);
+			System.out.println("PointDaoImpl updatePointCharge updateResult-> " + updateResult);
 		} catch (Exception e) {
 			System.out.println("PointDaoImpl updatePointCharge Exception-> " + e.getMessage());
 		}

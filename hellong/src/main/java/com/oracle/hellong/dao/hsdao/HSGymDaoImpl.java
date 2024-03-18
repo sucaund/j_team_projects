@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.GSDetail;
+import com.oracle.hellong.model.GSGSDetailJoin;
 import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 
@@ -53,12 +54,12 @@ public class HSGymDaoImpl implements HSGymDao {
 		/* 헬스장 회원권 구매,환불 공통 - getGymOrder */
 	
 	@Override
-	public GSDetail getGSDetailData(GSDetail gsDetail) {
+	public GSDetail getGSDetailData(GSGSDetailJoin gsd) {
 		GSDetail gymOrderData = null;
 		System.out.println("hsGymDaoImpl getGSDetailData start...");
 		
 		try {
-			gymOrderData = session.selectOne("hsGetGSDetailData", gsDetail);
+			gymOrderData = session.selectOne("hsGetGSDetailData", gsd);
             System.out.println("hsGymDaoImpl getGSDetailData gymOrderData-> " + gymOrderData);
 		} catch (Exception e) { 
 			
@@ -92,6 +93,20 @@ public class HSGymDaoImpl implements HSGymDao {
 	}
 	
 	@Override
+	public String getEndDateGymOrder(GSDetail insertAndGetGymOrder) {
+		String go_enddate = null;
+		System.out.println("hsGymDaoImpl getEndDateGymOrder start...");
+		
+		try {
+			go_enddate = session.selectOne("hsGetEndDateGymOrder", insertAndGetGymOrder);
+			System.out.println("hsGymDaoImpl getEndDateGymOrder result-> " + go_enddate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return go_enddate;
+	}
+	
+	@Override
 	public int updateGymOrderBuy(GSDetail insertAndGetGymOrder) {
 		int updateGymOrderBuyResult = 0;
 		System.out.println("hsGymDaoImpl updateGymOrderBuy start...");
@@ -115,7 +130,7 @@ public class HSGymDaoImpl implements HSGymDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			
-		}
+		} 
 		return updatePointBuyResult;
 	}
 	

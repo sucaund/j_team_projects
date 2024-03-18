@@ -485,7 +485,7 @@
 					 FROM member m, board b
 					 WHERE m.m_number = b.m_number
 					 AND b.common_mcd = 110
-				     ORDER BY b_update) a
+				     ORDER BY b_update DESC) a
 			)
 			WHERE rn >= #{start}
 			AND rn <= #{end}
@@ -510,7 +510,7 @@
 	<!-- 공지글 작성 -->
 	<insert id="hsCreateNoticeBoard" parameterType="Board" useGeneratedKeys="true" keyColumn="b_number" keyProperty="b_number">
 		INSERT INTO board VALUES (b_number_seq.nextval, #{m_number}, 200, 110, #{b_title}, #{b_content}, 0, sysdate, 
-									sysdate, 0, 0, 0, 'image', null, null, null)
+									sysdate, 0, 0, 'image', null, null, null)
 	</insert>
 
 	<!-- 공지글 수정 -->		
@@ -520,10 +520,10 @@
 	</update>
 	
 	<!-- 공지글 삭제 -->
-	<delete id="hsDeleteScrap" parameterType="Board">
+<!-- 	<delete id="hsDeleteScrap" parameterType="Board">
 		DELETE FROM scrap WHERE b_number=#{b_number}
 	</delete>
-	
+	 -->
 	<delete id="hsDeleteNoticeBoard" parameterType="Board">
 		DELETE FROM board WHERE b_number=#{b_number}
 	</delete>

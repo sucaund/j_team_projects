@@ -39,17 +39,18 @@
 	</table>	
 	
 	<c:if test="${page.startPage > page.pageBlock }">
-		<a href="hsListNoticeBoard?currentPage=${page.startPage-page.pageBlock}&m_number=${m_number}">[이전]</a>
+		<a href="hsSearchNoticeBoard?currentPage=${page.startPage-page.pageBlock}&m_number=${m_number}">[이전]</a>
 	</c:if>
 	<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-		<a href="hsListNoticeBoard?currentPage=${i}&m_number=${m_number}">[${i}]</a>
+		<a href="hsSearchNoticeBoard?currentPage=${i}&m_number=${m_number}">[${i}]</a>
 	</c:forEach>
 	<c:if test="${page.endPage < page.totalPage }">
-		<a href="hsListNoticeBoard?currentPage=${page.startPage+page.pageBlock}&m_number=${m_number}">[다음]</a>
+		<a href="hsSearchNoticeBoard?currentPage=${page.startPage+page.pageBlock}&m_number=${m_number}">[다음]</a>
 	</c:if>	
 
 				
-	<form action="hsSearchNoticeBoard?m_number=${m_number }">
+	<form action="hsSearchNoticeBoard">
+		<input type="hidden" name="m_number" value="${m_number}">
 		<select name="search">
 			<option value="b_title">제목조회</option>
 			<option value="b_content">내용조회</option>

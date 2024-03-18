@@ -22,8 +22,7 @@ $(document).ready(function() {
 </head>
 <body>
 	<h1> GymOrder 값을 넘겨줄 결제창 </h1>
-	<form action="hsBuyGymMembership?m_number=${memberData.m_number }&
-									g_id=${gsDetailData.g_id}&
+	<form action="hsBuyGymMembership?g_id=${gsDetailData.g_id}&
 									s_number=${gsDetailData.s_number}&
 									sd_number=${gsDetailData.sd_number}&
 									s_period=${gsDetailData.s_period}&

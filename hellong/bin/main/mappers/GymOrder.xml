@@ -110,7 +110,7 @@ WHERE g.g_id = a.g_id
 		<!-- 헬스장 회원권 구매 -->
 		
 	<!-- 지훈님 form에서 받는 데이터로 GSDetail 정보 조회 + s_period, sd_price 가져오기 -->
-	<select id="hsGetGSDetailData" parameterType="GSDetail" resultType="GSDetail">
+	<select id="hsGetGSDetailData" parameterType="GSGSDetailJoin" resultType="GSDetail">
 		SELECT g.g_name g_name, gs.s_name s_name, gs.s_period s_period, gsd.*
 		FROM gym g, g_s gs, g_s_detail gsd
 		WHERE g.g_id = gs.g_id
@@ -127,9 +127,31 @@ WHERE g.g_id = a.g_id
 		INSERT INTO gym_order VALUES (#{g_id}, #{s_number}, #{sd_number}, #{m_number}, go_number_seq.nextval, #{sd_price}, sysdate, null, 0, null, sysdate, null, 0)
 	</insert>
 	
-	<update id="hsUpdateGymOrderBuy" parameterType="GSDetail">
-		UPDATE gym_order SET go_enddate = get_end_date(#{g_id}, #{s_number}, #{sd_number}, #{m_number}, #{go_number})
+	<select id="hsGetEndDateGymOrder" parameterType="GSDetail" resultType="String">
+		SELECT get_end_date(#{g_id}, #{s_number}, #{sd_number}, #{m_number}, #{go_number})
+		FROM gym_order
 		WHERE g_id = #{g_id}
+           AND s_number = #{s_number}
+           AND sd_number = #{sd_number}
+           AND m_number = #{m_number}
+      	   AND go_number = #{go_number} 
+	</select>
+	
+	<update id="hsUpdateGymOrderBuy" parameterType="GSDetail">
+		UPDATE gym_order SET go_enddate = (SELECT 
+                                            (go.deal_date + gs.s_period) go_enddate               
+                                            FROM g_s gs, g_s_detail gsd, gym_order go
+                                            WHERE gs.g_id = gsd.g_id
+                                            AND gs.g_id = go.g_id
+                                            AND gs.s_number = gsd.s_number
+                                            AND gs.s_number = go.s_number
+                                            AND gsd.sd_number = go.sd_number
+                                            AND go.g_id = #{g_id}
+                                            AND go.s_number = #{s_number}
+                                            AND go.sd_number = #{sd_number}
+                                            AND go.m_number = #{m_number}
+                                            AND go.go_number = #{go_number} )
+        WHERE g_id = #{g_id}
            AND s_number = #{s_number}
            AND sd_number = #{sd_number}
            AND m_number = #{m_number}

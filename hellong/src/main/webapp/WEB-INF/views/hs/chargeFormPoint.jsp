@@ -92,7 +92,7 @@
                                             if (response.success) {
                                                 // 결제 성공 시 비즈니스 로직 실행
                                                 console.log("결제 성공2");
-                                                // 여기에 서버에서 받은 응답을 처리하는 코드 추가
+                                                window.location.href = "hsMemberIndex?m_number=" + m_number;
                                             } else {
                                                 // 결제 실패 시 처리
                                                 console.log("결제 실패");
