@@ -163,6 +163,7 @@ public class SHController {
 	    System.out.println("SHController QuestionContent  boardContent->"+boardContent);
 		//댓글 작성자 정보 입력 03-13
 	    //member.setM_number(M_NUMBER);
+	    
 	    //작성글안에 속해있는 댓글들 보냄
 		List<Board> boardCommList = sh.getComments(B_NUMBER);
 		System.out.println("SHController  boardCommList size-->" + boardCommList.size());
@@ -284,7 +285,17 @@ public String deleteComment(@RequestParam("Comm_number") int Comm_number,
 	sh.deleteComment(Comm_number);
 	System.out.println("SHController deleteComment succes...");
 	
-    return "redirect:/QuestionContent?B_NUMBER="+bId;
+	return "redirect:/QuestionContent?B_NUMBER="+bId;
+}
+//SHController.java 자유댓글 삭제 03-19
+@RequestMapping("/PdeleteComment")
+public String PdeleteComment(@RequestParam("Comm_number") int Comm_number,
+		@RequestParam("bId")int bId	) {
+	System.out.println("SHController deleteComment start...");
+	sh.deleteComment(Comm_number);
+	System.out.println("SHController deleteComment succes...");
+	
+	return "redirect:/detailBoard?b_number="+bId;
 }
 //글수정 뷰이동
 @RequestMapping("/modify")
@@ -337,7 +348,7 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		List<Gym> allGym =sh.getAllGym();//모든 헬스장
 		List<Report> allReport = sh.getAllReport();//신고글
 		System.out.println("SHController manger allReport"+"  "+allReport);
-		System.out.println("SHController manger getAllGym"+" "+allGym);
+		System.out.println("SHController manger getAllGym"+"  "+allGym);
 
 		List<Board> allQnA = sh.getallQnA();//문의글
 		System.out.println("SHController manger allQnA"+"  "+allQnA);
@@ -489,16 +500,6 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 
 	}
 	@ResponseBody
-	@RequestMapping("/gymMapDetail")
-	public Gym gymMapDetail(@RequestParam("g_id") int gId) {
-		Gym gymMapDetail =sh.gymMapDetail(gId);
-		System.out.println("SHController gymMapDetail start...");
-		System.out.println("SHController gymMapDetail gymMapDetail->"+""+ gymMapDetail.getG_address());
-		
-		return gymMapDetail;
-		
-	}
-	@ResponseBody
 	@GetMapping("/gyms")
 	    public List<Gym> getAllGyms() {
 	        List<Gym> gyms = sh.getAllGym();
@@ -524,8 +525,7 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		GS newGymPrice = sh.getGymPrice(g_id1);//신규헬스장가격
 		System.out.println("SHController Default newGymPrice"+newGymPrice);
 		GymBoardFile newGymPhoto = sh.getGymPhoto(g_id1);//신규헬스장 대표사진
-		System.out.println("*&&&&&&&&&&&SHController Default newGymPhoto...->"+""+newGymPhoto);
-
+		
 		Gym cheapGym = sh.getCheapGym();//최저가헬스장 id
 		int g_id2 = cheapGym.getG_id();
 		GS cheapGymPrice = sh.getGymPrice(g_id2);//최저가헬스장가격
@@ -573,7 +573,31 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 	
 	
 	
-	
+	//댓글입력 과동시에 신규 댓글 단일객체만 등록 Board!+원글댓글 카운터 증가(wkdb 게시판용)
+			@ResponseBody
+			@PostMapping("commentInsert1")
+			public Board commentInsert1(@RequestParam("comment_body") String comment, @RequestParam("cmId") int M_NUMBER,
+					@RequestParam("bId") int B_NUMBER, Board board) {
+
+				System.out.println("SHController commentInsert M_NUMBER" + " => " + M_NUMBER);
+				System.out.println("SHController commentInsert B_NUMBER" + " => " + B_NUMBER);
+				int Common_bcd = 200;
+				int Common_mcd = 101;
+
+				board.setB_comm_group(B_NUMBER);
+				board.setM_number(M_NUMBER);
+				board.setCommon_bcd(Common_bcd);
+				board.setCommon_mcd(Common_mcd);
+				board.setB_content(comment);
+
+				sh.addComment(board);
+				System.out.println(" 1  SHController addComment board()->" + board);
+
+				Board board2 = sh.callComment(board);
+
+				System.out.println("2   SHController callComment board()->" + board2);
+				return board2;
+			}
 	
 	
 	

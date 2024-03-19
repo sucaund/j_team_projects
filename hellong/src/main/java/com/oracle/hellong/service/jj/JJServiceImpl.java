@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.oracle.hellong.dao.jjdao.BoardDao;
 import com.oracle.hellong.model.Board;
+import com.oracle.hellong.model.Common;
 
 import lombok.RequiredArgsConstructor;
 
@@ -104,6 +105,15 @@ public class JJServiceImpl implements JJService {
 		System.out.println("JJServiceImpl totalCategorySearchCnt Start...");
 		int totalCategorySearchCnt = bd.totalCategorySearchCnt(board);
 		return totalCategorySearchCnt;
+	}
+
+	@Override
+	public List<Common> commonList(Common common) {
+		List<Common> commonList = null;
+		System.out.println("JJServiceImpl commonList Start...");
+		commonList = bd.commonList(common);
+		System.out.println("JJServiceImpl commonList.size()->"+commonList.size());
+		return commonList;
 	}
 
 

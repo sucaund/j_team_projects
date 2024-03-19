@@ -89,8 +89,11 @@
 						</tr>
 					</form>
 					<hr>
+					
 					<div class="col-md-8 offset-md-1 col-lg-8 offset-lg-1"
 						style="margin: 0 auto">
+						
+						
 						<!-- 댓글!!! -->
 						<div class="title-box-d">
 							<h3 class="title-d">Comments</h3>

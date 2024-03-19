@@ -39,9 +39,9 @@ function changeCategory() {
 					<select name="jjcategory">
 						<option value="999">글유형</option>
 						<option value="jjfree">자유글</option>
-						<option value="jjbody">바디프로필</option>
+<!-- 						<option value="jjbody">바디프로필</option>
 						<option value="jjnotice">공지</option>
-						<option value="jjquestion">문의</option>
+						<option value="jjquestion">문의</option> -->
 					</select>
 				</td>
 			</tr>

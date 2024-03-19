@@ -6,13 +6,14 @@
 
 	<!-- 글의 총 갯수 파악하는 쿼리 -->
 	<select id="boardTotal" parameterType="int" resultType="int">
-		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200
-		AND COMMON_MCD = 120
+		SELECT Count(*)
+		FROM BOARD
+		where COMMON_BCD = 200 AND COMMON_MCD = 10
 	</select>
 	
 	<!-- 자유게시판의 글들을 불러오는 쿼리. -->
 	<select id="jjBoardListAll" parameterType="Board" resultType="Board">
-		<![CDATA[
+		<!-- <![CDATA[
 		SELECT * 
 		FROM (
 		    SELECT ROWNUM rn, b.*, m.m_name 
@@ -20,6 +21,20 @@
 		    	select *
 		    	from board
 		    	order by b_number desc) b
+		    JOIN member m ON b.m_number = m.m_number 
+		)
+		WHERE rn >= #{start} 
+		AND rn <= #{end}
+		]]> -->
+		<![CDATA[
+		SELECT * 
+		FROM (
+		    SELECT ROWNUM rn, b.*, m.m_name 
+		    FROM (
+		        SELECT *
+		        FROM board
+		        WHERE COMMON_BCD = 200 AND COMMON_MCD = 10
+		        ORDER BY b_number desc) b
 		    JOIN member m ON b.m_number = m.m_number 
 		)
 		WHERE rn >= #{start} 
@@ -62,6 +77,7 @@
 	<select id="jjSelectManager" resultType="Board">
 		SELECT 	*
 		FROM 	board
+		where COMMON_BCD = 200 AND COMMON_MCD = 10
 	</select>
 	
 	<!-- 새 글을 쓰는 쿼리 -->
@@ -74,13 +90,14 @@
 							common_bcd, common_mcd, b_comm_group )
 		values
 		(
-			#{b_number}, #{b_title}, #{b_content}, #{m_number},
+			#{b_number}, #{b_title}, #{b_content},
+			#{m_number},
 			200,
 			<choose>
 				<when test="jjcategory == 'jjfree'">10</when>
-				<when test="jjcategory == 'jjbody'">20</when>
+				<!-- <when test="jjcategory == 'jjbody'">20</when>
 				<when test="jjcategory == 'jjnotice'">110</when>
-				<when test="jjcategory == 'jjquestion'">120</when>
+				<when test="jjcategory == 'jjquestion'">120</when> -->
 			</choose>,
 			#{b_number}
 		)
@@ -100,15 +117,16 @@
 		                   END
 		WHERE b_number = #{b_number}
 	</update>
-	
+
 	<!-- 카테고리+검색어 로 조회된 글을 카운트하는 쿼리 -->
 	<select id="totalCategorySearchCnt" parameterType="Board" resultType="int">
 	    SELECT Count(*)
 	    FROM board b
 	    JOIN member m ON b.m_number = m.m_number
 	        <where>
-	            <choose>
-	                <when test="cateSearch == 'cate-all'">
+	        	b.common_mcd = 10
+	            <!-- <choose>
+	               <when test="cateSearch == 'cate-all'">
 	                    b.common_bcd = b.common_bcd AND b.common_mcd = b.common_mcd
 	                </when>
 	                <when test="cateSearch == 'cate-free'">
@@ -123,7 +141,7 @@
 	                <when test="cateSearch == 'cate-question'">
 	                    b.common_bcd = 200 AND b.common_mcd = 120
 	                </when>
-	            </choose>
+	            </choose> -->
 	            <choose>
 	                <when test="search == 'all'">
 	                    and (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
@@ -142,8 +160,8 @@
 	                </otherwise>
 	            </choose>
 	        </where>
-	</select>	
-	
+	</select>		
+
 	<!-- 게시글을 카테고리 + 검색어로 조회하는 쿼리 -->
 	<select id="listCategorySearchBoard" parameterType="Board" resultType="Board">
 	    SELECT *
@@ -156,7 +174,8 @@
 	        FROM board b
 	        JOIN member m ON b.m_number = m.m_number
 	        <where>
-	            <choose>
+	        	b.common_mcd = 10
+	            <!-- <choose>
 	                <when test="cateSearch == 'cate-all'">
 	                    b.common_bcd = b.common_bcd AND b.common_mcd = b.common_mcd
 	                </when>
@@ -172,7 +191,7 @@
 	                <when test="cateSearch == 'cate-question'">
 	                    b.common_bcd = 200 AND b.common_mcd = 120
 	                </when>
-	            </choose>
+	            </choose> -->
 	            
 	            <choose>
 	                <when test="search == 'all'">
@@ -197,7 +216,13 @@
 	    )   
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
+
+	<select id="commonList" parameterType="Common" resultType="Common">
+		SELECT *
+		FROM common
+		WHERE common_mcd != 999
 	
+	</select>
 
 <!-- 재준 mappers 끝 -->
 
@@ -293,7 +318,12 @@
 		SELECT * FROM BOARD WHERE COMMON_BCD = 200 AND COMMON_MCD = 121
 		AND B_COMM_GROUP = #{B_NUMBER}
 		ORDER BY B_NUMBER DESC
-
+	</select>
+	<!-- 03-19 Board.xml 재준 자유게시판 댓글 -->
+	<select id="getPComments" parameterType="int" resultType="Board">
+		SELECT * FROM BOARD WHERE COMMON_BCD = 200 AND COMMON_MCD = 101
+		AND B_COMM_GROUP = #{B_NUMBER}
+		ORDER BY B_NUMBER DESC
 	</select>
 
 	<delete id="deleteComment" parameterType="int">
