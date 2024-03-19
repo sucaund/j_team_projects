@@ -21,14 +21,14 @@ function submitReport() {
 </script>
 <style type="text/css">
 	th{
-		border: 1px solid blue;
+		background-color: #BDBDBD;
 		width: 100px;
 		height: 30px;
 		text-align: center;
 		font-size: 20px;
 	}
 	td{
-		border: 1px solid green;
+		background-color: #EAEAEA;
 		padding-left: 10px;
 		width: 300px;
 	}
@@ -36,18 +36,18 @@ function submitReport() {
 </head>
 <body>
 
-	<h3>상세게시판</h3>
-		<table>
-			<tr><th>글번호</th><td>${board.b_number}</td></tr>
-			<tr><th>글제목</th><td>${board.b_title}</td></tr>
-	 		<tr><th>작성일자</th><td>${board.b_regdate}</td></tr>
-			<tr><th>작성자</th><td>${board.m_name}</td></tr>
-			<tr><th>추천수</th><td>${board.b_recomm_count}</td></tr>
-			<tr><th>신고수</th><td>${board.b_isreported}</td></tr>
-			<tr><th>조회수</th><td>${board.b_readcount}</td></tr>
-			<tr><td colspan="2">내용<p>${board.b_content}</td></tr>
-		</table>
-	<p>
+	
+	<div style="padding: 5%;">
+		<h3>게시글</h3>
+		<hr />
+		<span style="font-size: 20px;">${board.b_title}${board.b_number}</span>
+		<p style="font-size: 11px;">${board.b_regdate}</p>
+		<p style="text-align: right; font-size: 14px;">${board.m_name}</p>
+		<p style="text-align: right; font-size: 12px;">추천: ${board.b_recomm_count}&ensp;|&ensp;신고: ${board.b_isreported}&ensp;|&ensp;조회: ${board.b_readcount}</p>
+		<hr />
+		<p>${board.b_content}</p>
+		<hr />
+		<p>
 	<div style="text-align:center">		
 		<!-- 수정, 삭제 버튼: 작성자 본인에게만 표시 -->
 		<c:if test="${board.m_number == sessionScope.m_number}">
@@ -80,11 +80,8 @@ function submitReport() {
 	  		  onclick="location.href='detailBoard?b_number=${board.nextPage}'">다음글
 	  	</button>
 	</div>	
-
-
-
-
-
+	</div>
+	
 
 
 
