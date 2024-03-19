@@ -243,7 +243,7 @@ function sample6_execDaumPostcode() {
 									dataType : 'json', // 응답 받을 데이터의 타입
 									success : function(data) {
 										console.log(data);
-										var imageUrl = '/uploadDocument/' + data.g_document;
+										var imageUrl = '/upload3/' + data.g_document;
 										// 성공 시 모달의 필드에 데이터를 채웁니다.
 										// 모달의 각 입력 필드에 ID를 설정하고 해당 ID를 사용하여 값을 설정합니다.
 										$('#Gym_Content input[name="g_number"]').val(data.g_id);//헬스장 번호

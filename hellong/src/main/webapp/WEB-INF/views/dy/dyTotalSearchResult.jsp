@@ -7,96 +7,83 @@
 <meta charset="UTF-8">
 <title>통합 검색 결과</title>
 <style>
-body {
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	background-color: #f0f0f0;
-}
+    body {
+        background-color: #f0f0f0;
+    }
 
-main {
-	width: 60%;
-	margin: auto;
-	padding: 20px;
-	background-color: #ffffff;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+    main {
+        padding-top: 20px;
+    }
 
-section {
-	margin-bottom: 40px;
-}
+    .result-section {
+        margin-bottom: 40px;
+    }
 
-h2 {
-	background-color: #007bff;
-	color: white;
-	padding: 10px;
-	border-radius: 5px;
-}
+    .result-list li:hover {
+        background-color: #dee2e6;
+    }
 
-ul {
-	list-style: none;
-	padding: 0;
-}
+    .bg-primary, .bg-success, .bg-info, .bg-warning {
+        padding: 10px;
+        margin-bottom: 20px;
+        color: white;
+    }
 
-li {
-	margin-bottom: 10px;
-	padding: 10px;
-	background-color: #e9ecef;
-	border-radius: 5px;
-}
-
-li:hover {
-	background-color: #dee2e6;
-}
-
+    .list-group-item {
+        padding: 15px;
+    }
 </style>
 </head>
 <body>
-	<main>
-		<section>
-			<h2>게시판 검색 결과</h2>
-			<ul>
-				<c:forEach items="${results.boardResults}" var="board">
-					<li><a href="dySelectBodyProfile?b_number=${board.b_number}">
-							<span class="title">${board.b_title}</span> - <span
-							class="content">${board.b_content}</span>
-					</a></li>
-				</c:forEach>
-			</ul>
-			
-		</section>
-		
-		
-		
-		<section>
-			<h2>체육관 검색 결과</h2>
-			<ul>
-				<c:forEach items="${results.gymResults}" var="gym">
-					<li>${gym.g_name}-${gym.g_address} - ${gym.g_tel}</li>
-				</c:forEach>
-			</ul>
-		
-		</section>
-		<section>
-			<h2>체육관 게시판 검색 결과</h2>
-			<ul>
-				<c:forEach items="${results.gymBoardResults}" var="gymBoard">
-					<li>${gymBoard.gb_title}-${gymBoard.gb_machine} -
-						${gymBoard.gb_amen} - ${gymBoard.gb_map}</li>
-				</c:forEach>
-			</ul>
-		
-		</section>
-		<section>
-			<h2>체육관 리뷰 검색 결과</h2>
-			<ul>
-				<c:forEach items="${results.gymReviewResults}" var="gymReview">
-					<li>${gymReview.review_title}-${gymReview.review_content} -
-						${gymReview.review_star}</li>
-				</c:forEach>
-			</ul>
-		
-		</section>
+<main class="container">
+    <section class="result-section">
+        <h2 class="bg-primary rounded">게시판 검색 결과</h2>
+        <ul class="list-group">
+            <c:forEach items="${results.boardResults}" var="board">
+                <li class="list-group-item">
+                    <span class="title">${board.b_title}</span> - <span class="content">${board.b_content}</span>
+                    <br>
+                    조회수: ${board.b_readcount}  추천수: ${board.b_recomm_count}  글유형: ${board.common_mcd == 10 ? '자유글' : '바디프로필'}
+                </li>
+            </c:forEach>
+        </ul>
+    </section>
+
+    <section class="result-section">
+        <h2 class="bg-success rounded">체육관 검색 결과</h2>
+        <ul class="list-group">
+            <c:forEach items="${results.gymResults}" var="gym">
+                <li class="list-group-item">
+                    상호명: ${gym.g_name}  주소: ${gym.g_address}  전화번호: ${gym.g_tel}
+                </li>
+            </c:forEach>
+        </ul>
+    </section>
+
+    <section class="result-section">
+        <h2 class="bg-info rounded">체육관 게시판 검색 결과</h2>
+        <ul class="list-group">
+            <c:forEach items="${results.gymBoardResults}" var="gymBoard">
+                <li class="list-group-item">
+                    제목: ${gymBoard.gb_title}  대표멘트: ${gymBoard.gb_machine}  운동기구: ${gymBoard.gb_amen}  조회수: ${gymBoard.gb_hit}
+                </li>
+            </c:forEach>
+        </ul>
+    </section>
+
+    <section class="result-section">
+        <h2 class="bg-warning rounded">체육관 리뷰 검색 결과</h2>
+        <ul class="list-group">
+            <c:forEach items="${results.gymReviewResults}" var="gymReview">
+                <li class="list-group-item">
+                    리뷰제목: ${gymReview.review_title}  리뷰내용: ${gymReview.review_content}  별점: ${gymReview.review_star}
+                </li>
+            </c:forEach>
+        </ul>
+    </section>
 	</main>
+
+	<!-- Bootstrap JS 추가 -->
+	
 </body>
-</html>
+</html>	

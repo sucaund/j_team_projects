@@ -392,7 +392,7 @@
 		(
 		        SELECT rownum rn , a.*
 		        FROM
-		                   (select * from board order by b_number desc) a
+		                   (select * from board where common_mcd=20 order by b_number desc) a
 		 )  
 		 WHERE  rn  >= #{start} 
  		and    rn  <= #{end} 
@@ -408,7 +408,9 @@
 		UPDATE board SET
 		b_title=#{b_title},
 		b_content=#{b_content},
-		b_regdate=sysdate
+		b_regdate=sysdate,
+		common_bcd = 200,
+		common_mcd = 20
 		WHERE
 		b_number = #{b_number}
 	</update>

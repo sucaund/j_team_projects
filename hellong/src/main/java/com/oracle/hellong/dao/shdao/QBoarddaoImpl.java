@@ -34,7 +34,7 @@ public class QBoarddaoImpl implements QBoarddao {
 		System.out.println("QBoarddaoImpl Start totalQue...");
 
 		try {
-			totQueCount = session.selectOne("boardTotal", M_NUMBER);
+			totQueCount = session.selectOne("shboardTotal", M_NUMBER);
 
 		} catch (Exception e) {
 			System.out.println("QBoarddaoImpl totalQue Exception->" + e.getMessage());
