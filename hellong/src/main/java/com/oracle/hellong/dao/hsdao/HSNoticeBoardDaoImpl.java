@@ -113,18 +113,28 @@ public class HSNoticeBoardDaoImpl implements HSNoticeBoardDao {
 		System.out.println("NoticeBoardDaoImpl delteNoticeBoard start...");
 		System.out.println("NoticeBoardDaoImpl delte b_number ->" + b_number);
 		int result = 0;
-		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionAttribute());
+		
 		
 		try {
-			session.delete("hsDeleteScrap", b_number);
-			session.delete("hsDeleteNoticeBoard", b_number);
-			
-			transactionManager.commit(txStatus);
+			result = session.delete("hsDeleteNoticeBoard", b_number);
 			System.out.println("NoticeBoardDaoImpl delteNoticeBoard result ->" + result);
 		} catch (Exception e) {
 			System.out.println("NoticeBoardDaoImpl delteNoticeBoard Exception ->" + e.getMessage());
 		}
 		return result;
+		/*
+		 * TransactionStatus txStatus = transactionManager.getTransaction(new
+		 * DefaultTransactionAttribute());
+		 * 
+		 * try { session.delete("hsDeleteScrap", b_number);
+		 * session.delete("hsDeleteNoticeBoard", b_number);
+		 * 
+		 * transactionManager.commit(txStatus);
+		 * System.out.println("NoticeBoardDaoImpl delteNoticeBoard result ->" + result);
+		 * } catch (Exception e) {
+		 * System.out.println("NoticeBoardDaoImpl delteNoticeBoard Exception ->" +
+		 * e.getMessage()); } return result;
+		 */
 	}
 
 	// 공지글 검색

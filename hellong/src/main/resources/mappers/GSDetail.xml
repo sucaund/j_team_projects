@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GSDetailMapper">
 	
-	<insert id="getCreateServiceDetail" parameterType="GS" >
+<insert id="getCreateServiceDetail" parameterType="GS" >
 		insert into G_S_DETAIL(g_id, s_number, sd_number, sd_price, sd_startdate,sd_matters)
 				values(#{g_id}, #{s_number}, sd_number_seq.nextval, #{s_price}, sysdate, #{s_matters})
 	</insert>
@@ -15,6 +15,7 @@
 	  and sd_isend = 0
 
 	</update>
+	
 	
 	
 	

@@ -1,4 +1,3 @@
-
 package com.oracle.hellong.dao.shdao;
 
 import static org.hamcrest.CoreMatchers.nullValue;

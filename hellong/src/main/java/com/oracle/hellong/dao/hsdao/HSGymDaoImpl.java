@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.GSDetail;
+import com.oracle.hellong.model.GSGSDetailJoin;
 import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 
@@ -45,7 +46,7 @@ public class HSGymDaoImpl implements HSGymDao {
 			listUsingGym = session.selectList("hsListDetailUsingGym", member);
 			System.out.println("hsGymDaoImpl listDetailUsingGym listUsingGym.size()-> " + listUsingGym.size());
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		return listUsingGym;
 	}
@@ -53,12 +54,12 @@ public class HSGymDaoImpl implements HSGymDao {
 		/* 헬스장 회원권 구매,환불 공통 - getGymOrder */
 	
 	@Override
-	public GSDetail getGSDetailData(GSDetail gsDetail) {
+	public GSDetail getGSDetailData(GSGSDetailJoin gsd) {
 		GSDetail gymOrderData = null;
 		System.out.println("hsGymDaoImpl getGSDetailData start...");
 		
 		try {
-			gymOrderData = session.selectOne("hsGetGSDetailData", gsDetail);
+			gymOrderData = session.selectOne("hsGetGSDetailData", gsd);
             System.out.println("hsGymDaoImpl getGSDetailData gymOrderData-> " + gymOrderData);
 		} catch (Exception e) { 
 			
@@ -67,16 +68,19 @@ public class HSGymDaoImpl implements HSGymDao {
 	}
 	
 		/* 헬스장 회원권 구매 */
-
-		/*
-		 * @Override public GSDetail getGSDetailDataBuy(GSDetail gsDetail) { GSDetail
-		 * gsDetailData = null;
-		 * System.out.println("hsServiceImpl getGSDetailDataBuy start..."); try {
-		 * gsDetailData = session.selectOne("hsGetGSDetailDataBuy", gsDetail); } catch
-		 * (Exception e) {
-		 * 
-		 * } return gsDetailData; }
-		 */
+	
+	@Override
+	public GSDetail getGSDetailDataBuy(Map<String, Object> params) {
+		GSDetail gsDetailData = null;
+		System.out.println("hsGymDaoImpl getGSDetailDataBuy start...");
+		try {
+			gsDetailData = session.selectOne("hsGetGSDetailDataBuy", params);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return gsDetailData;
+	}
 
 	@Override
 	public GSDetail insertAndGetGymOrder(GSDetail gsDetail) {
@@ -99,6 +103,7 @@ public class HSGymDaoImpl implements HSGymDao {
 			updateGymOrderBuyResult = session.update("hsUpdateGymOrderBuy", insertAndGetGymOrder);
 			System.out.println("updateGymOrderBuy check-> " + updateGymOrderBuyResult);
 		} catch (Exception e) {
+			e.printStackTrace();
 			
 		}
 		return updateGymOrderBuyResult;
@@ -112,8 +117,9 @@ public class HSGymDaoImpl implements HSGymDao {
 			updatePointBuyResult = session.update("hsUpdatePointBuy", insertAndGetGymOrder);
 			System.out.println("updatePointBuy check-> " + updatePointBuyResult);
 		} catch (Exception e) {
+			e.printStackTrace();
 			
-		}
+		} 
 		return updatePointBuyResult;
 	}
 	
@@ -206,6 +212,5 @@ public class HSGymDaoImpl implements HSGymDao {
 		}
 		return updatePointRefundResult;
 	}
-
 
 }

@@ -14,7 +14,7 @@ public class MemberGSGymOrderReviewJoin { //member + GS + gym_order + gym_review
 	  private String m_id; //멤버아이디
 	  private String m_pw; //멤버비밀번호
 	  private String m_name; //멤버이름(닉네임)
-	  private int m_age; //나이
+	  private int 	m_age; //나이
 	  private String m_gender; //성별
 	  private String m_phone; //전화번호
 
@@ -53,7 +53,7 @@ public class MemberGSGymOrderReviewJoin { //member + GS + gym_order + gym_review
     private int use_point; //사용포인트
     private String  deal_date; //거래날짜
     private String  refund_date; //환불일자 nn
-    private int refund_point; //환불포인트
+    private int 	refund_point; //환불포인트
     private String refund_reason; //환불사유
     private String go_startdate; // 개인 시작 날짜
     private String go_enddate;	// 개인 종료 날짜

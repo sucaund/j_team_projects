@@ -28,7 +28,7 @@ public class GymOrder { //주문(체육관 서비스 등록) gym_order
 
     private String pl_date;
     private String pl_content;
-    private int pl_point;
+    private int 	pl_point;
     
     private String g_name;
     private String s_name;

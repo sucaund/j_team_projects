@@ -4,7 +4,7 @@
 
 <mapper namespace="com.oracle.hellong.GSGSDetailJoinMapper">
 
-	<select id="serviceListJoin" parameterType="GS" resultType="GSGSDetailJoin">
+		<select id="serviceListJoin" parameterType="GS" resultType="GSGSDetailJoin">
 
 		select*
 
@@ -110,7 +110,6 @@
 		order by s.s_number desc
 
 	</select>
-
 
 
 

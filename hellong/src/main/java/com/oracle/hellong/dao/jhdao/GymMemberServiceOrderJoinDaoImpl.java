@@ -83,6 +83,7 @@ public class GymMemberServiceOrderJoinDaoImpl implements GymMemberServiceOrderJo
 	}
 
 	// 현재 이용중인 회원
+	@Override
 	public int getCurrentTotalMemberList(GymMemberServiceOrderJoin gymMember) {
 		int  getCurrentTotalMemberListResult = 0;
 		try {

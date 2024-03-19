@@ -5,18 +5,6 @@
 		SELECT Count(*) FROM G_S where g_id = #{g_id} and s_isdeleted = 0
 	</select>
 
-<!-- 	<select id="serviceList" parameterType="GS" resultType="GS">
-		select*
-		from
-		(
-			select rownum rn, a.*
-			from
-				(select*from G_S where g_id = #{g_id} order by s_number desc)a
-		)
-		where rn between #{start} and #{end}
-		
-	</select>  -->
-	
 	<insert id="createService" parameterType="GS">
 	    <selectKey keyProperty="s_number" resultType="int" order="BEFORE">
 	        select s_number_seq.nextval as s_number from dual
