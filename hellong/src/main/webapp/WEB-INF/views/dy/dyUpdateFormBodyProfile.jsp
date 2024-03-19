@@ -9,13 +9,6 @@
 <meta charset="UTF-8">
 <title>게시글 수정</title>
 <style>
-body {
-	font-family: 'Arial', sans-serif;
-	background-color: #f5f5f5;
-	color: #333;
-	margin: 0;
-	padding: 20px;
-}
 
 .container {
 	background-color: #fff;
@@ -100,32 +93,29 @@ form#updateForm input[type="submit"]:hover {
 </style>
 </head>
 <body>
-	<div class="container">
-		<h1 class="title">게시글 수정</h1>
-		<form id="updateForm" action="dyUpdateBodyProfile" method="post"
-			enctype="multipart/form-data">
-			<input type="hidden" name="b_number" value="${board.b_number}" /> <label
-				for="b_title">제목</label> <input type="text" id="b_title"
-				name="b_title" required="required" value="${board.b_title}" /> <label
-				for="b_content">내용</label>
-			<textarea id="b_content" name="b_content" required="required">${board.b_content}</textarea>
-			<label for="b_images">이미지</label> <input type="file" id="files"
-				name="files" required="required" multiple
-				onchange="displaySelectedImagesForUpdate(this)" />
-			<!-- 이미지 미리보기를 표시할 영역 -->
-			<div id="imagePreview"></div>
-			<label for="b_regdate">등록일</label> <input type="text" id="b_regdate"
-				name="b_regdate" value="${board.b_regdate}" readonly />
-			<div class="row mt-4 justify-content-center">
-				<div class="col-auto">
-					<button type="submit"
-						class="btn btn-confirm btn-outline-dark btn-sm me-2">확인</button>
-					<button type="button"
-						class="btn btn-cancel btn-outline-dark btn-sm"
-						onclick="location.href='dySelectBodyProfile?b_number=${board.b_number}'">취소</button>
-				</div>
-			</div>
-		</form>
-	</div>
+	<div class="container mt-5">
+        <h1 class="mb-4">게시글 수정</h1>
+        <form id="updateForm" action="dyUpdateBodyProfile" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="b_number" value="${board.b_number}">
+            <div class="mb-3">
+                <label for="b_title" class="form-label">제목</label>
+                <input type="text" class="form-control" id="b_title" name="b_title" required value="${board.b_title}">
+            </div>
+            <div class="mb-3">
+                <label for="b_content" class="form-label">내용</label>
+                <textarea class="form-control" id="b_content" name="b_content" required>${board.b_content}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="b_images" class="form-label">이미지</label>
+                <input type="file" class="form-control" id="files" name="files" required multiple onchange="displaySelectedImagesForUpdate(this)">
+                <div id="imagePreview"></div>
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary me-2">확인</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='dySelectBodyProfile?b_number=${board.b_number}'">취소</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

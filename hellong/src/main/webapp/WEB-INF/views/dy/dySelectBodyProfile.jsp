@@ -98,7 +98,7 @@
 					test="${sessionScope.m_number != null }">
 					<button type="button" class="btn btn-outline-danger"
 						data-bs-toggle="modal" data-bs-target="#reportedModal">
-						<i class="bi bi-megaphone-fill"></i>신고
+						<i class="bi bi-megaphone-fill"></i> 신고
 					</button>
 				</c:if>
 			</div>
