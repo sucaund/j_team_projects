@@ -4,8 +4,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=119d8c360526256aaaa4b6c379b06a9a&libraries=services"></script>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>헬스장 이름</title>
@@ -27,7 +25,7 @@
 	        z-index: 1000; /* 다른 요소 위로 표시 */
 	        display: flex; /* 요소를 가로로 나열하기 위해 필요 */
 	        justify-content: center; /* 가운데 정렬 */
-	        background-color: #0d6efd; /* 인디고 색상 */
+	        background-color: #0d47a1;
 	    }
 	    .back-btn {
 	        color: #fff; /* 헤더 배경색과 대비되는 색상으로 설정 */
@@ -56,12 +54,20 @@
 	        white-space: pre-wrap; /* 줄바꿈 유지 */
 	        font-family: 'Roboto', sans-serif; /* 글꼴을 Roboto로 설정 */
 	    }
+	    .review-card pre {
+		    font-family: 'Noto Sans KR', sans-serif; /* 예시 글꼴로 변경 가능 */
+		    font-size: 16px; /* 원하는 글꼴 크기로 변경 가능 */
+		    line-height: 1.5; /* 줄 간격 조정 */
+		    margin: 10px 0; /* 위아래 여백 조정 */
+		}
+	    
+	    
 	        
     </style>
 </head>
 <body class="bg-gray-100">
 
-    <header>
+    <header>.
     	<c:forEach var="board" items="${gymBoardDetail}"> 
         <nav class="navbar navbar-dark bg-indigo">
             <div class="container d-flex justify-content-between align-items-center">
@@ -115,7 +121,7 @@
 						        <!-- Use <a> tag to pass parameters via URL -->
 						        <a href="movePaymentForm?sd_number=${service.sd_number}&g_id=${service.g_id}&s_number=${service.s_number}">
 						            <input type="hidden" name="sd_number" value="${service.sd_number}">
-						            <input type="hidden" id="gIdInput" name="g_id" value="${service.g_id}">
+						            <input type="hidden" name="g_id" value="${service.g_id}">
 						            <input type="hidden" name="s_number" value="${service.s_number}">
 						            <p class="text-gray-700">- 서비스 내용: <strong>${service.s_detail}</strong> </p>
 						            <p class="text-gray-700">- 이용기간: <strong>${service.s_period} 일</strong></p>
@@ -227,29 +233,28 @@
             <!-- 리뷰 카드 추가 -->
 			<div class="mb-8 border border-gray-300 p-4">
 			    <div class="review-card p-4">
-			        <h2 class="text-lg font-bold text-gray-800 mb-4"><i class="fas fa-comment-alt mr-2"></i> 고객 리뷰</h2>
+			        <h2 class="text-lg font-bold text-gray-800 mb-3"><i class="fas fa-comment-alt mr-2"></i> 고객 리뷰</h2>
 			        
 			        <!-- 리뷰 정보 및 평점 표시 -->
-			        <div class="flex items-center mb-4">
+			        <div class="flex items-center mb-8">
 			            <h3 class="font-bold text-gray-800 mr-3">평균평점: <span class="text-yellow-500"><fmt:formatNumber type='number' value='${avgReviewSelect.avg_review_star}' maxFractionDigits='2' /></span></h3>
 			            <h3 class="font-bold text-gray-800">리뷰수: ${avgReviewSelect.count_review_star}명</h3>
 			        </div>
 			
 			 		<c:forEach var="rv" items="${selectReviewList}" varStatus="status">
 				       <c:if test="${status.index < 3}"> 
-				        <div class="flex items-center mb-4">
+				        <div class="flex items-center mb-8">
 				            <!-- 사용자 프로필 사진 -->
 				            <i class="fas fa-user-circle text-gray-600 mr-3 text-5xl"></i>
 				            <div>
 				                <h5 class="font-bold text-gray-800">${rv.m_name}
 				                    <!-- 관리자 인증 아이콘 -->
-				                    <i class="fas fa-check-circle text-green-500">결제고객</i> 
-				                    <!-- 별점 표시 -->
-				                    <span class="text-yellow-500">★ ${rv.review_star}</span>
+				                    <i class="fas fa-check-circle text-green-500">결제고객</i>
 				                    <!-- 작성일자 표시 -->
 				                    <span class="text-gray-500 ml-2"><fmt:formatDate value="${rv.review_regdate}" pattern="yyyy-MM-dd HH:mm"/></span>         
 				                </h5>
-				                <p class="text-gray-700">${rv.review_content}</p>
+				                <p class="text-yellow-500">★ ${rv.review_star}</p>
+				                <pre class="text-gray-700">${rv.review_content}</pre>
 				            </div>
 				            <input type="hidden" value="${rv.go_number}">
 				                         <!-- 리뷰 답글 버튼 -->
@@ -263,15 +268,15 @@
 				
 				        <!-- 리뷰 답글 폼 -->
 					    <c:if test="${not empty rv.review_comment}">
-					        <div class="flex items-center mb-4 ml-8">
+					        <div class="flex items-center mb-4 ml-8 bg-indigo-50">
 					            <i class="fas fa-user-circle text-blue-500 mr-3 text-5xl"></i>
 					            <div>
-					                <h5 class="font-bold text-gray-800">${board.g_name}
+					                <h5 class="font-bold text-gray-800 mb-2">${board.g_name}
 					                    <!-- 관리자 인증 아이콘 -->
 					                    <i class="fas fa-check-circle text-blue-500"></i>
 					                    <span class="text-gray-500 ml-2"><fmt:formatDate value="${rv.review_comment_date}" pattern="yyyy-MM-dd HH:mm"/></span>
 					                </h5>
-					                <p class="text-gray-700">${rv.review_comment}</p>
+					                <pre class="text-gray-700">${rv.review_comment}</pre>
 					            </div>
 					        </div>
 					    </c:if>
@@ -405,6 +410,9 @@
 	    var count = 0;
 	    var buttonText = ["이용권 감추기", "이용권 더보기"];
 	    var goNumber;
+	    
+	    
+	    
 
 	    $("#toggleServicesBtn").click(function() {
 	        $(".more-services").toggleClass("hidden"); // 이용권 목록 토글
@@ -549,98 +557,8 @@
 	   
 	    
 	    
-	  //=============================지도를 표시할 div===============================
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		mapOption = { //지도초기 옵션
-			center : new kakao.maps.LatLng(37.5566, 126.9404), // 초기 지도의 중심좌표
-			level : 4
-		// 지도의 확대 레벨 
-		};
-		// ============================지도를 생성합니다=========================================
-		var map = new kakao.maps.Map(mapContainer, mapOption);
-
-		// ================지도에 마커와 인포윈도우를 표시하는 함수입니다====================
-	
-			function displayMarker(locPosition, message) {
-							// 마커를 생성합니다
-							var marker = new kakao.maps.Marker({
-								map : map,
-								position : locPosition
-							});
-							var iwContent = message, // 인포윈도우에 표시할 내용
-							iwRemoveable = true;
-							// 인포윈도우를 생성합니다
-							var infowindow = new kakao.maps.InfoWindow({
-								content : iwContent,
-								removable : iwRemoveable
-							});
-							// 인포윈도우를 마커위에 표시합니다 
-							//infowindow.open(map, marker);
-							// 마커에 클릭 이벤트를 등록합니다
-							kakao.maps.event.addListener(marker, 'click',
-									function() {
-										// 마커 위에 인포윈도우를 표시합니다
-										infowindow.open(map, marker);
-									});
-							// 지도 중심좌표를 접속위치로 변경합니다
-							map.setCenter(locPosition);
-						}
-			var gId = $('#gIdInput').val();
-		//=====================주소-좌표 변환 객체를 생성합니다==============================
-		var geocoder = new kakao.maps.services.Geocoder(); 
-	  
-	    $.ajax({
-			url : '/gymMapDetail', // 헬스장 정보를 제공하는 서버의 엔드포인트
-			type : 'GET',
-			dataType : 'json',
-			data: {
-		        'g_id': gId // 서버로 보낼 추가 데이터
-		    },
-			success : function(gym) {
-				
-							// 주소를 좌표로 변환
-							geocoder.addressSearch(
-								gym.g_address,function(result,status) {
-												if (status === kakao.maps.services.Status.OK) {
-													var coords = new kakao.maps.LatLng(
-															result[0].y,
-															result[0].x);
-													//                        var message = '<div style="padding:5px;">' + gym.g_name + '</div>';
-													var imageUrl = '/upload/'
-															+ gym.gb_video;
-													var message = '<div class="wrap">'
-															+ '    <div class="info">'
-															+ '        <div class="title">'
-															+ gym.g_name
-															+ '            <div class="close" onclick="closeOverlay()" title="닫기"></div>'
-															+ '        </div>'
-															+ '        <div class="body">'
-															+ '            <div class="img">'
-															+ '                <img src="'+imageUrl+'" width="300" height="70">'
-															+ '           </div>'
-															+ '            <div class="desc">'
-															+ '                <div class="ellipsis">'
-															+ gym.g_address
-															+ '</div>'
-															+ '             		<div class="g_tel">'
-															+ gym.g_tel
-															+ '</div>'
-															;
-													displayMarker(
-															coords,
-															message); // 변환된 좌표로 마커 표시
-												}
-											});
-						
-			},
-			error : function(request, status, error) {
-				console.error(
-						"헬스장 위치 정보를 가져오는데 실패했습니다.",
-						error);
-			}
-		});
-	
-	});//fun
+	    
+	  });
 		
 		
 			
@@ -658,7 +576,19 @@
 
 
 
-  
+    function initMap() {
+        var healthClubLocation = { lat: 37.12345, lng: 127.12345 };
+        var mapElement = document.getElementById('map');
+        var map = new google.maps.Map(mapElement, {
+            center: healthClubLocation,
+            zoom: 15
+        });
+        var marker = new google.maps.Marker({
+            position: healthClubLocation,
+            map: map,
+            title: '헬스장 위치'
+        });
+    }
 
     
 
@@ -670,5 +600,6 @@
     
     
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
 </body>
 </html>
