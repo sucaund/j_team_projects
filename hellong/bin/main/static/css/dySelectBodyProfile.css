@@ -1,17 +1,5 @@
 /* 전체 페이지에 대한 스타일 */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-}
 
-header, footer {
-    text-align: center;
-    padding: 20px 0;
-    background-color: #343a40;
-    color: white;
-}
 
 .navigation {
     display: flex;
@@ -34,7 +22,7 @@ header, footer {
     background-color: #0056b3;
 }
 
-.container {
+.container1 {
     padding: 20px;
 }
 

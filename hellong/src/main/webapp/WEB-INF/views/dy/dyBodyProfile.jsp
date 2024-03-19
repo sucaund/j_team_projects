@@ -18,16 +18,17 @@
 body, html {
 	margin: 0;
 	padding: 0;
-	font-family: 'Noto Sans KR', sans-serif; /* 폰트는 취향에 맞게 조정하세요 */
+	font-family: 'Noto Sans KR', sans-serif; 
 }
 
 /* 컨테이너 설정 */
-.container {
+.container1 {
 	max-width: 1200px;
 	margin: auto;
 	padding: 20px;
 	justify-content: space-between;
 	align-items: center;
+	text-align: center;
 }
 
 .row {
@@ -144,7 +145,7 @@ body, html {
 </head>
 <body>
 
-	<div class="container">
+	<div class="container1">
 		<div class="breadcrumbs">
 			<div class="container">
 				<div class="row align-items-center">
