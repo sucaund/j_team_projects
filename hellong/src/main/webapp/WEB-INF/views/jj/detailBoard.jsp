@@ -19,6 +19,20 @@ function submitReport() {
 }
 
 </script>
+<style type="text/css">
+	th{
+		border: 1px solid blue;
+		width: 100px;
+		height: 30px;
+		text-align: center;
+		font-size: 20px;
+	}
+	td{
+		border: 1px solid green;
+		padding-left: 10px;
+		width: 300px;
+	}
+</style>
 </head>
 <body>
 
@@ -31,7 +45,7 @@ function submitReport() {
 			<tr><th>추천수</th><td>${board.b_recomm_count}</td></tr>
 			<tr><th>신고수</th><td>${board.b_isreported}</td></tr>
 			<tr><th>조회수</th><td>${board.b_readcount}</td></tr>
-			<tr><th>내용</th><td>${board.b_content}</td></tr>
+			<tr><td colspan="2">내용<p>${board.b_content}</td></tr>
 		</table>
 	<p>
 	<div style="text-align:center">		
@@ -67,66 +81,9 @@ function submitReport() {
 	  	</button>
 	</div>	
 
-	<!-- 댓글 -->
-	<hr />
-
-	
-	<div class="col-md-8 offset-md-1 col-lg-8 offset-lg-1"
-		style="margin: 0 auto">
-		<!-- 댓글!!! -->
-		<div class="title-box-d">
-			<h3 class="title-d">Comments</h3>
-		</div>
-		<div class="all_comments">
-			<!-- 댓글 입력파트 -->
-			<form id="comment_form">
-				<input type="hidden" name="cmId" value="${M_NUMBER}">
-				<input type="hidden" name="bId" value="${board.b_number}">
-
-				<div class="row">
-					<div class="col-md-11 mb-2" style="padding: 0">
-						<textarea name="comment_body" class="form-control"
-							style="height: 50px;" name="re_content"></textarea>
-					</div>
-					<div class="col-md-1 mb-2" style="padding: 0">
-						<button type="button" class="btn btn-primary btn-block"
-							style="width: 60px; height: 50px; font-size: 17px"
-							id="repInsert">확인</button>
-					</div>
-				</div>
-			</form>
 
 
-			<!-- 댓글리스트 -->
-			<div id="slist">
-				<div class="box_comments">
-					<ul class="list_comments">
-						<c:forEach var="CommList" items="${boardCommList}">
-						    <li>
-							  <div class="comment-details">
-								 <h4 class="comment-author" style="font-size: 11px">
-								 	<c:if test="${CommList.m_number == board.m_number}">
-								            질문자
-								    </c:if>
-								    <c:if test="${CommList.m_number != board.m_number}">
-								            관리자
-								     </c:if>
-								 </h4>
-								 <p id="p_584" class="comment-description" style="font-size: 18px;">${CommList.b_content}</p>
-								 <span style="font-size: 12px; color: #757575;">${CommList.b_regdate}</span>	
-								        <div id="btn_584">
-										<a href="/deleteComment?Comm_number=${CommList.b_number }&bId=${board.b_number}" onclick="return confirm('댓글을 삭제하시겠습니까?');">삭제</a>
-								        </div> 
-									</div>
-							</li>
-							<hr>
-						</c:forEach>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-				
+
 
 
 

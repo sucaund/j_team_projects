@@ -96,7 +96,8 @@ public class DYController {
 
 	// 클릭한 게시글 조회
 	@GetMapping(value = "dySelectBodyProfile")
-	public String dySelectBodyProfile(Board board1, BoardFile boardFile1, Common common, Model model, HttpSession session) {
+	public String dySelectBodyProfile(Board board1, BoardFile boardFile1, Common common, Model model, Member member,
+			HttpSession session) {
 		System.out.println("DYController dySelectBodyProfile Start...");
 		// 조회수 증가
 		int b_number = board1.getB_number();
@@ -106,11 +107,11 @@ public class DYController {
 		List<BoardFile> boardFile = dys.selectBodyProfileFileList(boardFile1.getB_number());
 		List<Common> commonList = dys.commonList(common);
 		System.out.println("*********** " + commonList);
-		
+
 		model.addAttribute("board", board);
 		model.addAttribute("boardFile", boardFile);
 		model.addAttribute("reportTypes", commonList);
-		
+
 		return "dy/dySelectBodyProfile";
 	}
 
@@ -126,17 +127,17 @@ public class DYController {
 			return ResponseEntity.ok(result);
 		}
 	}
+
 	// 게시글 신고
 	@RequestMapping(value = "dyReported")
 	public String dyReported(Board board) {
-	    System.out.println("dyController dyReported Start...");
-	    System.out.println("dyController dyReported board->" + board);
+		System.out.println("dyController dyReported Start...");
+		System.out.println("dyController dyReported board->" + board);
 
-	    int result = dys.dyReported(board);
+		int result = dys.dyReported(board);
 
-	    
-	    // 신고 처리 후, 조회 페이지로 리디렉션
-	    return "redirect:listBodyProfile";
+		// 신고 처리 후, 조회 페이지로 리디렉션
+		return "redirect:listBodyProfile";
 	}
 
 	// 게시글 업데이트 폼
@@ -341,4 +342,4 @@ public class DYController {
 			return "redirect:/jmLoginForm"; // 또는 필요에 따라 적절한 경로 설정
 		}
 	}
-}
+}	

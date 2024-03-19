@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="header.jsp" %>
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=119d8c360526256aaaa4b6c379b06a9a&libraries=services"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>헬스장 이름</title>
@@ -562,23 +563,7 @@
         document.getElementById("reviewDate").setAttribute("value", today);
                
 	    
-	
 
-
-
-    function initMap() {
-        var healthClubLocation = { lat: 37.12345, lng: 127.12345 };
-        var mapElement = document.getElementById('map');
-        var map = new google.maps.Map(mapElement, {
-            center: healthClubLocation,
-            zoom: 15
-        });
-        var marker = new google.maps.Marker({
-            position: healthClubLocation,
-            map: map,
-            title: '헬스장 위치'
-        });
-    }
 
     
 
@@ -590,6 +575,5 @@
     
     
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
 </body>
 </html>

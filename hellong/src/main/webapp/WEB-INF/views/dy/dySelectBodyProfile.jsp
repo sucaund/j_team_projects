@@ -73,7 +73,7 @@
 			</div>
 
 			<div class="body-profile-details">
-				<p>${board.b_content}</p>
+				<p class="content">${board.b_content}</p>
 			</div>
 			<div class="row mt-4">
 				<div class="col-md-4">
@@ -95,7 +95,7 @@
 				</button>
 
 				<c:if
-					test="${sessionScope.m_number != null && sessionScope.m_number != board.m_number}">
+					test="${sessionScope.m_number != null }">
 					<button type="button" class="btn btn-outline-danger"
 						data-bs-toggle="modal" data-bs-target="#reportedModal">
 						<i class="bi bi-megaphone-fill"></i>신고
@@ -104,16 +104,8 @@
 			</div>
 
 
-			<%-- <button type="button" class="btn btn-outline-danger"
-					data-bs-toggle="modal"
-					<c:if test="${sessionScope.user != null}">
-        data-bs-target="#reportedModal"
-    </c:if>
-					<c:if test="${sessionScope.user == null}">
-        onclick="location.href='/jmLoginForm'"
-    </c:if>>
-					<i class="bi bi-megaphone-fill"></i> 신고하기
-				</button> --%>
+
+
 			<!-- 댓글 섹션 -->
 			<div class="comments-section">
 				<h3>댓글</h3>
@@ -123,6 +115,8 @@
 					</div>
 				</c:forEach>
 				<form action="addComment" method="post">
+					<input type="hidden" name="cmId" value="${M_NUMBER}"> 
+					<input type="hidden" name="bId" value="${board.b_number}">
 					<textarea name="comment_content" rows="4" cols="50"></textarea>
 					<br> <input type="hidden" name="b_number"
 						value="${board.b_number}"> <input type="submit"

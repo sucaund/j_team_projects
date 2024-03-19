@@ -92,7 +92,7 @@ public interface SHService {
 
 	Gym gymMapDetail(int gId);
 	
-
+	List<Board> getPComments(int B_NUMBER);
 
 
 	

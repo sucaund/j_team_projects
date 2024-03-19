@@ -34,6 +34,7 @@ import com.oracle.hellong.model.Trainer;
 import com.oracle.hellong.service.jh.JHService;
 import com.oracle.hellong.service.jh.Paging;
 import com.oracle.hellong.service.jm.JMService;
+import com.oracle.hellong.service.hs.HSService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -46,6 +47,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JHController { 
 	private final JHService jh;
 	private final JMService jm;
+	private final HSService hs;
 		
 	
 	@RequestMapping(value="listGym")
@@ -568,17 +570,25 @@ public class JHController {
 	
 	
 	
-	// 결제 폼 뷰 이동
-	@GetMapping(value="movePaymentForm")
-	public String movePaymentFormView (GSGSDetailJoin gsd, Model model) {
-		System.out.println("movePaymentFormView g_id->"+gsd.getG_id());
-		System.out.println("movePaymentFormView sd_number->"+gsd.getSd_number());
-		System.out.println("movePaymentFormView s_number->"+gsd.getS_number());
-		
-		return "";
-	}
-	
-	
+	   // 결제 폼 뷰 이동
+    @GetMapping(value="movePaymentForm")
+    public String movePaymentFormView (GSGSDetailJoin gsd, HttpSession session, Model model) {
+       if (session.getAttribute("m_number") != null) { // 로그인되어있을때
+          Member member = new Member();
+          member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
+          
+          GSDetail gsDetailData = hs.getGSDetailData(gsd);
+          System.out.println("check: " +member.getM_number());
+          model.addAttribute("memberData", member);
+          model.addAttribute("gsDetailData", gsDetailData);
+          
+          return "hs/buyFormGymMembership";
+       }   
+       else {
+          return "jm/jmLoginForm";
+       }
+        
+    }
 	
 	
 	

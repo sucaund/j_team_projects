@@ -320,6 +320,13 @@
 		ORDER BY B_NUMBER DESC
 
 	</select>
+	
+	<!-- 03-19 Board.xml 재준 자유게시판 댓글 -->
+	<select id="getPComments" parameterType="int" resultType="Board">
+		SELECT * FROM BOARD WHERE COMMON_BCD = 200 AND COMMON_MCD = 101
+		AND B_COMM_GROUP = #{B_NUMBER}
+		ORDER BY B_NUMBER DESC
+	</select>
 
 	<delete id="deleteComment" parameterType="int">
 		DELETE FROM BOARD WHERE B_NUMBER = #{b_number}

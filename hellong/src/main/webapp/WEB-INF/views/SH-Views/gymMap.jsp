@@ -124,9 +124,9 @@
 																					+ '            <div class="close" onclick="closeOverlay()" title="닫기"></div>'
 																					+ '        </div>'
 																					+ '        <div class="body">'
-																					+ '            <div class="img">'
+																					+ /* '            <div class="img">'
 																					+ '                <img src="'+imageUrl+'" width="300" height="70">'
-																					+ '           </div>'
+																					+ '           </div>' */
 																					+ '            <div class="desc">'
 																					+ '                <div class="ellipsis">'
 																					+ gym.g_address

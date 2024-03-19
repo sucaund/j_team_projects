@@ -34,7 +34,7 @@ public class QBoarddaoImpl implements QBoarddao {
 		System.out.println("QBoarddaoImpl Start totalQue...");
 
 		try {
-			totQueCount = session.selectOne("shboardTotal", M_NUMBER);
+			totQueCount = session.selectOne("boardTotal", M_NUMBER);
 
 		} catch (Exception e) {
 			System.out.println("QBoarddaoImpl totalQue Exception->" + e.getMessage());
@@ -149,6 +149,19 @@ public class QBoarddaoImpl implements QBoarddao {
 		}
 		return boardlist;
 	}
+	
+	//댓글 초기에 가져오기
+		@Override
+		public List<Board> getPComments(int B_NUMBER) {
+			System.out.println("QBoarddaoImpl getComments board ->" + B_NUMBER);
+			List<Board> boardlist = null;
+			try {
+				boardlist = session.selectList("getPComments", B_NUMBER);
+			} catch (Exception e) {
+				System.out.println("QBoarddaoImpl getPComments e.getMessage()->" + e.getMessage());
+			}
+			return boardlist;
+		}
 
 	@Override
 	public void deleteComment(int b_number) {
@@ -393,10 +406,10 @@ public class QBoarddaoImpl implements QBoarddao {
 	    try {
 	        gymPrice = session.selectOne("getGymPrice", g_id1);
 	        System.out.println("QBoarddaoImpl getGymPrice gym price: g_id1 "+"  " + g_id1);
-	        System.out.println("QBoarddaoImpl getGymPrice gym price: " + gymPrice.getS_price());
+	        System.out.println("QBoarddaoImpl getGymPrice gym price: " + gymPrice);
 
 	    } catch (Exception e) {
-	        System.out.println("!!Error fetching gym price: " + e.getMessage());
+	    	System.out.println("Error fetching gym price: " + e.getMessage());
 	    }
 	    return gymPrice;
 	}
@@ -405,12 +418,11 @@ public class QBoarddaoImpl implements QBoarddao {
 	public GymBoardFile getGymPhoto(int g_id2) {
 	    
 		GymBoardFile gymPhoto = null;
-        System.out.println("????QBoarddaoImpl getGymPhoto  g_id2 "+"  " + g_id2);
 
 	    try {
 	        gymPhoto = session.selectOne("getGymPhoto", g_id2);
 	    } catch (Exception e) {
-	        System.out.println("!!!!!Error fetching gym photo: " + e.getMessage());
+	    	System.out.println("Error fetching gym photo: " + e.getMessage());
 	    }
         System.out.println("QBoarddaoImpl getGymPhoto g_id2: "+"   " + g_id2);
         System.out.println("QBoarddaoImpl getGymPhoto gymPhoto: "+"   " + gymPhoto);

@@ -4,7 +4,7 @@
 
 		<select id="getGymMemberList" parameterType="GymMemberServiceOrderJoin" resultType="GymMemberServiceOrderJoin">
 
-		select*
+			select*
 		 from(
 		    SELECT ROWNUM AS rn, a.*
 		 	from(select m.*, s.s_name, o.deal_date , o.go_startdate , o.go_enddate
@@ -14,6 +14,23 @@
 		         and o.g_id = s.g_id
 		         and o.g_id = #{g_id}
 		         and o.go_isend= 0
+	         	<choose>
+					<when test="search == 'm_name'">
+						and m.m_name like '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 's_name'">
+						and s.s_name like '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'm_phone'">
+						and m.m_phone like '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'm_email'">
+						and m.m_email like '%' || #{keyword} || '%'
+					</when>
+					<otherwise>
+						and m.m_name like '%'
+					</otherwise>	
+				</choose>		         
 		         order by o.go_enddate asc)a
 		    )
 		 where rn BETWEEN #{start} AND #{end}

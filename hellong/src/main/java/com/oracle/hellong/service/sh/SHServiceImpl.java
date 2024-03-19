@@ -136,6 +136,14 @@ public class SHServiceImpl implements SHService {
 		List<Board> boardlist = qd.getComments(B_NUMBER);
 		return boardlist;
 	}
+	// SHServiceImpl 자유댓글가져오는... 03-19
+		@Override
+		public List<Board> getPComments(int B_NUMBER) {
+			System.out.println("SHServiceImpl getPComments Start...");
+			System.out.println("SHServiceImpl getPComments board->>" + B_NUMBER);
+			List<Board> boardlist = qd.getPComments(B_NUMBER);
+			return boardlist;
+		}
 //댓글삭제
 	@Override
 	public void deleteComment(int b_number) {
