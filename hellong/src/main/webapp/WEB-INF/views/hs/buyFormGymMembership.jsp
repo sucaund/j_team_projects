@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +16,12 @@
 			var s_number = ${gsDetailData.s_number};
 			var sd_number = ${gsDetailData.sd_number};
 			var sd_price = ${gsDetailData.sd_price};
+			
+			if (${memberData.m_currpoint } < sd_price) {
+                $("#paymentBtn").prop("disabled", true); // 결제 버튼 비활성화
+                $("#insufficientMessage").text("잔액이 부족합니다. 구매를 진행할 수 없습니다."); // 잔액 부족 메시지 표시
+                return; // 결제 진행 중지
+            }
 
             $.ajax({
                 type: "GET", // 요청 방식
@@ -39,13 +46,76 @@
 </script>
 </head>
 <body>
-	<h1> GymOrder 값을 넘겨줄 결제창 </h1>
+    <!-- 상단 시작 -->
+<div class="breadcrumbs">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 col-md-6 col-12">
+          <div class="breadcrumbs-content">
+            <h1 class="page-title">결제</h1>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <ul class="breadcrumb-nav">
+            <li>
+              <a href="/hsListChargePoint"><i class="lni lni-home"></i>포인트 관리</a>
+            </li>
+            <li>결제</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 상단 끝 -->
 
-		<div>회원이름: ${memberData.m_name }</div>
-		<div>현재 포인트: ${memberData.m_currpoint }</div>
-		<div>구매예정 회원권: ${gsDetailData.g_name }  ${gsDetailData.s_name }</div>
+  <c:if test="${m_number==null}">
+    <div class="account-login section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+          <form class="card login-form" method="get" id="login" action="jmLogin">
+            <div class="card-body">
+              <div class="title">
+                <h3>로그인된 회원만 접근할 수 있습니다.</h3>
+                <p><c:if test="${msg!=null}">${msg}</c:if></p>
+              </div>
+    
+              <div class="button">
+                <button class="btn" type="submit" form="logout">로그인</button>
+              </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+      </div>
+      </c:if> 
 
-		<button id="paymentBtn" type="submit">구매</button>
+      <c:if test="${m_number!=null}">
+    <div class="account-login section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                    <div class="register-form"> 
+                        <div class="card-body">
+                            <div class="title">
+                                <h3>결제하기</h3>
+                                <br>
+                                회원이름: <a style="color: black;">${memberData.m_name }</a><br><br>
+                                현재 포인트: <a style="color: black;">${memberData.m_currpoint }</a><br><br>
+                                구매 예정 회원권: <a style="color: #0167F3;">${gsDetailData.g_name }  ${gsDetailData.s_name }</a><br>
+                            </div>
+                            <div id="insufficientMessage" style="color: red;"></div>
+                            <button type="submit" id="paymentBtn" class="btn btn-primary">구매</button>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+  
+</c:if>   
+  
 </body>
 </html>
