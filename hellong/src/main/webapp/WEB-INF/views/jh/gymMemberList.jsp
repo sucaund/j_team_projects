@@ -119,34 +119,35 @@
             <div class="col-md-12">
                 <div class="card mb-4">
                     <div class="card-body">
-<form id="searchForm" action="/gymMemberListDetail" method="GET">
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <div class="input-group">
-                <input type="text" class="form-control" name="keyword" id="searchInput" placeholder="회원 검색" value="${param.keyword}">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="input-group">
-                <select class="form-control" name="search" id="searchType">
-                    <option value="m_name" <c:if test="${param.search == 'm_name'}">selected</c:if>>회원 이름</option>
-                    <option value="s_name" <c:if test="${param.search == 's_name'}">selected</c:if>>이용 서비스</option>
-                    <option value="m_phone" <c:if test="${param.search == 'm_phone'}">selected</c:if>>전화번호</option>
-                    <option value="m_email" <c:if test="${param.search == 'm_email'}">selected</c:if>>이메일</option>
-                </select>
-                <div class="input-group-append">
-                    <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
-                        <h3 class="font-bold mb-3  text-2xl">현재 이용 중인 회원목록</h3>
+						<form id="searchForm" action="/gymMemberListDetail" method="GET">
+							<input type="hidden" name="g_id" value="${g_id}">
+						    <div class="row mb-3">
+						        <div class="col-md-6 mt-4 mb-4">
+						            <div class="input-group">
+						                <input type="text" class="form-control" name="keyword" id="searchInput" placeholder="회원 검색" value="${param.keyword}">
+						                <div class="input-group-append">
+						                    <button class="btn btn-outline-secondary" type="submit">
+						                        <i class="fas fa-search"></i>
+						                    </button>
+						                </div>
+						            </div>
+						        </div>
+						        <div class="col-md-6 mt-4 mb-4">
+						            <div class="input-group">
+						                <select class="form-control" name="search" id="searchType">
+						                    <option value="m_name" <c:if test="${param.search == 'm_name'}">selected</c:if>>회원 이름</option>
+						                    <option value="s_name" <c:if test="${param.search == 's_name'}">selected</c:if>>이용 서비스</option>
+						                    <option value="m_phone" <c:if test="${param.search == 'm_phone'}">selected</c:if>>전화번호</option>
+						                    <option value="m_email" <c:if test="${param.search == 'm_email'}">selected</c:if>>이메일</option>
+						                </select>
+						                <div class="input-group-append">
+						                    <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
+						                </div>
+						            </div>
+						        </div>
+						    </div>
+						</form>
+                        <h3 class="font-bold mb-4  text-2xl">현재 이용 중인 회원목록</h3>
                         <div class="table-responsive">
                              <table class="table table-bordered table-header-bg mb-0">
                                 <thead class="bg-primary text-white">
@@ -185,28 +186,28 @@
                         </div>
                     </div>
                     
-<div class="d-flex justify-content-center mb-4">
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <c:if test="${page.currentPage > page.pageBlock}">
-                <li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${page.startPage - page.pageBlock}&keyword=${param.keyword}&search=${param.search}">이전</a></li>
-            </c:if>
-            <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-                <c:choose>
-                    <c:when test="${page.currentPage == i}">
-                        <li class="page-item active"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${i}&keyword=${param.keyword}&search=${param.search}">${i}</a></li>
-                    </c:when>
-                    <c:otherwise>
-                        <li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${i}&keyword=${param.keyword}&search=${param.search}">${i}</a></li>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-            <c:if test="${page.endPage < page.totalPage}">
-                <li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${page.startPage + page.pageBlock}&keyword=${param.keyword}&search=${param.search}">다음</a></li>
-            </c:if>
-        </ul>
-    </nav>
-</div>
+						<div class="d-flex justify-content-center mb-4">
+						    <nav aria-label="Page navigation example">
+						        <ul class="pagination">
+						            <li class="page-item ${page.startPage == 1 ? 'disabled' : ''}">
+						                <a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${page.startPage - page.pageBlock}&keyword=${param.keyword}&search=${param.search}">이전</a>
+						            </li>
+						            <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+						                <c:choose>
+						                    <c:when test="${page.currentPage == i}">
+						                        <li class="page-item active"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${i}&keyword=${param.keyword}&search=${param.search}">${i}</a></li>
+						                    </c:when>
+						                    <c:otherwise>
+						                        <li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${i}&keyword=${param.keyword}&search=${param.search}">${i}</a></li>
+						                    </c:otherwise>
+						                </c:choose>
+						            </c:forEach>
+						            <li class="page-item ${page.endPage == page.totalPage ? 'disabled' : ''}">
+						                <a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${page.startPage + page.pageBlock}&keyword=${param.keyword}&search=${param.search}">다음</a>
+						            </li>
+						        </ul>
+						    </nav>
+						</div>
                                     
                   </div>
              </div>              
