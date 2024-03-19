@@ -1,12 +1,15 @@
 package com.oracle.hellong.dao.jjdao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Common;
+import com.oracle.hellong.model.RecommCheck;
 import com.oracle.hellong.model.Report;
 
 import lombok.RequiredArgsConstructor;
@@ -117,20 +120,6 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public int hitCnt(int b_number) {
-		System.out.println("BoardDaoImpl hitCnt Start...");
-		int result = 0;
-		System.out.println("BoardDaoImpl hitCnt b_number--->" + b_number);
-		try {
-			result = session.update("hitCnt", b_number);
-			System.out.println("BoardDaoImpl hitCnt result--->" + result);
-		} catch(Exception e) {
-			System.out.println("BoardDaoImpl hitCnt Exception--->" + e.getMessage());
-		}
-		return result;
-	}
-
-	@Override
 	public int jjReported(Board board) {
 		System.out.println("BoardDaoImpl jjReported Start...");
 		int result = 0;
@@ -186,6 +175,27 @@ public class BoardDaoImpl implements BoardDao {
 			System.out.println("BoardDaoImpl commonList Exception->" + e.getMessage());
 		}
 		return commonList;
+	}
+
+	@Override
+	public RecommCheck checkRecomm(int b_number, int m_number) {
+		Map<String, Object> params = new HashMap<>();
+        params.put("b_number", b_number);
+        params.put("m_number", m_number);
+       
+        return session.selectOne("jjCheckRecomm", params);
+	}
+
+	@Override
+	public void insertRecomm(RecommCheck rec) {
+		session.insert("jjInsertRecomm", rec);
+		
+	}
+
+	@Override
+	public void increaseRecommCount(int b_number) {
+		session.update("jjIncreaseRecommCount", b_number);
+		
 	}
 
 

@@ -47,6 +47,8 @@ public interface SHService {
 
 	void deleteMember(int m_number);
 
+	List<Board> getPComments(int b_number);
+
 
 
 	

@@ -59,6 +59,9 @@ public interface QBoarddao {
 	void deleteMember(int m_number);
 
 
+	List<Board> getPComments(int b_number);
+
+
 
 
 }

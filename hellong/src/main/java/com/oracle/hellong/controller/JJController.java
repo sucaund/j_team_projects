@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +18,15 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Common;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.service.jj.JJPaging;
 import com.oracle.hellong.service.jj.JJService;
+import com.oracle.hellong.service.sh.SHService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JJController {
 	private final JJService js;
+	private final SHService sh;
 	
 	// 게시판 메인페이지
 	@RequestMapping(value = "communityBoard")
@@ -60,21 +66,69 @@ public class JJController {
 	
 	// 게시판 > 게시글 상세페이지
 	@GetMapping(value = "detailBoard")
-	public String detailBoard(Board pboard, Common common, Model model, HttpSession session) {
+	public String detailBoard(Board pboard, Common common, Member member, Model model, HttpSession session) {
 		System.out.println("JJController detailBoard Start...");
 		System.out.println("JJController detailBoard pboard->"+pboard);
 		System.out.println("session--->"+(Integer)session.getAttribute("m_number"));
 		
+		int b_number = pboard.getB_number(); // 댓글
+		String m_id = (String) session.getAttribute("m_id"); // 댓글
+		System.out.println("@@@@JJController detailBoard m_id->"+" "+m_id);
+		int M_NUMBER = sh.changeM_num(m_id); // 댓글
 		Board board = js.detailBoard(pboard.getB_number());
 		System.out.println("JJController detailBoard board->"+board);
 		
 		List<Common> commonList = js.commonList(common);
-		System.out.println("JJController detailBoard common->"+commonList);
+		System.out.println("JJController detailBoard commonList->"+commonList);
+		List<Board> boardCommList = sh.getPComments(b_number); // 댓글
+		System.out.println("JJController detailBoard boardCommList->"+boardCommList); // 댓글
 		
 		model.addAttribute("board", board);
 		model.addAttribute("reportTypes", commonList);
+		model.addAttribute("boardCommList", boardCommList); // 댓글
+		model.addAttribute("M_NUMBER", M_NUMBER); // 댓글
+		
 		return "jj/detailBoard";
 	}
+	
+	
+	//댓글입력 과동시에 신규 댓글 단일객체만 등록 Board!+원글댓글 카운터 증가(wkdb 게시판용)
+    @ResponseBody
+    @PostMapping("commentInsert1")
+    public Board commentInsert1(@RequestParam("comment_body") String comment, @RequestParam("cmId") int M_NUMBER,
+          @RequestParam("bId") int B_NUMBER, Board board) {
+
+       System.out.println("SHController commentInsert M_NUMBER" + " => " + M_NUMBER);
+       System.out.println("SHController commentInsert B_NUMBER" + " => " + B_NUMBER);
+       int Common_bcd = 200;
+       int Common_mcd = 101;
+
+       board.setB_comm_group(B_NUMBER);
+       board.setM_number(M_NUMBER);
+       board.setCommon_bcd(Common_bcd);
+       board.setCommon_mcd(Common_mcd);
+       board.setB_content(comment);
+
+       sh.addComment(board);
+       System.out.println(" 1  SHController addComment board()->" + board);
+
+       Board board2 = sh.callComment(board);
+
+       System.out.println("2   SHController callComment board()->" + board2);
+       return board2;
+    }
+    
+    //댓글 삭제
+    @RequestMapping("deleteComment1")
+    public String deleteComment(@RequestParam("Comm_number") int Comm_number,
+    							@RequestParam("bId")int bId	) {
+    	System.out.println("SHController deleteComment start...");
+    	sh.deleteComment(Comm_number);
+    	System.out.println("SHController deleteComment succes...");
+    	
+        return "redirect:detailBoard?b_number="+bId;
+    }
+	
 	
 	// 게시글 수정페이지
 	@GetMapping(value = "updateFormBoard")
@@ -169,12 +223,17 @@ public class JJController {
 		return "forward:communityBoard";
 	}
 	
-	// 게시글 추천수 카운트
-	@RequestMapping(value = "hitCnt")
-	public String hitCnt(Board board) {
-		System.out.println("JJController HitCnt Start...");
-		int result = js.hitCnt(board.getB_number());
-		return "forward:communityBoard";
+	// 게시글 추천
+	@PostMapping(value = "recommends")
+	@ResponseBody
+	public ResponseEntity<?> recommend(@RequestParam("b_number") int b_number, HttpSession session) {
+
+		if (session.getAttribute("m_number") == null) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("로그인이 필요한 기능입니다.");
+		} else {
+			String result = js.recommendBoard(b_number, (int) session.getAttribute("m_number"));
+			return ResponseEntity.ok(result);
+		}
 	}
 	
 	// 게시글 신고
