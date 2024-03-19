@@ -86,8 +86,26 @@ form#updateForm input[type="submit"]:hover {
 </style>
 </head>
 <body>
+
+	<div class="breadcrumbs">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col">
+					<div class="breadcrumbs-content">
+						<h1 class="page-title">게시글 수정</h1>
+					</div>
+					<ul class="breadcrumb-nav">
+						<li><a href="index.html"><i class="lni lni-home"></i>
+								Home</a></li>
+						<li><a href="listBodyProfile">BodyProfile</a></li>
+						<li>게시글 수정</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="container mt-5">
-        <h1 class="mb-4">게시글 수정</h1>
+       
         <form id="updateForm" action="dyUpdateBodyProfile" method="post" enctype="multipart/form-data">
             <input type="hidden" name="b_number" value="${board.b_number}">
             <div class="mb-3">

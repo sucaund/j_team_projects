@@ -17,26 +17,28 @@
 
 </head>
 <body>
-	
+
 	<div class="breadcrumbs">
-			<div class="container">
-				<div class="row align-items-center">
-					<div class="col-lg-6 col-md-6 col-12">
-						<div class="breadcrumbs-content">
-							<h1 class="page-title">바디프로필</h1>
-						</div>
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6 col-md-6 col-12">
+					<div class="breadcrumbs-content">
+						<h1 class="page-title">바디프로필</h1>
 					</div>
-					<div class="col-lg-6 col-md-6 col-12">
-						<ul class="breadcrumb-nav">
-							<li><a href="index.html"><i class="lni lni-home"></i>
-									Home</a></li>
-							<li>BodyProfile</li>
-						</ul>
-					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-12">
+					<ul class="breadcrumb-nav">
+						<li><a href="index.html"><i class="lni lni-home"></i>
+								Home</a></li>
+						<li><a href="listBodyProfile"><i class="lni lni-listbodyprofile"></i>
+								BodyProfile</a></li>
+						<li>${board.b_title }</li>
+					</ul>
 				</div>
 			</div>
 		</div>
-	
+	</div>
+
 	<div class="container1">
 		<div class="body-profile-details">
 			<!-- 여기에 게시글 내용 표시 -->
@@ -105,8 +107,7 @@
 					<i class="bi bi-hand-thumbs-up-fill"></i> 추천
 				</button>
 
-				<c:if
-					test="${sessionScope.m_number != null }">
+				<c:if test="${sessionScope.m_number != null }">
 					<button type="button" class="btn btn-outline-danger"
 						data-bs-toggle="modal" data-bs-target="#reportedModal">
 						<i class="bi bi-megaphone-fill"></i> 신고
@@ -126,8 +127,8 @@
 					</div>
 				</c:forEach>
 				<form action="addComment" method="post">
-					<input type="hidden" name="cmId" value="${M_NUMBER}"> 
-					<input type="hidden" name="bId" value="${board.b_number}">
+					<input type="hidden" name="cmId" value="${M_NUMBER}"> <input
+						type="hidden" name="bId" value="${board.b_number}">
 					<textarea name="comment_content" rows="4" cols="50"></textarea>
 					<br> <input type="hidden" name="b_number"
 						value="${board.b_number}"> <input type="submit"

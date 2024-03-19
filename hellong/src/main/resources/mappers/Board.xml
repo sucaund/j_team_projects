@@ -415,7 +415,9 @@
 		UPDATE board SET
 		b_title=#{b_title},
 		b_content=#{b_content},
-		b_regdate=sysdate
+		b_regdate=sysdate,
+		common_bcd = 200,
+		common_mcd = 20
 		WHERE
 		b_number = #{b_number}
 	</update>
