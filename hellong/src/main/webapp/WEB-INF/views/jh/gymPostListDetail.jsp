@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../header.jsp" %>
+<%@ include file="header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=119d8c360526256aaaa4b6c379b06a9a&libraries=services"></script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>헬스장 이름</title>
@@ -114,7 +115,7 @@
 						        <!-- Use <a> tag to pass parameters via URL -->
 						        <a href="movePaymentForm?sd_number=${service.sd_number}&g_id=${service.g_id}&s_number=${service.s_number}">
 						            <input type="hidden" name="sd_number" value="${service.sd_number}">
-						            <input type="hidden" name="g_id" value="${service.g_id}">
+						            <input type="hidden" id="gIdInput" name="g_id" value="${service.g_id}">
 						            <input type="hidden" name="s_number" value="${service.s_number}">
 						            <p class="text-gray-700">- 서비스 내용: <strong>${service.s_detail}</strong> </p>
 						            <p class="text-gray-700">- 이용기간: <strong>${service.s_period} 일</strong></p>
@@ -548,8 +549,98 @@
 	   
 	    
 	    
-	    
-	  });
+	  //=============================지도를 표시할 div===============================
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		mapOption = { //지도초기 옵션
+			center : new kakao.maps.LatLng(37.5566, 126.9404), // 초기 지도의 중심좌표
+			level : 4
+		// 지도의 확대 레벨 
+		};
+		// ============================지도를 생성합니다=========================================
+		var map = new kakao.maps.Map(mapContainer, mapOption);
+
+		// ================지도에 마커와 인포윈도우를 표시하는 함수입니다====================
+	
+			function displayMarker(locPosition, message) {
+							// 마커를 생성합니다
+							var marker = new kakao.maps.Marker({
+								map : map,
+								position : locPosition
+							});
+							var iwContent = message, // 인포윈도우에 표시할 내용
+							iwRemoveable = true;
+							// 인포윈도우를 생성합니다
+							var infowindow = new kakao.maps.InfoWindow({
+								content : iwContent,
+								removable : iwRemoveable
+							});
+							// 인포윈도우를 마커위에 표시합니다 
+							//infowindow.open(map, marker);
+							// 마커에 클릭 이벤트를 등록합니다
+							kakao.maps.event.addListener(marker, 'click',
+									function() {
+										// 마커 위에 인포윈도우를 표시합니다
+										infowindow.open(map, marker);
+									});
+							// 지도 중심좌표를 접속위치로 변경합니다
+							map.setCenter(locPosition);
+						}
+			var gId = $('#gIdInput').val();
+		//=====================주소-좌표 변환 객체를 생성합니다==============================
+		var geocoder = new kakao.maps.services.Geocoder(); 
+	  
+	    $.ajax({
+			url : '/gymMapDetail', // 헬스장 정보를 제공하는 서버의 엔드포인트
+			type : 'GET',
+			dataType : 'json',
+			data: {
+		        'g_id': gId // 서버로 보낼 추가 데이터
+		    },
+			success : function(gym) {
+				
+							// 주소를 좌표로 변환
+							geocoder.addressSearch(
+								gym.g_address,function(result,status) {
+												if (status === kakao.maps.services.Status.OK) {
+													var coords = new kakao.maps.LatLng(
+															result[0].y,
+															result[0].x);
+													//                        var message = '<div style="padding:5px;">' + gym.g_name + '</div>';
+													var imageUrl = '/upload/'
+															+ gym.gb_video;
+													var message = '<div class="wrap">'
+															+ '    <div class="info">'
+															+ '        <div class="title">'
+															+ gym.g_name
+															+ '            <div class="close" onclick="closeOverlay()" title="닫기"></div>'
+															+ '        </div>'
+															+ '        <div class="body">'
+															+ '            <div class="img">'
+															+ '                <img src="'+imageUrl+'" width="300" height="70">'
+															+ '           </div>'
+															+ '            <div class="desc">'
+															+ '                <div class="ellipsis">'
+															+ gym.g_address
+															+ '</div>'
+															+ '             		<div class="g_tel">'
+															+ gym.g_tel
+															+ '</div>'
+															;
+													displayMarker(
+															coords,
+															message); // 변환된 좌표로 마커 표시
+												}
+											});
+						
+			},
+			error : function(request, status, error) {
+				console.error(
+						"헬스장 위치 정보를 가져오는데 실패했습니다.",
+						error);
+			}
+		});
+	
+	});//fun
 		
 		
 			
@@ -563,7 +654,11 @@
         document.getElementById("reviewDate").setAttribute("value", today);
                
 	    
+	
 
+
+
+  
 
     
 

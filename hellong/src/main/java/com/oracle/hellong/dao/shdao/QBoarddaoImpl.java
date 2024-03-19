@@ -463,8 +463,8 @@ public class QBoarddaoImpl implements QBoarddao {
 	    return bodyProfile;
 	}
 	
-	@Override
-	public Gym gymMapDetail(int gId) {
+	@Override//0319 jh
+	public Gym gymMapDetail(int gId) { 
 		Gym gymMapDetail = null;
 	    try {
 	    	gymMapDetail = session.selectOne("getGym",gId);

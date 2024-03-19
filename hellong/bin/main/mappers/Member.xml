@@ -137,7 +137,7 @@
 	</update>
 	
 	<select id="jmGetGymOrderGID" parameterType = "int" resultType = "int">
- 	 	select g_id
+ 	 	select distinct g_id
 		from gym_order
 		where m_number=${m_number}
 		and go_isend=0
