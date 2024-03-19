@@ -9,7 +9,7 @@ function confirmDeletion(element) {
 		return false;
 	}
 }
-
+// 게시글 신고
 function submitReport() {
     var reportSelect = $("#reportSelect").val();
     var b_number = $("#b_number").val(); // 게시글 번호를 input 필드로 받아옴
@@ -23,7 +23,7 @@ function submitReport() {
     }
 }
 
-
+// 추천기능 
 document.addEventListener("DOMContentLoaded", function() {
 	const recommendButton = document.getElementById("recommendButton");
 	recommendButton.addEventListener("click", function() {

@@ -45,6 +45,12 @@ header, footer {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+.body-profile-details .content {
+	font-size: 17px;
+    font-weight: 700;
+    color: #081828;
+}
+
 .carousel-item img {
     width: 100%;
     height: auto;
