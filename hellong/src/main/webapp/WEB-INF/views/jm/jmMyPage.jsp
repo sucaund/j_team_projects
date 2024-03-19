@@ -110,7 +110,7 @@
                                     <p>이용중인 서비스 가격: ${gymOrder.use_point}</p>
                                     <p>마지막 결제일자:  ${gymOrder.deal_date}
                                     <div class="button">
-                                        <a href="javascript:void(0)" class="btn">결제 내역 보기</a>
+                                        <a href="hsListChargePoint?m_number=${m_number }" class="btn">결제 내역 보기</a>
                                     </div>
                                 </div>
                             </div>

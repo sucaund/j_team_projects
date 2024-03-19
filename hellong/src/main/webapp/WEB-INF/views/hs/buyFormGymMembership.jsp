@@ -57,10 +57,10 @@
         </div>
         <div class="col-lg-6 col-md-6 col-12">
           <ul class="breadcrumb-nav">
-            <li>
-              <a href="/hsListChargePoint"><i class="lni lni-home"></i>포인트 관리</a>
+<%--              <li>
+              <a href="/gymPostDetail?g_id=${g_id}"><i class="lni lni-home"></i>체육관</a>
             </li>
-            <li>결제</li>
+            <li>결제</li>  --%>
           </ul>
         </div>
       </div>

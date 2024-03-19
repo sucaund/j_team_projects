@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="header.jsp" %>
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -223,20 +223,89 @@
 </script>
 </head>
 <body>
-	<h1>충전페이지 api사용 예정</h1>
+   <!-- 상단 시작 -->
+    <div class="breadcrumbs">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-12">
+              <div class="breadcrumbs-content">
+                <h1 class="page-title">충전</h1>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-12">
+              <ul class="breadcrumb-nav">
+                <li>
+                  <a href="hsListUsePoint?m_number=${m_number }"><i class="lni lni-home"></i>포인트 관리</a>
+                </li>
+                <li>환불</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 상단 끝 -->
+    
+      <c:if test="${m_number==null}">
+        <div class="account-login section">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+              <form class="card login-form" method="get" id="login" action="jmLogin">
+                <div class="card-body">
+                  <div class="title">
+                    <h3>로그인된 회원만 접근할 수 있습니다.</h3>
+                    <p><c:if test="${msg!=null}">${msg}</c:if></p>
+                  </div>
+        
+                  <div class="button">
+                    <button class="btn" type="submit" form="logout">로그인</button>
+                  </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+          </div>
+          </c:if> 
+    
+          <c:if test="${m_number!=null}">
+        <div class="account-login section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                        <div class="register-form"> 
+                            <div class="card-body">
+                                <div class="title">
+                                    <h3>충전하기</h3>
+                                    <br>
+                                    충전 금액 <a style="color: black;"> &nbsp;
+                                        <input type="text" id="chargeAmountInput" name="chargeAmount" placeholder="충전 금액을 입력해주세요">
+                                        </select>
+                                                </a><br><br>
+                                    <button type="submit" id="paymentBtn" class="btn btn-primary charge-btn" value="10000">만원</button>
+                                    <button type="submit" id="paymentBtn" class="btn btn-primary charge-btn" value="30000">3만원</button>
+                                    <button type="submit" id="paymentBtn" class="btn btn-primary charge-btn" value="100000">10만원</button>
+                                    <button type="submit" id="paymentBtn" class="btn btn-primary charge-btn" value="300000">30만원</button>
+                                    <button type="submit" id="paymentBtn" class="btn btn-primary charge-btn" value="500000">50만원</button>
+                                    <button type="submit" id="paymentBtn" class="btn btn-primary charge-btn" value="1000000">100만원</button>
+                                    
+                                    <br><br>
+                                     <button id="creditpayBtn" class="btn btn-primary" type="submit"
+                                     style="background-color:#8258FA; border-color: #8258FA;">카드결제</button>
+                                      <button id="kakaopayBtn" class="btn btn-primary" type="submit" 
+                                      style="background-color: yellow; border-color: yellow;"> <a style="color: black;">카카오페이</a></button>
+                        
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+      
+    </c:if>   
 
-    <input type="text" id="chargeAmountInput" name="chargeAmount" placeholder="충전 금액을 입력해주세요">
-    <br><br>
-    <!-- 버튼을 클릭하면 해당 버튼의 값이 입력 칸에 입력됩니다. -->
-    <button class="charge-btn" value="10000">1만원</button>
-    <button class="charge-btn" value="50000">5만원</button>
-    <button class="charge-btn" value="100000">10만원</button>
-    <button class="charge-btn" value="300000">30만원</button>
-    <button class="charge-btn" value="500000">50만원</button>
-    <button class="charge-btn" value="1000000">100만원</button>
-    <br><br>
-    <button id="creditpayBtn" type="submit">카드결제</button>
-    <button id="kakaopayBtn" type="submit">카카오페이</button>
+
 
 </body> 
 </html>
