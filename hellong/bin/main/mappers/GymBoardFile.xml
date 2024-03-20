@@ -34,6 +34,23 @@
 			WHERE G_ID = #{g_id2}
 			AND ROWNUM = 1
     </select>
+    
+<!--     0319 헬스장맵 사진가져오기실험-->
+   <select id="shgymBoardFiles" resultType="GymBoardFile">
+        SELECT G_ID,
+       GBF_ID,
+       GBF_ORIGINALFILENAME,
+       GBF_STOREDFILENAME
+		FROM   (
+		    SELECT G_ID,
+		           GBF_ID,
+		           GBF_ORIGINALFILENAME,
+		           GBF_STOREDFILENAME,
+		           ROW_NUMBER() OVER (PARTITION BY G_ID ORDER BY GBF_ID ASC) AS rn
+		    FROM HELLONG.GYM_BOARD_FILE
+		)
+		WHERE  rn = 1
+    </select>
 
 
 </mapper>

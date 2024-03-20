@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>게시글 작성</title>
 <style>
+
 /* 전체 페이지에 대한 스타일 */
 body {
 	font-family: 'Arial', sans-serif;
@@ -17,24 +18,11 @@ body {
 	padding: 20px;
 }
 
-header {
-	text-align: center;
-	margin-bottom: 20px;
-}
-
 h1.title {
 	color: #444;
 }
 
-/* 폼 컨테이너 스타일 */
-.container {
-	background-color: #fff;
-	padding: 20px;
-	border-radius: 8px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	max-width: 800px;
-	margin: 0 auto;
-}
+
 
 /* 폼 요소 스타일 */
 form#writeForm {
@@ -105,10 +93,7 @@ footer {
 </style>
 </head>
 <body>
-	<header>
-		<h1 class="title">헬롱 - 글쓰기</h1>
 
-	</header>
 
 	<div class="container">
 		<form id="writeForm" method="post" action="dyWriteBodyProfile"
@@ -139,7 +124,6 @@ footer {
 	<footer>
 		<p>2024 Hellong. All rights reserved.</p>
 	</footer>
-	<script
-		src="<%=request.getContextPath()%>/js/writeFormBodyProfile.js"></script>
+	<script src="<%=request.getContextPath()%>/js/writeFormBodyProfile.js"></script>
 </body>
 </html>

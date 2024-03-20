@@ -90,9 +90,11 @@ public interface SHService {
 
 	Board getbodyProfil();
 
-	List<Board> getPComments(int B_NUMBER);
+	Gym gymMapDetail(int gId);
 	
+	List<Board> getPComments(int B_NUMBER);
 
+	List<GymBoardFile> getAllBoardFiles();
 
 
 	

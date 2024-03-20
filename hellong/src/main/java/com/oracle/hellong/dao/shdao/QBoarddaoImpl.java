@@ -34,7 +34,7 @@ public class QBoarddaoImpl implements QBoarddao {
 		System.out.println("QBoarddaoImpl Start totalQue...");
 
 		try {
-			totQueCount = session.selectOne("boardTotal", M_NUMBER);
+			totQueCount = session.selectOne("shboardTotal", M_NUMBER);
 
 		} catch (Exception e) {
 			System.out.println("QBoarddaoImpl totalQue Exception->" + e.getMessage());
@@ -149,18 +149,19 @@ public class QBoarddaoImpl implements QBoarddao {
 		}
 		return boardlist;
 	}
-//댓글 초기에 가져오기
-	@Override
-	public List<Board> getPComments(int B_NUMBER) {
-		System.out.println("QBoarddaoImpl getComments board ->" + B_NUMBER);
-		List<Board> boardlist = null;
-		try {
-			boardlist = session.selectList("getPComments", B_NUMBER);
-		} catch (Exception e) {
-			System.out.println("QBoarddaoImpl getPComments e.getMessage()->" + e.getMessage());
+	
+	//댓글 초기에 가져오기
+		@Override
+		public List<Board> getPComments(int B_NUMBER) {
+			System.out.println("QBoarddaoImpl getComments board ->" + B_NUMBER);
+			List<Board> boardlist = null;
+			try {
+				boardlist = session.selectList("getPComments", B_NUMBER);
+			} catch (Exception e) {
+				System.out.println("QBoarddaoImpl getPComments e.getMessage()->" + e.getMessage());
+			}
+			return boardlist;
 		}
-		return boardlist;
-	}
 
 	@Override
 	public void deleteComment(int b_number) {
@@ -408,19 +409,24 @@ public class QBoarddaoImpl implements QBoarddao {
 	        System.out.println("QBoarddaoImpl getGymPrice gym price: " + gymPrice);
 
 	    } catch (Exception e) {
-	        System.out.println("Error fetching gym price: " + e.getMessage());
+	    	System.out.println("Error fetching gym price: " + e.getMessage());
 	    }
 	    return gymPrice;
 	}
 
 	@Override
 	public GymBoardFile getGymPhoto(int g_id2) {
-	    GymBoardFile gymPhoto = null;
+	    
+		GymBoardFile gymPhoto = null;
+
 	    try {
 	        gymPhoto = session.selectOne("getGymPhoto", g_id2);
 	    } catch (Exception e) {
-	        System.out.println("Error fetching gym photo: " + e.getMessage());
+	    	System.out.println("Error fetching gym photo: " + e.getMessage());
 	    }
+        System.out.println("QBoarddaoImpl getGymPhoto g_id2: "+"   " + g_id2);
+        System.out.println("QBoarddaoImpl getGymPhoto gymPhoto: "+"   " + gymPhoto);
+
 	    return gymPhoto;
 	}
 
@@ -456,11 +462,28 @@ public class QBoarddaoImpl implements QBoarddao {
 	    }
 	    return bodyProfile;
 	}
+	
+	@Override//0319 jh
+	public Gym gymMapDetail(int gId) { 
+		Gym gymMapDetail = null;
+	    try {
+	    	gymMapDetail = session.selectOne("getGym",gId);
+	    } catch (Exception e) {
+	        System.out.println("QBoarddaoImpl getStarGym e.getMessage() -> " + e.getMessage());
+	    }
+	    return gymMapDetail;
+	}
 
 	@Override
-	public Gym gymMapDetail(int gId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<GymBoardFile> getAllBoardFiles() { //0319 헬스장맵 사진 가져오기 실험
+		List<GymBoardFile> gymBoardFiles =null;
+		try {
+			gymBoardFiles =session.selectList("shgymBoardFiles");
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl getallQnA e.getMessage()->" + e.getMessage());
+
+		}
+		return gymBoardFiles;
 	}
 
 

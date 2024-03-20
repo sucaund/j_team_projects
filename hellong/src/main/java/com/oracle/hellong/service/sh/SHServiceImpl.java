@@ -36,7 +36,7 @@ public class SHServiceImpl implements SHService {
 
 	private final QBoarddao qd;
 	private final DataSource dataSource;
-	private String uploadDir = "uploads/";
+	private String uploadDir = "C:/Gymbackup/";
 	@Override
 	public int totalquestions(int M_NUMBER) {
 		System.out.println("SHServiceImpl Start totalquestions...");
@@ -136,14 +136,14 @@ public class SHServiceImpl implements SHService {
 		List<Board> boardlist = qd.getComments(B_NUMBER);
 		return boardlist;
 	}
-// SHServiceImpl 자유댓글가져오는... 03-19
-	@Override
-	public List<Board> getPComments(int B_NUMBER) {
-		System.out.println("SHServiceImpl getPComments Start...");
-		System.out.println("SHServiceImpl getPComments board->>" + B_NUMBER);
-		List<Board> boardlist = qd.getPComments(B_NUMBER);
-		return boardlist;
-	}
+	// SHServiceImpl 자유댓글가져오는... 03-19
+		@Override
+		public List<Board> getPComments(int B_NUMBER) {
+			System.out.println("SHServiceImpl getPComments Start...");
+			System.out.println("SHServiceImpl getPComments board->>" + B_NUMBER);
+			List<Board> boardlist = qd.getPComments(B_NUMBER);
+			return boardlist;
+		}
 //댓글삭제
 	@Override
 	public void deleteComment(int b_number) {
@@ -358,6 +358,20 @@ public class SHServiceImpl implements SHService {
 	public Board getbodyProfil() { // 인기바디프로필
 	    Board bodyProfile = qd.getbodyProfile();
 	    return bodyProfile;
+	}
+
+	@Override
+	public Gym gymMapDetail(int gId) {
+		Gym gym = qd.gymMapDetail(gId);
+		return gym;
+	}
+
+	@Override
+	public List<GymBoardFile> getAllBoardFiles() { //03-19 맵에 대표이미지 가져오기실험
+		List<GymBoardFile> boardFiles = qd.getAllBoardFiles();
+		System.out.println("SHServiceImpl getAllBoardFiles boardFiles->"+boardFiles);
+
+		return boardFiles;
 	}
 
 	

@@ -353,8 +353,8 @@ public class JHServiceImpl implements JHService {
 	}
 	
 	@Override
-	public int getCurrentTotalMemberList(int g_id) {
-		int getCurrentTotalMemberListResult = gmsojd.getCurrentTotalMemberList(g_id);
+	public int getCurrentTotalMemberList(GymMemberServiceOrderJoin gymMember) {
+		int getCurrentTotalMemberListResult = gmsojd.getCurrentTotalMemberList(gymMember);
 		return getCurrentTotalMemberListResult;
 	}
 

@@ -108,11 +108,84 @@
         .card-body {
             padding-bottom: 0;
         }
+	    /* 페이지 번호 활성화 스타일 */
+	    .page-item.active .page-link {
+	        background-color: #007bff; /* 배경색 변경 */
+	        color: #ffffff; /* 텍스트 색상 변경 */
+	    }
         
-        
-
-        
-
+		.bg-light-p3 {
+		    background-color: #f8f9fa; /* 배경색 추가 */
+		    padding: 1.5rem; /* 내부 여백 조정 */
+		    border-radius: 10px; /* 모서리를 둥글게 만듦 */
+		    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+		}
+		
+			    /* 추가된 CSS */
+	    .search-container {
+	        display: flex;
+	        flex-direction: column;
+	        align-items: center; /* 요소를 수직 방향으로 가운데 정렬 */
+	        text-align: center; /* 내부 텍스트를 가운데 정렬 */
+	    }
+	
+	    .filter-buttons {
+	        width: 100%; /* 부모 요소에 꽉 차게 설정 */
+	        max-width: 600px; /* 최대 너비 설정 */
+	        /* 다른 스타일은 유지 */
+	    }
+		.search-input {
+	        width: 900px; /* 원하는 너비로 설정 */
+	    }	
+			    /* 추가된 CSS */
+		.search-box {
+	      max-width: 600px; /* 최대 너비 설정 */
+	      margin: 0 auto; /* 가운데 정렬 */
+	    }
+	
+	    /* 너비 조정 */
+	    #filterOptions {
+	      width: 100px; /* 필터 옵션 너비 */
+	    }
+	
+	    .search-input {
+	      width: 100px; /* 검색창 너비 조정 */
+	    }
+	
+		#searchInput{
+			 width: 300px;
+		}
+	
+	
+	     .active-sort {
+	        background-color: #007bff; /* 배경색 변경 */
+	        color: #ffffff; /* 텍스트 색상 변경 */
+	    }
+			
+		.page-link:hover {
+	        background-color: #007bff; /* 호버 시 배경색 변경 */
+	        color: #ffffff !important; /* 호버 시 텍스트 색상 변경 */
+	        border-color: #007bff !important; /* 호버 시 테두리 색상 변경 */
+	    }
+	
+		
+	    /* price 버튼 활성화 스타일 */
+	    .active-price {
+	        background-color: #87CEEB; /* 배경색 변경 */
+	        color: #ffffff; /* 텍스트 색상 변경 */
+	    }
+	
+	    /* reviews 버튼 활성화 스타일 */
+	    .active-reviews {
+	        background-color: #28a745; /* 배경색 변경 */
+	        color: #ffffff; /* 텍스트 색상 변경 */
+	    }
+	
+	    /* stars 버튼 활성화 스타일 */
+	    .active-stars {
+	        background-color: #FFD700; /* 배경색 변경 */
+	        color: #ffffff; /* 텍스트 색상 변경 */
+	    }
         
     </style> 
 </head>
@@ -123,48 +196,55 @@
 
 
 
-<div class="bg-light p-3"> <!-- 새로운 배경으로 감싸는 div -->
-    <!--   검색창 및 필터-->
-    <div class="row mb-4 justify-content-center mt-4">
-        <div class="col-md-6">
-            <form class="form-inline" id="searchForm" action="/GymPostList">
-                <select class="form-control mr-2"  name="search" id="filterOptions">
-                    <option value="all" selected>모두</option>
-                    <option value="g_name">이름</option>
-                    <option value="gb_title">제목</option>
-                    <option value="g_address">주소</option>
-                </select>
-                <input type="text" name="keyword" class="form-control mr-2 search-input" id="searchInput" placeholder="헬스장 검색" style="width: 50%;">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> 검색</button>
-            </form>
-        </div>
-    </div> 
-    
-    <div class="row mb-4 justify-content-center"> 
-	    <div class="col-md-6">
-	        <div class="btn-group mr-2" role="group" aria-label="Basic example">
-	            <button type="submit" form="sortPriceForm" class="btn btn-secondary">낮은 가격 순</button>
-	            <button type="submit" form="sortReviewsForm" class="btn btn-secondary">리뷰 많은 순</button>
-	            <button type="submit" form="sortStarsForm" class="btn btn-secondary">높은 별점 순</button>
-	        </div>
-	    </div>
-    </div>
-    
-    <!-- 추가된 form들 -->
-    <form id="sortPriceForm" action="/GymPostList" method="GET">
-        <input type="hidden" name="sortType" value="price">
-    </form>
-    <form id="sortReviewsForm" action="/GymPostList" method="GET">
-        <input type="hidden" name="sortType" value="reviews">
-    </form>
-    <form id="sortStarsForm" action="/GymPostList" method="GET">
-        <input type="hidden" name="sortType" value="stars">
-    </form>
-</div>
-     
-
 	<!-- 카드 내용 -->
-    <div class="row justify-content-center mt-3">
+    <div class="row justify-content-center mt-4">
+    
+		<div class="search-container mt-4">
+		    <!-- 검색창 --> 
+			<div class="search-box mb-4">
+			    <form class="form-inline" id="searchForm" action="/GymPostList">
+			        <div class="input-group">
+			            <select class="custom-select mr-2" name="search" id="filterOptions">
+			                <option value="g_name" <c:if test="${param.search == 'g_name'}">selected</c:if>>이름</option>
+			                <option value="gb_title" <c:if test="${param.search == 'gb_title'}">selected</c:if>>제목</option>
+			                <option value="g_address" <c:if test="${param.search == 'g_address'}">selected</c:if>>주소</option>
+			            </select>
+			            <input type="text" name="keyword" class="form-control mr-2 search-input" id="searchInput" placeholder="헬스장 검색" value="${param.keyword}">
+			            <div class="input-group-append">
+			                <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i></button>
+			            </div>
+			        </div>
+			    </form>
+			</div>
+		    	    
+		    <!-- 필터 버튼 그룹 -->
+		    <div class="filter-buttons mb-4">
+		        <div class="btn-group" role="group" aria-label="기준 정렬">
+		            <button type="submit" form="sortPriceForm"   class="btn btn-outline-dark ho1">낮은 가격 순</button>
+		            <button type="submit" form="sortReviewsForm" class="btn btn-outline-dark ho2">리뷰 많은 순</button>
+		            <button type="submit" form="sortStarsForm" class="btn btn-outline-dark ho3">높은 별점 순</button>
+		        </div>
+		    </div>
+		        
+		    <!-- 추가된 form들 -->
+			<form id="sortPriceForm" action="/GymPostList" method="GET">
+			    <input type="hidden" name="sortType" value="price">
+			    <input type="hidden" name="search" value="${param.search}">
+			    <input type="hidden" name="keyword" value="${param.keyword}">
+			</form>
+			<form id="sortReviewsForm" action="/GymPostList" method="GET">
+			    <input type="hidden" name="sortType" value="reviews">
+			    <input type="hidden" name="search" value="${param.search}">
+			    <input type="hidden" name="keyword" value="${param.keyword}">
+			</form>
+			<form id="sortStarsForm" action="/GymPostList" method="GET">
+			    <input type="hidden" name="sortType" value="stars">
+			    <input type="hidden" name="search" value="${param.search}">
+			    <input type="hidden" name="keyword" value="${param.keyword}">
+			</form>
+	    </div>
+
+    
     	<c:set var="num" value="${page.total - page.start + 1}"></c:set>
         <c:forEach var="board" items="${gymSearchPage}" varStatus="boardLoop">
             <!-- 각 헬스장 카드 -->
@@ -200,31 +280,42 @@
   
                      
 
-    <!-- 페이지 번호 -->
+   <!-- 페이지 번호 -->
 	<div class="row mt-1 justify-content-center">
 	    <div class="col-md-6">
 	        <nav aria-label="페이지 네비게이션">
 	            <ul class="pagination justify-content-center">
+	                <!-- 이전 버튼 -->
 	                <li class="page-item ${page.startPage == 1 ? 'disabled' : ''}">
-	                    <a class="page-link" href="GymPostList?currentPage=${page.startPage - page.pageBlock}" tabindex="-1" aria-disabled="true">이전</a>
+	                    <a class="page-link" href="GymPostList?currentPage=${page.startPage - page.pageBlock}&sortType=${param.sortType}&search=${param.search}&keyword=${param.keyword}" tabindex="-1" aria-disabled="true">이전</a>
 	                </li>
+	                
+	                <!-- 페이지 번호 -->
 	                <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-		                <c:choose>
-		                    <c:when test="${page.currentPage == i}">
-		                        <li class="page-item"><a class="page-link hover:bg-blue-700 transition duration-300" href="GymPostList?&currentPage=${i}">${i}</a></li>
-		                    </c:when>
-		                    <c:otherwise>
-		                        <li class="page-item"><a class="page-link hover:bg-blue-500 hover:text-white transition duration-300" href="GymPostList?&currentPage=${i}">${i}</a></li>
-		                    </c:otherwise>
-		                </c:choose>
-		             </c:forEach>
+	                    <c:choose>
+	                        <c:when test="${page.currentPage == i}">
+	                            <li class="page-item active"> <!-- 현재 페이지에 active 클래스 추가 -->
+	                                <a class="page-link" href="GymPostList?currentPage=${i}&sortType=${param.sortType}&search=${param.search}&keyword=${param.keyword}">${i}</a>
+	                            </li>
+	                        </c:when>
+	                        <c:otherwise>
+	                            <li class="page-item">
+	                                <a class="page-link" href="GymPostList?currentPage=${i}&sortType=${param.sortType}&search=${param.search}&keyword=${param.keyword}">${i}</a>
+	                            </li>
+	                        </c:otherwise>
+	                    </c:choose>
+	                </c:forEach>
+	                
+	                <!-- 다음 버튼 -->
 	                <li class="page-item ${page.endPage == page.totalPage ? 'disabled' : ''}">
-	                    <a class="page-link" href="GymPostList?currentPage=${page.startPage + page.pageBlock}">다음</a>
+	                    <a class="page-link" href="GymPostList?currentPage=${page.startPage + page.pageBlock}&sortType=${param.sortType}&search=${param.search}&keyword=${param.keyword}">다음</a>
 	                </li>
 	            </ul>
 	        </nav>
 	    </div>
 	</div>
+
+
      
     
     
@@ -241,7 +332,7 @@
   
 
 <!-- 부트스트랩 및 jQuery CDN 추가 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- 폰트어썸 CDN 추가 -->
@@ -249,7 +340,21 @@
 
 <script>
     $(document).ready(function () {
-
+        var sortType = '${param.sortType}'; // 현재 솔트 타입
+        
+        // 솔트 타입에 따라 버튼에 클래스 추가
+        if (sortType === 'price') {
+            $('.ho1').addClass('active-price'); // price 버튼에 클래스 추가
+        } else if (sortType === 'reviews') {
+            $('.ho2').addClass('active-reviews'); // reviews 버튼에 클래스 추가
+        } else if (sortType === 'stars') {
+            $('.ho3').addClass('active-stars'); // stars 버튼에 클래스 추가
+        }
+        
+        
+        
+         
+        
 
         // 각 카드의 좋아요 버튼에 대한 이벤트 핸들링
         $('.like-btn').click(function (event) {

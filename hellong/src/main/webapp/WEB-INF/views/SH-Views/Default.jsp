@@ -117,21 +117,21 @@
                             <h6 class="widget-title">최신공지사항</h6>
                                 <div class="single-popular-feed">
                                     <div class="feed-desc">
-                                        <h5 class="post-title"><a href="blog-single-sidebar.html">${Notice.b_title}</a></h5>
+                                        <h5 class="post-title"><a href="hsDetailNoticeBoard?b_number=${Notice.b_number}">${Notice.b_title}</a></h5>
                                     </div>
                                 </div>
                                 <hr>
                              <h6 class="widget-title">인기자유글</h6>
                                 <div class="single-popular-feed">
                                     <div class="feed-desc">
-                                        <h5 class="post-title"><a href="blog-single-sidebar.html">${Popular.b_title}</a></h5>
+                                        <h5 class="post-title"><a href="detailBoard?b_number=${Popular.b_number}">${Popular.b_title}</a></h5>
                                     </div>
                                 </div>
                                  <hr>
                                <h6 class="widget-title">인기바디프로필</h6>
                                 <div class="single-popular-feed">
                                     <div class="feed-desc">
-                                        <h5 class="post-title"><a href="blog-single-sidebar.html">${bodyProfile.b_title}</a></h5>
+                                        <h5 class="post-title"><a href="dySelectBodyProfile?b_number=${bodyProfile.b_number}">${bodyProfile.b_title}</a></h5>
                                     </div>
                                 </div>
                             </div>
@@ -209,4 +209,5 @@
         });
 
     </script>
+<%@ include file="../footer.jsp"%>
 </html>

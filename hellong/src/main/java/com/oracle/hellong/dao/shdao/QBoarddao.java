@@ -115,8 +115,10 @@ public interface QBoarddao {
 
 	Gym gymMapDetail(int gId);
 
-
 	List<Board> getPComments(int B_NUMBER);
+
+
+	List<GymBoardFile> getAllBoardFiles();
 
 
 

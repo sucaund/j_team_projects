@@ -66,8 +66,8 @@ public class JJController {
 		System.out.println("JJController detailBoard Start...");
 		System.out.println("JJController detailBoard pboard->"+pboard);
 		System.out.println("session--->"+(Integer)session.getAttribute("m_number"));
-		
 		int b_number = pboard.getB_number();//03-19
+		
 		Board board = js.detailBoard(pboard.getB_number());
 		String m_id = (String) session.getAttribute("m_id");//03-19
 		int M_NUMBER = sh.changeM_num(m_id);//03-19
@@ -76,10 +76,8 @@ public class JJController {
 		System.out.println("JJController detailBoard board->"+board);
 		System.out.println("JJController detailBoard b_number->"+b_number);
 		
-		
 		List<Common> commonList = js.commonList(common);
 		List<Board> boardCommList = sh.getPComments(b_number);//03-19
-
 		System.out.println("JJController detailBoard common->"+commonList);
 		System.out.println("@@@@@@@@@JJController detailBoard boardCommList->"+boardCommList);
 		
@@ -87,7 +85,6 @@ public class JJController {
 		model.addAttribute("reportTypes", commonList);
 		model.addAttribute("boardCommList", boardCommList);//03-19
 		model.addAttribute("M_NUMBER", M_NUMBER);//03-19
-
 		return "jj/detailBoard";
 	}
 	
@@ -97,18 +94,6 @@ public class JJController {
 		System.out.println("JJController updateFormBoard Start..."); 
 		Board board = js.detailBoard(pboard.getB_number());
 		
-//		System.out.println("JJController updateFormBoard 1 .board--->" + board);
-//		System.out.println("JJController updateFormBoard (Integer)session.getAttribute(m_number)--->" + (Integer)session.getAttribute("m_number"));
-//		System.out.println("JJController updateFormBoard 2 .board--->" + board);
-
-//		if(session.getAttribute("m_number")==null) { //로그인 x
-//			System.out.println("JJController updateFormBoard 비회원..");
-//			return "jm/jmLoginForm";
-//		} else { //로그인  o 
-//			Integer sessionMNumber = (Integer) session.getAttribute("m_number");
-//			Integer boardMNumber = board.getM_number();
-			
-//			if(sessionMNumber != null && sessionMNumber.equals(boardMNumber)) { //글을 쓴 본인이면 수정 가능
 				System.out.println("board.getB_title()--->" + board.getB_title());
 				System.out.println("board.getB_regdate()--->" + board.getB_regdate());
 				String b_regdate = "";
@@ -121,14 +106,10 @@ public class JJController {
 				
 				model.addAttribute("board", board);
 				return "jj/updateFormBoard";
-//			} else {
-//				session.setAttribute("errorMessage", "본인 외에는 수정할 수 없습니다.");
-//				return "forward:communityBoard";
+				
+
 			}
-			
-//		} 
-//	}
-	
+
 	// 게시글 수정 적용
 	@PostMapping(value = "updateBoard")
 	public String updateBoard(Board board, Model model) {

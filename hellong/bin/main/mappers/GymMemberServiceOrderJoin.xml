@@ -2,62 +2,70 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.GymMemberServiceOrderJoinMapper">
 
-	<select id="getGymMemberList" parameterType="GymMemberServiceOrderJoin" resultType="GymMemberServiceOrderJoin">
-	<![CDATA[
-		 select*
-		 from(
-		    SELECT ROWNUM AS rn, a.*
-		 	from(select m.*, s.s_name, o.deal_date , o.go_startdate , o.go_enddate
-		         from gym_order o, member m, g_s s
-		         where o.m_number=m.m_number
-		         and o.s_number=s.s_number
-		         and o.g_id = s.g_id
-		         and o.g_id = 1
-		         and o.go_isend= 0
-		         order by o.go_enddate asc)a
-		    )
-		 where rn BETWEEN #{start} AND #{end}
-	]]>
-	</select>
-	
+	<select id="getGymMemberList" parameterType="GymMemberServiceOrderJoin"
+		resultType="GymMemberServiceOrderJoin"> select* from( SELECT ROWNUM AS
+		rn, a.* from(select m.*, s.s_name, o.deal_date , o.go_startdate ,
+		o.go_enddate from gym_order o, member m, g_s s where
+		o.m_number=m.m_number and o.s_number=s.s_number and o.g_id = s.g_id and
+		o.g_id = #{g_id} and o.go_isend= 0 <choose>
+			<when test="search == 'm_name'">
+				and m.m_name like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 's_name'">
+				and s.s_name like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 'm_phone'">
+				and m.m_phone like '%' || #{keyword} || '%'
+			</when>
+			<when test="search == 'm_email'">
+				and m.m_email like '%' || #{keyword} || '%'
+			</when>
+			<otherwise>
+				and m.m_name like '%'
+			</otherwise>
+		</choose>
+		order by o.go_enddate asc)a ) where rn BETWEEN #{start} AND #{end} </select>
+
 	<select id="getTotalGymMemberList" parameterType="int" resultType="int">
 		select count(*)
-		from 
-		    (select Distinct m.*
-		        from gym_order o, member m, g_s_detail d
-		        where o.m_number=m.m_number
-        		and o.s_number=d.s_number
-		        and o.g_id = d.g_id
-		        and o.sd_number = d.sd_number
-		        and d.g_id = #{g_id}
-		    )
-	</select>
-	
-	<select id="getSumSale" parameterType="int" resultType="int">
-		select sum(o.use_point) 
+		from
+		(select Distinct m.*
 		from gym_order o, member m, g_s_detail d
 		where o.m_number=m.m_number
 		and o.s_number=d.s_number
-        and o.g_id = d.g_id
-        and o.sd_number = d.sd_number
+		and o.g_id = d.g_id
+		and o.sd_number = d.sd_number
+		and d.g_id = #{g_id}
+		)
+	</select>
+
+	<select id="getSumSale" parameterType="int" resultType="int">
+		select sum(o.use_point-o.refund_point)
+		from gym_order o, member m, g_s_detail d
+		where o.m_number=m.m_number
+		and o.s_number=d.s_number
+		and o.g_id = d.g_id
+		and o.sd_number = d.sd_number
 		and d.g_id = #{g_id}
 	</select>
-	
+
 	<select id="getGenderRatio" parameterType="int" resultType="Map">
-		SELECT 
-            ROUND((COUNT(CASE WHEN s.m_gender = 'M' THEN 1 END) / COUNT(*)) * 100, 2) AS maleRatio,
-            ROUND((COUNT(CASE WHEN s.m_gender = 'F' THEN 1 END) / COUNT(*)) * 100, 2) AS femaleRatio
-        FROM 
-            (SELECT DISTINCT m.*
-                FROM gym_order o, member m, g_s_detail d
-                WHERE o.m_number=m.m_number
-				AND o.s_number=d.s_number
-		        AND o.g_id = d.g_id
-		        AND o.sd_number = d.sd_number
-                AND d.g_id = #{g_id}
-            )s
+		SELECT
+		ROUND((COUNT(CASE WHEN s.m_gender = 'M' THEN 1 END) / COUNT(*)) * 100,
+		2) AS maleRatio,
+		ROUND((COUNT(CASE WHEN s.m_gender = 'F' THEN 1 END) / COUNT(*)) * 100,
+		2) AS femaleRatio
+		FROM
+		(SELECT DISTINCT m.*
+		FROM gym_order o, member m, g_s_detail d
+		WHERE o.m_number=m.m_number
+		AND o.s_number=d.s_number
+		AND o.g_id = d.g_id
+		AND o.sd_number = d.sd_number
+		AND d.g_id = #{g_id}
+		)s
 	</select>
-	
+
 	<select id="getAgeRatio" parameterType="int" resultType="Map">
 	<![CDATA[
 	    SELECT
@@ -77,18 +85,18 @@
 	        ) s
 	]]>
 	</select>
-	
-	<select id="getCurrentTotalMemberList" parameterType="int" resultType="int">
+
+	<select id="getCurrentTotalMemberList"
+		parameterType="GymMemberServiceOrderJoin" resultType="int">
 		select count(*)
-        from gym_order o, member m, g_s_detail d
-        where o.m_number=m.m_number
-        and o.s_number=d.s_number
-        and o.g_id = d.g_id
-        and o.sd_number = d.sd_number
-        and o.g_id =#{g_id}
-        and o.go_isend= 0
+		from gym_order o, member m, g_s_detail d
+		where o.m_number=m.m_number
+		and o.s_number=d.s_number
+		and o.g_id = d.g_id
+		and o.sd_number = d.sd_number
+		and o.g_id =#{g_id}
+		and o.go_isend= 0
 	</select>
-	
 
 
 </mapper>

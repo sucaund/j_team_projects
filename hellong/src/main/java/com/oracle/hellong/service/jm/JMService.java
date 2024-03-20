@@ -2,6 +2,7 @@ package com.oracle.hellong.service.jm;
 
 import java.util.List;
 
+import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
@@ -53,6 +54,8 @@ public interface JMService {
 	GymOrder jmGetGymOrder(int g_id);
 
 	String jmGetS_name(int g_id, int s_number);
+
+	List<Board> jmMyPageBoardList(Board board);
 
 
 

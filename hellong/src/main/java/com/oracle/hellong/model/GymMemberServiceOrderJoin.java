@@ -14,7 +14,7 @@ public class GymMemberServiceOrderJoin {
     private int 		s_price; //공지가격 //nn
     private int 		s_period;//이용적용기간 //nn
     private String 		s_matters;//특이사항
-    private int s_isdeleted;
+    private int 		s_isdeleted;
 
 
 	//gs_detail
@@ -53,9 +53,9 @@ public class GymMemberServiceOrderJoin {
     private String  	refund_date; //환불일자 nn
     private int 		refund_point; //환불포인트
     private String 		refund_reason; //환불사유
-    private String go_start_date; // 개인 시작 날짜
-    private String go_end_date;	// 개인 종료 날짜
-    private int go_isend; // 만료 여부
+    private String 		go_startdate; // 개인 시작 날짜
+    private String 		go_enddate;	// 개인 종료 날짜
+    private int 		go_isend; // 만료 여부
 
     private String refund_criteria;  
 
@@ -65,6 +65,7 @@ public class GymMemberServiceOrderJoin {
  	private	String pageNum;
  	private int	start;
  	private	int end;
+ 	private int 	prevPage;			private int 	nextPage;
 
  	//page 정보
  	private String currentPage;

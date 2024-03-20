@@ -49,8 +49,7 @@
 	</c:if>	
 
 				
-	<form action="hsSearchNoticeBoard">
-		<input type="hidden" name="m_number" value="${m_number}">
+	<form action="hsSearchNoticeBoard?m_number=${m_number }">
 		<select name="search">
 			<option value="b_title">제목조회</option>
 			<option value="b_content">내용조회</option>

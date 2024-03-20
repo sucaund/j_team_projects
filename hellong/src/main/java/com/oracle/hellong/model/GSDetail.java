@@ -25,6 +25,7 @@ public class GSDetail { //체육관 상세서비스 g_s_detail
 // insertAndGet할 값들
    private int m_number;
    private int s_period;
+   private String go_enddate;
 
    // 회원권 결제시 data 넘겨줄때
    private String g_name;

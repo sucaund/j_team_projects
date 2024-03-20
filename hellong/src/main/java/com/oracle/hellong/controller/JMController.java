@@ -1,5 +1,7 @@
 package com.oracle.hellong.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.service.dy.DYService;
 import com.oracle.hellong.service.jm.JMService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -141,7 +145,7 @@ public class JMController {
 			System.out.println("member_common_bcd" + member.getCommon_bcd());
 			session.setAttribute("member_common_mcd", member.getCommon_mcd());
 			System.out.println("member_common_mcd" + member.getCommon_mcd());
-			// 이렇게 끌어올 거는 내 자유? 갖다 쓸거?
+
 			System.out.println(session);
 			// 세션 유지기간 30분
 			session.setMaxInactiveInterval(60 * 30);
@@ -217,6 +221,7 @@ public class JMController {
 	@RequestMapping("jmMyPage")
 	public String jmMyPage(HttpSession session, Model model) {
 		if (session.getAttribute("m_number") != null) { // 세션에 등록되어있을때=로그인했을때
+			int m_number=(int)session.getAttribute("m_number");
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
 			model.addAttribute("member", member); 
@@ -226,24 +231,26 @@ public class JMController {
 			System.out.println("jmController jmMyPage에서 jmGetGymOrderGID로 g_id 꺼내온 값:"+g_id);
 			model.addAttribute("g_id", g_id); //유저가 이용중인 체육관 있을 때
 			if(g_id>0) {
+				//유저가 다니는 체육관 관련 정보
 				Gym gym=new Gym();
 				gym=jm.jmGetGymFromGID(g_id); //유저가 가입한 체육관의 정보
 				System.out.println("jmController jmMyPage에서 jmGetGymFromGID로 꺼내온 체육관 이름:"+gym.getG_name());
 				model.addAttribute("gym", gym);
 				
+				//결제 관련 정보
 				GymOrder gymOrder=new GymOrder();
 				gymOrder=jm.jmGetGymOrder(g_id); //활성화된 주문이 하나라는 가정하에 
 				System.out.println("jmController jmMyPage에서 jmGetGymOrder로 꺼내온 주문의 서비스 넘버:"+gymOrder.getS_number());
+				System.out.println(gymOrder.getGo_enddate());
+				System.out.println(gymOrder.getUse_point());
+				System.out.println(gymOrder.getDeal_date());
+				model.addAttribute("gymOrder", gymOrder);
 				
 				String s_name="";
-				
 				s_name=jm.jmGetS_name(g_id, gymOrder.getS_number()); //체육관id와 서비스번호가 일치하는 서비스이름을 GS에서 가져옴
 				model.addAttribute("s_name", s_name);
+				
 			}
-			
-			// null일 때 msg같은거 보냄
-			// 몇개씩 보내는건 ListMember 참고해서 보내면 될 것 같은데. List 보내는 식
-//			session.getAttribute(null)
 
 			return "jm/jmMyPage";
 		} else { // 로그인 되지 않았을 때
@@ -507,6 +514,11 @@ public class JMController {
 			return mail + "로 등록된 아이디가 없습니다.";
 		}
 	}
+	@RequestMapping("jmCustomerCenter")
+	public String jmCustomerCenter() {
+		return "jm/jmCustomerCenter";
+	}
+	
 	@RequestMapping("jmErrorPage")
 	public String getHeader() {
 		return "jm/jmErrorPage";

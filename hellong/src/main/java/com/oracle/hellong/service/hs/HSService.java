@@ -6,6 +6,7 @@ import java.util.Map;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.GS;
 import com.oracle.hellong.model.GSDetail;
+import com.oracle.hellong.model.GSGSDetailJoin;
 import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
 import com.oracle.hellong.model.PointCharge;
@@ -86,13 +87,16 @@ public interface HSService {
 	
 		/* 헬스장 회원권 구매,환불 공통 - getGymOrder */
 	
-	GSDetail getGSDetailData(GSDetail gsDetail);
+	GSDetail getGSDetailData(GSGSDetailJoin gsd);
 	
 		/* 헬스장 회원권 구매 */
 
 		/* GSDetail getGSDetailDataBuy(GSDetail gsDetail); */
 	
 	// GymOrder에 구매정보 insert
+	
+	GSDetail getGSDetailDataBuy(Map<String, Object> params);
+	
 	GSDetail insertAndGetGymOrder(GSDetail gsDetail);
 	
 	int updateGymOrderBuy(GSDetail insertAndGetGymOrder);

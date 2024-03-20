@@ -137,7 +137,7 @@
 	</update>
 	
 	<select id="jmGetGymOrderGID" parameterType = "int" resultType = "int">
- 	 	select g_id
+ 	 	select distinct g_id
 		from gym_order
 		where m_number=${m_number}
 		and go_isend=0
@@ -157,7 +157,7 @@
 		and go_isend=0
  	 </select>
 	 
-	 <select id="jmGetS_name" parameterType = "String" resultType = "GymOrder">
+	 <select id="jmGetS_name" parameterType = "GymOrder" resultType = "String">
 	 	select s_name
 		from G_S
 		where g_id=${g_id}

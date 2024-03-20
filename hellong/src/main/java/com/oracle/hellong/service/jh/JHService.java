@@ -108,7 +108,7 @@ public interface JHService {
 	Map<String, Double> getAgeRatio(int g_id);
 	
 	//현재 이용중인 회원 리스트
-	int getCurrentTotalMemberList(int g_id);
+	int getCurrentTotalMemberList(GymMemberServiceOrderJoin gymMember);
 
 	// 지점찾기 페이지*****************************************************************************
 

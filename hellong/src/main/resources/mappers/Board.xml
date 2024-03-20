@@ -2,18 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.hellong.BoardMapper">
 
-<!-- 재준 mappers 시작 -->
+<!-- ============================ 재준 mappers 시작 ============================ -->
 
 	<!-- 글의 총 갯수 파악하는 쿼리 -->
 	<select id="boardTotal" parameterType="int" resultType="int">
-		SELECT Count(*)
-		FROM BOARD
-		where COMMON_BCD = 200 AND COMMON_MCD = 10
+		Count(*) FROM BOARD where COMMON_BCD = 200 AND COMMON_MCD = 10
 	</select>
 	
 	<!-- 자유게시판의 글들을 불러오는 쿼리. -->
 	<select id="jjBoardListAll" parameterType="Board" resultType="Board">
-		<!-- <![CDATA[
+		 <![CDATA[
 		SELECT * 
 		FROM (
 		    SELECT ROWNUM rn, b.*, m.m_name 
@@ -25,8 +23,8 @@
 		)
 		WHERE rn >= #{start} 
 		AND rn <= #{end}
-		]]> -->
-		<![CDATA[
+		]]> 
+		<!-- <![CDATA[
 		SELECT * 
 		FROM (
 		    SELECT ROWNUM rn, b.*, m.m_name 
@@ -39,7 +37,7 @@
 		)
 		WHERE rn >= #{start} 
 		AND rn <= #{end}
-		]]>
+		]]> -->
 	</select>
 	
 	<!-- 자유게시판에서 글 제목을 선택 시 상세게시판 여는 쿼리 -->
@@ -90,8 +88,7 @@
 							common_bcd, common_mcd, b_comm_group )
 		values
 		(
-			#{b_number}, #{b_title}, #{b_content},
-			#{m_number},
+			#{b_number}, #{b_title}, #{b_content}, #{m_number},
 			200,
 			<choose>
 				<when test="jjcategory == 'jjfree'">10</when>
@@ -117,14 +114,14 @@
 		                   END
 		WHERE b_number = #{b_number}
 	</update>
-
+	
 	<!-- 카테고리+검색어 로 조회된 글을 카운트하는 쿼리 -->
 	<select id="totalCategorySearchCnt" parameterType="Board" resultType="int">
 	    SELECT Count(*)
 	    FROM board b
 	    JOIN member m ON b.m_number = m.m_number
 	        <where>
-	        	b.common_mcd = 10
+	            b.common_mcd = 10
 	            <!-- <choose>
 	               <when test="cateSearch == 'cate-all'">
 	                    b.common_bcd = b.common_bcd AND b.common_mcd = b.common_mcd
@@ -141,7 +138,7 @@
 	                <when test="cateSearch == 'cate-question'">
 	                    b.common_bcd = 200 AND b.common_mcd = 120
 	                </when>
-	            </choose> -->
+	            </choose>-->
 	            <choose>
 	                <when test="search == 'all'">
 	                    and (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')
@@ -160,8 +157,8 @@
 	                </otherwise>
 	            </choose>
 	        </where>
-	</select>		
-
+	</select>	
+	
 	<!-- 게시글을 카테고리 + 검색어로 조회하는 쿼리 -->
 	<select id="listCategorySearchBoard" parameterType="Board" resultType="Board">
 	    SELECT *
@@ -174,7 +171,7 @@
 	        FROM board b
 	        JOIN member m ON b.m_number = m.m_number
 	        <where>
-	        	b.common_mcd = 10
+	            b.common_mcd = 10
 	            <!-- <choose>
 	                <when test="cateSearch == 'cate-all'">
 	                    b.common_bcd = b.common_bcd AND b.common_mcd = b.common_mcd
@@ -191,7 +188,7 @@
 	                <when test="cateSearch == 'cate-question'">
 	                    b.common_bcd = 200 AND b.common_mcd = 120
 	                </when>
-	            </choose> -->
+	            </choose>-->
 	            
 	            <choose>
 	                <when test="search == 'all'">
@@ -216,15 +213,16 @@
 	    )   
 		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
-
+	
 	<select id="commonList" parameterType="Common" resultType="Common">
 		SELECT *
 		FROM common
 		WHERE common_mcd != 999
-	
-	</select>
 
-<!-- 재준 mappers 끝 -->
+	</select>
+	
+
+<!-- ============================ 재준 mappers 끝 ============================ -->
 
 	<select id="shboardTotal" parameterType="int" resultType="int">
 		SELECT
@@ -292,8 +290,10 @@
 
 
 	<insert id="addComment" parameterType="Board">
-		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
-		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_content},#{m_number}, #{b_comm_group})
+		INSERT INTO BOARD
+		(B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd},
+		#{b_content},#{m_number}, #{b_comm_group})
 	</insert>
 
 
@@ -318,7 +318,9 @@
 		SELECT * FROM BOARD WHERE COMMON_BCD = 200 AND COMMON_MCD = 121
 		AND B_COMM_GROUP = #{B_NUMBER}
 		ORDER BY B_NUMBER DESC
+
 	</select>
+	
 	<!-- 03-19 Board.xml 재준 자유게시판 댓글 -->
 	<select id="getPComments" parameterType="int" resultType="Board">
 		SELECT * FROM BOARD WHERE COMMON_BCD = 200 AND COMMON_MCD = 101
@@ -492,7 +494,26 @@
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
+	<!-- 추천 -->
+	<update id="dyIncreaseRecommCount" parameterType="int">
+		UPDATE board
+		SET b_recomm_count = b_recomm_count + 1
+		WHERE b_number = #{b_number}
+	</update>
 	
+	<!-- 신고여부 쿼리 -->
+	<update id="dyUpReported" parameterType="int">
+		UPDATE board
+		SET b_isreported = CASE 
+		                     WHEN b_isreported = 0 THEN 1 
+		                     ELSE b_isreported 
+		                   END
+		WHERE b_number = #{b_number}
+	</update>
+	
+	<select id="dyCommonList" parameterType="Common" resultType="Common">
+		select * from common where common_mcd != 999
+	</select>
 	
 	<!-- 현승 xml -->
 	
@@ -515,7 +536,7 @@
 					 FROM member m, board b
 					 WHERE m.m_number = b.m_number
 					 AND b.common_mcd = 110
-				     ORDER BY b_update) a
+				     ORDER BY b_update DESC) a
 			)
 			WHERE rn >= #{start}
 			AND rn <= #{end}
@@ -540,7 +561,7 @@
 	<!-- 공지글 작성 -->
 	<insert id="hsCreateNoticeBoard" parameterType="Board" useGeneratedKeys="true" keyColumn="b_number" keyProperty="b_number">
 		INSERT INTO board VALUES (b_number_seq.nextval, #{m_number}, 200, 110, #{b_title}, #{b_content}, 0, sysdate, 
-									sysdate, 0, 0, 0, 'image', null, null, null)
+									sysdate, 0, 0, 'image', null, null, null)
 	</insert>
 
 	<!-- 공지글 수정 -->		
@@ -550,10 +571,10 @@
 	</update>
 	
 	<!-- 공지글 삭제 -->
-	<delete id="hsDeleteScrap" parameterType="Board">
+<!-- 	<delete id="hsDeleteScrap" parameterType="Board">
 		DELETE FROM scrap WHERE b_number=#{b_number}
 	</delete>
-	
+	 -->
 	<delete id="hsDeleteNoticeBoard" parameterType="Board">
 		DELETE FROM board WHERE b_number=#{b_number}
 	</delete>
@@ -589,6 +610,14 @@
 				ORDER BY b.b_update DESC) a
 		)
 		WHERE rn BETWEEN #{start} and #{end}
+	</select>
+	
+		<select id="jmMyPageBoardList" parameterType="Board"
+		resultType="Board">
+		select * from board
+		WHERE m_number = #{m_number}
+		order by b_number desc
+		LIMIT 5
 	</select>
 	
 </mapper>

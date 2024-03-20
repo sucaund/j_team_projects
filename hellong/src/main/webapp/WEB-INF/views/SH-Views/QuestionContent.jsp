@@ -89,11 +89,8 @@
 						</tr>
 					</form>
 					<hr>
-					
 					<div class="col-md-8 offset-md-1 col-lg-8 offset-lg-1"
 						style="margin: 0 auto">
-						
-						
 						<!-- 댓글!!! -->
 						<div class="title-box-d">
 							<h3 class="title-d">Comments</h3>
@@ -135,9 +132,11 @@
 												 </h4>
 												 <p id="p_584" class="comment-description" style="font-size: 18px;">${CommList.b_content}</p>
 												 <span style="font-size: 12px; color: #757575;">${CommList.b_regdate}</span>	
+												        <c:if test="${CommList.m_number == M_NUMBER}">
 												        <div id="btn_584">
 														<a href="/deleteComment?Comm_number=${CommList.b_number }&bId=${board.b_number}" onclick="return confirm('댓글을 삭제하시겠습니까?');">삭제</a>
 												        </div> 
+												        </c:if>
 													</div>
 											</li>
 											<hr>

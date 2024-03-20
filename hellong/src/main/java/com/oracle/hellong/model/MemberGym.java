@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class MemberGym {
 	//member 테이블
-    private int 		m_number; // pk 멤버번호 nn
+	private int 		m_number; // pk 멤버번호 nn
     private int 		common_bcd; // f 멤버권한대분류 100
     private int 		common_mcd; // f 멤버권한중분류 ex 10 일반
       private String 	m_id; //멤버아이디

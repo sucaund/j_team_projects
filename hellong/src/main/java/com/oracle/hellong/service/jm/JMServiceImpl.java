@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oracle.hellong.dao.jmdao.JmMemberDao;
+import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymOrder;
 import com.oracle.hellong.model.Member;
@@ -237,6 +238,14 @@ public class JMServiceImpl implements JMService {
 		String s_name="";
 		s_name=jmmd.jmGetS_name(g_id, s_number);
 		return s_name;
+	}
+
+	@Override
+	public List<Board> jmMyPageBoardList(Board board) {
+		List<Board> myPageList = null;
+		myPageList = jmmd.jmMyPageBoardList(board);
+		System.out.println("jmServiceImpl jmMyPageBoardList.size -> " + myPageList.size());
+		return myPageList;
 	}
 
 

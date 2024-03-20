@@ -119,33 +119,35 @@
             <div class="col-md-12">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="회원 검색">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="button">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-							<div class="col-md-6">
-							    <div class="input-group">
-							        <select class="form-control">
-							            <option>전체</option>
-							            <option>회원 이름</option>
-							            <option>이용 서비스</option>
-							            <option>전화번호</option>
-							            <option>이메일</option>
-							        </select>
-							        <div class="input-group-append">
-							            <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
-							        </div>
-							    </div>
-							</div>
-                        </div>
-                        <h3 class="font-bold mb-3  text-2xl">현재 이용 중인 회원목록</h3>
+						<form id="searchForm" action="/gymMemberListDetail" method="GET">
+							<input type="hidden" name="g_id" value="${g_id}">
+						    <div class="row mb-3">
+						        <div class="col-md-6 mt-4 mb-4">
+						            <div class="input-group">
+						                <input type="text" class="form-control" name="keyword" id="searchInput" placeholder="회원 검색" value="${param.keyword}">
+						                <div class="input-group-append">
+						                    <button class="btn btn-outline-secondary" type="submit">
+						                        <i class="fas fa-search"></i>
+						                    </button>
+						                </div>
+						            </div>
+						        </div>
+						        <div class="col-md-6 mt-4 mb-4">
+						            <div class="input-group">
+						                <select class="form-control" name="search" id="searchType">
+						                    <option value="m_name" <c:if test="${param.search == 'm_name'}">selected</c:if>>회원 이름</option>
+						                    <option value="s_name" <c:if test="${param.search == 's_name'}">selected</c:if>>이용 서비스</option>
+						                    <option value="m_phone" <c:if test="${param.search == 'm_phone'}">selected</c:if>>전화번호</option>
+						                    <option value="m_email" <c:if test="${param.search == 'm_email'}">selected</c:if>>이메일</option>
+						                </select>
+						                <div class="input-group-append">
+						                    <span class="input-group-text"><i class="fas fa-chevron-down"></i></span>
+						                </div>
+						            </div>
+						        </div>
+						    </div>
+						</form>
+                        <h3 class="font-bold mb-4  text-2xl">현재 이용 중인 회원목록</h3>
                         <div class="table-responsive">
                              <table class="table table-bordered table-header-bg mb-0">
                                 <thead class="bg-primary text-white">
@@ -184,28 +186,28 @@
                         </div>
                     </div>
                     
-                        <div class="d-flex justify-content-center mb-4">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                	<c:if test="${page.currentPage > page.pageBlock}">
-                                    	<li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${page.startPage - page.pageBlock}">이전</a></li>
-                                    </c:if>
-                                    <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+						<div class="d-flex justify-content-center mb-4">
+						    <nav aria-label="Page navigation example">
+						        <ul class="pagination">
+						            <li class="page-item ${page.startPage == 1 ? 'disabled' : ''}">
+						                <a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${page.startPage - page.pageBlock}&keyword=${param.keyword}&search=${param.search}">이전</a>
+						            </li>
+						            <c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
 						                <c:choose>
 						                    <c:when test="${page.currentPage == i}">
-						                        <li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${i}">${i}</a></li>
+						                        <li class="page-item active"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${i}&keyword=${param.keyword}&search=${param.search}">${i}</a></li>
 						                    </c:when>
 						                    <c:otherwise>
-						                        <li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${i}">${i}</a></li>
+						                        <li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${i}&keyword=${param.keyword}&search=${param.search}">${i}</a></li>
 						                    </c:otherwise>
 						                </c:choose>
 						            </c:forEach>
-									<c:if test="${page.endPage < page.totalPage}">
-                                    	<li class="page-item"><a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${page.startPage + page.pageBlock}">다음</a></li>
-                                	</c:if>
-                                </ul>
-                            </nav>
-                        </div>
+						            <li class="page-item ${page.endPage == page.totalPage ? 'disabled' : ''}">
+						                <a class="page-link" href="gymMemberListDetail?g_id=${g_id}&currentPage=${page.startPage + page.pageBlock}&keyword=${param.keyword}&search=${param.search}">다음</a>
+						            </li>
+						        </ul>
+						    </nav>
+						</div>
                                     
                   </div>
              </div>              
@@ -215,49 +217,55 @@
     </div>
 
     <!-- 부트스트랩 및 폰트어썸, 차트 라이브러리 스크립트 추가 -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <!-- 차트.js 추가 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	
-	<script type="text/javascript">
-	
-		function formatDate(dateString) {
-	        var date = new Date(dateString);
-	        var year = date.getFullYear();
-	        var month = (1 + date.getMonth()).toString().padStart(2, '0');
-	        var day = date.getDate().toString().padStart(2, '0');
-	        return year + '-' + month + '-' + day;
-	    }
-	
-	
-	    function numberWithCommas(x) {
-	        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	    }
-	     
-	    window.onload = function() {
-	        var sumSale = ${sumSale}; 
-	        document.getElementById("formattedPrice").innerText = numberWithCommas(sumSale) + "원";
-	        
-	        // "go_startdate"를 형식화하여 엘리먼트에 할당
-	        var startdateElements = document.querySelectorAll(".startdate");
-	        startdateElements.forEach(function(element) {
-	            var dateString = element.innerText;
-	            element.innerText = formatDate(dateString);
-	        });
+<script type="text/javascript">
+    $(document).ready(function() {
+        var sumSale = ${sumSale}; 
+        $("#formattedPrice").text(numberWithCommas(sumSale) + "원");
 
-	        // "go_enddate"를 형식화하여 엘리먼트에 할당
-	        var enddateElements = document.querySelectorAll(".enddate");
-	        enddateElements.forEach(function(element) {
-	            var dateString = element.innerText;
-	            element.innerText = formatDate(dateString);
-	        });
-	        
-	        
-	    };
-	</script>
+        // "go_startdate"를 형식화하여 엘리먼트에 할당
+        var startdateElements = document.querySelectorAll(".startdate");
+        startdateElements.forEach(function(element) {
+            var dateString = element.innerText;
+            element.innerText = formatDate(dateString);
+        });
+
+        // "go_enddate"를 형식화하여 엘리먼트에 할당
+        var enddateElements = document.querySelectorAll(".enddate");
+        enddateElements.forEach(function(element) {
+            var dateString = element.innerText;
+            element.innerText = formatDate(dateString);
+        });
+        
+
+    
+        
+        
+    });
+
+    function formatDate(dateString) {
+        var date = new Date(dateString);
+        var year = date.getFullYear();
+        var month = (1 + date.getMonth()).toString().padStart(2, '0');
+        var day = date.getDate().toString().padStart(2, '0');
+        return year + '-' + month + '-' + day;
+    }
+
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    
+    
+
+    
+    
+</script>
 
 
     <!-- 성비 차트 스크립트 -->
