@@ -20,15 +20,21 @@ function submitReport() {
 
 // 댓글기능
 $(document).ready(function() {
-	
+	// 세션에서 m_number 값의 존재 여부를 확인하여 isLoggedIn 변수 설정
+    var isLoggedIn = <% out.print(session.getAttribute("m_number") != null ? "true" : "false"); %>;
+
 	$('#repInsert').click(function() {// comment_body의 값 검증
+		if (!isLoggedIn) {
+            alert("로그인 후 이용하세요.");
+            return false; // 로그인이 되어 있지 않으면 댓글 등록을 중단합니다.
+        }
+	
 		var commentBody = $('[name="comment_body"]').val();
 		if (!commentBody) {
 			alert('댓글을 입력 하세요.');
 			$('[name="comment_body"]').focus();
 			return false;
 		}
-		
 		// 폼 데이터 직렬화
 		var frmData = $('#comment_form').serialize();
 		// jQuery의 $.post 메소드를 사용해 서버로 데이터 전송
@@ -52,26 +58,50 @@ $(document).ready(function() {
 });
 
 
+function deleteComment(element, commentBNumber, boardBNumber) {
+    var commentMNumber = $(element).data('m_number'); // 댓글 작성자의 m_number
+    var loggedInMNumber = '<%=session.getAttribute("m_number")%>'; // 현재 로그인한 사용자의 m_number
+
+    // 로그인한 사용자의 m_number와 댓글 작성자의 m_number 비교
+    if (commentMNumber.toString() === loggedInMNumber) {
+        var confirmDelete = confirm('댓글을 삭제하시겠습니까?');
+        if (confirmDelete) {
+            // 서버에 댓글 삭제 요청을 보냄
+            location.href = 'deleteComment1?Comm_number=' + commentBNumber + '&bId=' + boardBNumber;
+        }
+    } else {
+        alert('본인의 댓글만 삭제할 수 있습니다.');
+    }
+}
+
+
 //추천기능 
 document.addEventListener("DOMContentLoaded", function() {
    const recommendButton = document.getElementById("recommendButton");
    recommendButton.addEventListener("click", function() {
       const b_number = this.getAttribute("data-b_number"); // 버튼의 data-b_number 속성에서 b_number 값을 가져옵니다.
 
+      // alert('b_number->'+b_number);
+      const param = {
+         'b_number' : b_number
+      };
+      // alert('param->'+JSON.stringify(param));
+      // console.log('param->'+JSON.stringify(param));
+      
       fetch("recommends", {
          method: "POST",
          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+             "Content-Type": "application/json"
          },
-         body: `b_number=${b_number}`
+         body: JSON.stringify(param) //전송할 데이터 body에 추가
       })
-         .then(response => response.text()) // 이 부분을 response.json()에서 response.text()로 변경합니다.
+         .then(response => response.json()) // 이 부분을 response.json()에서 response.text()로 변경합니다.
          .then(data => {
-            alert(data); // 서버로부터 받은 응답(메시지)를 알림으로 표시합니다.
-            if (data === "추천되었습니다.") {
+            if (data.result === "추천되었습니다." || data.result === "이미 추천하셨습니다.") {
                let recommCountElement = document.getElementById("recommCount");
-               recommCountElement.innerText = parseInt(recommCountElement.innerText) + 1;
+               recommCountElement.innerText = data.recommandCount;
             }
+            alert(data.result); // 서버로부터 받은 응답(메시지)를 알림으로 표시합니다.
          })
          .catch(error => console.error('Error:', error));
    });
@@ -84,12 +114,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <body>
 	<div style="padding: 5%;">
-		<h3>게시글</h3>
+		<h3>${board.b_number}번 게시글</h3>
 		<hr />
 		<span style="font-size: 20px;">${board.b_title}</span>
 		<p style="font-size: 11px;">${board.b_regdate}</p>
 		<p style="text-align: right; font-size: 14px;">${board.m_name}</p>
-		<p style="text-align: right; font-size: 12px;" id="recommCount">추천: ${board.b_recomm_count}&ensp;|&ensp;신고: ${board.b_isreported}&ensp;|&ensp;조회: ${board.b_readcount}</p>
+		<p style="text-align: right; font-size: 12px;">
+			추천: <span id="recommCount">${board.b_recomm_count}</span>&ensp;|&ensp;신고: ${board.b_isreported}&ensp;|&ensp;조회: ${board.b_readcount}
+		</p>
 		<hr />
 		<p>${board.b_content}</p>
 		<hr />
@@ -135,26 +167,23 @@ document.addEventListener("DOMContentLoaded", function() {
 		
 		<!-- 댓글 기능 구현!!!!!!!!!!!!!!!!!!! -->
 		<!-- 댓글 입력파트 -->
-		<div>
+		<div class="container mt-3">
 			<form id="comment_form">
 				<input type="hidden" name="cmId" value="${M_NUMBER}">
 				<input type="hidden" name="bId" value="${board.b_number}">
 				<div class="row">
-					<div class="col-md-11 mb-2" style="padding: 0">
-						<textarea name="comment_body" class="form-control" style="height: 50px;" id="re_content"></textarea>
+					<div class="col-10 col-sm-10 col-md-11 col-lg-11 mb-2" style="padding: 0">
+						<textarea name="comment_body" class="form-control" style="height: 100px;" placeholder="댓글을 입력하세요..." id="re_content"></textarea>
 					</div>
-					<div class="col-md-1 mb-2" style="padding: 0">
-						<button type="button" class="btn btn-primary btn-block" style="width: 60px; height: 50px; font-size: 17px" id="repInsert">확인</button>
+					<div class="col-2 col-sm-2 col-md-1 col-lg-1 mb-2" style="padding: 0">
+						<button type="button" class="btn btn-primary w-100 h-100" style="height: 100px; font-size: 17px" id="repInsert">확인</button>
 					</div>
 				</div>
 			</form>
 		</div>
-		
-	</div>
-	
-	
-	<div style="padding: 5%;">
-		<!-- 댓글!!! -->
+		<p>
+
+		<!-- 댓글 목록!!! -->
 		<div class="title-box-d">
 			<h6 class="title-d">댓글</h3>
 		</div>
@@ -173,7 +202,9 @@ document.addEventListener("DOMContentLoaded", function() {
 							<p class="comment-description" style="font-size: 18px;">${CommList.b_content}</p>
 							<span style="font-size: 12px; color: #757575;">${CommList.b_regdate}</span>	
 								<div>
-									<a href="deleteComment1?Comm_number=${CommList.b_number}&bId=${board.b_number}" onclick="return confirm('댓글을 삭제하시겠습니까?');">삭제</a>
+									<%-- <a href="deleteComment1?Comm_number=${CommList.b_number}&bId=${board.b_number}" onclick="return confirm('댓글을 삭제하시겠습니까?');">삭제</a> --%>
+									<a href="#" data-m_number="${CommList.m_number}" onclick="deleteComment(this, '${CommList.b_number}', '${board.b_number}'); return false;">삭제</a>
+									
 								</div> 
 							</div>
 							</li>
@@ -183,8 +214,11 @@ document.addEventListener("DOMContentLoaded", function() {
 				</div>
 			</div>
 		</div>
+
+		<script src="<%=request.getContextPath()%>/js/index.js"></script>
+		
 	</div>
-	<script src="<%=request.getContextPath()%>/js/index.js"></script>
+	
 
 
 

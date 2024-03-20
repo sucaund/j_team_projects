@@ -126,4 +126,53 @@ public class JJServiceImpl implements JJService {
 
 	}
 
+	@Override
+	public int recommandCount(int b_number) {
+		int recommandCount = 0;
+		System.out.println("JJServiceImpl recommandCount Start!");
+		recommandCount = bd.recommandCount(b_number);
+		System.out.println("JJServiceImpl recommandCount recommandCount->"+recommandCount);
+		return recommandCount;
+	}
+
+	@Override
+	public List<Board> getPComments(int b_number) {
+		System.out.println("JJServiceImpl getPComments Start!");
+		List<Board> boardlist = bd.getPComments(b_number);
+		System.out.println("JJServiceImpl getPComments boardlist->"+boardlist);
+		return boardlist;
+	}
+
+	@Override
+	public int jschangeM_num(String member_id) {
+		System.out.println("JJServiceImpl jschangeM_num Start...");
+		int m_num = 0;
+		m_num = bd.jschangeNum(member_id);
+		System.out.println("JJServiceImpl jschangeM_num m_num" + m_num);
+		return m_num;
+	}
+
+	@Override
+	public void jjAddComment(Board board) {
+		System.out.println("SHServiceImpl Start addComment...");
+		System.out.println("SHServiceImpl addComment board->>" + board);
+		bd.jjAddComment(board);
+		
+	}
+
+	@Override
+	public Board jsCallComment(Board board) {
+		System.out.println("JJServiceImpl jsCallComment Start...");
+		Board board2 = bd.jsCallComment(board);
+		System.out.println("JJServiceImpl jsCallComment board2()->" + board2);
+		return board2;
+	}
+
+	@Override
+	public void jsDeleteComment(int b_number) {
+		System.out.println("SHServiceImpl deleteComment Start...");
+		bd.jsDeleteComment(b_number);
+	}
+
+
 }

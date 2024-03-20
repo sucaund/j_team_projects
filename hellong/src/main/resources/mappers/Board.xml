@@ -6,7 +6,7 @@
 
 	<!-- 글의 총 갯수 파악하는 쿼리 -->
 	<select id="boardTotal" parameterType="int" resultType="int">
-		Count(*) FROM BOARD where COMMON_BCD = 200 AND COMMON_MCD = 10
+		select Count(*) FROM BOARD where COMMON_BCD = 200 AND COMMON_MCD = 10
 	</select>
 	
 	<!-- 자유게시판의 글들을 불러오는 쿼리. -->
@@ -102,7 +102,9 @@
 	
 	<!-- 글을 삭제하는 쿼리 -->
 	<delete id="deleteBoard" parameterType="Board">
-		DELETE FROM board where b_number = #{b_number}
+		 DELETE FROM board 
+      WHERE b_number = #{b_number}
+      OR B_COMM_GROUP = #{b_number}
 	</delete>
 	
 	<!-- 신고여부 쿼리 -->
@@ -220,6 +222,69 @@
 		WHERE common_mcd != 999
 
 	</select>
+	
+	<!-- 자유게시판 게시글 댓글 구현 -->
+	<select id="jjGetPComments" parameterType="int" resultType="Board">
+		SELECT b.*, m.m_name
+		FROM BOARD b
+		JOIN member m ON b.m_number = m.m_number
+		WHERE b.COMMON_BCD = 200 AND b.COMMON_MCD = 101
+			AND b.B_COMM_GROUP = #{B_NUMBER}
+		ORDER BY b.B_NUMBER DESC
+			
+	</select>
+	
+	<!-- 추천 -->
+	<update id="jjIncreaseRecommCount" parameterType="int">
+	   UPDATE board
+	   SET b_recomm_count = b_recomm_count + 1
+	   WHERE b_number = #{b_number}
+	</update>
+	
+	<!-- 추천수 불러오기 -->	
+	<select id="jjRecommandCount" parameterType="int" resultType="int">
+		SELECT b_recomm_count
+		FROM board
+		WHERE b_number = #{b_number}
+		
+	</select>
+	
+	<select id="jjNumChangeNum" parameterType="string"
+		resultType="int">
+		SELECT M_NUMBER
+		FROM MEMBER
+		WHERE M_ID = #{member_id}
+	</select>
+	
+	<insert id="jjAddComment" parameterType="Board">
+		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_content},#{m_number}, #{b_comm_group})
+	</insert>
+	
+	<select id="jsCallComment" parameterType="Board"
+		resultType="Board">
+		SELECT b.*, m.m_name
+		FROM BOARD b
+		JOIN member m ON b.m_number = m.m_number
+		WHERE b.B_COMM_GROUP = #{b_comm_group}
+		AND b.M_NUMBER = #{m_number}
+		AND b.COMMON_BCD = #{common_bcd}
+		AND b.COMMON_MCD = #{common_mcd}
+		AND b.B_CONTENT = #{b_content}
+		AND b.B_NUMBER = (
+		    SELECT MAX(b2.B_NUMBER) 
+		    FROM BOARD b2
+		    WHERE b2.B_COMM_GROUP = #{b_comm_group}
+		    AND b2.M_NUMBER = #{m_number}
+		    AND b2.COMMON_BCD = #{common_bcd}
+		    AND b2.COMMON_MCD = #{common_mcd}
+		    AND b2.B_CONTENT = #{b_content}
+		)
+	</select>
+	
+	<delete id="jsDeleteComment" parameterType="int">
+		DELETE FROM BOARD WHERE B_NUMBER = #{b_number}
+	</delete>
 	
 
 <!-- ============================ 재준 mappers 끝 ============================ -->
