@@ -288,7 +288,7 @@ public class HSController {
 		}
 
 	}
-
+ 
 	// 공지글 삭제
 	@RequestMapping(value = "hsDeleteNoticeBoard")
 	public String hsDeleteNoticeBoard(Board board, Model model, HttpSession session) {
