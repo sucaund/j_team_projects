@@ -164,9 +164,14 @@
                                         문의하기 </a>
                                 </h3>
                                 <br>
-                                <br>     
+                                <br>
+                                <h3>
+                                    <a style="color: #8258FA; text-decoration: underline;" href="/authenticate"> 
+                                            문의내역 </a>
+                                    </h3>
+                        
                                 <div class="button">
-                                    <a href="/authenticate" class="btn">문의 내역</a>
+                                    <a href="/jmUpdateMemberForm" class="btn">회원 정보 수정</a>
                                 </div>
                             </div>
                         </div>
@@ -176,13 +181,15 @@
                         <!-- Start Single Blog -->
                         <div class="single-blog">
                             <div class="blog-content">
-                                <a class="category"></a>
-                                <h3 class="post-title">
-                                    <a href="/listGymManager" style="color: #0167F3; 
-                                    text-decoration: underline;">헬스장 등록 신청</a></h3>
+                                <a class="category">공지사항</a>
+
+
+                                    <h4>
+                                        <a href="blog-single-sidebar.html">공지사항 &nbsp; &nbsp;</a> <a style="color: #0167F3;">                                        
                                     </a>
                                     </h4>
                                     <p></p> 
+
                                     <p></p>
                                     <div class="button">
                                         <a href="/gymPostDetail?g_id=${g_id}" class="btn">더보기</a>
@@ -190,9 +197,6 @@
                             </div>
                         </div>
                     </div>
-
-                    
-        
                 </div>
                 
             </div>
@@ -206,7 +210,7 @@
                         <div class="popular-feed-loop">
                             <div class="single-popular-feed">
                                 <h3 class="post-title">
-                                    <a href="listGymManager" style="color: #0167F3; 
+                                    <a href="/listGymManager" style="color: #0167F3; 
                                     text-decoration: underline;">헬스장 등록 신청</a></h3>
                                 <div class="feed-desc">
                                     

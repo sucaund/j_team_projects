@@ -382,7 +382,7 @@
 
 	<select id="dyBoardTotal" resultType="int">
 		SELECT Count(*) FROM board
-		where comm_bcd=200 and comm_mcd = 20
+		where common_bcd=200 and common_mcd = 20
 	</select>
 
 	<select id="dyBodyProfileListAll" parameterType="Board"
@@ -550,6 +550,8 @@
           AND b2.COMMON_MCD = #{common_mcd}
           AND b2.B_CONTENT = #{b_content}
       )
+      
+      </select>
 	
 	<!-- 현승 xml -->
 	

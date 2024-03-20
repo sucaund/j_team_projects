@@ -1,4 +1,3 @@
-
 package com.oracle.hellong.controller;
 
 import java.io.File;
@@ -130,7 +129,7 @@ public class DYController {
 		return "dy/dySelectBodyProfile";
 	}
 
-	// 댓글입력 과동시에 신규 댓글 단일객체만 등록 Board!+원글댓글 카운터 증가(wkdb 게시판용)
+	// 댓글입력 , 댓글 카운터 증가
 	@ResponseBody
 	@PostMapping("commentInsert2")
 	public Board commentInsert2(@RequestParam("comment_body") String comment, @RequestParam("cmId") int M_NUMBER,
