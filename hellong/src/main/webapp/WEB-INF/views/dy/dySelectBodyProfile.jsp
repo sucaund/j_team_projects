@@ -15,45 +15,76 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/dySelectBodyProfile.css">
 <script type="text/javascript">
-//댓글기능
-$(document).ready(function() {
+	//댓글기능
+	$(document)
+			.ready(
+					function() {
 
-	var isLoggedIn = <% out.print(session.getAttribute("m_number") != null ? "true" : "false"); %>;
+						var isLoggedIn =
+<%out.print(session.getAttribute("m_number") != null ? "true" : "false");%>
+	;
 
-	$('#repInsert').click(function() {// comment_body의 값 검증
-		if (!isLoggedIn) {
-			alert("로그인 후 이용하세요.");
-			return false; // 로그인이 되어 있지 않으면 댓글 등록을 중단합니다.
-		}
+						$('#repInsert')
+								.click(
+										function() {// comment_body의 값 검증
+											if (!isLoggedIn) {
+												alert("로그인 후 이용하세요.");
+												return false; // 로그인이 되어 있지 않으면 댓글 등록을 중단합니다.
+											}
 
-		var commentBody = $('[name="comment_body"]').val();
-		if (!commentBody) {
-			alert('댓글을 입력 하세요.');
-			$('[name="comment_body"]').focus();
-			return false;
-		}
+											var commentBody = $(
+													'[name="comment_body"]')
+													.val();
+											if (!commentBody) {
+												alert('댓글을 입력 하세요.');
+												$('[name="comment_body"]')
+														.focus();
+												return false;
+											}
 
-		// 폼 데이터 직렬화
-		var frmData = $('#comment_form').serialize();
-		// jQuery의 $.post 메소드를 사용해 서버로 데이터 전송
-		$.post("commentInsert2", frmData, function(board) {
-			var newCommentHtml = '<li>' +
-				'<div class="comment-details">' +
-				'<h4 class="comment-author" style="font-size: 11px">' + board.m_name + '</h4>' +
-				'<p class="comment-description" style="font-size: 18px;">' + board.b_content + '</p>' +
-				'<span style="font-size: 12px; color: #757575;">' + board.b_regdate + '</span>' +
-				'<div>' +
-				'<a href="deleteComment2?Comm_number=' + board.b_number + '&bId=' + board.b_comm_group + '" onclick="return confirm(\'댓글을 삭제하시겠습니까?\');">삭제</a>' +
-				'</div>' +
-				'</div>' +
-				'</li><hr>';
-			$('.list_comments').prepend(newCommentHtml); // 새로운 <li>를 list_comments ul에 추가
-			$('[name="comment_body"]').val(''); // 댓글 입력란을 비웁니다.
-		}).fail(function() {
-			alert('댓글 등록에 실패했습니다.');
-		});
-	});
-});
+											// 폼 데이터 직렬화
+											var frmData = $('#comment_form')
+													.serialize();
+											// jQuery의 $.post 메소드를 사용해 서버로 데이터 전송
+											$
+													.post(
+															"commentInsert2",
+															frmData,
+															function(board) {
+																var newCommentHtml = '<li>'
+																		+ '<div class="comment-details">'
+																		+ '<h4 class="comment-author" style="font-size: 11px">'
+																		+ board.m_name
+																		+ '</h4>'
+																		+ '<p class="comment-description" style="font-size: 18px;">'
+																		+ board.b_content
+																		+ '</p>'
+																		+ '<span style="font-size: 12px; color: #757575;">'
+																		+ board.b_regdate
+																		+ '</span>'
+																		+ '<div>'
+																		+ '<a href="deleteComment2?Comm_number='
+																		+ board.b_number
+																		+ '&bId='
+																		+ board.b_comm_group
+																		+ '" onclick="return confirm(\'댓글을 삭제하시겠습니까?\');">삭제</a>'
+																		+ '</div>'
+																		+ '</div>'
+																		+ '</li><hr>';
+																$(
+																		'.list_comments')
+																		.prepend(
+																				newCommentHtml); // 새로운 <li>를 list_comments ul에 추가
+																$(
+																		'[name="comment_body"]')
+																		.val(''); // 댓글 입력란을 비웁니다.
+															})
+													.fail(
+															function() {
+																alert('댓글 등록에 실패했습니다.');
+															});
+										});
+					});
 </script>
 </head>
 <body>
@@ -162,8 +193,8 @@ $(document).ready(function() {
 			<!-- 댓글 입력파트 -->
 			<div>
 				<form id="comment_form">
-					<input type="hidden" name="cmId" value="${M_NUMBER}"> 
-					<input type="hidden" name="bId" value="${board.b_number}">
+					<input type="hidden" name="cmId" value="${M_NUMBER}"> <input
+						type="hidden" name="bId" value="${board.b_number}">
 					<div class="row">
 						<div class="col-md-11 mb-2" style="padding: 0">
 							<textarea name="comment_body" class="form-control"

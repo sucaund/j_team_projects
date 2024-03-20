@@ -191,6 +191,18 @@ public class DYBoardDaoImpl implements DYBoardDao {
 		return commonList;
 	}
 
+	@Override
+	public List<Board> getPComments(int b_number) {
+		System.out.println("DYBoarddaoImpl getPComments Start!");
+	      List<Board> boardlist = null;
+	      try {
+	         boardlist = session.selectList("dyGetPComments", b_number);
+	      } catch (Exception e) {
+	         System.out.println("DYBoarddaoImpl getPComments Exception->" + e.getMessage());
+	      }
+	      return boardlist;
+	}
+
 
 
 }

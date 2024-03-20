@@ -115,7 +115,7 @@ public class DYController {
 		Board board = dys.selectBodyProfile(board1.getB_number());
 		List<BoardFile> boardFile = dys.selectBodyProfileFileList(boardFile1.getB_number());
 		List<Common> commonList = dys.commonList(common);
-		List<Board> boardCommList = sh.getPComments(b_number); // 댓글
+		List<Board> boardCommList = dys.getPComments(b_number); // 댓글
 		System.out.println("DYController detailBoard boardCommList->" + boardCommList); // 댓글
 
 		System.out.println("*********** " + commonList);

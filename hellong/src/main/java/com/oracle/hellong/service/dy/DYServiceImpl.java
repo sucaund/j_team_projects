@@ -216,6 +216,14 @@ public class DYServiceImpl implements DYService {
 		commonList = dybd.commonList(common);
 		return commonList;
 	}
+
+	@Override
+	public List<Board> getPComments(int b_number) {
+		System.out.println("SHServiceImpl getPComments Start!");
+	      List<Board> boardlist = dybd.getPComments(b_number);
+	      System.out.println("SHServiceImpl getPComments boardlist->"+boardlist);
+	      return boardlist;
+	}
 	
 
 	

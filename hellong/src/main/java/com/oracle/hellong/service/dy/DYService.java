@@ -56,6 +56,8 @@ public interface DYService {
 
 	List<Common> commonList(Common common);
 
+	List<Board> getPComments(int b_number);
+
 
 
 
