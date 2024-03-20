@@ -191,7 +191,7 @@
 	                    b.common_bcd = 200 AND b.common_mcd = 120
 	                </when>
 	            </choose>-->
-	            
+	            //
 	            <choose>
 	                <when test="search == 'all'">
 	                    and (b.b_title LIKE '%' || #{keyword} || '%' OR b.b_content LIKE '%' || #{keyword} || '%' OR m.m_name LIKE '%' || #{keyword} || '%')

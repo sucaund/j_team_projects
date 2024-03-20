@@ -57,8 +57,7 @@
 			
 		<c:forEach var="noticeBoard" items="${ListNoticeBoard }">
 			<tr><td>${num }</td>
-				<td><a href="hsDetailNoticeBoard?b_number=${noticeBoard.b_number}&
-													m_number=${member.m_number}">${noticeBoard.b_title }</a></td>
+				<td><a href="hsDetailNoticeBoard?b_number=${noticeBoard.b_number}&">${noticeBoard.b_title }</a></td>
 				<td>${noticeBoard.m_name}</td>
 				<td>${noticeBoard.b_update }
 				</td><td>${noticeBoard.b_readcount }</td></tr>
@@ -71,12 +70,12 @@
 	<div style="text-align: right; padding: 0 5%;">
 		<c:if test="${member.common_mcd == 30}">
 			<button type="button" class="btn btn-primary" 
-					onclick="location.href='hsCreateFormNoticeBoard?m_number=${member.m_number}'"><i class="bi bi-pencil-fill"></i> 글작성</button>
+					onclick="location.href='hsCreateFormNoticeBoard'"><i class="bi bi-pencil-fill"></i> 글작성</button>
 		</c:if>
 	</div>
 	
 	<div style="display: grid; place-items: center;">
-		<form action="hsListNoticeBoard?m_number=${member.m_number }" id="formCateSearch" method="get">
+		<form action="hsListNoticeBoard" id="formCateSearch" method="get">
 			<select name="search">
 				<option value="b_title" <c:if test ="${param.search == 'b_title'}">selected</c:if>>제목조회</option>
 				<option value="b_content" <c:if test ="${param.search == 'b_content'}">selected</c:if>>내용조회</option>
@@ -94,13 +93,13 @@
 			<div class="col">
 				<ul class="pagination d-flex justify-content-center">
 		<c:if test="${page.startPage > page.pageBlock }">
-		<li class="page-item"><a class="page-link" href="hsListNoticeBoard?currentPage=${page.startPage-page.pageBlock}&search=${param.search }&keyword=${board.keyword}&m_number=${member.m_number}">[이전]</a>
+		<li class="page-item"><a class="page-link" href="hsListNoticeBoard?currentPage=${page.startPage-page.pageBlock}&search=${param.search }&keyword=${board.keyword}">[이전]</a>
 	</c:if>
 	<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
-		<li class="page-item"><a class="page-link" href="hsListNoticeBoard?currentPage=${i}&search=${param.search }&keyword=${board.keyword}&m_number=${member.m_number}">${i}</a>
+		<li class="page-item"><a class="page-link" href="hsListNoticeBoard?currentPage=${i}&search=${param.search }&keyword=${board.keyword}">${i}</a>
 	</c:forEach>
 	<c:if test="${page.endPage < page.totalPage }">
-		<li class="page-item"><a class="page-link" href="hsListNoticeBoard?currentPage=${page.startPage+page.pageBlock}&search=${param.search }&keyword=${board.keyword}&m_number=${member.m_number}">[다음]</a>
+		<li class="page-item"><a class="page-link" href="hsListNoticeBoard?currentPage=${page.startPage+page.pageBlock}&search=${param.search }&keyword=${board.keyword}">[다음]</a>
 	</c:if>	
 			</ul>
 			</div>

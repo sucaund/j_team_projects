@@ -76,16 +76,6 @@ public class HSController { //
 		return "hs/listMember";
 	}
 
-//	// test
-//	// 아이디 클릭시 index 이동
-//	@RequestMapping(value = "hsMemberIndex")
-//	public String hsIndex(Member member, Model model, HttpSession session) {
-//
-//			model.addAttribute("m_number", member.getM_number());
-//
-//			return "hs/memberIndex";
-//	}
-//	
 	// 원본
 	// 아이디 클릭시 index 이동
 	@RequestMapping(value = "hsMemberIndex")
@@ -108,47 +98,12 @@ public class HSController { //
 
 	/* 공지사항 */
 
-//	//test
-//	// 공지글 목록
-//	@RequestMapping(value = "hsListNoticeBoard")
-//	public String hsListNoticeBoard(Board board, Member member1, Model model, HttpSession session) {
-//
-//			System.out.println("hsController hsListNoitceBoard start...");
-//			Member member = hs.getMemberData(member1.getM_number());
-//			
-//			// 공지글 total수 조회
-//			int totalBoard = hs.totalNoticeBoard();
-//			System.out.println("hsController start totalNoticeBoard->" + totalBoard);
-//
-//			// paging
-//			HSPaging page = new HSPaging(totalBoard, board.getCurrentPage());
-//			board.setStart(page.getStart());
-//			board.setEnd(page.getEnd());
-//
-//			// 공지글 list 가져오기
-//			List<Board> listBoard = hs.listNoticeBoard(board);
-//			System.out.println("hsController list hsListNoticeBoard.size()->" + listBoard.size());
-//
-//			model.addAttribute("totalNoticeBoard", totalBoard);
-//			model.addAttribute("ListNoticeBoard", listBoard);
-//			model.addAttribute("page", page);
-//			model.addAttribute("common_mcd", member.getCommon_mcd());
-//			model.addAttribute("m_number", member.getM_number());
-//
-//			return "hs/listNoticeBoard";
-//	}
-	
-	
 	// 원본
 	// 공지글 목록
 	@RequestMapping(value = "hsListNoticeBoard")
 	public String hsListNoticeBoard(Board board, Model model, HttpSession session) {
-		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
-			Member member = new Member();
-			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
 
 			System.out.println("hsController hsListNoitceBoard start...");
-			System.out.println("체크체크: " + member.getM_number());
 
 			// 공지글 total수 조회
 			int totalBoard = hs.totalNoticeBoard(board);
@@ -166,13 +121,16 @@ public class HSController { //
 			model.addAttribute("totalNoticeBoard", totalBoard);
 			model.addAttribute("ListNoticeBoard", listBoard);
 			model.addAttribute("page", page);
-			model.addAttribute("member", member);
+			
+			if (session.getAttribute("m_number") != null) { // 로그인되어있을때
+				Member member = new Member();
+				member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
+				
+				model.addAttribute("member", member);
+			} 
 
 			return "hs/listNoticeBoard";
-		} 
-			else {
-			return "jm/jmLoginForm";
-		}
+		
 	}
 	
 
@@ -182,25 +140,20 @@ public class HSController { //
 
 		System.out.println("hsController hsDetailNoticeBoard start...");
 
+		int result = hs.updateReadCount(board1.getB_number());
+		Board board = hs.detailNoticeBoard(board1.getB_number());
+
+		model.addAttribute("noticeBoard", board);
+
 		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
-
-			System.out.println("체크체크: " + member.getM_number());
-
-			int result = hs.updateReadCount(board1.getB_number());
-			Board board = hs.detailNoticeBoard(board1.getB_number());
-
-			int common_mcd = member.getCommon_mcd();
-			System.out.println("hsController hsDetailNoticeBoard common_mcd-> " + common_mcd);
-
-			model.addAttribute("noticeBoard", board);
+			
 			model.addAttribute("member", member);
-
-			return "hs/detailNoticeBoard";
-		} else {
-			return "jm/jmLoginForm";
 		}
+		
+		return "hs/detailNoticeBoard";
+	
 	}
 
 	// 공지글 작성 폼
@@ -317,22 +270,16 @@ public class HSController { //
 		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
-
-			System.out.println("체크체크: " + member.getM_number());
-			System.out.println("체크체크2: " + member1.getM_number());
-
-			Member memberData = hs.getMemberData(member1.getM_number());
-
+			
 			// 포인트 충전내역 조회
-			int totalListPointCharge = hs.totalListPointCharge(member1.getM_number());
+			int totalListPointCharge = hs.totalListPointCharge(member.getM_number());
 			System.out.println("hsController hsListChargePoint totalListPointCharge ->" + totalListPointCharge);
 
-			HSPaging page = new HSPaging(totalListPointCharge, member1.getCurrentPage());
-			member1.setStart(page.getStart());
-			member1.setEnd(page.getEnd());
-			System.out.println("get member ->" + memberData);
+			HSPaging page = new HSPaging(totalListPointCharge, member.getCurrentPage());
+			member.setStart(page.getStart());
+			member.setEnd(page.getEnd());
 
-			List<PointCharge> listPointCharge = hs.listPointCharge(member1);
+			List<PointCharge> listPointCharge = hs.listPointCharge(member);
 			System.out.println("hsController hsListPointCharge listPointCharge.size() ->" + listPointCharge.size());
 
 			model.addAttribute("memberData", member);
@@ -349,7 +296,7 @@ public class HSController { //
 
 	// 포인트 사용내역
 	@RequestMapping(value = "hsListUsePoint")
-	public String hsListBuyPoint(Member member1, Model model, HttpSession session) {
+	public String hsListBuyPoint(Board board, Model model, HttpSession session) {
 
 		System.out.println("hsController hsListBuyPoint start...");
 
@@ -357,23 +304,18 @@ public class HSController { //
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
 
-			System.out.println("체크체크: " + member.getM_number());
-			System.out.println("체크체크2: " + member1.getM_number());
-
-			Member memberData = hs.getMemberData(member1.getM_number());
-
-			int totalListPointDeal = hs.totalListGymOrderDeal(member1.getM_number());
+			int totalListPointDeal = hs.totalListGymOrderDeal(board.getM_number());
 			System.out.println("hsController hsListPoint totalListPointDeal ->" + totalListPointDeal);
 
-			HSPaging page = new HSPaging(totalListPointDeal, member1.getCurrentPage());
-			member1.setStart(page.getStart());
-			member1.setEnd(page.getEnd());
+			HSPaging page = new HSPaging(totalListPointDeal, board.getCurrentPage());
+			board.setStart(page.getStart());
+			board.setEnd(page.getEnd());
 
-			List<GymOrder> listGymOrderDeal = hs.listGymOrderDeal(member1);
+			List<GymOrder> listGymOrderDeal = hs.listGymOrderDeal(member);
 			System.out.println("hsController hsListPointCharge listPointCharge.size() ->" + listGymOrderDeal.size());
 			System.out.println("DealTest Controller: " + listGymOrderDeal);
 
-			model.addAttribute("memberData", memberData);
+			model.addAttribute("memberData", member);
 			model.addAttribute("totalListPoint", totalListPointDeal);
 			model.addAttribute("listPoint", listGymOrderDeal);
 			model.addAttribute("page", page);
@@ -396,11 +338,6 @@ public class HSController { //
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
 
-			System.out.println("체크체크: " + member.getM_number());
-
-			System.out.println("hsController hsListPoint memberNumber ->" + member.getM_number());
-			model.addAttribute("memberData", member);
-
 			int totalListPointRefund = hs.totalListGymOrderRefund(memebr1.getM_number());
 			System.out.println("hsController hsListPoint totalListPointRefund ->" + totalListPointRefund);
 
@@ -410,8 +347,8 @@ public class HSController { //
 
 			List<GymOrder> listGymOrderRefund = hs.listGymOrderRefund(memebr1);
 			System.out.println("hsController hsListPointCharge listPointCharge.size() ->" + listGymOrderRefund.size());
-			System.out.println("RefundTest Controller: " + listGymOrderRefund);
 
+			model.addAttribute("memberData", member);
 			model.addAttribute("totalListPoint", totalListPointRefund);
 			model.addAttribute("listPoint", listGymOrderRefund);
 			model.addAttribute("page", page);
