@@ -197,17 +197,17 @@ public class DYServiceImpl implements DYService {
 	@Override
 	public String recommendBoard(int b_number, int m_number) {
 		RecommCheck check = dyrcd.checkRecomm(b_number, m_number);
-	    if (check != null) {
-	        return "이미 추천하셨습니다.";
-	    }
-	    RecommCheck rec = new RecommCheck();
-	    // 객체의 필드에 값을 설정하는 부분
-	    rec.setB_number(b_number);
-	    rec.setM_number(m_number);
-	    rec.setRc_isrecomm(1); // 추천 상태 설정
-	    dyrcd.insertRecomm(rec); // 수정된 부분
-	    dybd.increaseRecommCount(b_number);
-	    return "추천되었습니다.";
+		if (check != null) {
+			return "이미 추천하셨습니다.";
+		}
+		RecommCheck rec = new RecommCheck();
+		// 객체의 필드에 값을 설정하는 부분
+		rec.setB_number(b_number);
+		rec.setM_number(m_number);
+		rec.setRc_isrecomm(1); // 추천 상태 설정
+		dyrcd.insertRecomm(rec); // 수정된 부분
+		dybd.increaseRecommCount(b_number);
+		return "추천되었습니다.";
 	}
 
 	@Override
@@ -220,24 +220,19 @@ public class DYServiceImpl implements DYService {
 	@Override
 	public List<Board> getPComments(int b_number) {
 		System.out.println("SHServiceImpl getPComments Start!");
-	      List<Board> boardlist = dybd.getPComments(b_number);
-	      System.out.println("SHServiceImpl getPComments boardlist->"+boardlist);
-	      return boardlist;
+		List<Board> boardlist = dybd.getPComments(b_number);
+		System.out.println("SHServiceImpl getPComments boardlist->" + boardlist);
+		return boardlist;
 	}
 
 	@Override
 	public Board callComment(Board board) {
-		
+
 		System.out.println("DYServiceImpl Start callComment...");
 
 		Board board2 = dybd.callComment(board);
-		System.out.println(
-				"@DYServiceImpl callComment board2()->" + board2);
+		System.out.println("@DYServiceImpl callComment board2()->" + board2);
 		return board2;
 	}
-	
-
-	
-	
 
 }

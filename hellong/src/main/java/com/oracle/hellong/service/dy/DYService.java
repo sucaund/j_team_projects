@@ -40,15 +40,16 @@ public interface DYService {
 	List<BoardFile> listFileBodyProfile(BoardFile boardFile);
 
 	void dyUpdateBodyProfile(Board board);
-	
+
 	// 마이페이지 작성글
 	List<Board> myPageBoardList(Board board);
-	
+
 	// 게시판 내 파일 검색
 	List<BoardFile> listSearchBoardFileByBoardId(int b_number);
-	
+
 	// 게시글 신고
 	int dyReported(Board board);
+
 	// 게시글 조회수 증가
 	void increaseReadCount(int b_number);
 
@@ -60,14 +61,4 @@ public interface DYService {
 
 	Board callComment(Board board);
 
-
-
-
-
-
-
-	
-	
-	
-	
 }
