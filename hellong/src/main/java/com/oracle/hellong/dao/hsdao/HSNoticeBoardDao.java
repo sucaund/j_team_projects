@@ -11,7 +11,7 @@ public interface HSNoticeBoardDao {
 
 	// 공지글 리스트
 	
-	int totalNoticeBoard();
+	int totalNoticeBoard(Board board);
 
 	List<Board> listNoticeBoard(Board board);
 
@@ -32,11 +32,5 @@ public interface HSNoticeBoardDao {
 	// 공지글 삭제
 	
 	int delteNoticeBoard(int b_number);
-	
-	// 공지글 검색
-	
-	int condTotalNoticeBoard(Board board);
-
-	List<Board> searchNoticeBoard(Board board);
 
 }

@@ -627,27 +627,37 @@
 		<!-- 공지사항 -->
 
 	<!-- 공지글 리스트 -->
-	<select id="hsNoticeBoardTotal" resultType="int">
+	<select id="hsNoticeBoardTotal" parameterType="Board" resultType="int">
 		SELECT count(*) FROM board WHERE common_mcd = 110
+			<choose>
+				<when test="search == 'b_title'">
+					AND b_title like '%' || #{keyword} || '%'
+				</when>
+				<when test="search == 'b_content'">	
+					AND b_content like '%' || #{keyword} || '%'
+				</when>
+			</choose>
 
 	</select>
 	
 	<select id="hsNoticeBoardListAll" parameterType="Member" resultType="Board">
-		<![CDATA[
-			SELECT *
+		SELECT *
+		FROM
+		(
+			SELECT rownum rn, a.*
 			FROM
-			(
-				SELECT rownum rn, a.*
-				FROM
-					(SELECT m.m_name, b.* 
-					 FROM member m, board b
-					 WHERE m.m_number = b.m_number
-					 AND b.common_mcd = 110
-				     ORDER BY b_update DESC) a
-			)
-			WHERE rn >= #{start}
-			AND rn <= #{end}
-		]]>
+				(SELECT m.m_name, b.* FROM member m, board b WHERE m.m_number = b.m_number AND b.common_mcd=110
+				<choose>
+					<when test="search == 'b_title'">
+						AND b.b_title like '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'b_content'">
+						AND b.b_content like '%' || #{keyword} || '%'
+					</when>
+				</choose>
+				ORDER BY b.b_update DESC) a
+		)
+		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 	
 	<!-- 공지글 세부내용 + 조회수 증가 -->
@@ -666,7 +676,7 @@
 	</select>
 	
 	<!-- 공지글 작성 -->
-	<insert id="hsCreateNoticeBoard" parameterType="Board" useGeneratedKeys="true" keyColumn="b_number" keyProperty="b_number">
+	<insert id="hsCreateNoticeBoard" parameterType="Board">
 		INSERT INTO board VALUES (b_number_seq.nextval, #{m_number}, 200, 110, #{b_title}, #{b_content}, 0, sysdate, 
 									sysdate, 0, 0, 'image', null, null, null)
 	</insert>

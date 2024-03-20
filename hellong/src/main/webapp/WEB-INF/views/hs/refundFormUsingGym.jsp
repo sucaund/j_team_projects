@@ -8,114 +8,124 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script type="text/javascript">
-	
-	// 헬스장 이름 선택 시 이용중인 헬스장 서비스 목록 제공
-	$(document).ready(function() {
-	    $("#selectedGym").change(function() {
-	        var g_id= $(this).val();
-	        var m_number = ${memberData.m_number};
-	    
-	        $.ajax({
-	            type: "GET",
-	            url: "hsGetServicesByGymId",
-	            data: {g_id: g_id, m_number: m_number},
-	            dataType: "json",
-	            success: function(data) {
-	                var options = "";
-	                for (var i = 0; i < data.length; i++) {
-	                    options += "<option value='" + data[i].s_number + "," + data[i].sd_number + "," + data[i].m_number + "," + data[i].go_number + "'>" + data[i].rl_s_name + "</option>";
-	                }
-	                $("#selectedGymService").html(options);
-	                
-	                // sub ajax (처음에 헬스장이름 선택 시 클릭안해도 바로 환불금액이 나올 수 있게)
-	    	        $.ajax({
-	    	            type: "GET",
-	    	            url: "hsGetFirstRefundData",
-	    	            data: {g_id: g_id, 
-	    	            	   s_number: data[0].s_number, 
-	    	            	   sd_number: data[0].sd_number, 
-	    	            	   m_number: m_number, 
-	    	            	   go_number: data[0].go_number},
-	    	            dataType: "json",
-	    	            success: function(data) {
-    	            	   $("#refundPrice").text(data.refund_point);
-    		               $("#refundCriteria").text(data.refund_criteria);
-	    	            },
-	    	            error: function(jqXHR, textStatus, errorThrown) {
-	    	                console.log("Error: " + textStatus + " - " + errorThrown);
-	    	            }
-	    	        });
-	            },
-	            error: function(jqXHR, textStatus, errorThrown) {
-	                console.log("Error: " + textStatus + " - " + errorThrown);
-	            }
-	        });
-	    });
-	    
-	    // 헬스장 서비스명 선택 시 환불금액 정보 제공
-	  	$("#selectedGymService").change(function() {
-			var g_id = $("#selectedGym").val();
-	        var selectedService = $(this).val().split(",");
-	        var s_number = selectedService[0];
-	        var sd_number = selectedService[1];
-	        var m_number = selectedService[2];
-	        var go_number = selectedService[3];
-	        
-	        $.ajax({
-	            type: "GET",
-	            url: "hsGetRefundData",
-	            data: {g_id: g_id, 
-	            	   s_number: s_number, 
-	            	   sd_number: sd_number, 
-	            	   m_number: m_number, 
-	            	   go_number: go_number},
-	            dataType: "json",
-	            success: function(data) {
-	                $("#refundPrice").text(data.refund_point);
-	                $("#refundCriteria").text(data.refund_criteria);
-	            },
-	            error: function(jqXHR, textStatus, errorThrown) {
-	                console.log("Error: " + textStatus + " - " + errorThrown);
-	            }
-	        });
-	    });
-	    
-		$("#sendParamsValues").submit(function(event) {
-			event.preventDefault();
-			var g_id = $("#selectedGym").val();
-			var selectedService = $("#selectedGymService").val().split(",");
-			var s_number = selectedService[0];
-			var sd_number = selectedService[1];
-			var m_number = selectedService[2];
-			var go_number = selectedService[3];
-			var refund_point = $("#refundPrice").text();
-			var refund_criteria = $("#refundCriteria").text();
+   
+   // 헬스장 이름 선택 시 이용중인 헬스장 서비스 목록 제공
+   $(document).ready(function() {
+       $("#selectedGym").change(function() {
+           var g_id= $(this).val();
+           var m_number = ${memberData.m_number};
+       
+           $.ajax({
+               type: "GET",
+               url: "hsGetServicesByGymId",
+               data: {g_id: g_id, m_number: m_number},
+               dataType: "json",
+               success: function(data) {
+                   var options = "";
+                   for (var i = 0; i < data.length; i++) {
+                       options += "<option value='" + data[i].s_number + "," + data[i].sd_number + "," + data[i].m_number + "," + data[i].go_number + "'>" + data[i].rl_s_name + "</option>";
+                   }
+                   $("#selectedGymService").html(options);
+                   
+                   // sub ajax (처음에 헬스장이름 선택 시 클릭안해도 바로 환불금액이 나올 수 있게)
+                  $.ajax({
+                      type: "GET",
+                      url: "hsGetFirstRefundData",
+                      data: {g_id: g_id, 
+                            s_number: data[0].s_number, 
+                            sd_number: data[0].sd_number, 
+                            m_number: m_number, 
+                            go_number: data[0].go_number},
+                      dataType: "json",
+                      success: function(data) {
+                         $("#refundPrice").text(data.refund_point);
+                         $("#refundCriteria").text(data.refund_criteria);
+                      },
+                      error: function(jqXHR, textStatus, errorThrown) {
+                          console.log("Error: " + textStatus + " - " + errorThrown);
+                      }
+                  });
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                   console.log("Error: " + textStatus + " - " + errorThrown);
+               }
+           });
+       });
+       
+       // 헬스장 서비스명 선택 시 환불금액 정보 제공
+        $("#selectedGymService").change(function() {
+         var g_id = $("#selectedGym").val();
+           var selectedService = $(this).val().split(",");
+           var s_number = selectedService[0];
+           var sd_number = selectedService[1];
+           var m_number = selectedService[2];
+           var go_number = selectedService[3];
+           
+           $.ajax({
+               type: "GET",
+               url: "hsGetRefundData",
+               data: {g_id: g_id, 
+                     s_number: s_number, 
+                     sd_number: sd_number, 
+                     m_number: m_number, 
+                     go_number: go_number},
+               dataType: "json",
+               success: function(data) {
+                   $("#refundPrice").text(data.refund_point);
+                   $("#refundCriteria").text(data.refund_criteria);
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                   console.log("Error: " + textStatus + " - " + errorThrown);
+               }
+           });
+       });
+       
+      $("#sendParamsValues").submit(function(event) {
+         event.preventDefault();
+         var g_id = $("#selectedGym").val();
+         var selectedService = $("#selectedGymService").val().split(",");
+         var s_number = selectedService[0];
+         var sd_number = selectedService[1];
+         var m_number = selectedService[2];
+         var go_number = selectedService[3];
+         var refund_point = $("#refundPrice").text();
+         var refund_criteria = $("#refundCriteria").text();
 
-			$.ajax({
-				type: "GET",
-				url: "hsRefundUsingGym",
-				data: {
-					g_id: g_id,
-					s_number: s_number,
-					sd_number: sd_number,
-					m_number: m_number,
-					go_number: go_number,
-					refund_point: refund_point,
-					refund_criteria: refund_criteria
-				},
-				success: function(response) {
-					console.log(g_id + " & " + s_number + " & " + sd_number + " & " + m_number + " & " + refund_point + " & " + refund_criteria);
-					alert("환불이 완료되었습니다.");
-					window.location.href = "hsMemberIndex?m_number=" + m_number;
-					
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					console.log("Error: " + textStatus + " - " + errorThrown);
-				}
-			});
-		});
-
-	});
+         $.ajax({
+            type: "GET",
+            url: "hsRefundUsingGym",
+            data: {
+               g_id: g_id,
+               s_number: s_number,
+               sd_number: sd_number,
+               m_number: m_number,
+               go_number: go_number,
+               refund_point: refund_point,
+               refund_criteria: refund_criteria
+            },
+            success: function(response) {
+               console.log(g_id + " & " + s_number + " & " + sd_number + " & " + m_number + " & " + refund_point + " & " + refund_criteria);
+               alert("환불이 완료되었습니다.");
+               window.location.href = "/Default";
+               
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               console.log("Error: " + textStatus + " - " + errorThrown);
+            }
+         });
+      });
+      
+   });
+   
+// 환불확인
+   function confirmRefund() {
+       if (confirm("환불하시겠습니까?")) {
+           // 확인 버튼을 눌렀을 때 처리할 로직을 여기에 작성합니다.
+           $("#sendParamsValues").submit(); // sendParamsValues 폼을 제출합니다.
+       } else {
+           // 취소 버튼을 눌렀을 때의 처리를 여기에 작성합니다. (옵션)
+       }
+   }
 </script>
 </head>
 <body>
@@ -132,7 +142,7 @@
             <div class="col-lg-6 col-md-6 col-12">
               <ul class="breadcrumb-nav">
                 <li>
-					<a href="/hsListUsePoint"><i class="lni lni-home"></i>결제 내역</a>
+                  <a href="/hsListChargePoint"><i class="lni lni-home"></i>포인트 관리</a>
                 </li>
                 <li>환불</li>
               </ul>
@@ -194,7 +204,8 @@
                                 </div>
                                 <div class="button">
                                 <!-- <input type="submit" value="환불"> -->
-                                <button class="btn" type="submit" form="sendParamsValues">환불</button>
+                                <button class="btn" type="button" class="btn btn-outline-secondary"
+                                		onclick="confirmRefund()">환불</button>
                                 </div>
                                 </form>
                             </div> 
@@ -207,7 +218,7 @@
       
     </c:if>   
 
-	
-	
+   
+   
 </body>
 </html>

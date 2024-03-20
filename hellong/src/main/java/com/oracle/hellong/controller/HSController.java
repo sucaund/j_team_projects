@@ -151,7 +151,7 @@ public class HSController {
 			System.out.println("체크체크: " + member.getM_number());
 
 			// 공지글 total수 조회
-			int totalBoard = hs.totalNoticeBoard();
+			int totalBoard = hs.totalNoticeBoard(board);
 			System.out.println("hsController start totalNoticeBoard->" + totalBoard);
 
 			// paging
@@ -166,11 +166,11 @@ public class HSController {
 			model.addAttribute("totalNoticeBoard", totalBoard);
 			model.addAttribute("ListNoticeBoard", listBoard);
 			model.addAttribute("page", page);
-			model.addAttribute("common_mcd", member.getCommon_mcd());
-			model.addAttribute("m_number", member.getM_number());
+			model.addAttribute("member", member);
 
 			return "hs/listNoticeBoard";
-		} else {
+		} 
+			else {
 			return "jm/jmLoginForm";
 		}
 	}
@@ -195,8 +195,7 @@ public class HSController {
 			System.out.println("hsController hsDetailNoticeBoard common_mcd-> " + common_mcd);
 
 			model.addAttribute("noticeBoard", board);
-			model.addAttribute("common_mcd", common_mcd);
-			model.addAttribute("m_number", member.getM_number());
+			model.addAttribute("member", member);
 
 			return "hs/detailNoticeBoard";
 		} else {
@@ -212,8 +211,6 @@ public class HSController {
 		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
-
-			System.out.println("체크체크: " + member.getM_number());
 
 			model.addAttribute("member", member);
 
@@ -264,7 +261,7 @@ public class HSController {
 			System.out.println("board.getB_update()->" + board.getB_update());
 
 			model.addAttribute("noticeBoard", board);
-			model.addAttribute("m_number", member.getM_number());
+			model.addAttribute("member", member);
 			return "hs/updateFormNoticeBoard";
 		} else {
 			return "jm/jmLoginForm";
@@ -304,40 +301,6 @@ public class HSController {
 
 			int result = hs.deleteNoticeBoard(board.getB_number());
 			return "redirect:hsListNoticeBoard?m_number=" + member.getM_number();
-		} else {
-			return "jm/jmLoginForm";
-		}
-	}
-
-	// 공지글 검색 (제목,내용)
-	@RequestMapping(value = "hsSearchNoticeBoard")
-	public String hsSearchNoticeBoard(Board board, Model model, HttpSession session) {
-		System.out.println("hsController hsSearchNoticeBoard start...");
-
-		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
-			Member member = new Member();
-			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
-
-			System.out.println("체크체크: " + member.getM_number());
-
-			int condTotalBoard = hs.condTotalNoticeBoard(board);
-			System.out.println("hsController hsSearchNoticeBoard condTotalBoard ->" + condTotalBoard);
-
-			HSPaging page = new HSPaging(condTotalBoard, board.getCurrentPage());
-
-			board.setStart(page.getStart());
-			board.setEnd(page.getEnd());
-
-			List<Board> searchBoard = hs.searchNoticeBoard(board);
-			System.out.println("hsController hsSearchNoticeBoard searchBoard.size() -> " + searchBoard.size());
-
-			model.addAttribute("totalNoticeBoard", condTotalBoard);
-			model.addAttribute("ListNoticeBoard", searchBoard);
-			model.addAttribute("page", page);
-			model.addAttribute("m_number", member.getM_number());
-			model.addAttribute("common_mcd", member.getCommon_mcd());
-
-			return "hs/listNoticeBoard";
 		} else {
 			return "jm/jmLoginForm";
 		}
@@ -540,8 +503,8 @@ public class HSController {
 	/* 헬스장 이용내역 조회 */
 
 	@RequestMapping(value = "hsDetailUsingGym")
-	public String hsDetailUsingGym(Member member, Model model) {
-
+	public String hsDetailUsingGym(Member member, Model model, HttpSession session) {
+		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
 		// 팀원분들 data 참고
 		System.out.println("hsController hsDetailUsingGym start...");
 
@@ -558,7 +521,10 @@ public class HSController {
 		model.addAttribute("listUsingGym", listUsingGym);
 		model.addAttribute("page", page);
 
-		return "hs/detailUsingGymTest";
+		return "hs/detailUsingGym";
+		} else {
+			return "jm/jmLoginForm";
+		}
 	}
 
 	/* 헬스장 회원권 구매 */

@@ -42,6 +42,9 @@ public class GymOrder { //주문(체육관 서비스 등록) gym_order
     private String period_of_use;
     private String first_regist_date;
     private String gb_photo;
+    
+    private String g_address;
+    private String gbf_storedFileName;
        
        
 }

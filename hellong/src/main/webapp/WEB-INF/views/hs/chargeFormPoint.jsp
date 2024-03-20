@@ -6,7 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+ <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/windicss@3.0.14/css/windicss.min.css">
+    
 <!-- 포트원 결제 -->
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <!-- jQuery -->
@@ -17,9 +21,9 @@
 
 <script type="text/javascript">
 
-	var IMP = window.IMP; // 생략 가능
-	IMP.init("imp08244126"); // 예: imp00000000a
-	
+   var IMP = window.IMP; // 생략 가능
+   IMP.init("imp08244126"); // 예: imp00000000a
+   
 </script>
 
 
@@ -27,7 +31,7 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
-    	
+       
         // 입력 칸에 포커스를 받았을 때 입력 안내 문구를 숨김
         $("#chargeAmountInput").focus(function() {
             $(this).attr('placeholder', '');
@@ -62,7 +66,7 @@
                 type: "GET",
                 url: "hsChargePoint", // 컨트롤러의 URL
                 data: { m_number: m_number, 
-                		charge_point: charge_point }, // 전송할 데이터
+                      charge_point: charge_point }, // 전송할 데이터
                 success: function(response) {
                     // 성공 시 처리
           
@@ -83,8 +87,8 @@
                         buyer_addr: memberData.m_address,
                         
                     }, function(rsp) {
-                    	
-                    	if (rsp.success) {
+                       
+                       if (rsp.success) {
 
                             console.log("결제성공1");
 
@@ -92,14 +96,15 @@
                                         type: "GET",
                                         url: "hsInsertChargePoint", // 컨트롤러의 URL
                                         data: { m_number: m_number, 
-                                        		charge_point: charge_point,
-                                        		merchant_uid: rsp.merchant_uid,
+                                              charge_point: charge_point,
+                                              merchant_uid: rsp.merchant_uid,
                                                 pg: "kakaopay"}, // 전송할 데이터
                                         success: function(response) {
 
                                             console.log("결제 성공22");
                                             alert("결제가 완료되었습니다.");
-                                            window.location.href = "hsMemberIndex?m_number=" + m_number;
+                                            
+                                            window.location.href = "/Default";
                                             /*if (response.success) {
                                                 // 결제 성공 시 비즈니스 로직 실행
                                                 console.log("결제 성공2");
@@ -121,7 +126,7 @@
                                     });
     
                         }
-                    	
+                       
                          else {
                             console.log(rsp);
                         }
@@ -145,7 +150,7 @@
                 type: "GET",
                 url: "hsChargePoint", // 컨트롤러의 URL
                 data: { m_number: m_number, 
-                		charge_point: charge_point }, // 전송할 데이터
+                      charge_point: charge_point }, // 전송할 데이터
                 success: function(response) {
                     // 성공 시 처리
           
@@ -166,8 +171,8 @@
                         buyer_addr: memberData.m_address,
                         
                     }, function(rsp) {
-                    	
-                    	if (rsp.success) {
+                       
+                       if (rsp.success) {
 
                             console.log("결제성공1");
 
@@ -175,14 +180,14 @@
                                         type: "GET",
                                         url: "hsInsertChargePoint", // 컨트롤러의 URL
                                         data: { m_number: m_number, 
-                                        		charge_point: charge_point,
-                                        		merchant_uid: rsp.merchant_uid,
+                                              charge_point: charge_point,
+                                              merchant_uid: rsp.merchant_uid,
                                                 pg: "카드결제"}, // 전송할 데이터
                                         success: function(response) {
 
                                             console.log("결제 성공22");
                                             alert("결제가 완료되었습니다.");
-                                            window.location.href = "hsMemberIndex?m_number=" + m_number;
+                                            window.location.href = "/Default";
                                             /*if (response.success) {
                                                 // 결제 성공 시 비즈니스 로직 실행
                                                 console.log("결제 성공2");
@@ -204,7 +209,7 @@
                                     });
     
                         }
-                    	
+                       
                          else {
                             console.log(rsp);
                         }
@@ -235,7 +240,7 @@
             <div class="col-lg-6 col-md-6 col-12">
               <ul class="breadcrumb-nav">
                 <li>
-                  <a href="/hsListUsePoint"><i class="lni lni-home"></i>결제 내역</a>
+                  <a href="hsListUsePoint?m_number=${m_number }"><i class="lni lni-home"></i>포인트 관리</a>
                 </li>
                 <li>환불</li>
               </ul>
@@ -273,16 +278,15 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
-                        <div class="register-form"> 
+                        <div class="register-form" style="width: 570px;"> 
                             <div class="card-body">
-                                <div class="title">
-                                    <h3>충전하기</h3>
+                                <div class="title" style="width: 570px;">
+                                    <h3><i class="fa-solid fa-coins" style="color: #FFD700;"></i> 충전하기</h3>
                                     <br>
                                     충전 금액 <a style="color: black;"> &nbsp;
-                                        <input type="text" id="chargeAmountInput" name="chargeAmount" placeholder="충전 금액을 입력해주세요">
-                                        </select>
+                                        <input type="text" id="chargeAmountInput" name="chargeAmount" placeholder="금액을 입력해주세요">
                                                 </a><br><br>
-                                    <button type="submit" id="paymentBtn" class="btn btn-primary charge-btn" value="10000">만원</button>
+                                    <button type="submit" id="paymentBtn" class="btn btn-primary charge-btn" value="10000">1만원</button>
                                     <button type="submit" id="paymentBtn" class="btn btn-primary charge-btn" value="30000">3만원</button>
                                     <button type="submit" id="paymentBtn" class="btn btn-primary charge-btn" value="100000">10만원</button>
                                     <button type="submit" id="paymentBtn" class="btn btn-primary charge-btn" value="300000">30만원</button>
@@ -301,7 +305,7 @@
                 </div>
             </div>
         </div>
-    
+    </div>
       
     </c:if>   
 

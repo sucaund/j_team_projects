@@ -61,9 +61,9 @@ public class HSServiceImpl implements HSService {
 
 	// 공지글 리스트
 	@Override
-	public int totalNoticeBoard() {
+	public int totalNoticeBoard(Board board) {
 		System.out.println("hsServiceImpl start total...");
-		int totNoticeBoardCnt = nbd.totalNoticeBoard();
+		int totNoticeBoardCnt = nbd.totalNoticeBoard(board);
 		System.out.println("hsServiceImpl totalNoticeBoard totNoticeBoardCnt->" + totNoticeBoardCnt);
 		return totNoticeBoardCnt;
 	}
@@ -119,24 +119,6 @@ public class HSServiceImpl implements HSService {
 		System.out.println("hsServiceImpl deleteNoticeBoard start...");
 		result = nbd.delteNoticeBoard(b_number);
 		return result;
-	}
-
-	// 공지글 검색
-	@Override
-	public int condTotalNoticeBoard(Board board) {
-		System.out.println("hsServiceImpl condTotalNoticeBoard start...");
-		int condTotalBoardCnt = nbd.condTotalNoticeBoard(board);
-		System.out.println("hsServiceImpl condTotalNoticeBoard condTotalBoardCnt ->" + condTotalBoardCnt);
-		return condTotalBoardCnt;
-	}
-
-	@Override
-	public List<Board> searchNoticeBoard(Board board) {
-		System.out.println("hsServiceImpl searchNoticeBoard start...");
-		List<Board> searchBoard = null;
-		searchBoard = nbd.searchNoticeBoard(board);
-		System.out.println("hsServiceImpl searchNoticeBoard searchBoard.size() ->" + searchBoard.size());
-		return searchBoard;
 	}
 
 	/* 포인트 내역 조회 */
