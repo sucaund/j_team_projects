@@ -121,7 +121,9 @@
 	<!-- 글을 삭제하는 쿼리 -->
 	
 	<delete id="deleteBoard" parameterType="Board">
-		DELETE FROM board where b_number = #{b_number}
+		DELETE FROM board 
+		WHERE b_number = #{b_number}
+		OR B_COMM_GROUP = #{b_number}
 	</delete>
 	
 	
