@@ -58,6 +58,8 @@ public interface DYService {
 
 	List<Board> getPComments(int b_number);
 
+	Board callComment(Board board);
+
 
 
 

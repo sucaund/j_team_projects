@@ -39,6 +39,8 @@ public interface DYBoardDao {
 
 	List<Board> getPComments(int b_number);
 
+	Board callComment(Board board);
+
 
 
 

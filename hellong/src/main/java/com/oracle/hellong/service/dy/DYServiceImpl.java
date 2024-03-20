@@ -224,6 +224,17 @@ public class DYServiceImpl implements DYService {
 	      System.out.println("SHServiceImpl getPComments boardlist->"+boardlist);
 	      return boardlist;
 	}
+
+	@Override
+	public Board callComment(Board board) {
+		
+		System.out.println("DYServiceImpl Start callComment...");
+
+		Board board2 = dybd.callComment(board);
+		System.out.println(
+				"@DYServiceImpl callComment board2()->" + board2);
+		return board2;
+	}
 	
 
 	

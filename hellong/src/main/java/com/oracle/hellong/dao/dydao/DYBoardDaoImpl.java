@@ -203,6 +203,12 @@ public class DYBoardDaoImpl implements DYBoardDao {
 	      return boardlist;
 	}
 
+	@Override
+	public Board callComment(Board board) {
+		Board board2 = session.selectOne("dyCallComment", board);
+		return board2;
+	}
+
 
 
 }

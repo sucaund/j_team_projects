@@ -298,7 +298,7 @@
 
 
 
-	<select id="callComment" parameterType="Board"
+	<select id="dyCallComment" parameterType="Board"
 		resultType="Board">
 		 SELECT b.*, m.m_name
       FROM BOARD b

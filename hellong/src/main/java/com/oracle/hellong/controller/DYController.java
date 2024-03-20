@@ -149,7 +149,7 @@ public class DYController {
 		sh.addComment(board);
 		System.out.println(" 1  SHController addComment board()->" + board);
 
-		Board board2 = sh.callComment(board);
+		Board board2 = dys.callComment(board);
 
 		System.out.println("2   SHController callComment board()->" + board2);
 		return board2;
