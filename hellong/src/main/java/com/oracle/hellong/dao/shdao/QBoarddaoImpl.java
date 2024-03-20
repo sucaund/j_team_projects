@@ -103,7 +103,6 @@ public class QBoarddaoImpl implements QBoarddao {
 		System.out.println("QBoarddaoImpl addAttribute delete_que ->" + bId);
 		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
 		try {
-			session.delete("SCRAP_delete", bId);
 			session.delete("REPORT_delete", bId);
 			session.delete("COMM_delete", bId);
 			session.delete("que_delete", bId);
@@ -320,8 +319,8 @@ public class QBoarddaoImpl implements QBoarddao {
 		System.out.println("QBoarddaoImpl delReport delete_que ->" + bId);
 		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
 		try {
-			session.delete("SCRAP_delete", bId);
 			session.delete("REPORT_delete", bId);
+			session.delete("RECOMM_delete", bId);
 			session.delete("COMM_delete", bId);
 			session.delete("que_delete", bId);
 			transactionManager.commit(txStatus);
@@ -473,7 +472,7 @@ public class QBoarddaoImpl implements QBoarddao {
 	    }
 	    return gymMapDetail;
 	}
-	
+
 	@Override
 	public List<GymBoardFile> getAllBoardFiles() { //0319 헬스장맵 사진 가져오기 실험
 		List<GymBoardFile> gymBoardFiles =null;

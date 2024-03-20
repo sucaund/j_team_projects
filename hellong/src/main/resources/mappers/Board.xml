@@ -340,6 +340,10 @@
 		DELETE FROM
 		"HELLONG"."SCRAP" WHERE "B_NUMBER" = #{bId}
 	</delete>
+	<delete id="RECOMM_delete" parameterType="int">
+		DELETE FROM
+		"HELLONG"."RECOMM_CHECK" WHERE "B_NUMBER" = #{bId}
+	</delete>
 	<delete id="REPORT_delete" parameterType="int">
 		DELETE FROM
 		"HELLONG"."REPORT" WHERE "B_NUMBER" = #{bId}
