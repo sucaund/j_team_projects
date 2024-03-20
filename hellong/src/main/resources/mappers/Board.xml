@@ -255,7 +255,7 @@
 	
 	
 	<!-- 자유게시판 게시글 댓글 구현 -->
-	<select id="getPComments" parameterType="int" resultType="Board">
+	<select id="jjGetPComments" parameterType="int" resultType="Board">
 		SELECT b.*, m.m_name
 		FROM BOARD b
 		JOIN member m ON b.m_number = m.m_number
@@ -271,6 +271,51 @@
 	   SET b_recomm_count = b_recomm_count + 1
 	   WHERE b_number = #{b_number}
 	</update>
+	
+	<!-- 추천수 불러오기 -->	
+	<select id="jjRecommandCount" parameterType="int" resultType="int">
+		SELECT b_recomm_count
+		FROM board
+		WHERE b_number = #{b_number}
+		
+	</select>
+	
+	<select id="jjNumChangeNum" parameterType="string"
+		resultType="int">
+		SELECT M_NUMBER
+		FROM MEMBER
+		WHERE M_ID = #{member_id}
+	</select>
+	
+	<insert id="jjAddComment" parameterType="Board">
+		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_content},#{m_number}, #{b_comm_group})
+	</insert>
+	
+	<select id="jsCallComment" parameterType="Board"
+		resultType="Board">
+		SELECT b.*, m.m_name
+		FROM BOARD b
+		JOIN member m ON b.m_number = m.m_number
+		WHERE b.B_COMM_GROUP = #{b_comm_group}
+		AND b.M_NUMBER = #{m_number}
+		AND b.COMMON_BCD = #{common_bcd}
+		AND b.COMMON_MCD = #{common_mcd}
+		AND b.B_CONTENT = #{b_content}
+		AND b.B_NUMBER = (
+		    SELECT MAX(b2.B_NUMBER) 
+		    FROM BOARD b2
+		    WHERE b2.B_COMM_GROUP = #{b_comm_group}
+		    AND b2.M_NUMBER = #{m_number}
+		    AND b2.COMMON_BCD = #{common_bcd}
+		    AND b2.COMMON_MCD = #{common_mcd}
+		    AND b2.B_CONTENT = #{b_content}
+		)
+	</select>
+	
+	<delete id="jsDeleteComment" parameterType="int">
+		DELETE FROM BOARD WHERE B_NUMBER = #{b_number}
+	</delete>
 
 
 
@@ -342,18 +387,23 @@
 
 	<select id="callComment" parameterType="Board"
 		resultType="Board">
-		SELECT *
-		FROM BOARD
-		WHERE B_COMM_GROUP = #{b_comm_group}
-		AND M_NUMBER = #{m_number}
-		AND COMMON_BCD = #{common_bcd}
-		AND common_mcd = #{common_mcd}
-		AND B_CONTENT = #{b_content}
-		AND B_NUMBER = (
-		SELECT MAX(B_NUMBER) FROM BOARD
+		SELECT b.*, m.m_name
+		FROM BOARD b
+		JOIN member m ON b.m_number = m.m_number
+		WHERE b.B_COMM_GROUP = #{b_comm_group}
+		AND b.M_NUMBER = #{m_number}
+		AND b.COMMON_BCD = #{common_bcd}
+		AND b.COMMON_MCD = #{common_mcd}
+		AND b.B_CONTENT = #{b_content}
+		AND b.B_NUMBER = (
+		    SELECT MAX(b2.B_NUMBER) 
+		    FROM BOARD b2
+		    WHERE b2.B_COMM_GROUP = #{b_comm_group}
+		    AND b2.M_NUMBER = #{m_number}
+		    AND b2.COMMON_BCD = #{common_bcd}
+		    AND b2.COMMON_MCD = #{common_mcd}
+		    AND b2.B_CONTENT = #{b_content}
 		)
-
-
 	</select>
 
 	<select id="getComments" parameterType="int" resultType="Board">

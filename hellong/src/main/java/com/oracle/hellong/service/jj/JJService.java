@@ -19,5 +19,11 @@ public interface JJService {
 	int 		totalCategorySearchCnt(Board board);
 	List<Common> commonList(Common common);
 	String 		recommendBoard(int b_number, int m_number);
+	int 		recommandCount(int b_number);
+	List<Board> getPComments(int b_number);
+	int 		jschangeM_num(String member_id);
+	void 		jjAddComment(Board board);
+	Board 		jsCallComment(Board board);
+	void 		jsDeleteComment(int b_number);
 
 }

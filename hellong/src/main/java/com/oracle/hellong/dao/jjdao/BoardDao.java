@@ -22,5 +22,11 @@ public interface BoardDao {
 	RecommCheck checkRecomm(int b_number, int m_number);
 	void 		insertRecomm(RecommCheck rec);
 	void 		increaseRecommCount(int b_number);
+	int 		recommandCount(int b_number);
+	List<Board> getPComments(int b_number);
+	int 		jschangeNum(String member_id);
+	void 		jjAddComment(Board board);
+	Board 		jsCallComment(Board board);
+	void 		jsDeleteComment(int b_number);
 
 }

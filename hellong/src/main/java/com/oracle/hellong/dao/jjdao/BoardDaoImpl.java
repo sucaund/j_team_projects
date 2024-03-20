@@ -198,6 +198,84 @@ public class BoardDaoImpl implements BoardDao {
 		
 	}
 
+	@Override
+	public int recommandCount(int b_number) {
+		int recommandCount = 0;
+		System.out.println("BoardDaoImpl recommandCount Start!");
+		try { 
+			recommandCount = session.selectOne("jjRecommandCount", b_number);
+			System.out.println("BoardDaoImpl recommandCount recommandCount->"+recommandCount);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl recommandCount Exception->" + e.getMessage());
+		}
+		return recommandCount;
+	}
+
+	@Override
+	public List<Board> getPComments(int b_number) {
+		System.out.println("BoardDaoImpl getPComments Start!");
+		List<Board> boardlist = null;
+		try {
+			boardlist = session.selectList("jjGetPComments", b_number);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl getPComments Exception->" + e.getMessage());
+		}
+		return boardlist;
+	}
+
+	@Override
+	public int jschangeNum(String member_id) {
+		System.out.println("BoardDaoImpl jschangeNum start...");
+		System.out.println("BoardDaoImpl jschangeNum member_id()->" + member_id);
+		int NumChange = 0;
+		try {
+			NumChange = session.selectOne("jjNumChangeNum", member_id);
+			System.out.println("BoardDaoImpl jschangeNum NumChange->" + NumChange);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl jschangeNum e.getMessage()->" + e.getMessage());
+		}
+		return NumChange;
+	}
+
+	@Override
+	public void jjAddComment(Board board) {
+		System.out.println("BoardDaoImpl jjAddComment start...");
+		System.out.println("BoardDaoImpl jjAddComment board ->" + board);
+		try {
+			
+			session.insert("jjAddComment", board);
+			System.out.println("BoardDaoImpl jjAddComment board insert!!!");
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl jjAddComment e.getMessage()->" + e.getMessage());
+		}	
+		
+	}
+
+	@Override
+	public Board jsCallComment(Board board) {
+		System.out.println("BoardDaoImpl jsCallComment start...");
+		Board jsCallComment = new Board();
+		try {
+			jsCallComment = session.selectOne("jsCallComment", board);
+			System.out.println("BoardDaoImpl jsCallComment jsCallComment->" + jsCallComment);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl jsCallComment Exception->"+e.getMessage());
+		}
+		return jsCallComment;
+	}
+	
+	@Override
+	public void jsDeleteComment(int b_number) {
+		System.out.println("BoardDaoImpl jsDeleteComment start...");
+		System.out.println("BoardDaoImpl jsDeleteComment b_number ->" + b_number);
+		try {
+			session.delete("jsDeleteComment",b_number);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl jsDeleteComment e.getMessage()->" + e.getMessage());
+		}
+		
+	}
+
 
 	
 }

@@ -31,7 +31,7 @@
 <body>
 	<main id="main" class="main">
 		<section class="section container">
-			<div class="row align-items-top col-8" style="margin: 0 auto">
+			<div class="row align-items-top col-12" style="margin: 0 auto">
 				<% if (request.getAttribute("errorMessage") != null) { %>
 				    <script>
 				        alert('<%= request.getAttribute("errorMessage") %>');
@@ -141,7 +141,7 @@
 			</select>
 			<input type="hidden" name="cateSearch" value="${board.cateSearch}">
 			
-			<input type="text" name="keyword"  value="${board.keyword}"  placeholder="게시글 검색">
+			<input type="text" name="keyword" value="${board.keyword}" style="width: 500px;" placeholder="게시글 검색">
 			<input type="submit" value="검색">
 		</form>
 	</div>
