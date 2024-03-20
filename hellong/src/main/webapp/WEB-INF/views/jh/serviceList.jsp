@@ -79,6 +79,11 @@
 	        color: #333;
 	        font-weight: bold;
 	    }
+	    
+        .highlight {
+		    font-weight: bold;
+		    color: blue;
+	    }
     
     </style>
     
@@ -100,7 +105,7 @@
                     <ul class="breadcrumb-nav">
                         <li><a href="index.html"><i class="lni lni-home"></i> Home</a></li>
                         <li><a href="javascript:void(0)">시설관리 Home</a></li>
-                        <li>헬스장 이름</li>
+                        <li>아레나 휘트니스 창동본점</li>
                     </ul>
                 </div>
             </div>
@@ -132,7 +137,7 @@
 
 
     <div class="container mx-auto bg-white p-8 rounded-lg shadow-lg mb-4">
-        <h2 class="text-2xl font-bold text-center mb-8"><i class="fas fa-dumbbell"></i> 서비스 리스트</h2>
+        <h2 class="text-2xl font-bold text-center mb-8"><i class="fas fa-dumbbell"></i><span class="highlight">아레나 휘트니스 창동본점</span> 서비스 리스트<i class="fas fa-dumbbell"></i></h2>
         
         <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="w-full md:w-1/4 mb-1 md:mb-0 md:mr-2">

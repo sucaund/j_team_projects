@@ -119,11 +119,9 @@ public class JHController {
 	
 	// 관리헬스장 홍보글 등록/수정 화면 이동********************************************************************************************************
 	@GetMapping(value = "createGymForm")
-	public String createGymPost(HttpSession session, Gym g_id, Model model) {
+	public String saveGymPost(HttpSession session, Gym g_id, Model model) {
 		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
-			Member member = new Member();
-			member = jm.jmGetMemberFromId((String) session.getAttribute("m_id"));
-			System.out.println("JHController createGymPost start");
+			System.out.println("JHController saveGymPost start");
 			String rtn = "";
 			// gymBoard id 조회 => GymBoard에 글이 등록되어 있는지 확인 => 1대1 관계이므로....
 			int gymForm = jh.gymForm(g_id);
