@@ -46,6 +46,11 @@
 	        color: #333;
 	        font-weight: bold;
 	    }
+	    
+		.highlight {
+		    font-weight: bold;
+		    color: blue;
+	    }
         
         
         
@@ -77,7 +82,7 @@
 
 
     <div class="container mx-auto bg-white p-8 rounded-lg shadow-lg mb-4">
-        <h1 class="text-center my-5 text-3xl"><i class="fas fa-users"></i> 헬스장 회원관리 <i
+        <h1 class="text-center my-5 text-3xl"><i class="fas fa-users"></i> <span class="highlight">아레나 휘트니스 창동본점</span> 회원관리 <i
                 class="fas fa-chart-pie"></i></h1>
 
         <!-- 누적 회원 수 및 누적 매출액 섹션 -->

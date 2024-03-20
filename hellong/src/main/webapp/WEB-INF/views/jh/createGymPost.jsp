@@ -7,97 +7,95 @@
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>헬스장 홍보 등록 폼</title>
- <style type="text/css">
-body {
-font-family: Arial, sans-serif;
-margin: 0;
-padding: 0;
-background-color: #f5f5f5;
-}
-
-.container {
-    max-width: 700px; /* 수정: 폼의 최대 너비를 더 넓게 조정 */
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    text-align: center;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    font-weight: bold;
-    display: block;
-}
-
-
-.remove-file {
-    cursor: pointer;
-    color: black;
-}
-
-.preview-image {
-    max-width: 150px; /* 최대 너비 설정 */
-    max-height: 150px; /* 최대 높이 설정 */
-    margin-right: 10px; /* 이미지 간격 설정 */
-}
-
-.close-button {
-    background-color: white;
-    border: none;
-    color: red;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 0;
-}
-
-
-input[type="text"],
-input[type="tel"],
-input[type="url"],
-textarea,
-input[type="file"] {
-    width: calc(100% - 22px); /* 수정: 입력 필드의 너비를 조금 더 좁게 조정 */
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-button {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-}
-
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
-
-button[type="button"] {
-    background-color: #ccc;
-    margin-right: 10px;
-}
-
-button[type="button"]:hover {
-    background-color: #bbb;
-}
- </style>
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+ <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	 <style type="text/css">
+		body {
+		font-family: Arial, sans-serif;
+		margin: 0;
+		padding: 0;
+		background-color: #f5f5f5;
+		}
+		
+		.container {
+		    max-width: 700px;
+		    margin: 50px auto;
+		    padding: 20px;
+		    background-color: #fff;
+		    border-radius: 8px;
+		    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		}
+		
+		h1 {
+		    text-align: center;
+		}
+		
+		.form-group {
+		    margin-bottom: 20px;
+		}
+		
+		label {
+		    font-weight: bold;
+		    display: block;
+		}
+		.preview-image {
+            max-width: 120px;
+            max-height: 120px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+		}
+		
+		input[type="text"],
+		input[type="tel"],
+		input[type="url"],
+		textarea,
+		input[type="file"] {
+		    width: calc(100% - 22px);
+		    padding: 10px;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    box-sizing: border-box;
+		}
+		
+		button {
+		    flex: 1;
+		    padding: 10px;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		}
+		
+		button[type="submit"] {
+		    background-color: #007bff;
+		    color: #fff;
+		}
+		
+		button[type="submit"]:hover {
+		    background-color: #0056b3;
+		}
+		
+/* 		button[type="button"] {
+		    background-color: #ccc;
+		    margin-right: 10px;
+		}
+		
+		button[type="button"]:hover {
+		    background-color: #bbb;
+		} */
+		.close-button {
+            background-color: white;
+            border: none;
+            color: red;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 0px; /* 왼쪽 마진 줄이기 */
+            margin-right: 15px; /* 오른쪽 마진 늘리기 */
+        }
+		
+		
+	 </style>
 </head>
 <body>
 
@@ -114,11 +112,11 @@ button[type="button"]:hover {
             </div>
             <div class="form-group">
                 <label>제목</label>
-                <textarea class="form-control" name="gb_title" required></textarea>
+                <textarea class="form-control" name="gb_title" rows="1" required></textarea>
             </div>
             <div class="form-group">
                 <label>헬스장 기본소개</label>
-                <textarea class="form-control" name="gb_ment" rows="30" required></textarea>
+                <textarea class="form-control" name="gb_ment" rows="10" required></textarea>
             </div>
             <div class="form-group">
                 <label>위치</label>
@@ -130,20 +128,20 @@ button[type="button"]:hover {
             </div>
             <div class="form-group">
                 <label>운동기구</label>
-                <textarea class="form-control" name="gb_machine" rows="10"></textarea>
+                <textarea class="form-control" name="gb_machine" rows="3"></textarea>
             </div>
             <div class="form-group">
                 <label>편의시설</label>
-                <textarea class="form-control" name="gb_amen" rows="5"></textarea>
+                <textarea class="form-control" name="gb_amen" rows="2"></textarea>
             </div>
             <div class="form-group">
                 <label>운영시간</label>
-                <textarea class="form-control" name="gb_time" rows="5"></textarea>
+                <textarea class="form-control" name="gb_time" rows="2"></textarea>
             </div>
             
 			<div class="form-group">
 			    <label>사진 첨부</label>
-			    <input type="file" class="form-control-file" id="gymBoardFile" name="gymBoardFile" multiple onchange="previewImages(event)">
+			    <input type="file" class="form-control-file" id="gymBoardFile"  name="gymBoardFile" multiple onchange="previewImages(event)">
 			    <div id="filePreview" class="mt-2"></div>
 			</div>
 
@@ -151,7 +149,7 @@ button[type="button"]:hover {
             
             <div class="form-group">
                 <label>동영상 URL</label>
-                <textarea class="form-control" name="gb_video"></textarea>
+                <textarea class="form-control" name="gb_video" rows="1"></textarea>
             </div>
             <div class="form-group">
                 <label>작성날짜</label>

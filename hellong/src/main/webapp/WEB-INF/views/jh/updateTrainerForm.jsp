@@ -113,7 +113,7 @@
             <label for="certification">특이사항:</label>
             <textarea id="certification" name="t_matters" value="${t_matters}" rows="4" required></textarea>
 
-            <input type="submit" value="등록">
+            <input type="submit" value="저장">
         </form>
     </div>
 

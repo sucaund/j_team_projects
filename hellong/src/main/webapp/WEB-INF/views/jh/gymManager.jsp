@@ -14,6 +14,14 @@
     <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
+	<style type="text/css">
+		  .highlight {
+		    font-weight: bold;
+		    color: blue;
+		  }
+	</style>
+
+
 
 </head>
 <body class="bg-gray-100">
@@ -44,7 +52,7 @@
     <div class="container mx-auto bg-white p-8 rounded-lg shadow-lg mb-4 mt-4">
       
 		<div class="container mx-auto p-8">
-		    <h2 class="text-2xl font-bold mb-4">보유하고 있는 헬스장</h2>
+		    <h2 class="text-2xl font-bold mb-4"><span class="highlight">${sessionScope.m_name}</span>님이 관리하고 있는 운동시설</h2>
 		    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 		        <c:forEach var="gym" items="${ManageList}">
 		            <div class="bg-white rounded-lg shadow-lg p-6">
