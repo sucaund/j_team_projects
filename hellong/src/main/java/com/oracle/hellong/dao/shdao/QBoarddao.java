@@ -113,6 +113,9 @@ public interface QBoarddao {
 	Board getbodyProfile();
 
 
+	List<Board> getPComments(int b_number);
+
+
 
 
 

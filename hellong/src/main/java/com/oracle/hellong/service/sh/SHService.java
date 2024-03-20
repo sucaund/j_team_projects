@@ -89,6 +89,8 @@ public interface SHService {
 	Board getPopular();
 
 	Board getbodyProfil();
+
+	List<Board> getPComments(int b_number);
 	
 
 

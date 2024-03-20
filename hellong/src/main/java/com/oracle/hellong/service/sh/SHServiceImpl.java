@@ -352,6 +352,14 @@ public class SHServiceImpl implements SHService {
 	    return bodyProfile;
 	}
 
+	@Override
+	public List<Board> getPComments(int b_number) {
+		 System.out.println("SHServiceImpl getPComments Start!");
+	      List<Board> boardlist = qd.getPComments(b_number);
+	      System.out.println("SHServiceImpl getPComments boardlist->"+boardlist);
+	      return boardlist;
+	}
+
 	
 
 }

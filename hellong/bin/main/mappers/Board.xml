@@ -389,6 +389,7 @@
 
 	<select id="dyBoardTotal" resultType="int">
 		SELECT Count(*) FROM board
+		where comm_bcd=200 and comm_mcd = 20
 	</select>
 
 	<select id="dyBodyProfileListAll" parameterType="Board"
@@ -399,7 +400,7 @@
 		(
 		        SELECT rownum rn , a.*
 		        FROM
-		                   (select * from board order by b_number desc) a
+		                   (select * from board where b_comm_group = 0 order by b_number desc) a
 		 )  
 		 WHERE  rn  >= #{start} 
  		and    rn  <= #{end} 
@@ -518,12 +519,14 @@
 	<!-- 신고여부 쿼리 -->
 	<update id="dyUpReported" parameterType="int">
 		UPDATE board
-		SET b_isreported = CASE 
-		                     WHEN b_isreported = 0 THEN 1 
-		                     ELSE b_isreported 
-		                   END
+		SET
+		b_isreported = CASE
+		WHEN b_isreported = 0 THEN 1
+		ELSE b_isreported
+		END
 		WHERE b_number = #{b_number}
 	</update>
+
 
 	<!-- 현승 xml -->
 
@@ -637,8 +640,20 @@
 		)
 		WHERE rn BETWEEN #{start} and #{end}
 	</select>
-	
-	<select id="dyCommonList" parameterType="Common" resultType="Common">
+
+	<select id="dyCommonList" parameterType="Common"
+		resultType="Common">
 		select * from common where common_mcd != 999
+	</select>
+
+	<!-- 자유게시판 게시글 댓글 구현 -->
+	<select id="getPComments" parameterType="int" resultType="Board">
+		SELECT b.*, m.m_name
+		FROM BOARD b
+		JOIN member m ON b.m_number = m.m_number
+		WHERE b.COMMON_BCD = 200 AND b.COMMON_MCD = 111
+		AND b.B_COMM_GROUP = #{B_NUMBER}
+		ORDER BY b.B_NUMBER DESC
+
 	</select>
 </mapper>

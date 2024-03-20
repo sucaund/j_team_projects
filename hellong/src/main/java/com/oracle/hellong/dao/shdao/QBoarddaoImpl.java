@@ -443,6 +443,18 @@ public class QBoarddaoImpl implements QBoarddao {
 	    return bodyProfile;
 	}
 
+	@Override
+	public List<Board> getPComments(int b_number) {
+		System.out.println("QBoarddaoImpl getPComments Start!");
+	      List<Board> boardlist = null;
+	      try {
+	         boardlist = session.selectList("getPComments", b_number);
+	      } catch (Exception e) {
+	         System.out.println("QBoarddaoImpl getPComments Exception->" + e.getMessage());
+	      }
+	      return boardlist;
+	}
+
 
 
 }

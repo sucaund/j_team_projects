@@ -11,16 +11,16 @@ function confirmDeletion(element) {
 }
 // 게시글 신고
 function submitReport() {
-    var reportSelect = $("#reportSelect").val();
-    var b_number = $("#b_number").val(); // 게시글 번호를 input 필드로 받아옴
-    var m_number = $("#m_number").val(); // m_number를 input 필드로 받아옴
+	var reportSelect = $("#reportSelect").val();
+	var b_number = $("#b_number").val(); // 게시글 번호를 input 필드로 받아옴
+	var m_number = $("#m_number").val(); // m_number를 input 필드로 받아옴
 
-    if (reportSelect) {
-        var formAction = 'dyReported?b_number=' + b_number + '&m_number=' + m_number + '&common_bcd=400&common_mcd=' + reportSelect;
-        $("#reportForm").attr('action', formAction).submit();
-    } else {
-        alert("신고 유형을 선택해주세요.");
-    }
+	if (reportSelect) {
+		var formAction = 'dyReported?b_number=' + b_number + '&m_number=' + m_number + '&common_bcd=400&common_mcd=' + reportSelect;
+		$("#reportForm").attr('action', formAction).submit();
+	} else {
+		alert("신고 유형을 선택해주세요.");
+	}
 }
 
 // 추천기능 
@@ -47,3 +47,5 @@ document.addEventListener("DOMContentLoaded", function() {
 			.catch(error => console.error('Error:', error));
 	});
 });
+
+

@@ -18,7 +18,7 @@
 body, html {
 	margin: 0;
 	padding: 0;
-	font-family: 'Noto Sans KR', sans-serif; 
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 /* 컨테이너 설정 */
@@ -183,10 +183,12 @@ body, html {
 								<a href="dySelectBodyProfile?b_number=${board.b_number}">${board.b_title}</a>
 							</h4>
 							<ul class="review">
-								<li><span><i class="bi bi-hand-thumbs-up-fill"></i>추천 ${board.b_recomm_count}</span></li>
+								<li><span><i class="bi bi-hand-thumbs-up-fill"></i>추천
+										${board.b_recomm_count}</span></li>
 							</ul>
 							<ul class="review">
-								<li><span><i class="bi bi-hand-thumbs-up-fill"></i>조회수 ${board.b_readcount}</span></li>
+								<li><span><i class="bi bi-hand-thumbs-up-fill"></i>조회수
+										${board.b_readcount}</span></li>
 							</ul>
 						</div>
 					</div>
