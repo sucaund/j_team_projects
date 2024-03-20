@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.oracle.hellong.dao.jjdao.BoardDao;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Common;
+import com.oracle.hellong.model.RecommCheck;
 
 import lombok.RequiredArgsConstructor;
 
@@ -116,5 +117,21 @@ public class JJServiceImpl implements JJService {
 		return commonList;
 	}
 
+	@Override
+	public String recommendBoard(int b_number, int m_number) {
+		RecommCheck check = bd.checkRecomm(b_number, m_number);
+	       if (check != null) {
+	           return "이미 추천하셨습니다.";
+	       }
+	       RecommCheck rec = new RecommCheck();
+	       // 객체의 필드에 값을 설정하는 부분
+	       rec.setB_number(b_number);
+	       rec.setM_number(m_number);
+	       rec.setRc_isrecomm(1); // 추천 상태 설정
+	       bd.insertRecomm(rec); // 수정된 부분
+	       bd.increaseRecommCount(b_number);
+	       return "추천되었습니다.";
+
+	}
 
 }

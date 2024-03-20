@@ -94,6 +94,8 @@ public interface SHService {
 	
 	List<Board> getPComments(int B_NUMBER);
 
+	List<GymBoardFile> getAllBoardFiles();
+
 
 	
 

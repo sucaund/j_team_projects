@@ -10,6 +10,20 @@
 
 	<insert id="dyInsertRecomm" parameterType="RecommCheck">
   INSERT INTO recomm_check (b_number, m_number, rc_isrecomm)
-  VALUES (#{b_number}, #{m_number}, #{rc_isrecomm})
-</insert>
+  		VALUES (#{b_number}, #{m_number}, #{rc_isrecomm})
+	</insert>
+
+<!-- 추천 여부 확인 쿼리 -->
+	<select id="jjCheckRecomm" parameterType="map"
+		resultType="RecommCheck">
+		SELECT * FROM recomm_check
+		WHERE b_number = #{b_number} AND m_number = #{m_number}
+	</select>
+
+	<insert id="jjInsertRecomm" parameterType="RecommCheck">
+		INSERT INTO recomm_check (b_number, m_number, rc_isrecomm)
+		VALUES (#{b_number}, #{m_number}, #{rc_isrecomm})
+	</insert>
+
+
 </mapper>

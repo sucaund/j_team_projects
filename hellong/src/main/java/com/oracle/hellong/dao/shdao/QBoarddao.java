@@ -118,6 +118,9 @@ public interface QBoarddao {
 	List<Board> getPComments(int B_NUMBER);
 
 
+	List<GymBoardFile> getAllBoardFiles();
+
+
 
 
 

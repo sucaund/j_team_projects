@@ -19,5 +19,5 @@ public interface JJService {
 	List<Board> listCategorySearchBoard(Board board);
 	int 		totalCategorySearchCnt(Board board);
 	List<Common> commonList(Common common);
-
+	String recommendBoard(int b_number, int m_number);
 }

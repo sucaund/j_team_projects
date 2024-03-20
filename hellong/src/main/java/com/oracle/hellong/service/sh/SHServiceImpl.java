@@ -365,6 +365,14 @@ public class SHServiceImpl implements SHService {
 		Gym gym = qd.gymMapDetail(gId);
 		return gym;
 	}
+	
+	@Override
+	public List<GymBoardFile> getAllBoardFiles() { //03-19 맵에 대표이미지 가져오기실험
+		List<GymBoardFile> boardFiles = qd.getAllBoardFiles();
+		System.out.println("SHServiceImpl getAllBoardFiles boardFiles->"+boardFiles);
+
+		return boardFiles;
+	}
 
 	
 

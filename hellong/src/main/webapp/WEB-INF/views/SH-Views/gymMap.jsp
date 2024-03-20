@@ -100,13 +100,11 @@
 									url : '/gyms', // 헬스장 정보를 제공하는 서버의 엔드포인트
 									type : 'GET',
 									dataType : 'json',
-									success : function(gyms) {
-										gyms
-												.forEach(function(gym) {
+									success : function(gyms) {gyms.forEach(function(gym) {
 													// 주소를 좌표로 변환
 													geocoder
 															.addressSearch(
-																	gym.g_address,
+																	gym.gym.g_address,
 																	function(
 																			result,
 																			status) {
@@ -115,28 +113,29 @@
 																					result[0].y,
 																					result[0].x);
 																			//                        var message = '<div style="padding:5px;">' + gym.g_name + '</div>';
-																			var imageUrl = '/upload/'
-																					+ gym.gb_video;
-																			var message = '<div class="wrap">'
+																			var imageUrl = '/upload/' + (gym.boardFiles.length > 0 ? gym.boardFiles[0].gbf_storedFileName : 'default_image.png');
+																			var message = '<div class="wrap" style="width: 200px; height: 250px; overflow: hidden; border: 1px solid #ccc; border-radius: 10px;">'
 																					+ '    <div class="info">'
 																					+ '        <div class="title">'
-																					+ gym.g_name
+																					+ gym.gym.g_name
 																					+ '            <div class="close" onclick="closeOverlay()" title="닫기"></div>'
 																					+ '        </div>'
 																					+ '        <div class="body">'
-																					+ /* '            <div class="img">'
-																					+ '                <img src="'+imageUrl+'" width="300" height="70">'
-																					+ '           </div>' */
+																					+ '           <div class="img">'
+																					+ '                <img src="'+imageUrl+'" width="180" height="130">'
+																					+ '           </div>' 
 																					+ '            <div class="desc">'
 																					+ '                <div class="ellipsis">'
-																					+ gym.g_address
+																					+ gym.gym.g_address
 																					+ '</div>'
 																					+ '             		<div class="g_tel">'
-																					+ gym.g_tel
+																					+ gym.gym.g_tel
 																					+ '</div>'
+																					+ '                <div style="margin-top: 5px;">'
 																					+ '                <div><a href="/gymPostDetail?G_id='
-																					+ gym.g_id
-																					+ '" target="_blank" class="link">헬스장 방문하기</a></div>'
+																					+ gym.gym.g_id
+																					+ '" target="_blank" class="link" style="font-weight: bold; font-size: 17px; text-decoration: none; color: #000; background-color: #f0f0f0; padding: 10px 20px; border-radius: 5px; display: inline-block;">헬스장 방문하기</a></div>'
+																					+ '            </div>'
 																					+ '            </div>'
 																					+ '        </div>'
 																					+ '    </div>'
@@ -181,4 +180,5 @@
 										});
 					});
 </script>
+<%@ include file="../footer.jsp"%>
 </html>

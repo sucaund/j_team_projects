@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.json.simple.JSONArray;
 import org.springframework.stereotype.Controller;
@@ -513,10 +514,29 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 	
 	@ResponseBody
 	@GetMapping("/gyms")
-	    public List<Gym> getAllGyms() {
-	        List<Gym> gyms = sh.getAllGym();
-	        System.out.println(gyms);
-	        return gyms;
+	public List<Map<String, Object>> getAllGyms() {
+	    List<Gym> gyms = sh.getAllGym(); // 모든 체육관 정보를 가져옴
+	    List<GymBoardFile> boardFiles = sh.getAllBoardFiles(); // 모든 체육관 게시판 파일 정보를 가져옴
+
+	    List<Map<String, Object>> resultList = new ArrayList<>();
+
+	    for (Gym gym : gyms) {
+	        Map<String, Object> gymInfo = new HashMap<>();
+	        gymInfo.put("gym", gym);
+
+	        // 헬스장에 해당하는 BoardFiles만 필터링하는 로직
+	        // Gym 모델의 g_id 필드에 접근하기 위해 getG_id() 메서드 사용
+	        List<GymBoardFile> filteredBoardFiles = boardFiles.stream()
+	                .filter(file -> file.getG_id() == gym.getG_id()) // 필터링 조건 수정
+	                .collect(Collectors.toList());
+
+	        gymInfo.put("boardFiles", filteredBoardFiles); // 필터링된 파일 정보를 맵에 추가
+	        resultList.add(gymInfo); // 결과 리스트에 추가
+	    }
+	    System.out.println("SHController getAllGyms resultList-->"+resultList);
+	    System.out.println("SHController getAllGyms boardFiles-->"+boardFiles);
+
+	    return resultList; // 결과 반환
 	}
 	
 //===========================메인페이지=============================	
@@ -583,31 +603,31 @@ public String modify(@RequestParam("bId")int B_NUMBER,Board board,Model model) {
 		return "SH-Views/Default";
 	}
 	
-	//댓글입력 과동시에 신규 댓글 단일객체만 등록 Board!+원글댓글 카운터 증가(wkdb 게시판용)
-	@ResponseBody
-	@PostMapping("commentInsert1")
-	public Board commentInsert1(@RequestParam("comment_body") String comment, @RequestParam("cmId") int M_NUMBER,
-			@RequestParam("bId") int B_NUMBER, Board board) {
-
-		System.out.println("SHController commentInsert M_NUMBER" + " => " + M_NUMBER);
-		System.out.println("SHController commentInsert B_NUMBER" + " => " + B_NUMBER);
-		int Common_bcd = 200;
-		int Common_mcd = 101;
-
-		board.setB_comm_group(B_NUMBER);
-		board.setM_number(M_NUMBER);
-		board.setCommon_bcd(Common_bcd);
-		board.setCommon_mcd(Common_mcd);
-		board.setB_content(comment);
-
-		sh.addComment(board);
-		System.out.println(" 1  SHController addComment board()->" + board);
-
-		Board board2 = sh.callComment(board);
-
-		System.out.println("2   SHController callComment board()->" + board2);
-		return board2;
-	}
+//	//댓글입력 과동시에 신규 댓글 단일객체만 등록 Board!+원글댓글 카운터 증가(wkdb 게시판용)
+//	@ResponseBody
+//	@PostMapping("commentInsert1")
+//	public Board commentInsert1(@RequestParam("comment_body") String comment, @RequestParam("cmId") int M_NUMBER,
+//			@RequestParam("bId") int B_NUMBER, Board board) {
+//
+//		System.out.println("SHController commentInsert M_NUMBER" + " => " + M_NUMBER);
+//		System.out.println("SHController commentInsert B_NUMBER" + " => " + B_NUMBER);
+//		int Common_bcd = 200;
+//		int Common_mcd = 101;
+//
+//		board.setB_comm_group(B_NUMBER);
+//		board.setM_number(M_NUMBER);
+//		board.setCommon_bcd(Common_bcd);
+//		board.setCommon_mcd(Common_mcd);
+//		board.setB_content(comment);
+//
+//		sh.addComment(board);
+//		System.out.println(" 1  SHController addComment board()->" + board);
+//
+//		Board board2 = sh.callComment(board);
+//
+//		System.out.println("2   SHController callComment board()->" + board2);
+//		return board2;
+//	}
 	
 	
 	

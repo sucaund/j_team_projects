@@ -5,9 +5,16 @@
 <%-- <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>  이게존재시 맵의 제자리 찾기 가 안됨--%>
 <%@ page session="true"%>
 
+
 <!DOCTYPE html>
 <html>
+
 <head>
+<style type="text/css">
+.content-end {
+    margin-top: 100px; /* 원하는 마진 크기로 조정 */
+}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.svg">
@@ -31,6 +38,8 @@
     <!-- Start Footer Area -->
     <footer class="footer">
         <!-- Start Footer Top -->
+           <div class="content-end"></div>
+        
         <div class="footer-top">
             <div class="container">
                 <div class="inner-content">
