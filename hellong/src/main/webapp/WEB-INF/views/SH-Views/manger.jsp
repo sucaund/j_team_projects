@@ -901,6 +901,6 @@ function sample6_execDaumPostcode() {
 <script src="<%=request.getContextPath()%>/js/index.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/index.js"></script>
 
-
+<%@ include file="../footer.jsp"%>
 
 </html>

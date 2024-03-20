@@ -8,7 +8,20 @@
 
 <meta charset="utf-8">
 <title>geolocation으로 마커 표시하기</title>
-
+ <style type="text/css">
+        .wrap * {padding: 0;margin: 0;}
+        .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+        .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+        .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+        .info .close:hover {cursor: pointer;}
+        .info .body {position: relative;overflow: hidden;}
+        .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+        .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+        .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+        .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+        .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+        .info .link {color: #5085BB;}
+    </style>
 </head>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=119d8c360526256aaaa4b6c379b06a9a&libraries=services"></script>
@@ -114,15 +127,15 @@
 																					result[0].x);
 																			//                        var message = '<div style="padding:5px;">' + gym.g_name + '</div>';
 																			var imageUrl = '/upload/' + (gym.boardFiles.length > 0 ? gym.boardFiles[0].gbf_storedFileName : 'default_image.png');
-																			var message = '<div class="wrap" style="width: 200px; height: 250px; overflow: hidden; border: 1px solid #ccc; border-radius: 10px;">'
+																			var message = '<div class="wrap">'
 																					+ '    <div class="info">'
 																					+ '        <div class="title">'
 																					+ gym.gym.g_name
-																					+ '            <div class="close" onclick="closeOverlay()" title="닫기"></div>'
+																					+ '            <div class="close" onclick="closeOverlay()" title="닫기">1</div>'
 																					+ '        </div>'
 																					+ '        <div class="body">'
 																					+ '           <div class="img">'
-																					+ '                <img src="'+imageUrl+'" width="180" height="130">'
+																					+ '                <img src="'+imageUrl+'">'
 																					+ '           </div>' 
 																					+ '            <div class="desc">'
 																					+ '                <div class="ellipsis">'
@@ -134,7 +147,7 @@
 																					+ '                <div style="margin-top: 5px;">'
 																					+ '                <div><a href="/gymPostDetail?G_id='
 																					+ gym.gym.g_id
-																					+ '" target="_blank" class="link" style="font-weight: bold; font-size: 17px; text-decoration: none; color: #000; background-color: #f0f0f0; padding: 10px 20px; border-radius: 5px; display: inline-block;">헬스장 방문하기</a></div>'
+																					+ '" target="_blank" class="link">헬스장 방문하기</a></div>'
 																					+ '            </div>'
 																					+ '            </div>'
 																					+ '        </div>'
