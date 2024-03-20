@@ -10,14 +10,6 @@
 <style>
 
 /* 전체 페이지에 대한 스타일 */
-body {
-	font-family: 'Arial', sans-serif;
-	background-color: #f5f5f5;
-	color: #333;
-	margin: 0;
-	padding: 20px;
-}
-
 h1.title {
 	color: #444;
 }
@@ -117,7 +109,7 @@ form#writeForm input[type=submit]:hover, form#writeForm input[type=button]:hover
 				<label for="category">카테고리</label> <select id="category"
 					name="category" class="form-control">
 					<option value="바디프로필" selected>바디프로필</option>
-					<option value="자유게시판">자유게시판</option>
+
 
 				</select>
 			</div>

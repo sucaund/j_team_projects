@@ -235,7 +235,7 @@
             <div class="col-lg-6 col-md-6 col-12">
               <ul class="breadcrumb-nav">
                 <li>
-                  <a href="hsListUsePoint?m_number=${m_number }"><i class="lni lni-home"></i>포인트 관리</a>
+                  <a href="/hsListUsePoint"><i class="lni lni-home"></i>결제 내역</a>
                 </li>
                 <li>환불</li>
               </ul>

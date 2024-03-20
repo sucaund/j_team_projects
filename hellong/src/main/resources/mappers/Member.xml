@@ -137,10 +137,13 @@
 	</update>
 	
 	<select id="jmGetGymOrderGID" parameterType = "int" resultType = "int">
- 	 	select distinct g_id
+ 	 	select g_id
 		from gym_order
-		where m_number=${m_number}
-		and go_isend=0
+		where go_number=
+        (select max(go_number) 
+                from gym_order
+                where m_number=${m_number}
+                and go_isend=0)
  	 </select>
  	 
 	 <select id="jmGetGymFromGID" parameterType = "int" resultType = "Gym">
@@ -150,11 +153,17 @@
 		and g_isdeleted=0
 	 </select>
 	 
-	 <select id="jmGetGymOrder" parameterType = "int" resultType = "GymOrder">
+	 <select id="jmGetGymOrder" parameterType = "GymOrder" resultType = "GymOrder">
  	 	select *
 		from gym_order
-		where g_id=${g_id}
+		where go_number=
+		(select max(go_number)
+		from gym_order
+		where m_number=${m_number}
+		and g_id=${g_id}
 		and go_isend=0
+		)
+		
  	 </select>
 	 
 	 <select id="jmGetS_name" parameterType = "GymOrder" resultType = "String">

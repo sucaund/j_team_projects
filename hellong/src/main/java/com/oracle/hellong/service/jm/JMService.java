@@ -51,7 +51,7 @@ public interface JMService {
 
 	Gym jmGetGymFromGID(int g_id);
 
-	GymOrder jmGetGymOrder(int g_id);
+	GymOrder jmGetGymOrder(int g_id, int m_number);
 
 	String jmGetS_name(int g_id, int s_number);
 

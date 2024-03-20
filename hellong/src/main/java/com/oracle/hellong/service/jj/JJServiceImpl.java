@@ -77,14 +77,6 @@ public class JJServiceImpl implements JJService {
 	}
 
 	@Override
-	public int hitCnt(int b_number) {
-		int result = 0;
-		System.out.println("JJServiceImpl HitCnt Start...");
-		result = bd.hitCnt(b_number);
-		return result;
-	}
-
-	@Override
 	public int jjReported(Board board) {
 		int result = 0;
 		System.out.println("JJServiceImpl jjReported Start...");

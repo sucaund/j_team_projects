@@ -80,9 +80,10 @@
                         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                             data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                <p>헬롱은 일괄적인 환불 정책을 적용하고 있어요.</p>
                                 <p>환불을 원하실 경우 마이페이지에서 결제 내역 보기를 클릭하신 후,</p>
                                 <p>환불하기 버튼을 눌러주세요.</p>
+                                <p>결제 후 내에 환불하실 경우 결제 금액의 100%가 환불되며,</p>
+                                <p>결제 후 내에 환불하실 경우 결제 금액의 100%가 환불되며,</p>
                             </div>
                         </div>
                     </div>
@@ -98,8 +99,10 @@
                             data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <p>마이페이지, 또는 고객센터에서 비즈니스 개설/관리 버튼을 클릭해주세요.</p>
-                                <p>그럼 체육관 관리 페이지로 이동하며, 이 곳에서 등록 절차를 수행하실 수 있어요.</p>
-                                <p>헬스장 등록 글을 작성하시면, 운영자가 확인한 후 헬스장을 등록할 수 있게 도와드려요.</p>
+                                <p>그럼 일대일 문의 페이지에서 헬스장 등록 신청을 하실 수 있어요.</p>
+                                <p>신청 글을 작성하시면, 운영자가 확인한 후 헬스장을 등록할 수 있게 도와드려요.</p>
+                                <p>관리자의 승인이 이루어진 후 비즈니스 개설/관리 버튼을 다시 클릭하시면 헬스장 관리 페이지로 이동해요.</p>
+                                <p>이 곳에서 헬스장에 대한 서비스, 회원 관리 및 회원에게 노출되는 홍보 페이지를 만드실 수 있어요.</p>
                             </div>
                         </div>
                     </div>
@@ -157,18 +160,13 @@
 
                                 <a class="category">일대일 문의</a><br> <br>
                                 <h3>
-                                <a style="color: #0167F3; text-decoration: underline;" href="/">
+                                <a style="color: #0167F3; text-decoration: underline;" href="/write_view">
                                         문의하기 </a>
                                 </h3>
                                 <br>
-                                <br>
-                                <h3>
-                                    <a style="color: #8258FA; text-decoration: underline;" href="/"> 
-                                            문의내역 </a>
-                                    </h3>
-                        
+                                <br>     
                                 <div class="button">
-                                    <a href="/jmUpdateMemberForm" class="btn">회원 정보 수정</a>
+                                    <a href="/authenticate" class="btn">문의 내역</a>
                                 </div>
                             </div>
                         </div>
@@ -178,19 +176,13 @@
                         <!-- Start Single Blog -->
                         <div class="single-blog">
                             <div class="blog-content">
-                                <a class="category">공지사항</a>
-
-
-                                    <h4>
-                                        <a href="blog-single-sidebar.html">ㅁㄴㅇㄹ: &nbsp; &nbsp;</a> <a style="color: #0167F3;">
-                                            
+                                <a class="category"></a>
+                                <h3 class="post-title">
+                                    <a href="/listGymManager" style="color: #0167F3; 
+                                    text-decoration: underline;">헬스장 등록 신청</a></h3>
                                     </a>
                                     </h4>
                                     <p></p> 
-
-                                   
-                                    
-
                                     <p></p>
                                     <div class="button">
                                         <a href="/gymPostDetail?g_id=${g_id}" class="btn">더보기</a>

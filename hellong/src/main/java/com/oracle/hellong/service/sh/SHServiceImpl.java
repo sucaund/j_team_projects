@@ -142,6 +142,7 @@ public class SHServiceImpl implements SHService {
 			System.out.println("SHServiceImpl getPComments Start...");
 			System.out.println("SHServiceImpl getPComments board->>" + B_NUMBER);
 			List<Board> boardlist = qd.getPComments(B_NUMBER);
+			System.out.println("SHServiceImpl getPComments boardlist->"+boardlist);
 			return boardlist;
 		}
 //댓글삭제

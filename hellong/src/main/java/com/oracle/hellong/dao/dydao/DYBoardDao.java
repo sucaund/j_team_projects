@@ -1,3 +1,4 @@
+
 package com.oracle.hellong.dao.dydao;
 
 import java.util.List;
@@ -36,6 +37,13 @@ public interface DYBoardDao {
 	int dyReported(Board board);
 
 	List<Common> commonList(Common common);
+
+	List<Board> getPComments(int b_number);
+
+	Board callComment(Board board);
+
+
+
 
 
 

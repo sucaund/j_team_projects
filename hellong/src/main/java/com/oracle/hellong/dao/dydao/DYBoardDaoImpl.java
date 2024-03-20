@@ -54,7 +54,7 @@ public class DYBoardDaoImpl implements DYBoardDao {
 			board = session.selectOne("dyBoardSelect", b_number);
 			System.out.println("DYBoardDaoImpl select getB_num -> " + board.getB_number());
 		} catch (Exception e) {
-			System.out.println("DYBoardDaoImpl select Exception -> "+e.getMessage());
+			System.out.println("DYBoardDaoImpl select Exception -> " + e.getMessage());
 		}
 		return board;
 	}
@@ -62,7 +62,7 @@ public class DYBoardDaoImpl implements DYBoardDao {
 	@Override
 	public void dyUpdateBodyProfile(Board board) {
 		System.out.println("DYBoardDaoImpl Update Start...");
-		System.out.println("DYBoardDaoImpl dyUpdateBodyProfile  board->"+board);
+		System.out.println("DYBoardDaoImpl dyUpdateBodyProfile  board->" + board);
 		session.update("dyBodyProfileUpdate", board);
 	}
 
@@ -84,7 +84,7 @@ public class DYBoardDaoImpl implements DYBoardDao {
 		System.out.println("DYBoardDaoImpl Insert Start...");
 		try {
 			result = session.insert("dyInsertBodyProfile", board);
-			System.out.println("DYBoardDaoImpl dyInsertBodyProfile"+ board);
+			System.out.println("DYBoardDaoImpl dyInsertBodyProfile" + board);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -109,7 +109,7 @@ public class DYBoardDaoImpl implements DYBoardDao {
 	public int condTotalBodyProfile(Board board) {
 		int totBodyProfileCount = 0;
 		System.out.println("dyDaoImpl condTotalBodyProfile Start..");
-		
+
 		try {
 			totBodyProfileCount = session.selectOne("dyCondBodyProfileTotal", board);
 			System.out.println("dyDaoImpl totalBodyProfile totBodyProfileCount -> " + totBodyProfileCount);
@@ -123,25 +123,26 @@ public class DYBoardDaoImpl implements DYBoardDao {
 	public List<Board> boardSearchList(Board board) {
 		List<Board> boardSearchList = null;
 		System.out.println("dyDaoImpl boardSearchList Start...");
-		System.out.println("dyDaoImpl boardSearchList board->"+board);
+		System.out.println("dyDaoImpl boardSearchList board->" + board);
 		try {
 			boardSearchList = session.selectList("dyBoardSearchList", board);
-			System.out.println("boardSearchList "+ boardSearchList);
+			System.out.println("boardSearchList " + boardSearchList);
 		} catch (Exception e) {
 			System.out.println("dyDaoImpl listBoard Exception -> " + e.getMessage());
 		}
 		return boardSearchList;
 	}
-	
+
 	// 통합검색 (게시판)
 	@Override
 	public List<Board> searchBoards(Board board) {
 		List<Board> searchBoards = null;
-		
+
 		searchBoards = session.selectList("dySearchBoards", board);
-		
+
 		return searchBoards;
 	}
+
 	// 마이페이지 게시글 조회
 	@Override
 	public List<Board> searchMyPageList(Board board) {
@@ -149,11 +150,12 @@ public class DYBoardDaoImpl implements DYBoardDao {
 		searchMyPageList = session.selectList("dyMyPageSearch", board);
 		return searchMyPageList;
 	}
+
 	// 조회수 증가
 	@Override
 	public void increaseReadCount(int b_number) {
 		session.update("dyIncreaseReadCount", b_number);
-		
+
 	}
 
 	@Override
@@ -168,12 +170,12 @@ public class DYBoardDaoImpl implements DYBoardDao {
 		System.out.println("DYBoardDaoImpl dyReported board->" + board);
 		try {
 			result = session.update("dyUpReported", board.getB_number());
-			System.out.println("DYBoardDaoImpl dyReported result->"+result);
+			System.out.println("DYBoardDaoImpl dyReported result->" + result);
 			int insertReported = session.insert("dyInReported", board);
-			
+
 			System.out.println("DYBoardDaoImpl dyReported insertReported->" + insertReported);
-		} catch(Exception e) {
-			System.out.println("DYBoardDaoImpl dyReported Exception->"+e.getMessage());
+		} catch (Exception e) {
+			System.out.println("DYBoardDaoImpl dyReported Exception->" + e.getMessage());
 		}
 		return result;
 	}
@@ -189,6 +191,24 @@ public class DYBoardDaoImpl implements DYBoardDao {
 		return commonList;
 	}
 
+	@Override
+	public List<Board> getPComments(int b_number) {
+		System.out.println("DYBoarddaoImpl getPComments Start!");
+	      List<Board> boardlist = null;
+	      try {
+	         boardlist = session.selectList("dyGetPComments", b_number);
+	      } catch (Exception e) {
+	         System.out.println("DYBoarddaoImpl getPComments Exception->" + e.getMessage());
+	      }
+	      return boardlist;
+	}
 
-	
+	@Override
+	public Board callComment(Board board) {
+		Board board2 = session.selectOne("dyCallComment", board);
+		return board2;
+	}
+
+
+
 }
