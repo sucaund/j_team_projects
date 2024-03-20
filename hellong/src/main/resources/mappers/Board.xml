@@ -6,7 +6,7 @@
 
 	<!-- 글의 총 갯수 파악하는 쿼리 -->
 	<select id="boardTotal" parameterType="int" resultType="int">
-		Count(*) FROM BOARD where COMMON_BCD = 200 AND COMMON_MCD = 10
+		select Count(*) FROM BOARD where COMMON_BCD = 200 AND COMMON_MCD = 10
 	</select>
 	
 	<!-- 자유게시판의 글들을 불러오는 쿼리. -->
@@ -102,7 +102,9 @@
 	
 	<!-- 글을 삭제하는 쿼리 -->
 	<delete id="deleteBoard" parameterType="Board">
-		DELETE FROM board where b_number = #{b_number}
+		 DELETE FROM board 
+      WHERE b_number = #{b_number}
+      OR B_COMM_GROUP = #{b_number}
 	</delete>
 	
 	<!-- 신고여부 쿼리 -->
@@ -220,6 +222,69 @@
 		WHERE common_mcd != 999
 
 	</select>
+	
+	<!-- 자유게시판 게시글 댓글 구현 -->
+	<select id="jjGetPComments" parameterType="int" resultType="Board">
+		SELECT b.*, m.m_name
+		FROM BOARD b
+		JOIN member m ON b.m_number = m.m_number
+		WHERE b.COMMON_BCD = 200 AND b.COMMON_MCD = 101
+			AND b.B_COMM_GROUP = #{B_NUMBER}
+		ORDER BY b.B_NUMBER DESC
+
+	</select>
+
+	<!-- 추천 -->
+	<update id="jjIncreaseRecommCount" parameterType="int">
+	   UPDATE board
+	   SET b_recomm_count = b_recomm_count + 1
+	   WHERE b_number = #{b_number}
+	</update>
+
+	<!-- 추천수 불러오기 -->	
+	<select id="jjRecommandCount" parameterType="int" resultType="int">
+		SELECT b_recomm_count
+		FROM board
+		WHERE b_number = #{b_number}
+
+	</select>
+
+	<select id="jjNumChangeNum" parameterType="string"
+		resultType="int">
+		SELECT M_NUMBER
+		FROM MEMBER
+		WHERE M_ID = #{member_id}
+	</select>
+
+	<insert id="jjAddComment" parameterType="Board">
+		INSERT INTO BOARD (B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd}, #{b_content},#{m_number}, #{b_comm_group})
+	</insert>
+
+	<select id="jsCallComment" parameterType="Board"
+		resultType="Board">
+		SELECT b.*, m.m_name
+		FROM BOARD b
+		JOIN member m ON b.m_number = m.m_number
+		WHERE b.B_COMM_GROUP = #{b_comm_group}
+		AND b.M_NUMBER = #{m_number}
+		AND b.COMMON_BCD = #{common_bcd}
+		AND b.COMMON_MCD = #{common_mcd}
+		AND b.B_CONTENT = #{b_content}
+		AND b.B_NUMBER = (
+		    SELECT MAX(b2.B_NUMBER) 
+		    FROM BOARD b2
+		    WHERE b2.B_COMM_GROUP = #{b_comm_group}
+		    AND b2.M_NUMBER = #{m_number}
+		    AND b2.COMMON_BCD = #{common_bcd}
+		    AND b2.COMMON_MCD = #{common_mcd}
+		    AND b2.B_CONTENT = #{b_content}
+		)
+	</select>
+
+	<delete id="jsDeleteComment" parameterType="int">
+		DELETE FROM BOARD WHERE B_NUMBER = #{b_number}
+	</delete>
 	
 
 <!-- ============================ 재준 mappers 끝 ============================ -->
@@ -382,6 +447,7 @@
 
 	<select id="dyBoardTotal" resultType="int">
 		SELECT Count(*) FROM board
+		where common_bcd=200 and common_mcd = 20
 	</select>
 
 	<select id="dyBodyProfileListAll" parameterType="Board"
@@ -392,7 +458,7 @@
 		(
 		        SELECT rownum rn , a.*
 		        FROM
-		                   (select * from board order by b_number desc) a
+		                   (select * from board where b_comm_group = 0 order by b_number desc) a
 		 )  
 		 WHERE  rn  >= #{start} 
  		and    rn  <= #{end} 
@@ -408,7 +474,9 @@
 		UPDATE board SET
 		b_title=#{b_title},
 		b_content=#{b_content},
-		b_regdate=sysdate
+		b_regdate=sysdate,
+		common_bcd = 200,
+		common_mcd = 20
 		WHERE
 		b_number = #{b_number}
 	</update>
@@ -504,14 +572,49 @@
 	<!-- 신고여부 쿼리 -->
 	<update id="dyUpReported" parameterType="int">
 		UPDATE board
-		SET b_isreported = CASE 
-		                     WHEN b_isreported = 0 THEN 1 
-		                     ELSE b_isreported 
-		                   END
+		SET
+		b_isreported = CASE
+		WHEN b_isreported = 0 THEN 1
+		ELSE b_isreported
+		END
 		WHERE b_number = #{b_number}
 	</update>
-	
-	<select id="dyCommonList" parameterType="Common" resultType="Common">
+
+	<select id="dyCommonList" parameterType="Common"
+		resultType="Common">
+		select * from common where common_mcd != 999
+	</select>
+
+	<!-- 자유게시판 게시글 댓글 구현 -->
+	<select id="dyGetPComments" parameterType="int" resultType="Board">
+		SELECT b.*, m.m_name
+		FROM BOARD b
+		JOIN member m ON b.m_number = m.m_number
+		WHERE b.COMMON_BCD = 200 AND b.COMMON_MCD = 111
+		AND b.B_COMM_GROUP = #{B_NUMBER}
+		ORDER BY b.B_NUMBER DESC
+
+	</select>
+
+	<select id="dyCallComment" parameterType="Board"
+		resultType="Board">
+		 SELECT b.*, m.m_name
+      FROM BOARD b
+      JOIN member m ON b.m_number = m.m_number
+      WHERE b.B_COMM_GROUP = #{b_comm_group}
+      AND b.M_NUMBER = #{m_number}
+      AND b.COMMON_BCD = #{common_bcd}
+      AND b.COMMON_MCD = #{common_mcd}
+      AND b.B_CONTENT = #{b_content}
+      AND b.B_NUMBER = (
+          SELECT MAX(b2.B_NUMBER) 
+          FROM BOARD b2
+          WHERE b2.B_COMM_GROUP = #{b_comm_group}
+          AND b2.M_NUMBER = #{m_number}
+          AND b2.COMMON_BCD = #{common_bcd}
+          AND b2.COMMON_MCD = #{common_mcd}
+          AND b2.B_CONTENT = #{b_content}
+      )
 		select * from common where common_mcd != 999
 	</select>
 	
@@ -520,27 +623,37 @@
 		<!-- 공지사항 -->
 
 	<!-- 공지글 리스트 -->
-	<select id="hsNoticeBoardTotal" resultType="int">
+	<select id="hsNoticeBoardTotal" parameterType="Board" resultType="int">
 		SELECT count(*) FROM board WHERE common_mcd = 110
+			<choose>
+				<when test="search == 'b_title'">
+					AND b_title like '%' || #{keyword} || '%'
+				</when>
+				<when test="search == 'b_content'">	
+					AND b_content like '%' || #{keyword} || '%'
+				</when>
+			</choose>
 
 	</select>
 	
 	<select id="hsNoticeBoardListAll" parameterType="Member" resultType="Board">
-		<![CDATA[
-			SELECT *
+		SELECT *
+		FROM
+		(
+			SELECT rownum rn, a.*
 			FROM
-			(
-				SELECT rownum rn, a.*
-				FROM
-					(SELECT m.m_name, b.* 
-					 FROM member m, board b
-					 WHERE m.m_number = b.m_number
-					 AND b.common_mcd = 110
-				     ORDER BY b_update DESC) a
-			)
-			WHERE rn >= #{start}
-			AND rn <= #{end}
-		]]>
+				(SELECT m.m_name, b.* FROM member m, board b WHERE m.m_number = b.m_number AND b.common_mcd=110
+				<choose>
+					<when test="search == 'b_title'">
+						AND b.b_title like '%' || #{keyword} || '%'
+					</when>
+					<when test="search == 'b_content'">
+						AND b.b_content like '%' || #{keyword} || '%'
+					</when>
+				</choose>
+				ORDER BY b.b_update DESC) a
+		)
+		WHERE rn BETWEEN #{start} and #{end}
 	</select>
 	
 	<!-- 공지글 세부내용 + 조회수 증가 -->
@@ -559,7 +672,7 @@
 	</select>
 	
 	<!-- 공지글 작성 -->
-	<insert id="hsCreateNoticeBoard" parameterType="Board" useGeneratedKeys="true" keyColumn="b_number" keyProperty="b_number">
+	<insert id="hsCreateNoticeBoard" parameterType="Board">
 		INSERT INTO board VALUES (b_number_seq.nextval, #{m_number}, 200, 110, #{b_title}, #{b_content}, 0, sysdate, 
 									sysdate, 0, 0, 'image', null, null, null)
 	</insert>

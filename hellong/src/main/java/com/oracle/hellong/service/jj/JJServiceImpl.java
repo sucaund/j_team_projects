@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.oracle.hellong.dao.jjdao.BoardDao;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Common;
+import com.oracle.hellong.model.RecommCheck;
 
 import lombok.RequiredArgsConstructor;
 
@@ -76,14 +77,6 @@ public class JJServiceImpl implements JJService {
 	}
 
 	@Override
-	public int hitCnt(int b_number) {
-		int result = 0;
-		System.out.println("JJServiceImpl HitCnt Start...");
-		result = bd.hitCnt(b_number);
-		return result;
-	}
-
-	@Override
 	public int jjReported(Board board) {
 		int result = 0;
 		System.out.println("JJServiceImpl jjReported Start...");
@@ -114,6 +107,71 @@ public class JJServiceImpl implements JJService {
 		commonList = bd.commonList(common);
 		System.out.println("JJServiceImpl commonList.size()->"+commonList.size());
 		return commonList;
+	}
+
+	@Override
+	public String recommendBoard(int b_number, int m_number) {
+		RecommCheck check = bd.checkRecomm(b_number, m_number);
+	       if (check != null) {
+	           return "이미 추천하셨습니다.";
+	       }
+	       RecommCheck rec = new RecommCheck();
+	       // 객체의 필드에 값을 설정하는 부분
+	       rec.setB_number(b_number);
+	       rec.setM_number(m_number);
+	       rec.setRc_isrecomm(1); // 추천 상태 설정
+	       bd.insertRecomm(rec); // 수정된 부분
+	       bd.increaseRecommCount(b_number);
+	       return "추천되었습니다.";
+
+	}
+
+	@Override
+	public int recommandCount(int b_number) {
+		int recommandCount = 0;
+		System.out.println("JJServiceImpl recommandCount Start!");
+		recommandCount = bd.recommandCount(b_number);
+		System.out.println("JJServiceImpl recommandCount recommandCount->"+recommandCount);
+		return recommandCount;
+	}
+
+	@Override
+	public List<Board> getPComments(int b_number) {
+		System.out.println("JJServiceImpl getPComments Start!");
+		List<Board> boardlist = bd.getPComments(b_number);
+		System.out.println("JJServiceImpl getPComments boardlist->"+boardlist);
+		return boardlist;
+	}
+
+	@Override
+	public int jschangeM_num(String member_id) {
+		System.out.println("JJServiceImpl jschangeM_num Start...");
+		int m_num = 0;
+		m_num = bd.jschangeNum(member_id);
+		System.out.println("JJServiceImpl jschangeM_num m_num" + m_num);
+		return m_num;
+	}
+
+	@Override
+	public void jjAddComment(Board board) {
+		System.out.println("SHServiceImpl Start addComment...");
+		System.out.println("SHServiceImpl addComment board->>" + board);
+		bd.jjAddComment(board);
+		
+	}
+
+	@Override
+	public Board jsCallComment(Board board) {
+		System.out.println("JJServiceImpl jsCallComment Start...");
+		Board board2 = bd.jsCallComment(board);
+		System.out.println("JJServiceImpl jsCallComment board2()->" + board2);
+		return board2;
+	}
+
+	@Override
+	public void jsDeleteComment(int b_number) {
+		System.out.println("SHServiceImpl deleteComment Start...");
+		bd.jsDeleteComment(b_number);
 	}
 
 

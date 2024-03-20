@@ -8,21 +8,23 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
 
-        $("#paymentBtn").click(function() {
-			var m_number = ${memberData.m_number };
-			var g_id = ${gsDetailData.g_id};
-			var s_number = ${gsDetailData.s_number};
-			var sd_number = ${gsDetailData.sd_number};
-			var sd_price = ${gsDetailData.sd_price};
-			
-			if (${memberData.m_currpoint } < sd_price) {
-                $("#paymentBtn").prop("disabled", true); // 결제 버튼 비활성화
-                $("#insufficientMessage").text("잔액이 부족합니다. 구매를 진행할 수 없습니다."); // 잔액 부족 메시지 표시
-                return; // 결제 진행 중지
-            }
-
+    function confirmBuy() {
+        var m_number = ${memberData.m_number };
+		var g_id = ${gsDetailData.g_id};
+		var s_number = ${gsDetailData.s_number};
+		var sd_number = ${gsDetailData.sd_number};
+		var sd_price = ${gsDetailData.sd_price};
+		
+		if (${memberData.m_currpoint } < sd_price) {
+            $("#paymentBtn").prop("disabled", true); // 결제 버튼 비활성화
+            $("#insufficientMessage").text("잔액이 부족합니다. 구매를 진행할 수 없습니다."); // 잔액 부족 메시지 표시
+            return; // 결제 진행 중지
+        }
+		
+        if (confirm("구매하시겠습니까?")) {
+            // 확인 버튼을 눌렀을 때 처리할 로직을 여기에 작성합니다.
+            
             $.ajax({
                 type: "GET", // 요청 방식
                 url: "hsBuyGymMembership", // 결제 처리를 담당하는 엔드포인트 URL
@@ -34,15 +36,17 @@
 				}, // 폼의 데이터를 직렬화하여 전송
                 success: function(response) {
                     alert("결제가 성공적으로 완료되었습니다!");
-					window.location.href = "hsMemberIndex?m_number=" + m_number;
+					window.location.href = "/Default";
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
 
                     alert("결제에 실패했습니다. 다시 시도해주세요.");
                 }
             });
-        }); 
-    });
+        } else {
+            // 취소 버튼을 눌렀을 때의 처리를 여기에 작성합니다. (옵션)
+        }
+    }
 </script>
 </head>
 <body>
@@ -106,7 +110,8 @@
                                 구매 예정 회원권: <a style="color: #0167F3;">${gsDetailData.g_name }  ${gsDetailData.s_name }</a><br>
                             </div>
                             <div id="insufficientMessage" style="color: red;"></div>
-                            <button type="submit" id="paymentBtn" class="btn btn-primary">구매</button>
+                            <button type="button" id="paymentBtn" class="btn btn-primary"
+                            			onclick="confirmBuy()">구매</button>
                         </div> 
                     </div>
                 </div>

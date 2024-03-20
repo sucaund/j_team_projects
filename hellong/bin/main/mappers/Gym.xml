@@ -48,7 +48,7 @@
 	
 	<select id="getAllGym" resultType="Gym">
 		SELECT*
-		FROM GYM 
+		FROM GYM WHERE G_ISDELETED = 0 
 	</select>
 	
 	<select id="getGym" parameterType="int" resultType="Gym">
@@ -82,60 +82,53 @@
 	</update>
 	
 	  <select id="getNewGym" resultType="Gym">
-            SELECT * FROM (
-        SELECT g.*
-        FROM GYM g
-        ORDER BY g.G_REGDATE DESC
-    ) WHERE ROWNUM = 1
+           SELECT * FROM (
+			   SELECT g.*
+			   FROM GYM g
+			   WHERE g.G_ISDELETED = 0
+			   ORDER BY g.G_REGDATE DESC
+			)
+			WHERE ROWNUM = 1
     </select>
 
     <select id="getCheapGym" resultType="Gym">
         		SELECT * FROM (
-    				SELECT g.* 
-    					FROM GYM g
-    						INNER JOIN (
-        				SELECT G_ID, MIN(S_PRICE) AS MinPrice
-       					FROM G_S
-        				GROUP BY G_ID
-    					) gs ON g.G_ID = gs.G_ID
-    					INNER JOIN G_S gsd ON g.G_ID = gsd.G_ID AND gs.MinPrice = gsd.S_PRICE
-   						ORDER BY gsd.S_PRICE ASC
-						) WHERE ROWNUM = 1
-
+		    SELECT g.*
+		    FROM GYM g
+		    INNER JOIN (
+		        SELECT G_ID, MIN(S_PRICE) AS MinPrice
+		        FROM G_S
+		        GROUP BY G_ID
+		    ) gs ON g.G_ID = gs.G_ID
+		    INNER JOIN G_S gsd ON g.G_ID = gsd.G_ID AND gs.MinPrice = gsd.S_PRICE
+		    WHERE g.G_ISDELETED = 0
+		    ORDER BY gsd.S_PRICE ASC
+		) WHERE ROWNUM = 1
     </select>
 
-    <select id="getManyGym" resultType="Gym">
-SELECT * FROM (
-    				SELECT g.* 
-    					FROM GYM g
-    						INNER JOIN (
-        				SELECT G_ID, MIN(S_PRICE) AS MinPrice
-       					FROM G_S
-        				GROUP BY G_ID
-    					) gs ON g.G_ID = gs.G_ID
-    					INNER JOIN G_S gsd ON g.G_ID = gsd.G_ID AND gs.MinPrice = gsd.S_PRICE
-   						ORDER BY gsd.S_PRICE ASC
-						) WHERE ROWNUM = 1
+   <select id="getManyGym" resultType="Gym"> 
+ 		SELECT * FROM (
+   			 SELECT d.G_ID, g.G_NAME, g.G_ADDRESS, COUNT(DISTINCT o.M_NUMBER) AS MEMBER_COUNT
+			    FROM GYM_ORDER o
+			    INNER JOIN G_S_DETAIL d ON o.S_NUMBER = d.S_NUMBER
+			    INNER JOIN MEMBER m ON o.M_NUMBER = m.M_NUMBER
+			    INNER JOIN GYM g ON d.G_ID = g.G_ID
+			    WHERE g.G_ISDELETED = 0
+			    GROUP BY d.G_ID, g.G_NAME, g.G_ADDRESS
+			    ORDER BY COUNT(DISTINCT o.M_NUMBER) DESC
+			) WHERE ROWNUM = 1
+	</select>
 
-
-    </select>
-
-    <select id="getStarGym" resultType="Gym">
-SELECT * FROM (
-    				SELECT g.* 
-    					FROM GYM g
-    						INNER JOIN (
-        				SELECT G_ID, MIN(S_PRICE) AS MinPrice
-       					FROM G_S
-        				GROUP BY G_ID
-    					) gs ON g.G_ID = gs.G_ID
-    					INNER JOIN G_S gsd ON g.G_ID = gsd.G_ID AND gs.MinPrice = gsd.S_PRICE
-   						ORDER BY gsd.S_PRICE ASC
-						) WHERE ROWNUM = 1
-
-
-    </select>
-
+	<select id="getStarGym" resultType="Gym"> 
+		SELECT * FROM (
+   			 SELECT g.G_ID, g.G_NAME, g.G_ADDRESS, AVG(gr.REVIEW_STAR) AS AVG_STAR
+    			FROM GYM_REVIEW gr
+    			INNER JOIN GYM g ON gr.G_ID = g.G_ID
+    			WHERE g.G_ISDELETED = 0
+    			GROUP BY g.G_ID, g.G_NAME, g.G_ADDRESS
+    			ORDER BY AVG_STAR DESC
+		) WHERE ROWNUM = 1
+	</select>
 
 	
 </mapper>

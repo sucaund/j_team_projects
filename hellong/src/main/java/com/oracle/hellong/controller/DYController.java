@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oracle.hellong.model.Board;
@@ -39,6 +40,7 @@ import com.oracle.hellong.model.SearchResults;
 import com.oracle.hellong.service.dy.DYPaging;
 import com.oracle.hellong.service.dy.DYService;
 import com.oracle.hellong.service.hs.HSService;
+import com.oracle.hellong.service.sh.SHService;
 
 import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,6 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DYController {
 	private final DYService dys;
+	private final SHService sh;
 
 	// 게시글리스트
 	@GetMapping(value = "listBodyProfile")
@@ -102,17 +105,64 @@ public class DYController {
 		// 조회수 증가
 		int b_number = board1.getB_number();
 		dys.increaseReadCount(b_number);
+
+		String m_id = (String) session.getAttribute("m_id"); // 댓글
+		System.out.println("DYController detailBoard m_id->" + " " + m_id);
+		// 댓글
+		int M_NUMBER = sh.changeM_num(m_id); // 댓글
+
 		// 게시글 및 파일 조회
 		Board board = dys.selectBodyProfile(board1.getB_number());
 		List<BoardFile> boardFile = dys.selectBodyProfileFileList(boardFile1.getB_number());
 		List<Common> commonList = dys.commonList(common);
+		List<Board> boardCommList = dys.getPComments(b_number); // 댓글
+		System.out.println("DYController detailBoard boardCommList->" + boardCommList); // 댓글
+
 		System.out.println("*********** " + commonList);
 
 		model.addAttribute("board", board);
 		model.addAttribute("boardFile", boardFile);
 		model.addAttribute("reportTypes", commonList);
+		model.addAttribute("boardCommList", boardCommList); // 댓글
+		model.addAttribute("M_NUMBER", M_NUMBER); // 댓글
 
 		return "dy/dySelectBodyProfile";
+	}
+
+	// 댓글입력 , 댓글 카운터 증가
+	@ResponseBody
+	@PostMapping("commentInsert2")
+	public Board commentInsert2(@RequestParam("comment_body") String comment, @RequestParam("cmId") int M_NUMBER,
+			@RequestParam("bId") int B_NUMBER, Board board) {
+
+		System.out.println("SHController commentInsert M_NUMBER" + " => " + M_NUMBER);
+		System.out.println("SHController commentInsert B_NUMBER" + " => " + B_NUMBER);
+		int Common_bcd = 200;
+		int Common_mcd = 111;
+
+		board.setB_comm_group(B_NUMBER);
+		board.setM_number(M_NUMBER);
+		board.setCommon_bcd(Common_bcd);
+		board.setCommon_mcd(Common_mcd);
+		board.setB_content(comment);
+
+		sh.addComment(board);
+		System.out.println(" 1  SHController addComment board()->" + board);
+
+		Board board2 = dys.callComment(board);
+
+		System.out.println("2   SHController callComment board()->" + board2);
+		return board2;
+	}
+
+	// 댓글 삭제
+	@RequestMapping("deleteComment2")
+	public String deleteComment(@RequestParam("Comm_number") int Comm_number, @RequestParam("bId") int bId) {
+		System.out.println("SHController deleteComment start...");
+		sh.deleteComment(Comm_number);
+		System.out.println("SHController deleteComment succes...");
+
+		return "redirect:dySelectBodyProfile?b_number=" + bId;
 	}
 
 	// 게시글 추천
@@ -342,4 +392,4 @@ public class DYController {
 			return "redirect:/jmLoginForm"; // 또는 필요에 따라 적절한 경로 설정
 		}
 	}
-}	
+}

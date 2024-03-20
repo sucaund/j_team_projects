@@ -7653,8 +7653,8 @@ blockquote span {
 /*======================================
 	Footer CSS
 ========================================*/
-.footer {
-  background-color: #081828;
+.footer { 
+  background-color: #ffffff;
   position: relative;
   /* Single Footer */
   /* End Single Footer */
@@ -7701,7 +7701,7 @@ blockquote span {
 }
 
 .footer .footer-top .footer-newsletter .title {
-  color: #fff;
+ color: rgb(4, 163, 233);
   font-size: 20px;
   font-weight: 800;
   float: left;
@@ -7724,7 +7724,7 @@ blockquote span {
 }
 
 .footer .footer-top .footer-newsletter .title span {
-  color: #c2c2c2;
+ color: rgb(0, 0, 0);
   display: block;
   font-size: 14px;
   margin-top: 5px;

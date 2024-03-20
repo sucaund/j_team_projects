@@ -349,20 +349,23 @@ public class JmMemberDaoImpl implements JmMemberDao {
 		}
 
 		@Override
-		public GymOrder jmGetGymOrder(int g_id) {
+		public GymOrder jmGetGymOrder(int g_id, int m_number) {
 			System.out.println("jmMemberDaoImpl jmGetGymOrder start");
 			GymOrder gymOrder=new GymOrder();
+			gymOrder.setG_id(g_id);
+			gymOrder.setM_number(m_number);
+			GymOrder gymOrder2=new GymOrder();
 			try {
-				gymOrder = session.selectOne("jmGetGymOrder",g_id);
+				gymOrder2 = session.selectOne("jmGetGymOrder",gymOrder);
 				System.out.println("JmMemberDaoImpl jmGetGymOrder after select:"+g_id);
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 mm월 dd일");
-				gymOrder.setGo_enddate(sdf.format(gymOrder.getGo_enddate()));
-				gymOrder.setDeal_date(sdf.format(gymOrder.getDeal_date()));
+				gymOrder2.setGo_enddate(sdf.format(gymOrder2.getGo_enddate()));
+				gymOrder2.setDeal_date(sdf.format(gymOrder2.getDeal_date()));
 				
 			} catch (Exception e) {
 				System.out.println("JmMemberDaoImpl jmGetGymOrder Exception->"+e.getMessage());
 			}
-			return gymOrder;
+			return gymOrder2;
 		}
 		
 		public String jmGetS_name(int g_id, int s_number) {

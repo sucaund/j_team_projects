@@ -225,10 +225,10 @@ public class JMServiceImpl implements JMService {
 	}
 
 	@Override
-	public GymOrder jmGetGymOrder(int g_id) {
+	public GymOrder jmGetGymOrder(int g_id, int m_number) {
 		System.out.println("jmServiceImpl jmGetGymOrder start");
 		GymOrder gymOrder=null;
-		gymOrder=jmmd.jmGetGymOrder(g_id);
+		gymOrder=jmmd.jmGetGymOrder(g_id, m_number);
 		return gymOrder;
 	}
 

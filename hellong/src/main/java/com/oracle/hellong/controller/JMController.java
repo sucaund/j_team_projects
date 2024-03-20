@@ -165,14 +165,14 @@ public class JMController {
 
 				uri = prevPage;
 
-				// 회원가입 - 로그인으로 넘어온 경우 "/"로 redirect
+				// 회원가입 - 로그인으로 넘어온 경우 메인페이지로 redirect
 				if (prevPage.contains("/jmSignUpFormAjax2") || prevPage.contains("/jmSignUpAjax2")
 					||prevPage.contains("/jmSignUpCorrect")) {
-					uri = "/";
+					uri = "/default";
 				}
 			} 
 			System.out.println("uri:" + uri);
-			int index = uri.lastIndexOf("/");
+			int index = uri.lastIndexOf("/"); //주소에서 /부분 뒤만 남기기
 			if (index != -1) {
 				String uri2 = uri.substring(index + 1);
 				System.out.println("uri2"+uri2);
@@ -239,7 +239,7 @@ public class JMController {
 				
 				//결제 관련 정보
 				GymOrder gymOrder=new GymOrder();
-				gymOrder=jm.jmGetGymOrder(g_id); //활성화된 주문이 하나라는 가정하에 
+				gymOrder=jm.jmGetGymOrder(g_id, m_number); 
 				System.out.println("jmController jmMyPage에서 jmGetGymOrder로 꺼내온 주문의 서비스 넘버:"+gymOrder.getS_number());
 				System.out.println(gymOrder.getGo_enddate());
 				System.out.println(gymOrder.getUse_point());
@@ -524,52 +524,6 @@ public class JMController {
 		return "jm/jmErrorPage";
 	}
 
-//
-//	// interCeptor 시작화면
-//	@RequestMapping(value = "interCeptorForm")
-//	public String interCeptorForm(Model model) {
-//		System.out.println("interCeptorForm Start");
-//		return "interCeptorForm";
-//	}
-//
-//	@RequestMapping(value = "interCeptor")
-//	// public String interCeptor(Member1 member, Model model) {
-//	public void interCeptor(Member1 member1, Model model) {
-//		System.out.println("EmpController interCeptor Test Start");
-//		System.out.println("EmpController interCeptor id->" + member1.getId());
-//		// 존재:1 비존재:0
-//		int memCnt = es.memCount(member1.getId());
-//
-//		System.out.println("EmpController interCeptor memCnt->" + memCnt);
-//		model.addAttribute("id", member1.getId());
-//		model.addAttribute("memCnt", memCnt);
-//		System.out.println("interCeptor Test End");
-//		// return "interCeptor"; //user 존재하면 user 이용 조회 page
-//		return;
-//	}
-//
-//	// sampleInterceptor 내용 받아 처리
-//	@RequestMapping(value = "doMemberWrite", method = RequestMethod.GET)
-//	public String doMemberWrite(Model model, HttpServletRequest request) {
-//		String ID = (String) request.getSession().getAttribute("ID");
-//		System.out.println("doMemberWrite부터 하세요");
-//		model.addAttribute("id", ID);
-//		return "doMemberWrite";
-//	}
-//
-//	// interCeptor 진행 Test
-//	@RequestMapping(value = "doMemberList")
-//	public String doMemberList(Model model, HttpServletRequest request) {
-//		String ID = (String) request.getSession().getAttribute("ID");
-//		System.out.println("doMemberList Test Start Id->" + ID);
-//		Member1 member1 = null;
-//		// Member List Get Service
-//		List<Member1> listMem = es.listMem(member1);
-//		model.addAttribute("ID", ID);
-//		model.addAttribute("listMem", listMem);
-//		return "doMemberList";
-//	}
-//
 
 //
 //	@ResponseBody

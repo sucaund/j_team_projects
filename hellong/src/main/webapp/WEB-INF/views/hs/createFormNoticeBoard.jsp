@@ -6,35 +6,85 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- <script type="text/javascript">
-	function chk() {
-		alert('chk Start...');
-		if (!frm.b_number.value) {
-			alert("사번을 입력한 후에 확인하세요");
-			frm.b_number.focus();
-			return false;
-		} else location.href="confirm?empno="+frm.empno.value;
-	}
+ <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/windicss@3.0.14/css/windicss.min.css">
+<script>
 
-</script> -->
+    function validateForm() {
+        // 제목과 내용 입력란의 값을 가져옴
+        var title = document.getElementsByName("b_title")[0].value;
+        var content = document.getElementsByName("b_content")[0].value;
+
+        // 제목 또는 내용이 비어있는지 확인 
+        if (title == ""  ) {
+            // 비어있을 경우 alert 표시
+            alert("제목을 입력해주세요.");
+            return false; // 폼 제출 취소
+        } else if (content == "" ) {
+        	alert("내용을 입력해주세요.");
+        	return false;
+        } 
+        return true; // 제출 가능한 상태
+    }
+</script>
+
 </head>
 <body>
-	<h2>공지사항 작성</h2>
-	 <c:if test="${msg!=null}">${msg}</c:if>
-	 <form action="hsCreateNoticeBoard" method="post" name="frm">
+<main id="main" class="main">
+		<section class="section col-6" style="margin: 0 auto">
+
+			<div class="pagetitle">
+				<h3 style="text-align:left; margin-bottom: 10px;">공지사항 작성</h3>
+			</div>
+			<!-- End Page Title -->
+			<div class="row">
+				<div style="margin: 0 auto">
+					<div class="card" style="padding: 25px 10px 0 10px;">
+						<div class="card-body">
+				 <form action="hsCreateNoticeBoard" method="post" onsubmit="return validateForm();">
+	   					<div class="row mb-3">
+									<label for="title" class="col-sm-2 col-form-label">카테고리</label>
+									<div class="col-sm-10">
+	   								공지사항
+	   								</div>
+   								</div>
+	  								<div class="row mb-3">
+									<label for="title" class="col-sm-2 col-form-label">제목</label>
+									<div class="col-sm-10">
+										<input type="text" name="b_title" value="${board.b_title}">
+									</div>
+								</div>
+								
+								<div class="row mb-3">
+									<label for="title" class="col-sm-2 col-form-label">아이디</label>
+									<div class="col-sm-10">
+										${member.m_name}
+										<input type="hidden" name="m_number" value="${member.m_number}">
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="content" class="col-sm-2 col-form-label">내용</label>
+									<div class="col-sm-10">										
+										<textarea class="form-control" style="height: 300px" name="b_content" id="${board.b_content}"></textarea>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div style="text-align:center">
+										<button type="button" class="btn btn-outline-secondary" onclick="location.href='hsListNoticeBoard?m_number=${member.m_number}'">취소</button>
+										<button type="submit" class="btn btn-outline-primary">등록</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
 	   
-	   <table>
-			<tr><th>제목</th><td><input type="text" name="b_title" required="required"></td></tr>
-			<tr><th>멤버아이디</th><td>${member.m_name }</td></tr>
-			<input type="hidden" name="m_number" value="${member.m_number}">
-			<tr><th>첨부파일</th><td>미적용</td></tr>
-			<tr><th>내용</th><td><input type="text" name="b_content" required="required"></td></tr>
-			<tr><td colspan="2">
-				<input type="submit" value="확인">
-				<input type="button" value="취소" onclick="location.href='hsListNoticeBoard?m_number=${member.m_number}'"></td></tr>
-				 
-	   </table>
-	 </form>
-	
+	   
 </body>
 </html>

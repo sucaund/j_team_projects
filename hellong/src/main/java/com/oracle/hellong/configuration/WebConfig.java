@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
 	  private String resourcePath2 = "file:///C:/trbackup/"; 
 	  private String uploadPath2 = "/trainerUpload/**"; 
 	
-	  private String resourcePath3 = "file:///C:/Users/admin/git/j_team_projects/hellong/uploads/";// 실제 파일 저장 경로 
+	  private String resourcePath3 = "file:///C:/Gymbackup/";// 실제 파일 저장 경로 
 	  private String uploadPath3 = "/upload3/**"; // view에서 사용할 경로
 	  
 	  @Override

@@ -132,9 +132,11 @@
 												 </h4>
 												 <p id="p_584" class="comment-description" style="font-size: 18px;">${CommList.b_content}</p>
 												 <span style="font-size: 12px; color: #757575;">${CommList.b_regdate}</span>	
+												        <c:if test="${CommList.m_number == M_NUMBER}">
 												        <div id="btn_584">
 														<a href="/deleteComment?Comm_number=${CommList.b_number }&bId=${board.b_number}" onclick="return confirm('댓글을 삭제하시겠습니까?');">삭제</a>
 												        </div> 
+												        </c:if>
 													</div>
 											</li>
 											<hr>

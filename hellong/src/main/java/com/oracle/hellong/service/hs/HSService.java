@@ -28,7 +28,7 @@ public interface HSService {
 		/* 공지사항 */
 	
 	// 공지글 리스트
-	int totalNoticeBoard();
+	int totalNoticeBoard(Board board);
 	
 	List<Board> listNoticeBoard(Board board);
 	
@@ -45,12 +45,6 @@ public interface HSService {
 
 	// 공지글 삭제
 	int deleteNoticeBoard(int b_number);	
-
-	// 공지글 검색
-	int condTotalNoticeBoard(Board board);	
-	
-	List<Board> searchNoticeBoard(Board board);
-
 	
 		/* 포인트 내역 조회 */
 	

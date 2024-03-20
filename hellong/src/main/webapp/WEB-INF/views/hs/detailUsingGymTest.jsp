@@ -207,7 +207,7 @@
             <!-- 각 헬스장 카드 -->
             <div class="col-md-5 mb-3">
                 <div class="card h-100 p-4 bg-gray-100 rounded-lg shadow-md" onclick="location.href='gymPostDetail?g_id=${board.g_id}'">
-                    <%-- <img class="card-img-top" src="<c:url value='/upload/${board.gbf_storedFileName}'/>" alt="헬스장 이미지"> --%>
+                    <img class="card-img-top" src="<c:url value='/upload/${board.gbf_storedFileName}'/>" alt="헬스장 이미지">
                     <div class="card-body">
                     	<input type="hidden" value="${num}">
                         <div class="card-title">
@@ -216,11 +216,11 @@
 						    </h4>
 						</div>
 						<div class="card-subtitle text-3xl font-bold mb-2" style="color: #800080;">
-						    <span style="font-style: italic; color: #00008b;">${board.g_id}</span>
+						    <span style="font-style: italic; color: #00008b;">${board.g_address}</span>
 						</div>
 						
-                        <p class="address text-gray-600"><i class="fas fa-map-marker-alt icon"></i>첫 등록일: ${board.first_regist_date}</p>
-                        <p class="stars text-yellow-500"><i class="fas fa-star icon"></i>
+                        <p class="address text-gray-600"><i class="fa-solid fa-calendar-days" style="color: #CD5C5C;"></i> 첫 등록일: ${board.first_regist_date}</p>
+                        <p class="stars text-yellow-500"><i class="fa-solid fa-dumbbell" style="color: #4682B4;"></i>
                         								 누적 개월수: ${board.period_of_use}</p>
                         <c:set var="num" value="${num - 1}"></c:set> 
                     </div>
@@ -238,7 +238,7 @@
 	            <ul class="pagination justify-content-center">
 	                <!-- 이전 버튼 -->
 	                <li class="page-item ${page.startPage == 1 ? 'disabled' : ''}">
-	                    <a class="page-link" href="GymPostList?currentPage=${page.startPage - page.pageBlock}&sortType=${param.sortType}&search=${param.search}&keyword=${param.keyword}" tabindex="-1" aria-disabled="true">이전</a>
+	                    <a class="page-link" href="hsDetailUsingGym?currentPage=${page.startPage - page.pageBlock}&sortType=${param.sortType}&search=${param.search}&keyword=${param.keyword}" tabindex="-1" aria-disabled="true">이전</a>
 	                </li>
 	                
 	                <!-- 페이지 번호 -->
@@ -246,12 +246,12 @@
 	                    <c:choose>
 	                        <c:when test="${page.currentPage == i}">
 	                            <li class="page-item active"> <!-- 현재 페이지에 active 클래스 추가 -->
-	                                <a class="page-link" href="GymPostList?currentPage=${i}&sortType=${param.sortType}&search=${param.search}&keyword=${param.keyword}">${i}</a>
+	                                <a class="page-link" href="hsDetailUsingGym?currentPage=${i}&sortType=${param.sortType}&search=${param.search}&keyword=${param.keyword}">${i}</a>
 	                            </li>
 	                        </c:when>
 	                        <c:otherwise>
 	                            <li class="page-item">
-	                                <a class="page-link" href="GymPostList?currentPage=${i}&sortType=${param.sortType}&search=${param.search}&keyword=${param.keyword}">${i}</a>
+	                                <a class="page-link" href="hsDetailUsingGym?currentPage=${i}&sortType=${param.sortType}&search=${param.search}&keyword=${param.keyword}">${i}</a>
 	                            </li>
 	                        </c:otherwise>
 	                    </c:choose>
@@ -259,9 +259,14 @@
 	                
 	                <!-- 다음 버튼 -->
 	                <li class="page-item ${page.endPage == page.totalPage ? 'disabled' : ''}">
-	                    <a class="page-link" href="GymPostList?currentPage=${page.startPage + page.pageBlock}&sortType=${param.sortType}&search=${param.search}&keyword=${param.keyword}">다음</a>
+	                    <a class="page-link" href="hsDetailUsingGym?currentPage=${page.startPage + page.pageBlock}&sortType=${param.sortType}&search=${param.search}&keyword=${param.keyword}">다음</a>
 	                </li>
+       	            <li class="col-md-6 text-right">
+	            	<input type="button" value="환불하기" 
+						onclick="location.href='hsRefundFormUsingGym?m_number=${m_number}'">
+            		</li>
 	            </ul>
+
 	        </nav>
 	    </div>
 	</div>

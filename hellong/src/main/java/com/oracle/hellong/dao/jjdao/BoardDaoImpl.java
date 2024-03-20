@@ -1,12 +1,15 @@
 package com.oracle.hellong.dao.jjdao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Common;
+import com.oracle.hellong.model.RecommCheck;
 import com.oracle.hellong.model.Report;
 
 import lombok.RequiredArgsConstructor;
@@ -117,20 +120,6 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public int hitCnt(int b_number) {
-		System.out.println("BoardDaoImpl hitCnt Start...");
-		int result = 0;
-		System.out.println("BoardDaoImpl hitCnt b_number--->" + b_number);
-		try {
-			result = session.update("hitCnt", b_number);
-			System.out.println("BoardDaoImpl hitCnt result--->" + result);
-		} catch(Exception e) {
-			System.out.println("BoardDaoImpl hitCnt Exception--->" + e.getMessage());
-		}
-		return result;
-	}
-
-	@Override
 	public int jjReported(Board board) {
 		System.out.println("BoardDaoImpl jjReported Start...");
 		int result = 0;
@@ -186,6 +175,105 @@ public class BoardDaoImpl implements BoardDao {
 			System.out.println("BoardDaoImpl commonList Exception->" + e.getMessage());
 		}
 		return commonList;
+	}
+
+	@Override
+	public RecommCheck checkRecomm(int b_number, int m_number) {
+		Map<String, Object> params = new HashMap<>();
+        params.put("b_number", b_number);
+        params.put("m_number", m_number);
+       
+        return session.selectOne("jjCheckRecomm", params);
+	}
+
+	@Override
+	public void insertRecomm(RecommCheck rec) {
+		session.insert("jjInsertRecomm", rec);
+		
+	}
+
+	@Override
+	public void increaseRecommCount(int b_number) {
+		session.update("jjIncreaseRecommCount", b_number);
+		
+	}
+
+	@Override
+	public int recommandCount(int b_number) {
+		int recommandCount = 0;
+		System.out.println("BoardDaoImpl recommandCount Start!");
+		try { 
+			recommandCount = session.selectOne("jjRecommandCount", b_number);
+			System.out.println("BoardDaoImpl recommandCount recommandCount->"+recommandCount);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl recommandCount Exception->" + e.getMessage());
+		}
+		return recommandCount;
+	}
+
+	@Override
+	public List<Board> getPComments(int b_number) {
+		System.out.println("BoardDaoImpl getPComments Start!");
+		List<Board> boardlist = null;
+		try {
+			boardlist = session.selectList("jjGetPComments", b_number);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl getPComments Exception->" + e.getMessage());
+		}
+		return boardlist;
+	}
+
+	@Override
+	public int jschangeNum(String member_id) {
+		System.out.println("BoardDaoImpl jschangeNum start...");
+		System.out.println("BoardDaoImpl jschangeNum member_id()->" + member_id);
+		int NumChange = 0;
+		try {
+			NumChange = session.selectOne("jjNumChangeNum", member_id);
+			System.out.println("BoardDaoImpl jschangeNum NumChange->" + NumChange);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl jschangeNum e.getMessage()->" + e.getMessage());
+		}
+		return NumChange;
+	}
+
+	@Override
+	public void jjAddComment(Board board) {
+		System.out.println("BoardDaoImpl jjAddComment start...");
+		System.out.println("BoardDaoImpl jjAddComment board ->" + board);
+		try {
+			
+			session.insert("jjAddComment", board);
+			System.out.println("BoardDaoImpl jjAddComment board insert!!!");
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl jjAddComment e.getMessage()->" + e.getMessage());
+		}	
+		
+	}
+
+	@Override
+	public Board jsCallComment(Board board) {
+		System.out.println("BoardDaoImpl jsCallComment start...");
+		Board jsCallComment = new Board();
+		try {
+			jsCallComment = session.selectOne("jsCallComment", board);
+			System.out.println("BoardDaoImpl jsCallComment jsCallComment->" + jsCallComment);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl jsCallComment Exception->"+e.getMessage());
+		}
+		return jsCallComment;
+	}
+	
+	@Override
+	public void jsDeleteComment(int b_number) {
+		System.out.println("BoardDaoImpl jsDeleteComment start...");
+		System.out.println("BoardDaoImpl jsDeleteComment b_number ->" + b_number);
+		try {
+			session.delete("jsDeleteComment",b_number);
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl jsDeleteComment e.getMessage()->" + e.getMessage());
+		}
+		
 	}
 
 

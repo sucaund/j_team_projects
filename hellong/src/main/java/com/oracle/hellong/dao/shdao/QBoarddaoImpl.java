@@ -34,7 +34,7 @@ public class QBoarddaoImpl implements QBoarddao {
 		System.out.println("QBoarddaoImpl Start totalQue...");
 
 		try {
-			totQueCount = session.selectOne("boardTotal", M_NUMBER);
+			totQueCount = session.selectOne("shboardTotal", M_NUMBER);
 
 		} catch (Exception e) {
 			System.out.println("QBoarddaoImpl totalQue Exception->" + e.getMessage());
@@ -472,6 +472,18 @@ public class QBoarddaoImpl implements QBoarddao {
 	        System.out.println("QBoarddaoImpl getStarGym e.getMessage() -> " + e.getMessage());
 	    }
 	    return gymMapDetail;
+	}
+	
+	@Override
+	public List<GymBoardFile> getAllBoardFiles() { //0319 헬스장맵 사진 가져오기 실험
+		List<GymBoardFile> gymBoardFiles =null;
+		try {
+			gymBoardFiles =session.selectList("shgymBoardFiles");
+		} catch (Exception e) {
+			System.out.println("QBoarddaoImpl getallQnA e.getMessage()->" + e.getMessage());
+
+		}
+		return gymBoardFiles;
 	}
 
 

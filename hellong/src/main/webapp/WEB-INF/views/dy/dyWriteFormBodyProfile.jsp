@@ -10,19 +10,9 @@
 <style>
 
 /* 전체 페이지에 대한 스타일 */
-body {
-	font-family: 'Arial', sans-serif;
-	background-color: #f5f5f5;
-	color: #333;
-	margin: 0;
-	padding: 20px;
-}
-
 h1.title {
 	color: #444;
 }
-
-
 
 /* 폼 요소 스타일 */
 form#writeForm {
@@ -72,7 +62,7 @@ form#writeForm input[type=submit]:hover, form#writeForm input[type=button]:hover
 }
 
 /* 푸터 스타일 */
-footer {
+.footer {
 	margin-top: 20px;
 	text-align: center;
 	font-size: 0.8em;
@@ -94,30 +84,54 @@ footer {
 </head>
 <body>
 
+	<div class="breadcrumbs">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col">
+					<div class="breadcrumbs-content">
+						<h1 class="page-title">게시글 작성</h1>
+					</div>
+					<ul class="breadcrumb-nav">
+						<li><a href="index.html"><i class="lni lni-home"></i>
+								Home</a></li>
+						<li><a href="listBodyProfile">BodyProfile</a></li>
+						<li>글쓰기</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
-	<div class="container">
+	<div class="container mt-5">
 		<form id="writeForm" method="post" action="dyWriteBodyProfile"
 			enctype="multipart/form-data">
-			<!-- 나머지 폼 요소들은 여기에 작성 -->
-			<label for="category">카테고리</label> <select id="category"
-				name="category">
-				<option value="자유게시판">자유게시판</option>
-				<option value="바디프로필">바디프로필</option>
-			</select> <br> <label for="title">제목</label> <input type="text"
-				id="b_title" name="b_title" required="required"> <br> <label
-				for="content">내용</label>
-			<textarea id="b_content" name="b_content" rows="10" cols="50"
-				required="required"></textarea>
-			<br> <label for="b_images">이미지 첨부</label> <input type="file"
-				id="b_images" name="b_images" required="required" multiple
-				onchange="displaySelectedImages(this)"> <br>
-			<!-- 이미지 미리보기를 표시할 영역 -->
+			<div class="form-group">
+				<label for="category">카테고리</label> <select id="category"
+					name="category" class="form-control">
+					<option value="바디프로필" selected>바디프로필</option>
+
+
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="title">제목</label> <input type="text" id="b_title"
+					name="b_title" required="required" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="content">내용</label>
+				<textarea id="b_content" name="b_content" rows="10"
+					class="form-control" required="required"></textarea>
+			</div>
+			<div class="form-group">
+				<label for="b_images">이미지 첨부</label> <input type="file"
+					id="b_images" name="b_images" required="required" multiple
+					onchange="displaySelectedImages(this)" class="form-control-file">
+			</div>
 			<div id="imagePreview"></div>
-			<div class="buttons-container">
-				<input type="submit" value="등록" style="margin-right: 10px;">
-				<!-- 마진 추가로 버튼 사이 간격 조정 -->
-				<input type="button" onclick="location.href='listBodyProfile'"
-					value="취소">
+			<div class="buttons-container text-right">
+				<button type="submit" class="btn btn-primary">등록</button>
+				<button type="button" onclick="location.href='listBodyProfile'"
+					class="btn btn-secondary">취소</button>
 			</div>
 		</form>
 	</div>

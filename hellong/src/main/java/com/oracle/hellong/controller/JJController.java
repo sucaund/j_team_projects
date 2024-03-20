@@ -9,13 +9,18 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Common;
@@ -25,6 +30,7 @@ import com.oracle.hellong.service.jj.JJService;
 import com.oracle.hellong.service.sh.SHService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,31 +68,70 @@ public class JJController {
 	
 	// 게시판 > 게시글 상세페이지
 	@GetMapping(value = "detailBoard")
-	public String detailBoard(Board pboard, Common common, Model model, HttpSession session) {
+	public String detailBoard(Board pboard, Common common, Member member, Model model, HttpSession session) {
 		System.out.println("JJController detailBoard Start...");
 		System.out.println("JJController detailBoard pboard->"+pboard);
 		System.out.println("session--->"+(Integer)session.getAttribute("m_number"));
-		int b_number = pboard.getB_number();//03-19
 		
+		int b_number = pboard.getB_number(); // 댓글
+		String member_id = (String) session.getAttribute("m_id"); // 댓글
+		System.out.println("JJController detailBoard m_id->"+" "+member_id);
+		// int M_NUMBER = sh.changeM_num(member_id); // 댓글
+		int M_NUMBER = js.jschangeM_num(member_id); // 댓글
 		Board board = js.detailBoard(pboard.getB_number());
-		String m_id = (String) session.getAttribute("m_id");//03-19
-		int M_NUMBER = sh.changeM_num(m_id);//03-19
-
-		System.out.println("JJController detailBoard M_NUMBER->"+"  "+M_NUMBER);
 		System.out.println("JJController detailBoard board->"+board);
-		System.out.println("JJController detailBoard b_number->"+b_number);
 		
 		List<Common> commonList = js.commonList(common);
-		List<Board> boardCommList = sh.getPComments(b_number);//03-19
-		System.out.println("JJController detailBoard common->"+commonList);
-		System.out.println("@@@@@@@@@JJController detailBoard boardCommList->"+boardCommList);
+		System.out.println("JJController detailBoard commonList->"+commonList);
+		List<Board> boardCommList = js.getPComments(b_number); // 댓글
+		System.out.println("JJController detailBoard boardCommList->"+boardCommList); // 댓글
 		
 		model.addAttribute("board", board);
 		model.addAttribute("reportTypes", commonList);
-		model.addAttribute("boardCommList", boardCommList);//03-19
-		model.addAttribute("M_NUMBER", M_NUMBER);//03-19
+		model.addAttribute("boardCommList", boardCommList); // 댓글
+		model.addAttribute("M_NUMBER", M_NUMBER); // 댓글
+		
 		return "jj/detailBoard";
 	}
+	
+	
+	//댓글입력 과동시에 신규 댓글 단일객체만 등록 Board!+원글댓글 카운터 증가(wkdb 게시판용)
+    @ResponseBody
+    @PostMapping("commentInsert1")
+	public Board commentInsert1(@RequestParam("comment_body") String comment, @RequestParam("cmId") int m_number,
+			@RequestParam("bId") int b_number, Board board) {
+		
+		System.out.println("JJController commentInsert1 M_NUMBER-> " + m_number);
+		System.out.println("JJController commentInsert1 B_NUMBER-> " + b_number);
+		int Common_bcd = 200;
+		int Common_mcd = 101;
+
+		board.setB_comm_group(b_number);
+		board.setM_number(m_number);
+		board.setCommon_bcd(Common_bcd);
+		board.setCommon_mcd(Common_mcd);
+		board.setB_content(comment);
+
+		js.jjAddComment(board);
+		
+		Board board2 = js.jsCallComment(board);
+		System.out.println("JJController after jsCallComment board2->" + board2);
+
+		return board2;
+	}
+    
+    //댓글 삭제
+    @RequestMapping("deleteComment1")
+    public String deleteComment(@RequestParam("Comm_number") int Comm_number,
+    							@RequestParam("bId")int bId	) {
+    	System.out.println("SHController deleteComment start...");
+    	// sh.deleteComment(Comm_number);
+    	js.jsDeleteComment(Comm_number);
+    	System.out.println("SHController deleteComment succes...");
+    	
+        return "redirect:detailBoard?b_number="+bId;
+    }
+	
 	
 	// 게시글 수정페이지
 	@GetMapping(value = "updateFormBoard")
@@ -94,6 +139,18 @@ public class JJController {
 		System.out.println("JJController updateFormBoard Start..."); 
 		Board board = js.detailBoard(pboard.getB_number());
 		
+//		System.out.println("JJController updateFormBoard 1 .board--->" + board);
+//		System.out.println("JJController updateFormBoard (Integer)session.getAttribute(m_number)--->" + (Integer)session.getAttribute("m_number"));
+//		System.out.println("JJController updateFormBoard 2 .board--->" + board);
+
+//		if(session.getAttribute("m_number")==null) { //로그인 x
+//			System.out.println("JJController updateFormBoard 비회원..");
+//			return "jm/jmLoginForm";
+//		} else { //로그인  o 
+//			Integer sessionMNumber = (Integer) session.getAttribute("m_number");
+//			Integer boardMNumber = board.getM_number();
+			
+//			if(sessionMNumber != null && sessionMNumber.equals(boardMNumber)) { //글을 쓴 본인이면 수정 가능
 				System.out.println("board.getB_title()--->" + board.getB_title());
 				System.out.println("board.getB_regdate()--->" + board.getB_regdate());
 				String b_regdate = "";
@@ -106,10 +163,14 @@ public class JJController {
 				
 				model.addAttribute("board", board);
 				return "jj/updateFormBoard";
-				
-
+//			} else {
+//				session.setAttribute("errorMessage", "본인 외에는 수정할 수 없습니다.");
+//				return "forward:communityBoard";
 			}
-
+			
+//		} 
+//	}
+	
 	// 게시글 수정 적용
 	@PostMapping(value = "updateBoard")
 	public String updateBoard(Board board, Model model) {
@@ -165,13 +226,61 @@ public class JJController {
 		return "forward:communityBoard";
 	}
 	
-	// 게시글 추천수 카운트
-	@RequestMapping(value = "hitCnt")
-	public String hitCnt(Board board) {
-		System.out.println("JJController HitCnt Start...");
-		int result = js.hitCnt(board.getB_number());
-		return "forward:communityBoard";
+	// 게시글 추천
+	@PostMapping(value = "recommends")
+	@ResponseBody
+	public ResponseEntity<?> recommend(@RequestBody Board board,  HttpSession session) {
+		
+		CreateRecommandResponse createRecommandResponse = new CreateRecommandResponse();
+		
+		System.out.println("JJController recommends board->"+board);
+
+		if (session.getAttribute("m_number") == null) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("로그인이 필요한 기능입니다.");
+		} else {
+			String result = js.recommendBoard(board.getB_number(), (int) session.getAttribute("m_number"));
+			// 추천수 조회 
+			int recommandCount = js.recommandCount(board.getB_number());
+			
+			
+			createRecommandResponse.setResult(result);
+			createRecommandResponse.setRecommandCount(recommandCount);
+			System.out.println("JJController recommend result->"+result);
+			System.out.println("JJController recommend recommandCount->"+recommandCount);
+			return ResponseEntity.ok(createRecommandResponse);
+		}
 	}
+	
+	@Data
+ 	static class CreateRecommandResponse {
+ 		private String result;
+ 		private int    recommandCount;
+ 	}
+	
+
+/*	
+	// 게시글 추천
+	@PostMapping(value = "recommends3")
+	@ResponseBody
+	public ResponseEntity<?> recommend3(@RequestBody Board board,  HttpSession session) {
+		
+		// int b_number = Integer.parseInt(str_b_number);
+		
+		System.out.println("JJController recommends board->"+board);
+
+		if (session.getAttribute("m_number") == null) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("로그인이 필요한 기능입니다.");
+		} else {
+			String result = js.recommendBoard(board.getB_number(), (int) session.getAttribute("m_number"));
+			// 추천수 조회 
+			int recommandCount = 0;
+			
+			
+			System.out.println("JJController recommend result->"+result);
+			return ResponseEntity.ok(result);
+		}
+	}
+*/
 	
 	// 게시글 신고
 	@RequestMapping(value = "jjReported")

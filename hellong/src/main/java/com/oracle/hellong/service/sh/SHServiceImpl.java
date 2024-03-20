@@ -142,6 +142,7 @@ public class SHServiceImpl implements SHService {
 			System.out.println("SHServiceImpl getPComments Start...");
 			System.out.println("SHServiceImpl getPComments board->>" + B_NUMBER);
 			List<Board> boardlist = qd.getPComments(B_NUMBER);
+			System.out.println("SHServiceImpl getPComments boardlist->"+boardlist);
 			return boardlist;
 		}
 //댓글삭제
@@ -364,6 +365,14 @@ public class SHServiceImpl implements SHService {
 	public Gym gymMapDetail(int gId) {
 		Gym gym = qd.gymMapDetail(gId);
 		return gym;
+	}
+	
+	@Override
+	public List<GymBoardFile> getAllBoardFiles() { //03-19 맵에 대표이미지 가져오기실험
+		List<GymBoardFile> boardFiles = qd.getAllBoardFiles();
+		System.out.println("SHServiceImpl getAllBoardFiles boardFiles->"+boardFiles);
+
+		return boardFiles;
 	}
 
 	

@@ -25,12 +25,12 @@ public class HSNoticeBoardDaoImpl implements HSNoticeBoardDao {
 	
 	// 공지글 리스트
 	@Override
-	public int totalNoticeBoard() {
+	public int totalNoticeBoard(Board board) {
 		int totNoticeBoardCnt = 0;
 		System.out.println("NoticeBoardDaoImpl start total...");
 			
 		try {
-			totNoticeBoardCnt = session.selectOne("com.oracle.hellong.BoardMapper.hsNoticeBoardTotal");
+			totNoticeBoardCnt = session.selectOne("com.oracle.hellong.BoardMapper.hsNoticeBoardTotal", board);
 			System.out.println("NoticeBoardDaoImpl totalNoticeBoard totNoticeBoardCnt->" +totNoticeBoardCnt);
 		} catch (Exception e) {
 			System.out.println("NoticeBoardDaoImpl totalNoticeBoard Exception->" +e.getMessage());
@@ -122,47 +122,7 @@ public class HSNoticeBoardDaoImpl implements HSNoticeBoardDao {
 			System.out.println("NoticeBoardDaoImpl delteNoticeBoard Exception ->" + e.getMessage());
 		}
 		return result;
-		/*
-		 * TransactionStatus txStatus = transactionManager.getTransaction(new
-		 * DefaultTransactionAttribute());
-		 * 
-		 * try { session.delete("hsDeleteScrap", b_number);
-		 * session.delete("hsDeleteNoticeBoard", b_number);
-		 * 
-		 * transactionManager.commit(txStatus);
-		 * System.out.println("NoticeBoardDaoImpl delteNoticeBoard result ->" + result);
-		 * } catch (Exception e) {
-		 * System.out.println("NoticeBoardDaoImpl delteNoticeBoard Exception ->" +
-		 * e.getMessage()); } return result;
-		 */
 	}
 
-	// 공지글 검색
-	@Override
-	public int condTotalNoticeBoard(Board board) {
-		int condTotalBoardCnt = 0;
-		System.out.println("NoticeBoardDaoImpl condTotalNoticeBoard start...");
-		
-		try {
-			condTotalBoardCnt = session.selectOne("hsCondTotalNoticeBoardCnt", board);
-			System.out.println("NoticeBoardDaoImpl condTotalNoticeBoard condTotalBoardCnt ->" + condTotalBoardCnt);
-		} catch (Exception e) {
-			System.out.println("NoticeBoardDaoImpl condTotalNoticeBoard Exception ->" + e.getMessage());
-		}
-		return condTotalBoardCnt;
-	}
-
-	@Override
-	public List<Board> searchNoticeBoard(Board board) {
-		List<Board> searchBoard = null;
-		System.out.println("NoticeBoardDaoImpl searchNoticeBoard start...");
-		
-		try {
-			searchBoard = session.selectList("hsSearchNoticeBoard", board);
-		} catch (Exception e) {
-			System.out.println("NoticeBoardDaoImpl searchNoticeBoard Exception ->" + e.getMessage());
-		}
-		return searchBoard;
-	}
 
 }

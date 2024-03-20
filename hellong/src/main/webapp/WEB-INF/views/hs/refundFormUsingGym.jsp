@@ -106,7 +106,7 @@
             success: function(response) {
                console.log(g_id + " & " + s_number + " & " + sd_number + " & " + m_number + " & " + refund_point + " & " + refund_criteria);
                alert("환불이 완료되었습니다.");
-               window.location.href = "hsMemberIndex?m_number=" + m_number;
+               window.location.href = "/Default";
                
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -114,8 +114,18 @@
             }
          });
       });
-
+      
    });
+   
+// 환불확인
+   function confirmRefund() {
+       if (confirm("환불하시겠습니까?")) {
+           // 확인 버튼을 눌렀을 때 처리할 로직을 여기에 작성합니다.
+           $("#sendParamsValues").submit(); // sendParamsValues 폼을 제출합니다.
+       } else {
+           // 취소 버튼을 눌렀을 때의 처리를 여기에 작성합니다. (옵션)
+       }
+   }
 </script>
 </head>
 <body>
@@ -194,7 +204,8 @@
                                 </div>
                                 <div class="button">
                                 <!-- <input type="submit" value="환불"> -->
-                                <button class="btn" type="submit" form="sendParamsValues">환불</button>
+                                <button class="btn" type="button" class="btn btn-outline-secondary"
+                                		onclick="confirmRefund()">환불</button>
                                 </div>
                                 </form>
                             </div> 
