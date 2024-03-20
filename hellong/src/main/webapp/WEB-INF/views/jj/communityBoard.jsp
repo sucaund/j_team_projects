@@ -29,7 +29,6 @@
 	</style>
 </head>
 <body>
-hello
 	<main id="main" class="main">
 		<section class="section container">
 			<div class="row align-items-top col-12" style="margin: 0 auto">
