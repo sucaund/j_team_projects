@@ -8,10 +8,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-	function confirmDelete(b_number, m_number) {
+	function confirmDelete(b_number) {
 	    if (confirm('삭제하시겠습니까?')) {
 	        // 확인을 눌렀을 때의 동작을 수행합니다.
-	        window.location.href = "hsDeleteNoticeBoard?b_number="+b_number+"&m_number="+m_number;
+	        window.location.href = "hsDeleteNoticeBoard?b_number="+b_number;
 	    } else {
 	        // 취소를 눌렀을 때의 동작을 수행합니다. (옵션)
 	    }
@@ -32,12 +32,12 @@
 		<div style="text-align:center">
 			<c:if test="${member.common_mcd == 30}">
 			    <button type="button" class="btn btn-outline-secondary" 
-			            onclick="location.href='hsUpdateFormNoticeBoard?b_number=${noticeBoard.b_number}&m_number=${member.m_number}'">수정</button>
+			            onclick="location.href='hsUpdateFormNoticeBoard?b_number=${noticeBoard.b_number}'">수정</button>
 			    <button type="button" class="btn btn-outline-secondary" 
-			            onclick="confirmDelete(${noticeBoard.b_number},${member.m_number})">삭제</button>
+			            onclick="confirmDelete(${noticeBoard.b_number})">삭제</button>
 			</c:if>
 			    <button type="button" class="btn btn-outline-secondary" 
-			            onclick="location.href='hsListNoticeBoard?m_number=${member.m_number}'">목록</button>
+			            onclick="location.href='hsListNoticeBoard'">목록</button>
 			</div>
 		</div>
 

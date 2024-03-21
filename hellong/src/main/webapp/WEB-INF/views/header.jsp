@@ -114,8 +114,9 @@
                                     </a>
                                     <ul class="inner-sub-category">
                                         <li><a href="/hsChargeFormPoint">포인트 충전</a></li>
-                                        <li><a href="/hsListUsePoint">결제내역</a></li>
-                                        <li><a href="/hsDetailUsingGym">이용내역</a></li>
+                                        <li><a href="/hsListChargePoint">충전내역</a></li>
+                                        <li><a href="/hsListUsePoint">사용내역</a></li>
+                                        <li><a href="/hsListRefundPoint">환불내역</a></li>
                                     </ul> 
                                 </li>
                                 <li>
@@ -179,8 +180,9 @@
                                         <a class="dd-menu collapsed" data-bs-toggle="collapse" data-bs-target="#submenu-1-4" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">포인트</a>
                                         <ul class="sub-menu collapse" id="submenu-1-4">
                                             <li class="nav-item"><a href="/hsChargeFormPoint">포인트 충전</a></li>
-                                            <li class="nav-item"><a href="/hsListUsePoint">결제내역</a></li>
-                                            <li class="nav-item"><a href="/hsDetailUsingGym">이용내역</a></li>            
+                                            <li class="nav-item"><a href="/hsListChargePoint">충전내역</a></li>
+                                            <li class="nav-item"><a href="/hsListUsePoint">사용내역</a></li>            
+                                            <li class="nav-item"><a href="/hsListRefundPoint">환불내역</a></li>            
                                         </ul>
                                     </li>
 
