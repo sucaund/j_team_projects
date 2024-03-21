@@ -42,7 +42,7 @@
 	
 		<thead  style="background-color: #5494e8; color: white;">
 		
-			<tr><th >번호</th><th>제목</th><th>아이디</th><th>수정일</th><th>조회수</th></tr>
+			<tr><th >번호</th><th>카테고리</th><th>제목</th><th>작성자</th><th>날짜</th><th>조회수</th></tr>
 				</thead>
 				
 				<c:choose>
@@ -57,6 +57,7 @@
 			
 		<c:forEach var="noticeBoard" items="${ListNoticeBoard }">
 			<tr><td>${num }</td>
+				<td>${noticeBoard.jjcategory }</td>
 				<td><a href="hsDetailNoticeBoard?b_number=${noticeBoard.b_number}&">${noticeBoard.b_title }</a></td>
 				<td>${noticeBoard.m_name}</td>
 				<td>${noticeBoard.b_update }
