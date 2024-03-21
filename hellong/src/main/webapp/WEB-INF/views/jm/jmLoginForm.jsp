@@ -94,13 +94,6 @@
     </div>
 </c:if> 
 <!--닫기: 로그인 안되어있을시(즉 정상 접근 시) c:if m_number == null -->
-
-
-    
-    <!-- ========================= scroll-top ========================= -->
-    <a href="/jmLoginForm" class="scroll-top" style="display: none;">
-        <i class="lni lni-chevron-up"></i>
-    </a>
-
-	</body>
+</body>
+<%@ include file="../footer.jsp"%>
 </html>

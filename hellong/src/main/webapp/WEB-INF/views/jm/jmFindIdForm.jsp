@@ -95,7 +95,7 @@
                             
                             <div class="button" id="view-sign" name="view-sign">
                                 <button class="btn" onclick="location.href='jmLoginForm' " style="margin-bottom: 10px;">로그인</button>
-                                <button class="btn" onclick="location.href='/' ">메인페이지로 이동</button>
+                                <button class="btn" onclick="location.href='/Default' ">메인페이지로 이동</button>
                             </div>
                             
                         </div> <!-- 인증 성공 시 나타나는 곳 -->
@@ -106,4 +106,5 @@
     </div>
     </c:if>
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

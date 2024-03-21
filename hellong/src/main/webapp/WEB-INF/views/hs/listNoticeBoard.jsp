@@ -22,7 +22,7 @@
 <body>
 		<main id="main" class="main">
 		<section class="section container">
-			<div class="row align-items-top col-8" style="margin: 0 auto">
+			<div class="row align-items-top col-12" style="margin: 0 auto">
 				<% if (request.getAttribute("errorMessage") != null) { %>
 				    <script>
 				        alert('<%= request.getAttribute("errorMessage") %>');
@@ -58,7 +58,7 @@
 		<c:forEach var="noticeBoard" items="${ListNoticeBoard }">
 			<tr><td>${num }</td>
 				<td>${noticeBoard.jjcategory }</td>
-				<td><a href="hsDetailNoticeBoard?b_number=${noticeBoard.b_number}&">${noticeBoard.b_title }</a></td>
+				<td style="text-align:left"><a href="hsDetailNoticeBoard?b_number=${noticeBoard.b_number}&">${noticeBoard.b_title }</a></td>
 				<td>${noticeBoard.m_name}</td>
 				<td>${noticeBoard.b_update }
 				</td><td>${noticeBoard.b_readcount }</td></tr>
@@ -78,8 +78,12 @@
 	<div style="display: grid; place-items: center;">
 		<form action="hsListNoticeBoard" id="formCateSearch" method="get">
 			<select name="search">
-				<option value="b_title" <c:if test ="${param.search == 'b_title'}">selected</c:if>>제목조회</option>
-				<option value="b_content" <c:if test ="${param.search == 'b_content'}">selected</c:if>>내용조회</option>
+				<option value="b_title" 
+					<c:if test ="${param.search == 'b_title'}">
+						selected</c:if>>제목조회</option>
+				<option value="b_content" 
+					<c:if test ="${param.search == 'b_content'}">
+						selected</c:if>>내용조회</option>
 			</select> 
 			<input type="text" name="keyword" value="${board.keyword}" placeholder="keyword를 입력하세요">
 			<button type="submit">검색</button>
@@ -112,4 +116,5 @@
 	
 	
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

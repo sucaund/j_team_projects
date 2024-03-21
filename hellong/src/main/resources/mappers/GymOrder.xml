@@ -105,7 +105,7 @@
 			   		 WHERE rn = 1) a
 		WHERE g.g_id = a.g_id
 			AND g.g_id = go.g_id
-	    	AND go.m_number = 5
+	    	AND go.m_number =  #{m_number}
 		     
 <!-- SELECT DISTINCT g.g_id g_id, g.g_name g_name, g.g_address g_address, 
 					go.m_number m_number, a.gbf_storedfilename gbf_storedfilename,

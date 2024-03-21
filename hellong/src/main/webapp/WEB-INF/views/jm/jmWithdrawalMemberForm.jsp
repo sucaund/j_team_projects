@@ -82,4 +82,5 @@
       </c:if> 
 
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

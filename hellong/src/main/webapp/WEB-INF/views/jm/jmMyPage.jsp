@@ -63,7 +63,7 @@
 
                                     <c:if test="${g_id==0}">
                                     <h4>
-                                        <a href="blog-single-sidebar.html">현재 이용중인 헬스장이 없습니다.</a>
+                                        <a>현재 이용중인 헬스장이 없습니다.</a>
                                     </h4>
                                     <p>헬롱에 등록된 다양한 헬스장을 만나보세요.</p>
                                     <div class="button">
@@ -73,7 +73,7 @@
 
                                     <c:if test="${g_id>0}">
                                         <h4>
-                                            <a href="blog-single-sidebar.html">현재 헬스장: &nbsp; &nbsp; <a style="color: #0167F3;">
+                                            <a>현재 헬스장: &nbsp; &nbsp; <a style="color: #0167F3;">
                                                 ${gym.g_name}
                                         </a></a>
                                         </h4>
@@ -81,10 +81,10 @@
 
                                         ${gymOrder.go_enddate}까지
                                         <!-- 이용종료일 -->
-
                                         <p>${gym.g_address}</p>
                                         <div class="button">
                                             <a href="/gymPostDetail?g_id=${g_id}" class="btn">자세히 보기</a>
+                                            <a href="/hsDetailUsingGym" class="btn">이용내역</a>
                                         </div>
 
                                     </c:if>
@@ -96,7 +96,7 @@
                                 <div class="blog-content">
                                     결제
                                     <h4>
-                                        <a href="blog-single-sidebar.html">현재 포인트: &nbsp; &nbsp; <a style="color: #0167F3;">${member.m_currpoint}원</a>
+                                        <a>현재 포인트: &nbsp; &nbsp; <a style="color: #0167F3;">${member.m_currpoint}원</a>
                                         </a>
                                     </h4>
                                     <p>이용중인 서비스 가격: ${gymOrder.use_point}</p>
@@ -112,7 +112,7 @@
                                 <div class="blog-content">
                                     <a class="category" href="/jmCustomerCenter">고객센터</a>
                                     <h4>
-                                        <a href="blog-single-sidebar.html" 
+                                        <a href="/authenticate" 
                                         style="text-decoration: underline; color: #03E041;">일대일 문의하기</a>
                                         <br>
                                         <br>
@@ -136,4 +136,5 @@
     </section>
 
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

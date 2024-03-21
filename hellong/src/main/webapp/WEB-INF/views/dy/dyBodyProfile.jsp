@@ -264,4 +264,5 @@ body, html {
 	</div>
 
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

@@ -693,13 +693,16 @@
 	
 	<!-- 공지글 작성 -->
 	<insert id="hsCreateNoticeBoard" parameterType="Board">
-		INSERT INTO board VALUES (b_number_seq.nextval, #{m_number}, 200, 110, #{b_title}, #{b_content}, 0, sysdate, 
-									sysdate, 0, 0, 'image', null, null, null)
+		INSERT INTO board VALUES (b_number_seq.nextval, #{m_number}, 
+									200, 110, #{b_title}, #{b_content}, 
+									0, sysdate, sysdate, 0, 0, 
+									null, null, null, null)
 	</insert>
 
 	<!-- 공지글 수정 -->		
 	<update id="hsUpdateNoticeBoard" parameterType="Board">
-		UPDATE board SET b_title=#{b_title}, b_content=#{b_content}, b_update=sysdate
+		UPDATE board SET b_title=#{b_title}, 
+						b_content=#{b_content}, b_update=sysdate
 		WHERE b_number=#{b_number}
 	</update>
 	

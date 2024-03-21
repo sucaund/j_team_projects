@@ -68,7 +68,7 @@
   
 			<div class="button">
 			  <a href="/jmLoginForm" class="btn">로그인</a>
-			  <a href="/" class="btn">메인페이지로 이동</a>
+			  <a href="/Default" class="btn">메인페이지로 이동</a>
 			</div>
 		  </div>
 		  </div>
@@ -78,4 +78,5 @@
   </div>
   </c:if> 
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

@@ -210,4 +210,5 @@ pageEncoding="UTF-8"%> <%@ include file="../header.jsp"%>
           </div>
           </c:if>
   </body>
+<%@ include file="../footer.jsp"%>
 </html>

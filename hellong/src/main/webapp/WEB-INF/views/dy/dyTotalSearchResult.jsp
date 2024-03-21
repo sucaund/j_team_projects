@@ -82,7 +82,7 @@ main {
 		</section>
 	</main>
 
-	<!-- Bootstrap JS 추가 -->
 
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

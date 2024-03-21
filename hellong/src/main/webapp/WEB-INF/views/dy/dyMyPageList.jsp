@@ -95,4 +95,5 @@ body {
 			</tbody>
 		</table>
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

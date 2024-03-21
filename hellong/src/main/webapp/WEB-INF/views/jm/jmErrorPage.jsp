@@ -17,7 +17,7 @@
 				<h2>알 수 없는 에러가 발생했습니다.</h2>
 				<div class="button">
 				  <a class="btn" onclick="history.back();" style="background-color: #8258FA;">뒤로 가기</a>
-				  <a href="/" class="btn">메인페이지로 이동</a>
+				  <a href="/Default" class="btn">메인페이지로 이동</a>
 				</div>
 			  </div>
 			</div>
@@ -25,4 +25,5 @@
 		</div>
 	  </div>
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

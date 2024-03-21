@@ -95,7 +95,7 @@ form#updateForm input[type="submit"]:hover {
 						<h1 class="page-title">게시글 수정</h1>
 					</div>
 					<ul class="breadcrumb-nav">
-						<li><a href="index.html"><i class="lni lni-home"></i>
+						<li><a href="/Default"><i class="lni lni-home"></i>
 								Home</a></li>
 						<li><a href="listBodyProfile">BodyProfile</a></li>
 						<li>게시글 수정</li>
@@ -130,4 +130,5 @@ form#updateForm input[type="submit"]:hover {
         </form>
     </div>
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

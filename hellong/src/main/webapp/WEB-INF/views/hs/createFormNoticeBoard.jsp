@@ -13,20 +13,17 @@
 <script>
 
     function validateForm() {
-        // 제목과 내용 입력란의 값을 가져옴
         var title = document.getElementsByName("b_title")[0].value;
         var content = document.getElementsByName("b_content")[0].value;
 
-        // 제목 또는 내용이 비어있는지 확인 
         if (title == ""  ) {
-            // 비어있을 경우 alert 표시
             alert("제목을 입력해주세요.");
-            return false; // 폼 제출 취소
+            return false;
         } else if (content == "" ) {
         	alert("내용을 입력해주세요.");
         	return false;
         } 
-        return true; // 제출 가능한 상태
+        return true;
     }
 </script>
 
@@ -87,4 +84,5 @@
 	   
 	   
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

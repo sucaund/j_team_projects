@@ -92,7 +92,7 @@ form#writeForm input[type=submit]:hover, form#writeForm input[type=button]:hover
 						<h1 class="page-title">게시글 작성</h1>
 					</div>
 					<ul class="breadcrumb-nav">
-						<li><a href="index.html"><i class="lni lni-home"></i>
+						<li><a href="/Default"><i class="lni lni-home"></i>
 								Home</a></li>
 						<li><a href="listBodyProfile">BodyProfile</a></li>
 						<li>글쓰기</li>
@@ -135,9 +135,7 @@ form#writeForm input[type=submit]:hover, form#writeForm input[type=button]:hover
 			</div>
 		</form>
 	</div>
-	<footer>
-		<p>2024 Hellong. All rights reserved.</p>
-	</footer>
 	<script src="<%=request.getContextPath()%>/js/writeFormBodyProfile.js"></script>
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

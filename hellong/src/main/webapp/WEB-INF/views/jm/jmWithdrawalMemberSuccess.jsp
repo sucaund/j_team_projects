@@ -40,7 +40,7 @@
                     <h3>회원 탈퇴가 완료되었습니다.</h3>
                   </div>
                   <div class="button">
-					          <a href="/" class="btn">메인페이지로 이동</a>
+					          <a href="/Default" class="btn">메인페이지로 이동</a>
                   </div>
                 </div>
 				</div>
@@ -49,4 +49,5 @@
           </div>
         </div>
 </body>
+<%@ include file="../footer.jsp"%>
 </html>

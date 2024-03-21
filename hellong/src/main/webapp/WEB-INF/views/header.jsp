@@ -109,6 +109,7 @@
                                 <li><a href="/listBodyProfile">바디프로필</a></li>
                                 <li><a href="/jmMyPage">마이페이지</a></li>
                                 <li><a href="/dyMyPagelist">작성글</a></li>
+                                <li><a href="/hsDetailUsingGym">이용내역</a></li>
                                 <li>
                                     <a>포인트 <i class="lni lni-chevron-right"></i>
                                     </a>
@@ -172,7 +173,8 @@
                                         <ul class="sub-menu collapse" id="submenu-1-4">
                                             <li class="nav-item"><a href="/jmMyPage">마이페이지</a></li>
                                             <li class="nav-item"><a href="/dyMyPagelist">작성글</a></li>
-                                            <li class="nav-item"><a href="/jmUpdateMemberForm">개인정보수정</a></li>            
+                                            <li class="nav-item"><a href="/jmUpdateMemberForm">개인정보수정</a></li>  
+                                            <li class="nav-item"><a href="/hsDetailUsingGym">이용내역</a></li>     
                                         </ul>
                                     </li>
 
