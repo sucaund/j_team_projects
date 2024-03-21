@@ -249,15 +249,17 @@
 				                    <!-- 작성일자 표시 -->
 				                    <span class="text-gray-500 ml-2"><fmt:formatDate value="${rv.review_regdate}" pattern="yyyy-MM-dd HH:mm"/></span>         
 				                </h5>
-				                <p class="text-gray-700">${rv.review_content}</p>
+				                <pre class="text-gray-700">${rv.review_content}</pre>
 				            </div>
 				            <input type="hidden" value="${rv.go_number}">
-				                         <!-- 리뷰 답글 버튼 -->
+				            
+				            <!-- 리뷰 답글 버튼 -->
 							<c:if test="${gymManagerSelect ne null}">              
 							    <button class="ml-auto bg-gray-200 text-gray-700 py-2 px-4 rounded-lg reply-review-btn">
 							        <i class="fas fa-reply"></i> 답글 달기
 							    </button>	
-							</c:if>		       
+							</c:if>	
+								       
 						</div>
 				        
 				
@@ -271,7 +273,7 @@
 					                    <i class="fas fa-check-circle text-blue-500"></i>
 					                    <span class="text-gray-500 ml-2"><fmt:formatDate value="${rv.review_comment_date}" pattern="yyyy-MM-dd HH:mm"/></span>
 					                </h5>
-					                <p class="text-gray-700">${rv.review_comment}</p>
+					                <pre class="text-gray-700">${rv.review_comment}</pre>
 					            </div>
 					        </div>
 					    </c:if>

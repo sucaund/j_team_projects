@@ -215,7 +215,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                     <ul class="breadcrumb-nav">
                         <li><a href="index.html"><i class="lni lni-home"></i> Home</a></li>
                         <li><a href="javascript:void(0)">시설관리 Home</a></li>
-                        <li>헬스장 이름</li>
+                        <li>아레나 휘트니스 창동본점</li>
                     </ul>
                 </div>
             </div>
