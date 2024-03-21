@@ -38,11 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-<<<<<<< HEAD
-public class HSController {
-=======
 public class HSController { //
->>>>>>> 8426dab887e1bc80c7fd1525e8e842a683a933e2
 
 	private final JMService jm;
 	private final HSService hs;
