@@ -112,8 +112,6 @@
 		DELETE FROM Recomm_Check 
 		WHERE b_number = #{b_number}
 	</delete>
-
-<!-- ============================ 재준 mappers 끝 ============================ -->
 	
 	<!-- 신고여부 쿼리 -->
 	<update id="jjUpReported" parameterType="int">
@@ -297,6 +295,12 @@
 
 <!-- ============================ 재준 mappers 끝 ============================ -->
 
+	<select id="NumChangeNum" parameterType="string" resultType="int">
+		SELECT M_NUMBER
+		FROM MEMBER
+		WHERE M_ID = #{member_id}
+	</select>
+
 	<select id="shboardTotal" parameterType="int" resultType="int">
 		SELECT
 		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200 AND COMMON_MCD = 120
@@ -307,14 +311,6 @@
 		* FROM BOARD where B_NUMBER = #{b_NUMBER}
 	</select>
 
-
-
-	<select id="NumChangeNum" parameterType="string"
-		resultType="int">
-		SELECT M_NUMBER
-		FROM MEMBER
-		WHERE M_ID = #{member_id}
-	</select>
 	
 	<select id="countCommentsByBNumber" parameterType="int"
 		resultType="int">
