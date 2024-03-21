@@ -31,7 +31,7 @@
 	
 	<style>
 
-	  .header {
+/* 	  .header {
 	    position: fixed; 
 	    top: 0; 
 	    width: 100%; 
@@ -39,7 +39,7 @@
 	    background-color: #fff; 
 	    padding: 10px 0; 
 	    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-	  }
+	  } */
 	  /* 헤더 아래 컨텐츠 패딩 설정 */
 	  .bo {
 	    padding-top: 200px; /* 고정된 헤더의 높이만큼 추가 */

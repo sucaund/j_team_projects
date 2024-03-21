@@ -172,13 +172,15 @@
                                 <li><a href="/listBodyProfile">바디프로필</a></li>
                                 <li><a href="/jmMyPage">마이페이지</a></li>
                                 <li><a href="/dyMyPagelist">작성글</a></li>
+                                <li><a href="/hsDetailUsingGym">이용내역</a></li>
                                 <li>
                                     <a>포인트 <i class="lni lni-chevron-right"></i>
                                     </a>
                                     <ul class="inner-sub-category">
                                         <li><a href="/hsChargeFormPoint">포인트 충전</a></li>
-                                        <li><a href="/hsListUsePoint">결제내역</a></li>
-                                        <li><a href="/hsDetailUsingGym">이용내역</a></li>
+                                        <li><a href="/hsListChargePoint">충전내역</a></li>
+                                        <li><a href="/hsListUsePoint">사용내역</a></li>
+                                        <li><a href="/hsListRefundPoint">환불내역</a></li>
                                     </ul> 
                                 </li>
                                 <li>
@@ -218,13 +220,13 @@
                             <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                                 <ul id="nav" class="navbar-nav ms-auto">
                                     <li class="nav-item">
-                                        <a href="index.html"  aria-label="Toggle navigation">홈</a>
+                                        <a href="/Default"  aria-label="Toggle navigation">홈</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="/GymPostList" aria-label="Toggle navigation">헬스장(지점찾기)</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#submenu-1-3" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">커뮤니티</a>
+                                        <a class="dd-menu collapsed" data-bs-toggle="collapse" data-bs-target="#submenu-1-3" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">커뮤니티</a>
                                         <ul class="sub-menu collapse" id="submenu-1-3">
                                             <li class="nav-item"><a href="/communityBoard">자유게시판</a></li>
                                             <li class="nav-item"><a href="/listBodyProfile">바디프로필</a></li>
@@ -233,13 +235,12 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#submenu-1-4" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">내 정보</a>
+                                        <a class="dd-menu collapsed" data-bs-toggle="collapse" data-bs-target="#submenu-1-4" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">내 정보</a>
                                         <ul class="sub-menu collapse" id="submenu-1-4">
                                             <li class="nav-item"><a href="/jmMyPage">마이페이지</a></li>
-                                            <li class="nav-item"><a href="blog-grid-sidebar.html">작성글</a></li>
-                                            <li class="nav-item"><a href="https://demo.graygrids.com/themes/shopgrids/blog-single-sidebar.html">결제</a></li>
+                                            <li class="nav-item"><a href="/dyMyPagelist">작성글</a></li>
                                             <li class="nav-item"><a href="/jmUpdateMemberForm">개인정보수정</a></li>
-                                            
+                                            <li class="nav-item"><a href="/hsDetailUsingGym">이용내역</a></li>  
                                         </ul>
                                     </li>
 
@@ -247,8 +248,9 @@
                                         <a class="dd-menu collapsed" data-bs-toggle="collapse" data-bs-target="#submenu-1-4" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">포인트</a>
                                         <ul class="sub-menu collapse" id="submenu-1-4">
                                             <li class="nav-item"><a href="/hsChargeFormPoint">포인트 충전</a></li>
-                                            <li class="nav-item"><a href="/hsListUsePoint">결제내역</a></li>
-                                            <li class="nav-item"><a href="/hsDetailUsingGym">이용내역</a></li>            
+                                            <li class="nav-item"><a href="/hsListChargePoint">충전내역</a></li>
+                                            <li class="nav-item"><a href="/hsListUsePoint">사용내역</a></li>            
+                                            <li class="nav-item"><a href="/hsListRefundPoint">환불내역</a></li>                  
                                         </ul>
                                     </li>
 
@@ -304,17 +306,6 @@
 
 
 
-
-
-    <!-- ========================= JS here ========================= -->
-
-<!--     <script src="assets/js/bootstrap.min.js"></script>
-
-    <script src="assets/js/tiny-slider.js"></script>
-
-    <script src="assets/js/glightbox.min.js"></script>
-
-    <script src="assets/js/main.js"></script>  --> 
 
 </body>
 

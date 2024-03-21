@@ -13,7 +13,7 @@
 					    b.gb_title,
 					    g.g_address,
 					    COALESCE(AVG(r.review_star), 0) AS avg_review_star,
-					    COUNT(r.review_star) / 4 AS count_review_star, 
+					    COUNT(r.review_star)/2  AS count_review_star, 
 					    COALESCE(MIN(s.s_price), 0) AS min_s_price,
 					    gbff.gbf_storedfilename
 					FROM 
@@ -79,7 +79,7 @@
 					    b.gb_title,
 					    g.g_address,
 					    COALESCE(AVG(r.review_star), 0) AS avg_review_star,
-					    COUNT(r.review_star) / 4 AS count_review_star, 
+					    COUNT(r.review_star)/2  AS count_review_star, 
 					    COALESCE(MIN(s.s_price), 0) AS min_s_price,
 					    gbff.gbf_storedfilename
 					FROM 
