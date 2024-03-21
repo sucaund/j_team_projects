@@ -46,10 +46,6 @@ public class HSController { //
 	@Autowired
 	private PlatformTransactionManager transactionManager;
 
-//	 @GetMapping()
-//		public void hsHello() { //이름 규칙 권장
-//			
-//		}
 
 	/* 로그인 임시구현 */
 
