@@ -525,18 +525,4 @@ public class JMController {
 	}
 
 
-//
-//	@ResponseBody
-//	@RequestMapping(value = "transactionInsertUpdate")
-//	public String transactionInsertUpdate(Emp emp, Model model) {
-//		System.out.println("EmpController transactionInsertUpdate Start...");
-//		// member Insert 성공 과 실패
-//		int returnMember = es.transactionInsertUpdate();
-//		System.out.println("EmpController transactionInsertUpdate returnMember=>" + returnMember);
-//		String returnMemberString = String.valueOf(returnMember);
-//
-//		return returnMemberString;
-//
-//	}
-
 }

@@ -25,7 +25,6 @@
     	var authCheck = 0;
     	var emailCheck=0;
     	var mailRegCheck=0;
-		var addressCheck=0;
 
     	
     	 	function checkId() { /* 아이디 : 정규식뿐이 아닌 중복처리 위해 컨트롤러에 */
@@ -208,20 +207,6 @@
 	 
 /*주소*/
 
-function checkAddress() { //주소가 입력되어야 가입창 활성화되게
-		var inputed = $('#m_address').val();
-		$.ajax({
-		success: function() {
-			if(inputed == null) {
-				addressCheck = 0;
-			}
-			else if(inputed != null) {
-				addressCheck = 1;
-			}
-		}
-		})
-	}
-
     function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -256,10 +241,9 @@ function checkAddress() { //주소가 입력되어야 가입창 활성화되게
     		console.log('phoneCheck'+phoneCheck);
     		console.log('emailCheck'+emailCheck);
 			console.log('mailRegCheck'+mailRegCheck);
-			console.log('addressCheck'+addressCheck);
     		   
     		   if( idCheck == 1 && pwRegCheck == 1  && pwSameCheck == 1 && phoneCheck==1 && emailCheck==1 &&
-				mailRegCheck==1&& addressCheck==1) {
+				mailRegCheck==1) {
     		      $("#signupbtn").prop("disabled", false);   
 				  $("#signupbtn").css("background-color", "#0D6CF9");
     		   }

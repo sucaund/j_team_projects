@@ -131,6 +131,20 @@
                     autocomplete='off' required="required">
                             </div>
 
+                             <!-- 주소-->
+			                <div class="form-group input-group">
+                                <label for="reg-email-check">주소</label>
+                                <input type="text"
+					class="form-control" id="m_address" name="m_address" placeholder="주소"
+					autocomplete='off' required="required">
+								<input type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()" value="주소 찾기" style="margin-top: 10px; margin-bottom: 10px;">
+
+								<input type="text"
+					class="form-control" id="sample6_postcode" placeholder="우편번호"
+					autocomplete='off'>
+
+                            </div>
+
                             <!-- 이메일-->
 			                <div class="form-group input-group">
                                 <label for="reg-email">이메일</label>
@@ -154,20 +168,6 @@
 					class="form-control" id="input_mail_number" placeholder="이메일로 인증번호가 전송되었습니다."  name="input_mail_number"
 					autocomplete='off' required="required">
                     <button type="button" class="btn btn-primary" id="confirmMailBtn" name="confirmMailBtn" onclick="confirmMailNumber(), activateSignUpBtn()">인증</button>
-                            </div>
-
-                            <!-- 주소-->
-			                <div class="form-group input-group">
-                                <label for="reg-email-check">주소</label>
-                                <input type="text"
-					class="form-control" id="m_address" name="m_address" placeholder="주소" oninput="checkAddress(), activateSignUpBtn()"
-					autocomplete='off' required="required">
-								<input type="button" class="btn btn-primary" onclick="sample6_execDaumPostcode()" value="주소 찾기" style="margin-top: 10px; margin-bottom: 10px;">
-
-								<input type="text"
-					class="form-control" id="sample6_postcode" placeholder="우편번호"
-					autocomplete='off'>
-
                             </div>
                             
                             <div class="button">
