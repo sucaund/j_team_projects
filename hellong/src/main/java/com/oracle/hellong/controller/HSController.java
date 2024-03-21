@@ -266,16 +266,17 @@ public class HSController { //
 		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
+			member1.setM_number(member.getM_number());
 			
 			// 포인트 충전내역 조회
-			int totalListPointCharge = hs.totalListPointCharge(member.getM_number());
+			int totalListPointCharge = hs.totalListPointCharge(member1.getM_number());
 			System.out.println("hsController hsListChargePoint totalListPointCharge ->" + totalListPointCharge);
 
-			HSPaging page = new HSPaging(totalListPointCharge, member.getCurrentPage());
-			member.setStart(page.getStart());
-			member.setEnd(page.getEnd());
+			HSPaging page = new HSPaging(totalListPointCharge, member1.getCurrentPage());
+			member1.setStart(page.getStart());
+			member1.setEnd(page.getEnd());
 
-			List<PointCharge> listPointCharge = hs.listPointCharge(member);
+			List<PointCharge> listPointCharge = hs.listPointCharge(member1);
 			System.out.println("hsController hsListPointCharge listPointCharge.size() ->" + listPointCharge.size());
 
 			model.addAttribute("memberData", member);
@@ -292,22 +293,23 @@ public class HSController { //
 
 	// 포인트 사용내역
 	@RequestMapping(value = "hsListUsePoint")
-	public String hsListBuyPoint(Board board, Model model, HttpSession session) {
+	public String hsListBuyPoint(Member member1, Model model, HttpSession session) {
 
 		System.out.println("hsController hsListBuyPoint start...");
 
 		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
+			member1.setM_number(member.getM_number());
 
-			int totalListPointDeal = hs.totalListGymOrderDeal(board.getM_number());
+			int totalListPointDeal = hs.totalListGymOrderDeal(member1.getM_number());
 			System.out.println("hsController hsListPoint totalListPointDeal ->" + totalListPointDeal);
 
-			HSPaging page = new HSPaging(totalListPointDeal, board.getCurrentPage());
-			board.setStart(page.getStart());
-			board.setEnd(page.getEnd());
+			HSPaging page = new HSPaging(totalListPointDeal, member1.getCurrentPage());
+			member1.setStart(page.getStart());
+			member1.setEnd(page.getEnd());
 
-			List<GymOrder> listGymOrderDeal = hs.listGymOrderDeal(member);
+			List<GymOrder> listGymOrderDeal = hs.listGymOrderDeal(member1);
 			System.out.println("hsController hsListPointCharge listPointCharge.size() ->" + listGymOrderDeal.size());
 			System.out.println("DealTest Controller: " + listGymOrderDeal);
 
@@ -326,22 +328,23 @@ public class HSController { //
 
 	// 포인트 환불내역
 	@RequestMapping(value = "hsListRefundPoint")
-	public String hsListRefundPoint(Member memebr1, Model model, HttpSession session) {
+	public String hsListRefundPoint(Member member1, Model model, HttpSession session) {
 
 		System.out.println("hsController hsListRefundPoint start...");
 
 		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
-
-			int totalListPointRefund = hs.totalListGymOrderRefund(memebr1.getM_number());
+			member1.setM_number(member.getM_number());
+			
+			int totalListPointRefund = hs.totalListGymOrderRefund(member1.getM_number());
 			System.out.println("hsController hsListPoint totalListPointRefund ->" + totalListPointRefund);
 
-			HSPaging page = new HSPaging(totalListPointRefund, memebr1.getCurrentPage());
-			memebr1.setStart(page.getStart());
-			memebr1.setEnd(page.getEnd());
+			HSPaging page = new HSPaging(totalListPointRefund, member1.getCurrentPage());
+			member1.setStart(page.getStart());
+			member1.setEnd(page.getEnd());
 
-			List<GymOrder> listGymOrderRefund = hs.listGymOrderRefund(memebr1);
+			List<GymOrder> listGymOrderRefund = hs.listGymOrderRefund(member1);
 			System.out.println("hsController hsListPointCharge listPointCharge.size() ->" + listGymOrderRefund.size());
 
 			model.addAttribute("memberData", member);
