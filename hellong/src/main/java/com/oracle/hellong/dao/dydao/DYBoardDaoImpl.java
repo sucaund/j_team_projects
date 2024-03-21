@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Common;
@@ -94,9 +95,11 @@ public class DYBoardDaoImpl implements DYBoardDao {
 	@Override
 	public int deleteBodyProfile(int b_number) {
 		System.out.println("DYBoardDaoImpl delete Start...");
+		
 		int result = 0;
 		System.out.println("DYBoardDaoImpl delete b_num -> " + b_number);
 		try {
+			
 			result = session.delete("dyDeleteBodyProfile", b_number);
 			System.out.println("dyDaoImpl delete result->" + result);
 		} catch (Exception e) {
@@ -207,6 +210,20 @@ public class DYBoardDaoImpl implements DYBoardDao {
 	public Board callComment(Board board) {
 		Board board2 = session.selectOne("dyCallComment", board);
 		return board2;
+	}
+
+	@Override
+	public int deleteReported(int b_number) {
+		int deleteReported = 0;
+		deleteReported = session.delete("dyDeleteReported", b_number);
+		return 0;
+	}
+
+	@Override
+	public int deleteRecomm(int b_number) {
+		int deleteRecomm = 0;
+		deleteRecomm = session.delete("dyDeleteRecomm", b_number);
+		return deleteRecomm;
 	}
 
 

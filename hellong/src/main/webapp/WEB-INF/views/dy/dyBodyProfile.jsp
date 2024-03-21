@@ -46,6 +46,7 @@ body, html {
 	border-radius: 8px;
 	overflow: hidden;
 	transition: transform .3s ease;
+	
 }
 
 .product-image img, .img-container img {
@@ -76,10 +77,14 @@ body, html {
 	color: #333;
 }
 
+
 .product-info .review {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+}
+.review3 {
+	color: #0167F3;
 }
 
 .product-info .price {
@@ -132,6 +137,8 @@ body, html {
 
 .img-container img {
 	height: auto; /* 이미지의 높이를 자동으로 설정하여 비율 유지 */
+	max-height: 200px;
+	min-height: 200px;
 	max-width: 100%; /* 이미지의 최대 너비를 100%로 설정해 넘치지 않도록 */
 	object-fit: cover; /* 이미지 비율을 유지하면서 컨테이너를 꽉 채움 */
 }
@@ -189,6 +196,10 @@ body, html {
 							<ul class="review">
 								<li><span><i class="bi bi-hand-thumbs-up-fill"></i>조회수
 										${board.b_readcount}</span></li>
+							</ul>
+							<ul class="review">
+								<li><span><i class="bi bi-hand-thumbs-up-fill "></i>
+										${board.m_name}</span1></li>
 							</ul>
 						</div>
 					</div>

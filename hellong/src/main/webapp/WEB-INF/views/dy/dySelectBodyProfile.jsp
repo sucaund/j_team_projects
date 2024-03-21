@@ -90,7 +90,7 @@
 <body>
 
 	<div class="breadcrumbs">
-		<div class="container">
+		<div class="container2">
 			<div class="row align-items-center">
 				<div class="col-lg-6 col-md-6 col-12">
 					<div class="breadcrumbs-content">
@@ -112,10 +112,9 @@
 
 	<div class="container1">
 		<div class="body-profile-details">
-			<!-- 여기에 게시글 내용 표시 -->
+
 			<h2>${board.b_title }</h2>
-			<!--  여기에 사진첨부 ${board.b_images}-->
-			<!-- 이미지를 여러 개 첨부할 수 있다고 가정하고 이미지 리스트를 반복하여 표시 -->
+
 			<div id="carouselExampleIndicators" class="carousel slide"
 				data-bs-ride="carousel">
 				<!-- Indicators 동적 생성 -->
@@ -135,7 +134,7 @@
 						<div class="carousel-item ${status.first ? 'active' : ''}">
 							<img
 								src="<%=request.getContextPath()%>/upload/${file.bf_savedName}"
-								class="d-block w-100" alt="...">
+								class="d-block w-100">
 						</div>
 					</c:forEach>
 				</div>
@@ -234,7 +233,7 @@
 										<span style="font-size: 12px; color: #757575;">${CommList.b_regdate}</span>
 										<div>
 											<a
-												href="deleteComment1?Comm_number=${CommList.b_number}&bId=${board.b_number}"
+												href="deleteComment2?Comm_number=${CommList.b_number}&bId=${board.b_number}"
 												onclick="return confirm('댓글을 삭제하시겠습니까?');">삭제</a>
 										</div>
 									</div>
@@ -261,14 +260,16 @@
 					수정</button>
 			</c:if>
 
-			<c:if test="${board.m_number != sessionScope.m_number}">
-				<button type="button" class="btn btn-outline-dark" disabled>게시글
-					삭제</button>
-			</c:if>
-			<c:if test="${board.m_number == sessionScope.m_number}">
-				<button type="button" class="btn btn-outline-dark"
-					data-b_number="${board.b_number}"
-					onclick="return confirmDeletion(this);">게시글 삭제</button>
+			<c:if test="${board.b_isreported != 1}">
+				<c:if test="${board.m_number != sessionScope.m_number}">
+					<button type="button" class="btn btn-outline-dark" disabled>게시글
+						삭제</button>
+				</c:if>
+				<c:if test="${board.m_number == sessionScope.m_number}">
+					<button type="button" class="btn btn-outline-dark"
+						data-b_number="${board.b_number}"
+						onclick="return confirmDeletion(this);">게시글 삭제</button>
+				</c:if>
 			</c:if>
 		</div>
 	</div>

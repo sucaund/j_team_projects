@@ -68,20 +68,20 @@
                             <div class="title">
                                 <h3>탈퇴 전 비밀번호를 입력해주세요.</h3>
                             </div>
-
-			                <div class="form-group input-group">
-                                <label for="reg-pw">비밀번호</label>
-                                <input type="password"
+							<form action="jmWithdrawalMemberPwCheck" method="post" name="frm">
+			                	<div class="form-group input-group">
+                               		 <label for="reg-pw">비밀번호</label>
+                                	<input type="password"
 					class="form-control" id="m_pw" placeholder="8~16자리의 영문자와 숫자"  name="m_pw"
                     autocomplete='off' required="required">
-					        </div>
-							<form action="jmUpdateMemberForm" method="post" name="frm">
-                            <button type="submit" class="btn btn-primary">탈퇴하지 않겠습니다</button>
-							</form>
+					       		 </div>
+					       		  <div class="button">
+                            	<button class="btn btn-primary"
+                            	onclick="location.href = '/jmMyPage'">탈퇴하지 않겠습니다</button>
                             &nbsp; &nbsp;
-							<form action="jmWithdrawalMemberPwCheck" method="post" name="frm">
                             	<button type="submit" class="btn btn-primary" 
                             style="border: 2px solid red; background-color: red;">탈퇴하기</button>
+                            	</div>
 							</form>
                         </div> 
                     </div>

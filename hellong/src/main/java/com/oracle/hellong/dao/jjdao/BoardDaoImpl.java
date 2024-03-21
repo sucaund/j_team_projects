@@ -105,6 +105,33 @@ public class BoardDaoImpl implements BoardDao {
 		return result;
 	}
 
+	public int delrecommBoard(int b_number) {
+		System.out.println("BoardDaoImpl delrecommBoard Start...");
+		int delrecommBoard = 0;
+		System.out.println("BoardDaoImpl delrecommBoard b_number->" + b_number);
+		try {
+			delrecommBoard = session.delete("delrecommBoard", b_number);
+			System.out.println("BoardDaoImpl delrecommBoard result->" + delrecommBoard);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl delrecommBoard Exception->" + e.getMessage());
+		}
+		return delrecommBoard;
+	}
+	
+	@Override
+	public int delreportBoard(int b_number) {
+		System.out.println("BoardDaoImpl delreportBoard Start...");
+		int delreportBoard = 0;
+		System.out.println("BoardDaoImpl delreportBoard b_number->" + b_number);
+		try {
+			delreportBoard = session.delete("delreportBoard", b_number);
+			System.out.println("BoardDaoImpl delreportBoard result->" + delreportBoard);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl delreportBoard Exception->" + e.getMessage());
+		}
+		return delreportBoard;
+	}
+
 	@Override
 	public int deleteBoard(int b_number) {
 		System.out.println("BoardDaoImpl deleteBoard Start...");

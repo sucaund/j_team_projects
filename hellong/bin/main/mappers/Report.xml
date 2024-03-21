@@ -43,13 +43,27 @@
 	</insert>
 
 	<insert id="dyInReported" parameterType="int">
-		INSERT INTO report (
-		b_number, report_id, m_number, common_bcd, common_mcd )
-		VALUES (
-		#{b_number}, (SELECT NVL(MAX(report_id), 0) + 1 FROM report),
-		#{m_number}, #{common_bcd}, #{common_mcd}
-		)
+		INSERT INTO report (b_number, report_id, 
+		m_number, common_bcd, common_mcd )
+		VALUES (#{b_number}, 
+		(SELECT NVL(MAX(report_id), 0) + 1 FROM report),
+		#{m_number}, #{common_bcd}, #{common_mcd})
 
 	</insert>
+	
+	<delete id="dyDeleteReported" parameterType="int">
+		delete from report
+		where b_number = #{b_number}
+	</delete>
+	
+	<!-- ============================ 재준 mappers 시작 ============================ -->
+
+	<!-- board에서 글 삭제시 report에 있는 b_number도 같이 삭제 쿼리 -->
+	<delete id="delreportBoard" parameterType="int">
+		DELETE FROM report 
+		WHERE b_number = #{b_number}
+	</delete>
+
+<!-- ============================ 재준 mappers 끝 ============================ -->
 
 </mapper>

@@ -79,7 +79,7 @@
                                         </h4>
                                         <p>${s_name}</p> <!-- 서비스명 -->
 
-                                        ${gymOrder.go_enddate}"까지
+                                        ${gymOrder.go_enddate}까지
                                         <!-- 이용종료일 -->
 
                                         <p>${gym.g_address}</p>

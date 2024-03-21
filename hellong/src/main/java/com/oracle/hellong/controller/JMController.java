@@ -134,19 +134,19 @@ public class JMController {
 		if (result == 1) { // 아이디, 비번 모두 일치 시...
 			System.out.println("jmController jmLoginCheck 로그인 성공");
 			member = jm.jmGetMemberFromId(m_id); // m_id 같은 member 전체 가져옴
+			
 			session.setAttribute("m_number", member.getM_number());
-			System.out.println("member.getM_number()" + member.getM_number());
 			session.setAttribute("m_id", member.getM_id());
-			System.out.println("member.getM_id()" + member.getM_id());
 			session.setAttribute("m_name", member.getM_name());
-			System.out.println("member.getM_name()" + member.getM_name());
-
 			session.setAttribute("member_common_bcd", member.getCommon_bcd());
-			System.out.println("member_common_bcd" + member.getCommon_bcd());
 			session.setAttribute("member_common_mcd", member.getCommon_mcd());
+			
+			System.out.println("member.getM_number()" + member.getM_number());
+			System.out.println("member.getM_id()" + member.getM_id());
+			System.out.println("member.getM_name()" + member.getM_name());
+			System.out.println("member_common_bcd" + member.getCommon_bcd());
 			System.out.println("member_common_mcd" + member.getCommon_mcd());
 
-			System.out.println(session);
 			// 세션 유지기간 30분
 			session.setMaxInactiveInterval(60 * 30);
 
@@ -168,7 +168,7 @@ public class JMController {
 				// 회원가입 - 로그인으로 넘어온 경우 메인페이지로 redirect
 				if (prevPage.contains("/jmSignUpFormAjax2") || prevPage.contains("/jmSignUpAjax2")
 					||prevPage.contains("/jmSignUpCorrect")) {
-					uri = "/default";
+					uri = "/Default";
 				}
 			} 
 			System.out.println("uri:" + uri);
@@ -280,20 +280,14 @@ public class JMController {
 		System.out.println(m_id);
 		System.out.println(m_email);
 		int findM_number = jm.jmGetM_numberFromIdAndEmail(m_id, m_email);
-		System.out.println("jmController jmFindPw findM_number: " + findM_number); // 여기까지 성공
+		System.out.println("jmController jmFindPw findM_number: " + findM_number); 
 		session.setAttribute("findM_number", findM_number);
 		if (findM_number > 0) { // 가입된 계정 찾음
 			System.out.println("jmController jmFindPw findM_number " + findM_number);
-			return "jm/jmResetPwForm"; // return "jm/"은 jsp로 이동시키는것, Model model 없이도 됨
-			// return "forward:jmSignUpFormAjax2"; 이거는 컨트롤러로 이동시키는걸 의미하고.
+			return "jm/jmResetPwForm"; 
 		} else { // 해당 아이디-이메일과 일치하는 계정이 없다면, 0이 리턴됨
 			return "jm/jmFindPwFail"; // 따로 매핑 없이 즉시 이동 가능
-			// 다시 말해 매핑을 쓰는 이유는 1. 세션이나 모델 사용 2. 컨트롤러에서 작업수행
-			// 3.컨트롤러 하나 만들어놓고 추후 링크 변화같은건 컨트롤러 안에서 변경하는 목적이지,
-			// 단순 이동이라면 따로 뺄 필요가 없는 듯 싶은데..
-			// 아니 그래도, 주소창에 뜨는 링크 규격화를 위해서라도 하긴 해야하는듯.
-			// 오류 나기도 하고. 즉 컨트롤러 없이 링크 걸면 jm/여기로 안가고, 링크를 못찾는다.
-			// 특히 폴더 안에 넣는다던가 하면. 일단 주소에 표현되는 /표기는 컨트롤러의 매핑을 받는다.
+
 		}
 	}
 

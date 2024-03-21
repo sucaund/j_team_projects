@@ -44,5 +44,9 @@ public interface DYBoardDao {
 	List<Board> getPComments(int b_number);
 
 	Board callComment(Board board);
+	
+	int deleteReported(int b_number);
+
+	int deleteRecomm(int b_number);
 
 }

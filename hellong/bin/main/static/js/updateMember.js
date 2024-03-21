@@ -24,6 +24,7 @@ function checkPhone() { //전화번호를 바꿨을 때
       success: function() {
          if(regPhoneNumber(inputed) ==  false) {
             phoneCheck = 0;
+            $("#updatebtn").css("background-color", "#FFCECE");
             $("#updatebtn").prop("disabled", true);
             $("#m_phone").css("background-color", "#FFCECE"); //빨강
           
@@ -33,8 +34,8 @@ function checkPhone() { //전화번호를 바꿨을 때
          else if(regPhoneNumber(inputed)== true) {
             phoneCheck = 1;
             $("#m_phone").css("background-color", "#B0F6AC"); //초록
+            $("#updatebtn").css("background-color", "#0167F3");
             $("#updatebtn").prop("disabled", false);
-            
          }
       }
    })
@@ -51,6 +52,7 @@ function changeMail() { //이메일 변경 버튼을 눌렀을 때
    $("#email_change").css("display","block");
    emailCheck=0;
    $("#updatebtn").prop("disabled", true);
+   $("#updatebtn").css("background-color", "#FFCECE");
 }
 
 function regEmail(m_email) {
@@ -78,7 +80,7 @@ function checkMailReg() { //메일 정규식+중복 체크
          } else if (regEmail(inputed) == false) { //이메일 양식에 실패했을 때
           $("#failmailreg").css("display","block");
           $("#failmailunique").css("display","none");
-          $("#signupbtn").prop("disabled", true);
+          $("#updatebtn").prop("disabled", true);
           $("#sendMailBtn").prop("disabled", true);
           $("#m_email").css("background-color", "#FFCECE");
           console.log('이메일 양식 실패');
@@ -121,6 +123,7 @@ function checkMailReg() { //메일 정규식+중복 체크
      if(input_number == mailauthnumber){
          alert("인증되었습니다.");
          emailCheck=1;
+         $("#updatebtn").css("background-color", "#0167F3");
      }else{
          alert("번호가 다릅니다.");
          emailCheck=0;
@@ -139,13 +142,15 @@ function activateUpdateBtn() { //가입버튼 활성화
       
       if( phoneCheck==1 && emailCheck==1) {
          $("#updatebtn").prop("disabled", false);   
+         $("#updatebtn").css("background-color", "#0167F3");
       }
       else  {
          $("#updatebtn").prop("disabled", true);
+         $("#updatebtn").css("background-color", "#FFCECE");
       }
    }
 
-
+   
 
 /*주소*/
 function sample6_execDaumPostcode() {

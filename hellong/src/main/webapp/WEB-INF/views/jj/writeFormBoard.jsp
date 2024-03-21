@@ -9,7 +9,7 @@
 </head>
 <body>
 	<main id="main" class="main">
-		<section class="section col-6" style="margin: 0 auto">
+		<section class="section col-10" style="margin: 0 auto">
 
 			<div class="pagetitle">
 				<h3>글쓰기</h3>
@@ -28,8 +28,8 @@
 								<div class="row mb-3">
 									<label for="title" class="col-sm-2 col-form-label">카테고리</label>
 									<div class="col-sm-10">
-										<select name="jjcategory">
-											<option value="" selected disabled hidden>글유형</option>
+										<select name="jjcategory" required="required">
+											<option value="" selected disabled hidden>카테고리를 선택해주세요.</option>
 											<option value="jjfree">자유글</option>
 											<!-- <option value="jjbody">바디프로필</option>
 											<option value="jjnotice">공지</option>
@@ -41,7 +41,7 @@
 								<div class="row mb-3">
 									<label for="title" class="col-sm-2 col-form-label">제목</label>
 									<div class="col-sm-10">
-										<input type="text" name="b_title" required="required" value="${board.b_title}">
+										<input type="text" style="width:100%;" name="b_title" required="required" value="${board.b_title}">
 									</div>
 								</div>
 								

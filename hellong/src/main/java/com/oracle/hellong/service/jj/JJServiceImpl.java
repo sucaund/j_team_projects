@@ -69,6 +69,22 @@ public class JJServiceImpl implements JJService {
 	}
 
 	@Override
+	public int delrecommBoard(int b_number) {
+		int delrecommBoard = 0;
+		System.out.println("JJServiceImpl delrecommBoard Start...");
+		delrecommBoard = bd.delrecommBoard(b_number);
+		return delrecommBoard;
+	}
+	
+	@Override
+	public int delreportBoard(int b_number) {
+		int delreportBoard = 0;
+		System.out.println("JJServiceImpl delreportBoard Start...");
+		delreportBoard = bd.delreportBoard(b_number);
+		return delreportBoard;
+	}
+
+	@Override
 	public int deleteBoard(int b_number) {
 		int result = 0;
 		System.out.println("JJServiceImpl deleteBoard Start...");

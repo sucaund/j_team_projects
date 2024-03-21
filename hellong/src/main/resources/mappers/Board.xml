@@ -101,11 +101,19 @@
 	</insert>
 	
 	<!-- 글을 삭제하는 쿼리 -->
-	<delete id="deleteBoard" parameterType="Board">
-		 DELETE FROM board 
-      WHERE b_number = #{b_number}
-      OR B_COMM_GROUP = #{b_number}
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board 
+		WHERE b_number = #{b_number}
+		OR B_COMM_GROUP = #{b_number}
 	</delete>
+	
+	<!-- board에서 글 삭제시 RecommCheck에 있는 b_number도 같이 삭제 쿼리 -->
+	<delete id="delrecommBoard" parameterType="int">
+		DELETE FROM Recomm_Check 
+		WHERE b_number = #{b_number}
+	</delete>
+
+<!-- ============================ 재준 mappers 끝 ============================ -->
 	
 	<!-- 신고여부 쿼리 -->
 	<update id="jjUpReported" parameterType="int">
@@ -457,12 +465,17 @@
 	<select id="dyBodyProfileListAll" parameterType="Board"
 		resultType="Board">
 	 <![CDATA[
+	 
+	  
 		SELECT *
 		FROM
 		(
 		        SELECT rownum rn , a.*
 		        FROM
-		                   (select * from board where b_comm_group = 0 order by b_number desc) a
+		                   (select b.*, m.m_name
+		                   from board b
+		                   JOIN member m ON b.m_number = m.m_number
+		                   where b_comm_group = 0 order by b_number desc) a
 		 )  
 		 WHERE  rn  >= #{start} 
  		and    rn  <= #{end} 
@@ -501,6 +514,7 @@
 	<delete id="dyDeleteBodyProfile" parameterType="int">
 		delete from board
 		where b_number = #{b_number}
+		and b_isreported = 0
 	</delete>
 	
 	<select id="dySearchBoards" parameterType="Board" resultType="Board">
@@ -515,6 +529,7 @@
 		resultType="Board">
 		select * from board
 		WHERE m_number = #{m_number}
+		and b_comm_group = 0
 		order by b_number desc
 	</select>
 	
