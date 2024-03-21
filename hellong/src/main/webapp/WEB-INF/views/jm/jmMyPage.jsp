@@ -10,7 +10,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <!-- Start Breadcrumbs -->
     <div class="breadcrumbs">
         <div class="container">
             <div class="row align-items-center">
@@ -22,16 +21,13 @@
             </div>
         </div>
     </div>
-    <!-- End Breadcrumbs -->
 
-    <!-- Start Blog Singel Area -->
     <section class="section blog-section blog-list">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-12 col-12" style="margin:0 auto; ">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-12">
-                            <!-- Start Single Blog -->
                             <div class="single-blog">
                                 <div class="blog-content">
                                     <a class="category">마이 헬롱</a>
@@ -59,10 +55,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- End Single Blog -->
                         </div>
                         <div class="col-lg-6 col-md-6 col-12">
-                            <!-- Start Single Blog -->
                             <div class="single-blog">
                                 <div class="blog-content">
                                     <a class="category">서비스</a>
@@ -96,10 +90,8 @@
                                     </c:if>
                                 </div>
                             </div>
-                            <!-- End Single Blog -->
                         </div>
                         <div class="col-lg-6 col-md-6 col-12">
-                            <!-- Start Single Blog -->
                             <div class="single-blog">
                                 <div class="blog-content">
                                     결제
@@ -114,10 +106,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- End Single Blog -->
                         </div>
                         <div class="col-lg-6 col-md-6 col-12">
-                            <!-- Start Single Blog -->
                             <div class="single-blog">
                                 <div class="blog-content">
                                     <a class="category" href="/jmCustomerCenter">고객센터</a>
@@ -135,17 +125,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- End Single Blog -->
                         </div>
             
                     </div>
                     
                 </div>
                 
-                            </div>
-                        </div>
-                        <!-- End Single Widget -->
-                        </section>
+            </div>
+        </div>
+    </section>
 
 </body>
 </html>

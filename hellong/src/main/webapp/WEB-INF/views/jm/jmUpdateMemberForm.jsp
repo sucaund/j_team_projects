@@ -145,13 +145,18 @@ pageEncoding="UTF-8"%> <%@ include file="../header.jsp"%>
                                       onclick="changeMail()"/>
                                   </div>
       
-                                  <!-- 변경할 이메일-->
+                                  <!-- 변경할 이메일, 버튼 클릭시 노출-->
                             <div class="form-group input-group" id="email_change" style="display: none;">
                                       <label for="reg-email">변경할 이메일</label>
                                       <input type="text"
                 class="form-control" id="m_email" placeholder="변경할 이메일을 입력해주세요"  name="m_email"
                 oninput="checkMailReg()"
                           autocomplete='off'>
+                          <p style="color:red; display: none;" id="failmailreg">
+                            이메일 양식을 준수해주세요.</p> <pre>
+                                        </pre>
+                        <p style="color:red; display: none" id="failmailunique">이미 존재하는 이메일입니다.</p> <pre>
+                                                                   </pre>
                           <button type="button" class="btn btn-primary" id="sendMailBtn" name="sendMailBtn" onclick="sendMailNumber()" style="margin-top: 10px;">인증번호 받기</button>
                                   </div>
       

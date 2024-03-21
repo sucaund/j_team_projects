@@ -10,7 +10,6 @@
 <title>Hellong 고객센터</title>
 </head>
 <body>
-<!-- Start Breadcrumbs -->
 <div class="breadcrumbs">
     <div class="container">
         <div class="row align-items-center">
@@ -22,9 +21,7 @@
         </div>
     </div>
 </div>
-<!-- End Breadcrumbs -->
 
-  <!-- Start Faq Area -->
   <section class="faq section">
     <div class="container">
         <div class="row">
@@ -82,8 +79,10 @@
                             <div class="accordion-body">
                                 <p>환불을 원하실 경우 마이페이지에서 결제 내역 보기를 클릭하신 후,</p>
                                 <p>환불하기 버튼을 눌러주세요.</p>
-                                <p>결제 후 내에 환불하실 경우 결제 금액의 100%가 환불되며,</p>
-                                <p>결제 후 내에 환불하실 경우 결제 금액의 100%가 환불되며,</p>
+                                <p>결제 후 내에 7일 이내에 환불하실 경우 결제 금액의 100%가 환불되며,</p>
+                                <p>회원권에 명시된 기간 중 10% 이내에 환불 시 70%,</p>
+                                <p>30% 이내에 환불 시 50%, 50% 이내에 환불 시 30%가 환불돼요.</p>
+                                <p>절반을 초과하는 기간이 지났을 경우 환불하실 수 없어요.</p>
                             </div>
                         </div>
                     </div>
@@ -145,85 +144,46 @@
         </div>
     </div>
 </section>
-<!--/ End Faq Area -->
 
-<!-- Start Blog Singel Area -->
 <section class="section blog-section blog-list">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-md-12 col-12">
+            <div class="col-lg-8 col-md-12 col-12" style="margin:0 auto; ">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-12">
-                        <!-- Start Single Blog -->
                         <div class="single-blog">
                             <div class="blog-content">
-
-                                <a class="category">일대일 문의</a><br> <br>
-                                <h3>
-                                <a style="color: #0167F3; text-decoration: underline;" href="/write_view">
+                                1대1 문의
+                                <h4>
+                                    <a style="color: #0167F3; text-decoration: underline;" href="/write_view">
                                         문의하기 </a>
-                                </h3>
-                                <br>
-                                <br>
-                                <h3>
-                                    <a style="color: #8258FA; text-decoration: underline;" href="/authenticate"> 
-                                            문의내역 </a>
-                                    </h3>
-                        
+                                </h4>
                                 <div class="button">
-                                    <a href="/jmUpdateMemberForm" class="btn">회원 정보 수정</a>
+                                    <a href="/authenticate" class="btn">문의 내역</a>
                                 </div>
                             </div>
                         </div>
-                        <!-- End Single Blog -->
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">
-                        <!-- Start Single Blog -->
                         <div class="single-blog">
                             <div class="blog-content">
-                                <a class="category">공지사항</a>
-
-
-                                    <h4>
-                                        <a href="blog-single-sidebar.html">공지사항 &nbsp; &nbsp;</a> <a style="color: #0167F3;">                                        
-                                    </a>
-                                    </h4>
-                                    <p></p> 
-
-                                    <p></p>
-                                    <div class="button">
-                                        <a href="/gymPostDetail?g_id=${g_id}" class="btn">더보기</a>
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-            <aside class="col-lg-4 col-md-12 col-12">
-                <div class="sidebar blog-grid-page">
-                    
-                    <!-- End Single Widget -->
-                    <!-- Start Single Widget -->
-                    <div class="widget popular-feeds">
-                        <h5 class="widget-title">비즈니스 개설하기 </h5>
-                        <div class="popular-feed-loop">
-                            <div class="single-popular-feed">
-                                <h3 class="post-title">
-                                    <a href="/listGymManager" style="color: #0167F3; 
-                                    text-decoration: underline;">헬스장 등록 신청</a></h3>
-                                <div class="feed-desc">
-                                    
+                                공지
+                                <h4>
+                                    <a href="/hsListNoticeBoard" 
+                                    style="text-decoration: underline; color: #00BFFD;">공지사항</a>
+                                </h4>
+                                   
+                                <div class="button">
+                                    <a href="/listGymManager" class="btn">비즈니스 개설/관리</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- End Single Widget -->
+                    </div>    
+                </div>
             </div>
-            </aside>
-            </div>
-            </div>
-            </section>
+        </div>
+    </div>
+</section>
 
 
 </body>

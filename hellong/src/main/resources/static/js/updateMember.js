@@ -15,7 +15,7 @@ function regPhoneNumber(m_phone) {
    return regExp.test(m_phone);
 }
 
-var phoneCheck = 0;
+var phoneCheck = 1;
 
 function checkPhone() { //전화번호를 바꿨을 때
    var inputed = $('#m_phone').val();
@@ -49,7 +49,6 @@ var mailauthnumber=0; //이메일 인증 번호
 
 function changeMail() { //이메일 변경 버튼을 눌렀을 때
    $("#email_change").css("display","block");
-   $(".email_old").innerText = '기존 이메일';
    emailCheck=0;
    $("#updatebtn").prop("disabled", true);
 }
@@ -60,22 +59,42 @@ function regEmail(m_email) {
    
 }
 
-function checkMailReg() { //변경 이메일에 입력을 할 때
+function checkMailReg() { //메일 정규식+중복 체크
    var inputed = $('#m_email').val();
    
    $.ajax({
-      success: function() {
-        if(regEmail(inputed) == false) {
+      data : {
+         m_email : inputed 
+       },
+       url : "jmConfirmMemberMailSame", 
+       success: function(data) {
+         if(data=='1') { //이메일 중복 시
+          $("#failmailunique").css("display", "block"); //중복에러메세지를 띄운다
+          $("#failmailreg").css("display","none"); //중복에러메세지 말고 다른 에러 메세지를 지운다.
           $("#sendMailBtn").prop("disabled", true);
           $("#m_email").css("background-color", "#FFCECE");
-         
-        } else if(regEmail(inputed) == true) {
-          $("#sendMailBtn").prop("disabled", false);
+          console.log('이메일 중복');
+          mailRegCheck = 0; //실패
+         } else if (regEmail(inputed) == false) { //이메일 양식에 실패했을 때
+          $("#failmailreg").css("display","block");
+          $("#failmailunique").css("display","none");
+          $("#signupbtn").prop("disabled", true);
+          $("#sendMailBtn").prop("disabled", true);
+          $("#m_email").css("background-color", "#FFCECE");
+          console.log('이메일 양식 실패');
+          mailRegCheck = 0;
+        } else if( data == '0' && regEmail(inputed)) { //중복되지않고, 정규식을 통과할 때
           $("#m_email").css("background-color", "#B0F6AC");
+          $("#failmailreg").css("display","none");
+          $("#failmailunique").css("display","none");
+          mailRegCheck = 1;  
+          $("#sendMailBtn").prop("disabled", false); //인증번호 보내기 버튼 누르기 가능
+          console.log('중복체크까지 성공');
         }
-      }
-   })
- }
+       }
+    })
+  }
+      
 
 
    

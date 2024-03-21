@@ -258,9 +258,6 @@ public class JmMemberDaoImpl implements JmMemberDao {
 		public String jmCheckPwDuple(int m_number, String m_pw) {
 			System.out.println("JmMemberDaoImpl jmcheckPwDuple start..");
 			System.out.println(m_number+" "+ m_pw);
-//			Member member=new Member();
-//			member.setM_number(m_number);
-//			member.setM_pw(m_pw);
 			String hashPw=null;
 			Boolean pwSameCheck=false;
 			String result=null;
@@ -395,20 +392,5 @@ public class JmMemberDaoImpl implements JmMemberDao {
 			return jmMyPageBoardList;
 		}
 		
-//		@Override
-//		public List<Member> jmListMemberReal(Member member) { //멤버 리스트로 뽑아 출력용
-//			List<Member> memberList = null;
-//			System.out.println("JmMemberDaoImpl jmListMemberReal Start ...");
-//			try { 
-//				memberList = session.selectList("jmMemberListAllReal", member); //리스트 멤버
-//				//controller에서 멤버 안에 있는 start와 end를 설정하고, 멤버를 보내 여기까지 가져와
-//				// 그걸 넣어서 출력된 멤버들을 리스트에 넣음
-//				
-//				System.out.println("JmMemberDaoImpl jmListMemberReal memberList.size()->" + memberList.size());
-//			} catch (Exception e) {
-//				System.out.println("JmMemberDaoImpl jmListMemberReal e.getMessage()->" + e.getMessage());
-//			}
-//			return memberList;
-//		}
 
 }
