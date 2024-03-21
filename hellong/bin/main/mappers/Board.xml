@@ -224,11 +224,20 @@
 
 <!-- ============================ 재준 mappers 끝 ============================ -->
 
+	<select id="NumChangeNum" parameterType="string" resultType="int">
+		SELECT M_NUMBER
+		FROM MEMBER
+		WHERE M_ID = #{member_id}
+	</select>
+
 	<select id="shboardTotal" parameterType="int" resultType="int">
 		SELECT
 		Count(*) FROM BOARD where M_NUMBER = #{M_NUMBER} AND COMMON_BCD = 200 AND COMMON_MCD = 120
 	</select>
 
+	
+	
+	
 	<select id="ContentBoard" parameterType="int" resultType="Board">
 		SELECT
 		* FROM BOARD where B_NUMBER = #{b_NUMBER}
@@ -236,12 +245,6 @@
 
 
 
-	<select id="NumChangeNum" parameterType="string"
-		resultType="int">
-		SELECT M_NUMBER
-		FROM MEMBER
-		WHERE M_ID = #{member_id}
-	</select>
 	
 	<select id="countCommentsByBNumber" parameterType="int"
 		resultType="int">

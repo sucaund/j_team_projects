@@ -67,13 +67,11 @@ public class SHController {
 		boolean same = sh.authenticate(member_id);
 		// 해당 로그인 정보가 맞는지 참or거짓 으로 분류
 		if (same) {
-			session.setAttribute("m_id", member_id);
-
-			// 참일시 해당 로그인 정보를 세션에 저장...
+			session.setAttribute("m_id", member_id);// 참일시 해당 로그인 정보를 세션에 저장...
 			System.out.println("session.setAttribute start!");
 		} else {
 			System.out.println("SHController authenticate else...");
-			model.addAttribute("loginError", true);
+			model.addAttribute("loginError", true); // 거짓일시 로그인페이지로 재이동
 			return "jm/jmLoginForm";
 		}
 
@@ -83,8 +81,7 @@ public class SHController {
 	@RequestMapping("loginAction1")
 	public String loginAction1(HttpSession session, Board board, Model model) {
 		System.out.println("SHController loginAction1 start...");
-		String member_id = (String) session.getAttribute("m_id");
-		// 로그인 세션에서 아이디를 가져옴
+		String member_id = (String) session.getAttribute("m_id"); // 로그인 세션에서 아이디를 가져옴
 		System.out.println("SHController loginAction1  member_id kkk->" + member_id);
 
 		String currentPage = "1";

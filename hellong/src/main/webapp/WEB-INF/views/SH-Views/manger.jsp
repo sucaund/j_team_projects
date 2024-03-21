@@ -127,44 +127,26 @@ function sample6_execDaumPostcode() {
 	$(document).ready(
 //===================================회원정보 가져오기===============================
 			function() {
-				$('.edit-btn').on(
-						'click',
-						function() {
+				$('.edit-btn').on('click',function() {
 							// data-memberid 속성에서 회원 ID를 가져옵니다.
 							var memberId = $(this).data('memberid');
-
 							// AJAX를 사용하여 서버에 회원 정보를 요청합니다.
 							$.ajax({
 								url : 'getMemberDetails', // 서버의 URL을 지정해야 합니다.
 								type : 'GET',
-								data : {
-									'id' : memberId
-								}, // 서버로 보낼 데이터
+								data : {'id' : memberId}, // 서버로 보낼 데이터
 								dataType : 'json', // 응답 받을 데이터의 타입
 								success : function(data) {
-									// 성공 시 모달의 필드에 데이터를 채웁니다.
-									// 모달의 각 입력 필드에 ID를 설정하고 해당 ID를 사용하여 값을 설정합니다.
-									$('#MemberModal input[name="m_number"]')
-											.val(data.m_number);
-									$('#MemberModal input[name="m_name"]').val(
-											data.m_name);
-									$('#MemberModal input[name="m_id"]').val(
-											data.m_id);
-									$('#MemberModal input[name="m_age"]').val(
-											data.m_age);
-									$('#MemberModal input[name="m_gender"]')
-											.val(data.m_gender);
-									$('#MemberModal input[name="m_phone"]')
-											.val(data.m_phone);
-									$('#MemberModal input[name="m_email"]')
-											.val(data.m_email);
-									$('#MemberModal input[name="m_address"]')
-											.val(data.m_address);
-									$('#MemberModal input[name="m_currpoint"]')
-											.val(data.m_currpoint);
-									$('#MemberModal input[name="m_regdate"]')
-											.val(data.m_regdate);
-									// 여기에 다른 필드에 대한 데이터 설정을 추가합니다.
+									$('#MemberModal input[name="m_number"]').val(data.m_number);
+									$('#MemberModal input[name="m_name"]').val(data.m_name);
+									$('#MemberModal input[name="m_id"]').val(data.m_id);
+									$('#MemberModal input[name="m_age"]').val(data.m_age);
+									$('#MemberModal input[name="m_gender"]').val(data.m_gender);
+									$('#MemberModal input[name="m_phone"]').val(data.m_phone);
+									$('#MemberModal input[name="m_email"]').val(data.m_email);
+									$('#MemberModal input[name="m_address"]').val(data.m_address);
+									$('#MemberModal input[name="m_currpoint"]').val(data.m_currpoint);
+									$('#MemberModal input[name="m_regdate"]').val(data.m_regdate);
 									 if(data.common_mcd === 10) { // 일반회원
 									        $('#MemberModal input[name="ckcommon_mcd"][value="10"]').prop('checked', true);
 									    } else if(data.common_mcd === 20) { // 헬스장
@@ -172,11 +154,9 @@ function sample6_execDaumPostcode() {
 									    } else if(data.common_mcd === 30) { // 관리자
 									        $('#MemberModal input[name="ckcommon_mcd"][value="30"]').prop('checked', true);
 									    }
-									// 모달을 표시합니다.
 									$('#MemberModal').modal('show');
 								},
 								error : function(xhr, status, error) {
-									// 오류 처리
 									console.error("AJAX Error: " + status
 											+ error);
 								}
@@ -730,160 +710,89 @@ function sample6_execDaumPostcode() {
 
 
 		<!-- 회원정보-->
-		<div class="modal fade" id="MemberModal" tabindex="-1"
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">회원정보</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<table>
-
-							<tr>
-								<td>회원번호</td>
-								<td><input type="text" name="m_number" readonly="readonly"
-									value=""></td>
-							</tr>
-							<tr>
-								<td>이름</td>
-								<td><input type="text" name="m_name" readonly="readonly"
-									value=""></td>
-							</tr>
-							<tr>
-								<td>아이디</td>
-								<td><input type="text" name="m_id" readonly="readonly"></td>
-							</tr>
-
-							<tr>
-								<td>나이</td>
-								<td><input type="text" name="m_age"></td>
-							</tr>
-
-							<tr>
-								<td>성별</td>
-								<td><input type="text" name="m_gender"></td>
-							</tr>
-
-							<tr>
-								<td>전화번호</td>
-								<td><input type="text" name="m_phone"></td>
-							</tr>
-
-
-							<tr>
-								<td>이메일</td>
-								<td><input type="text" name="m_email"></td>
-							</tr>
-
-							<tr>
-								<td>지역</td>
-								<td><input type="text" name="m_address"></td>
-							</tr>
-
-							<tr>
-								<td>보유보인트</td>
-								<td><input type="text" name="m_currpoint"></td>
-							</tr>
-							<tr>
-								<td>가입일</td>
-								<td><input type="text" name="m_regdate"></td>
-							</tr>
-
-							<tr>
-								<td>등급</td>
-
-								<td>
-									<!-- 회원 등급 선택 라디오 버튼 -->
-									<form id="adminForm">
-										<label> <input type="radio" name="ckcommon_mcd"
-											value="10"> 일반회원
-										</label> <label> <input type="radio" name="ckcommon_mcd"
-											value="20"> 헬스장
-										</label> <label> <input type="radio" name="ckcommon_mcd"
-											value="30"> 관리자
-										</label>
-									</form>
-
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">${message }</td>
-							</tr>
-						</table>
-						</form>
-						<button type="button" id="deleteMember">회원삭제</button>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">취소</button>
-						<button type="button" id="applyChanges" class="btn btn-primary">적용</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
+		<div class="modal fade" id="MemberModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">회원정보</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <tr><td>회원번호</td><td><input type="text" name="m_number" readonly></td></tr>
+          <tr><td>이름</td><td><input type="text" name="m_name" readonly></td></tr>
+          <tr><td>아이디</td><td><input type="text" name="m_id" readonly></td></tr>
+          <tr><td>나이</td><td><input type="text" name="m_age"></td></tr>
+          <tr><td>성별</td><td><input type="text" name="m_gender"></td></tr>
+          <tr><td>전화번호</td><td><input type="text" name="m_phone"></td></tr>
+          <tr><td>이메일</td><td><input type="text" name="m_email"></td></tr>
+          <tr><td>지역</td><td><input type="text" name="m_address"></td></tr>
+          <tr><td>보유보인트</td><td><input type="text" name="m_currpoint"></td></tr>
+          <tr><td>가입일</td><td><input type="text" name="m_regdate"></td></tr>
+          <tr>
+            <td>등급</td>
+            <td>
+              <form id="adminForm">
+                <label><input type="radio" name="ckcommon_mcd" value="10"> 일반회원</label>
+                <label><input type="radio" name="ckcommon_mcd" value="20"> 헬스장</label>
+                <label><input type="radio" name="ckcommon_mcd" value="30"> 관리자</label>
+              </form>
+            </td>
+          </tr>
+          <tr><td colspan="2">${message}</td></tr>
+        </table>
+        <button type="button" id="deleteMember">회원삭제</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <button type="button" id="applyChanges" class="btn btn-primary">적용</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 		<!-- 	헬스장 페이지 정보  -->
-		<div class="modal fade" id="Gym_Content" tabindex="-1"
-			aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">헬스장 정보</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-
-						<table>
-							<tr>
-								<form id="GymForm">
-									<label> <input type="radio" name="GymOpen_mcd"
-										value="10"> 대기
-									</label> <label> <input type="radio" name="GymOpen_mcd"
-										value="20"> 승인
-									</label> <label> <input type="radio" name="GymOpen_mcd"
-										value="30"> 노출
-									</label>
-								</form>
-							</tr>
-							<tr>
-								<td>헬스장 번호</td>
-								<td><input type="text" name="g_number" readonly="readonly"></td>
-							</tr>
-							<tr>
-								<td>파트너번호</td>
-								<td><input type="text" name="m_number" readonly="readonly"></td>
-							</tr>
-							<tr>
-								<td>상호명</td>
-								<td><input type="text" name="g_name" readonly="readonly"></td>
-							</tr>
-							<tr>
-								<td>주소</td>
-								<td><input type="text" name="g_address" readonly="readonly"></td>
-							</tr>
-							<tr>
-								<td>전화번호</td>
-								<td><input type="text" name="g_tel"></td>
-							</tr>
-
-							<tr>
-								<td>사업자 등록번호</td>
-								<td><input type="text" name="g_companynumber"></td>
-							</tr>
-							<tr>
-								<td>등록신청서류</td>
-								<td><img id="g_document" name="g_document" src=""
-									alt="체육관 이미지" style="width: 100%; height: auto;"></td>
-							</tr>
-
-
-							<tr>
+<div class="modal fade" id="MemberModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">회원정보</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <tr><td>회원번호</td><td><input type="text" name="m_number" readonly></td></tr>
+          <tr><td>이름</td><td><input type="text" name="m_name" readonly></td></tr>
+          <tr><td>아이디</td><td><input type="text" name="m_id" readonly></td></tr>
+          <tr><td>나이</td><td><input type="text" name="m_age"></td></tr>
+          <tr><td>성별</td><td><input type="text" name="m_gender"></td></tr>
+          <tr><td>전화번호</td><td><input type="text" name="m_phone"></td></tr>
+          <tr><td>이메일</td><td><input type="text" name="m_email"></td></tr>
+          <tr><td>지역</td><td><input type="text" name="m_address"></td></tr>
+          <tr><td>보유보인트</td><td><input type="text" name="m_currpoint"></td></tr>
+          <tr><td>가입일</td><td><input type="text" name="m_regdate"></td></tr>
+          <tr>
+            <td>등급</td>
+            <td>
+              <form id="adminForm">
+                <label><input type="radio" name="ckcommon_mcd" value="10"> 일반회원</label>
+                <label><input type="radio" name="ckcommon_mcd" value="20"> 헬스장</label>
+                <label><input type="radio" name="ckcommon_mcd" value="30"> 관리자</label>
+              </form>
+            </td>
+          </tr>
+          <tr><td colspan="2">${message}</td></tr>
+        </table>
+        <button type="button" id="deleteMember">회원삭제</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <button type="button" id="applyChanges" class="btn btn-primary">적용</button>
+      </div>
+    </div>
+  </div>
+</div>
 								<td colspan="2">${message }</td>
 							</tr>
 						</table>
