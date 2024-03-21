@@ -242,8 +242,9 @@
     		console.log('emailCheck'+emailCheck);
 			console.log('mailRegCheck'+mailRegCheck);
     		   
-    		   if( idCheck == 1 && pwRegCheck == 1  && pwSameCheck == 1 && phoneCheck==1 && emailCheck==1 &&
-				mailRegCheck==1) {
+    		   if( idCheck == 1 && pwRegCheck == 1  && pwSameCheck == 1 
+				&& phoneCheck==1 && emailCheck==1
+				&&mailRegCheck==1) {
     		      $("#signupbtn").prop("disabled", false);   
 				  $("#signupbtn").css("background-color", "#0D6CF9");
     		   }

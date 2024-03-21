@@ -646,15 +646,20 @@
 		(
 			SELECT rownum rn, a.*
 			FROM
-				(SELECT m.m_name, b.* FROM member m, board b WHERE m.m_number = b.m_number AND b.common_mcd=110
-				<choose>
-					<when test="search == 'b_title'">
-						AND b.b_title like '%' || #{keyword} || '%'
-					</when>
-					<when test="search == 'b_content'">
-						AND b.b_content like '%' || #{keyword} || '%'
-					</when>
-				</choose>
+				(SELECT m.m_name, b.*, c.common_content jjcategory
+				 FROM member m, board b, common c 
+				 WHERE c.common_bcd = b.common_bcd
+				 	AND c.common_mcd = b.common_mcd
+				 	AND m.m_number = b.m_number 
+				 	AND b.common_mcd=110
+					<choose>
+						<when test="search == 'b_title'">
+							AND b.b_title like '%' || #{keyword} || '%'
+						</when>
+						<when test="search == 'b_content'">
+							AND b.b_content like '%' || #{keyword} || '%'
+						</when>
+					</choose>
 				ORDER BY b.b_update DESC) a
 		)
 		WHERE rn BETWEEN #{start} and #{end}
