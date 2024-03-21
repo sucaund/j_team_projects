@@ -175,17 +175,14 @@ public class HSController { //
 	public String hsCreateNoticeBoard(Board board, Model model, HttpSession session) {
 		System.out.println("hsController hsCreateNoticeBoard start...");
 
-		if (session.getAttribute("m_number") != null) { // 로그인되어있을때
+		if (session.getAttribute("m_number") != null) {	// 로그인상태인지 확인
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
-
-			System.out.println("체크체크: " + member.getM_number());
 
 			int createResult = hs.createNoticeBoard(board);
 			if (createResult > 0) {
 				return "redirect:hsListNoticeBoard?m_number=" + member.getM_number();
 			} else {
-				model.addAttribute("msg", "입력 실패");
 				return "forward:hsCreateFormNoticeBoard";
 			}
 		} else {
@@ -203,11 +200,7 @@ public class HSController { //
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
 
-			System.out.println("체크체크: " + member.getM_number());
-
 			Board board = hs.detailNoticeBoard(board1.getB_number());
-			System.out.println("board.getB_number()->" + board.getB_number());
-			System.out.println("board.getB_update()->" + board.getB_update());
 
 			model.addAttribute("noticeBoard", board);
 			model.addAttribute("member", member);
@@ -226,11 +219,8 @@ public class HSController { //
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
 
-			System.out.println("체크체크: " + member.getM_number());
-
-			int updateCount = hs.updateNoticeBoard(board1);
-
-			System.out.println("hsController hs.updateNoticeBoard updateCount ->" + updateCount);
+			int updateResult = hs.updateNoticeBoard(board1);
+			
 			return "redirect:hsListNoticeBoard?m_number=" + member.getM_number();
 		} else {
 			return "jm/jmLoginForm";
@@ -246,9 +236,8 @@ public class HSController { //
 			Member member = new Member();
 			member = jm.jmGetMemberFromNumber((int) session.getAttribute("m_number"));
 
-			System.out.println("체크체크: " + member.getM_number());
-
 			int result = hs.deleteNoticeBoard(board.getB_number());
+			
 			return "redirect:hsListNoticeBoard?m_number=" + member.getM_number();
 		} else {
 			return "jm/jmLoginForm";
