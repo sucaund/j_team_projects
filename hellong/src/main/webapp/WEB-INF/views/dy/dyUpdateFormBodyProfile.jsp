@@ -118,7 +118,8 @@ form#updateForm input[type="submit"]:hover {
             </div>
             <div class="mb-3">
                 <label for="b_images" class="form-label">이미지</label>
-                <input type="file" class="form-control" id="files" name="files" required multiple onchange="displaySelectedImagesForUpdate(this)">
+                <input type="file" class="form-control" id="files" name="files" 
+                required multiple onchange="displaySelectedImagesForUpdate(this)">
                 <div id="imagePreview"></div>
             </div>
             

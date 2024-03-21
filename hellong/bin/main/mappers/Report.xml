@@ -31,25 +31,29 @@
 		m_number,
 		common_bcd,
 		common_mcd
-		
+
 		)VALUES (
 		#{b_number},
 		(SELECT NVL(MAX(report_id), 0) + 1 FROM report),
 		#{m_number},
 		#{common_bcd},
 		#{common_mcd}
-		
+
 		)
 	</insert>
 
 	<insert id="dyInReported" parameterType="int">
-		INSERT INTO report (
-		b_number, report_id, m_number, common_bcd, common_mcd )
-		VALUES (
-		#{b_number}, (SELECT NVL(MAX(report_id), 0) + 1 FROM report),
-		#{m_number}, #{common_bcd}, #{common_mcd}
-		)
+		INSERT INTO report (b_number, report_id, 
+		m_number, common_bcd, common_mcd )
+		VALUES (#{b_number}, 
+		(SELECT NVL(MAX(report_id), 0) + 1 FROM report),
+		#{m_number}, #{common_bcd}, #{common_mcd})
 
 	</insert>
+	
+	<delete id="dyDeleteReported" parameterType="int">
+		delete from report
+		where b_number = #{b_number}
+	</delete>
 
 </mapper>

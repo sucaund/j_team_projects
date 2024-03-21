@@ -291,8 +291,10 @@
 
 	<insert id="addComment" parameterType="Board">
 		INSERT INTO BOARD
-		(B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, M_NUMBER, B_COMM_GROUP)
-		VALUES (B_NUMBER_SEQ.NEXTVAL, #{common_bcd},#{common_mcd},
+		(B_NUMBER, COMMON_BCD, COMMON_MCD, B_CONTENT, 
+		M_NUMBER, B_COMM_GROUP)
+		VALUES (B_NUMBER_SEQ.NEXTVAL, 
+		#{common_bcd},#{common_mcd},
 		#{b_content},#{m_number}, #{b_comm_group})
 	</insert>
 
@@ -388,12 +390,17 @@
 	<select id="dyBodyProfileListAll" parameterType="Board"
 		resultType="Board">
 	 <![CDATA[
+	 
+	  
 		SELECT *
 		FROM
 		(
 		        SELECT rownum rn , a.*
 		        FROM
-		                   (select * from board where b_comm_group = 0 order by b_number desc) a
+		                   (select b.*, m.m_name
+		                   from board b
+		                   JOIN member m ON b.m_number = m.m_number
+		                   where b_comm_group = 0 order by b_number desc) a
 		 )  
 		 WHERE  rn  >= #{start} 
  		and    rn  <= #{end} 
@@ -432,6 +439,7 @@
 	<delete id="dyDeleteBodyProfile" parameterType="int">
 		delete from board
 		where b_number = #{b_number}
+		and b_isreported = 0
 	</delete>
 	
 	<select id="dySearchBoards" parameterType="Board" resultType="Board">
@@ -446,6 +454,7 @@
 		resultType="Board">
 		select * from board
 		WHERE m_number = #{m_number}
+		and b_comm_group = 0
 		order by b_number desc
 	</select>
 	

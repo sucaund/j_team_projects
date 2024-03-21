@@ -15,7 +15,7 @@ public class Board { //게시판 게시물 board
 	private int 	b_readcount; //조회수
 	private String  b_regdate; //생성일자(등록일자)
 	private String  b_update; //수정일자
-    private int 	b_isreported; //신고여부
+    private int 	b_isreported; //신고여부 0-신고안됨 1-신고됨
     private int 	b_recomm_count; //추천수
     private List<MultipartFile> b_images; //첨부이미지 kwon
 //    private String 	b_images; //첨부이미지 기존

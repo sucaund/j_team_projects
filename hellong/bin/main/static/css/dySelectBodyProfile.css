@@ -1,14 +1,18 @@
 /* 전체 페이지에 대한 스타일 */
 
 
-.navigation {
+ .navigation {
     display: flex;
     justify-content: center;
     gap: 20px;
     background-color: #007bff;
     padding: 10px 0;
+} 
+.breadcrumbs {
+    text-align: center; /* 내용 가운데 정렬 */
+    margin-bottom: 20px; /* 하단 여백 추가 */
+    margin: auto;
 }
-
 .navigation button {
     background-color: #007bff;
     color: white;
@@ -22,10 +26,11 @@
     background-color: #0056b3;
 }
 
-.container1 {
+ .container1 {
     padding: 20px;
+    
 }
-
+ 
 .body-profile-details, .comments-section {
     background-color: white;
     padding: 20px;
@@ -37,6 +42,7 @@
 	font-size: 17px;
     font-weight: 700;
     color: #081828;
+    
 }
 
 .carousel-item img {

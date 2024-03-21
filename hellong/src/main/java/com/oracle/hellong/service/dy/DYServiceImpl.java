@@ -234,5 +234,19 @@ public class DYServiceImpl implements DYService {
 		System.out.println("@DYServiceImpl callComment board2()->" + board2);
 		return board2;
 	}
+	//게시글 삭제시 신고삭제
+	@Override
+	public int deleteReported(int b_number) {
+		int deleteReported = 0;
+		deleteReported = dybd.deleteReported(b_number);
+		return deleteReported;
+	}
+	// 게시글 삭제시 추천삭제
+	@Override
+	public int deleteRecomm(int b_number) {
+		int deleteRecomm = 0;
+		deleteRecomm = dybd.deleteRecomm(b_number);
+		return deleteRecomm;
+	}
 
 }

@@ -24,6 +24,10 @@
 		INSERT INTO recomm_check (b_number, m_number, rc_isrecomm)
 		VALUES (#{b_number}, #{m_number}, #{rc_isrecomm})
 	</insert>
-
+	
+	<delete id="dyDeleteRecomm" parameterType="int">
+	delete from recomm_check
+	where b_number = #{b_number}
+	</delete>
 
 </mapper>

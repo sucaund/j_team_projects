@@ -36,6 +36,8 @@ import com.oracle.hellong.model.Gym;
 import com.oracle.hellong.model.GymBoard;
 import com.oracle.hellong.model.GymReview;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.RecommCheck;
+import com.oracle.hellong.model.Report;
 import com.oracle.hellong.model.SearchResults;
 import com.oracle.hellong.service.dy.DYPaging;
 import com.oracle.hellong.service.dy.DYService;
@@ -58,7 +60,7 @@ public class DYController {
 
 	// 게시글리스트
 	@GetMapping(value = "listBodyProfile")
-	public String bodyProfileList(Board board, BoardFile boardFile, Model model) {
+	public String bodyProfileList(Board board, Member member, BoardFile boardFile, Model model) {
 		System.out.println("DYController Start listBoard...");
 		int totalBodyProfile = dys.totalBodyProfile();
 		System.out.println("DYController Start totalBodyProfile->" + totalBodyProfile);
@@ -93,6 +95,7 @@ public class DYController {
 		model.addAttribute("listFileBodyProfile", listFileBodyProfile);
 		model.addAttribute("firstImageMap", firstImageMap);
 		model.addAttribute("page", page);
+		model.addAttribute("member", member);
 
 		return "dy/dyBodyProfile";
 	}
@@ -319,7 +322,7 @@ public class DYController {
 
 	// 게시글 삭제
 	@RequestMapping(value = "dyDeleteBodyProfile")
-	public String dyDeleteBodyProfile(Board board, Model model, HttpSession session) {
+	public String dyDeleteBodyProfile(Board board, Model model,Report report,RecommCheck recommCheck, HttpSession session) {
 		System.out.println("DYController delete Start...");
 		List<BoardFile> files = dys.selectBodyProfileFileList(board.getB_number());
 		for (BoardFile file : files) {
@@ -329,7 +332,9 @@ public class DYController {
 			}
 			dys.deleteFileById(file.getBf_id());
 		}
-		int result = dys.deleteBodyProfile(board.getB_number());
+		int result1 = dys.deleteReported(report.getB_number());
+		int result2 = dys.deleteRecomm(recommCheck.getB_number());
+		int result3 = dys.deleteBodyProfile(board.getB_number());
 		return "redirect:/listBodyProfile";
 	}
 

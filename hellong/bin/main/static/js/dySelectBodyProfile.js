@@ -1,9 +1,9 @@
 // 게시글 삭제 알림
 function confirmDeletion(element) {
-	var b_number = element.getAttribute('data-b_number'); // 데이터 가져오기
+	var b_number = element.getAttribute('data-b_number'); 
 	var confirmAction = confirm("정말로 게시글을 삭제하시겠습니까?");
 	if (confirmAction) {
-		location.href = 'dyDeleteBodyProfile?b_number=' + b_number; // bNumber 변수를 사용
+		location.href = 'dyDeleteBodyProfile?b_number=' + b_number; 
 		return true;
 	} else {
 		return false;
@@ -27,7 +27,7 @@ function submitReport() {
 document.addEventListener("DOMContentLoaded", function() {
 	const recommendButton = document.getElementById("recommendButton");
 	recommendButton.addEventListener("click", function() {
-		const b_number = this.getAttribute("data-b_number"); // 버튼의 data-b_number 속성에서 b_number 값을 가져옵니다.
+		const b_number = this.getAttribute("data-b_number");
 
 		fetch("/recommend", {
 			method: "POST",
@@ -36,12 +36,13 @@ document.addEventListener("DOMContentLoaded", function() {
 			},
 			body: `b_number=${b_number}`
 		})
-			.then(response => response.text()) // 이 부분을 response.json()에서 response.text()로 변경합니다.
+			.then(response => response.text())
 			.then(data => {
-				alert(data); // 서버로부터 받은 응답(메시지)를 알림으로 표시합니다.
+				alert(data);
 				if (data === "추천되었습니다.") {
 					let recommCountElement = document.getElementById("recommCount");
-					recommCountElement.innerText = parseInt(recommCountElement.innerText) + 1;
+					recommCountElement.innerText 
+						= parseInt(recommCountElement.innerText) + 1;
 				}
 			})
 			.catch(error => console.error('Error:', error));

@@ -45,4 +45,8 @@ public interface DYBoardDao {
 
 	Board callComment(Board board);
 
+	int deleteReported(int b_number);
+
+	int deleteRecomm(int b_number);
+
 }
