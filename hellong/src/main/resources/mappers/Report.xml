@@ -51,5 +51,15 @@
 		)
 
 	</insert>
+	
+<!-- ============================ 재준 mappers 시작 ============================ -->
+
+	<!-- board에서 글 삭제시 report에 있는 b_number도 같이 삭제 쿼리 -->
+	<delete id="delreportBoard" parameterType="int">
+		DELETE FROM report 
+		WHERE b_number = #{b_number}
+	</delete>
+
+<!-- ============================ 재준 mappers 끝 ============================ -->
 
 </mapper>

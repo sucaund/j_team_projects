@@ -75,6 +75,14 @@ public class JJServiceImpl implements JJService {
 		result = bd.deleteBoard(b_number);
 		return result;
 	}
+	
+	@Override
+	public int delreportBoard(int b_number) {
+		int result = 0;
+		System.out.println("JJServiceImpl delreportBoard Start...");
+		result = bd.delreportBoard(b_number);
+		return result;
+	}
 
 	@Override
 	public int jjReported(Board board) {
@@ -173,6 +181,5 @@ public class JJServiceImpl implements JJService {
 		System.out.println("SHServiceImpl deleteComment Start...");
 		bd.jsDeleteComment(b_number);
 	}
-
 
 }

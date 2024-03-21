@@ -15,6 +15,7 @@ public interface BoardDao {
 	List<Board> listManager();
 	int 		insertBoard(Board board);
 	int 		deleteBoard(int b_number);
+	int 		delreportBoard(int b_number);
 	int 		jjReported(Board board);
 	List<Board> listCategorySearchBoard(Board board);
 	int 		totalCategorySearchCnt(Board board);

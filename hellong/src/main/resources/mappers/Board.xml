@@ -101,10 +101,10 @@
 	</insert>
 	
 	<!-- 글을 삭제하는 쿼리 -->
-	<delete id="deleteBoard" parameterType="Board">
-		 DELETE FROM board 
-      WHERE b_number = #{b_number}
-      OR B_COMM_GROUP = #{b_number}
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board 
+		WHERE b_number = #{b_number}
+		OR B_COMM_GROUP = #{b_number}
 	</delete>
 	
 	<!-- 신고여부 쿼리 -->

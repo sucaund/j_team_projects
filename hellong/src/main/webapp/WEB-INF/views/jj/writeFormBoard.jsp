@@ -28,8 +28,8 @@
 								<div class="row mb-3">
 									<label for="title" class="col-sm-2 col-form-label">카테고리</label>
 									<div class="col-sm-10">
-										<select name="jjcategory">
-											<option value="" selected disabled hidden>글유형</option>
+										<select name="jjcategory" required="required">
+											<option value="" selected disabled hidden>카테고리를 선택해주세요.</option>
 											<option value="jjfree">자유글</option>
 											<!-- <option value="jjbody">바디프로필</option>
 											<option value="jjnotice">공지</option>

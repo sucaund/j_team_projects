@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.oracle.hellong.model.Board;
 import com.oracle.hellong.model.Common;
 import com.oracle.hellong.model.Member;
+import com.oracle.hellong.model.Report;
 import com.oracle.hellong.service.jj.JJPaging;
 import com.oracle.hellong.service.jj.JJService;
 import com.oracle.hellong.service.sh.SHService;
@@ -220,8 +221,9 @@ public class JJController {
 	
 	// 게시글 삭제 적용
 	@RequestMapping(value = "deleteBoard")
-	public String deleteBoard(Board board) {
+	public String deleteBoard(Board board, Report report) {
 		System.out.println("JJController deleteBoard Start...");
+		int result2 = js.delreportBoard(report.getB_number());
 		int result = js.deleteBoard(board.getB_number());
 		return "forward:communityBoard";
 	}

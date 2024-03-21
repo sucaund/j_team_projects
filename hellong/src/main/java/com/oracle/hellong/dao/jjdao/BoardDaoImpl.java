@@ -118,6 +118,20 @@ public class BoardDaoImpl implements BoardDao {
 		}
 		return result;
 	}
+	
+	@Override
+	public int delreportBoard(int b_number) {
+		System.out.println("BoardDaoImpl delreportBoard Start...");
+		int result = 0;
+		System.out.println("BoardDaoImpl delreportBoard b_number->" + b_number);
+		try {
+			result = session.delete("delreportBoard", b_number);
+			System.out.println("BoardDaoImpl delreportBoard result->" + result);
+		} catch (Exception e) {
+			System.out.println("BoardDaoImpl delreportBoard Exception->" + e.getMessage());
+		}
+		return result;
+	}
 
 	@Override
 	public int jjReported(Board board) {
@@ -275,7 +289,5 @@ public class BoardDaoImpl implements BoardDao {
 		}
 		
 	}
-
-
 	
 }

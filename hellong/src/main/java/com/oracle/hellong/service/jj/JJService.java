@@ -14,6 +14,7 @@ public interface JJService {
 	List<Board> listManager();
 	int 		insertBoard(Board board);
 	int 		deleteBoard(int b_number);
+	int 		delreportBoard(int b_number);
 	int 		jjReported(Board board);
 	List<Board> listCategorySearchBoard(Board board);
 	int 		totalCategorySearchCnt(Board board);
@@ -25,5 +26,6 @@ public interface JJService {
 	void 		jjAddComment(Board board);
 	Board 		jsCallComment(Board board);
 	void 		jsDeleteComment(int b_number);
+
 
 }
