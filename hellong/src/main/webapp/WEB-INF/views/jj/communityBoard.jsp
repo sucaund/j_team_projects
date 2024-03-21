@@ -141,7 +141,7 @@
 			</select>
 			<input type="hidden" name="cateSearch" value="${board.cateSearch}">
 			
-			<input type="text" name="keyword" value="${board.keyword}" style="width: 500px;" placeholder="게시글 검색">
+			<input type="text" name="keyword" value="${board.keyword}" style="height:30px; width:600px;" placeholder="게시글 검색">
 			<input type="submit" value="검색">
 		</form>
 	</div>

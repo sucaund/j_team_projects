@@ -42,7 +42,7 @@
 								<div class="row mb-3">
 									<label for="labeltitle" class="col-sm-2 col-form-label">제목</label>
 									<div class="col-sm-10">
-										<input type="text" id="labeltitle" name="b_title" required="required"
+										<input type="text" style="width:100%;" id="labeltitle" name="b_title" required="required"
 											value="${board.b_title}">
 									</div>
 								</div>
@@ -71,7 +71,7 @@
 								</div>
 								<div class="row mb-3">
 									<div style="text-align: center">
-										<button type="submit" class="btn btn-outline-primary">확인</button>
+										<button type="submit" class="btn btn-outline-primary">수정</button>
 										<button type="button" class="btn btn-outline-secondary"
 											onclick="location.href='detailBoard?b_number=${board.b_number}'">취소</button>
 									</div>

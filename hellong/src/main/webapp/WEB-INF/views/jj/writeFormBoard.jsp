@@ -9,7 +9,7 @@
 </head>
 <body>
 	<main id="main" class="main">
-		<section class="section col-6" style="margin: 0 auto">
+		<section class="section col-10" style="margin: 0 auto">
 
 			<div class="pagetitle">
 				<h3>글쓰기</h3>
@@ -41,7 +41,7 @@
 								<div class="row mb-3">
 									<label for="title" class="col-sm-2 col-form-label">제목</label>
 									<div class="col-sm-10">
-										<input type="text" name="b_title" required="required" value="${board.b_title}">
+										<input type="text" style="width:100%;" name="b_title" required="required" value="${board.b_title}">
 									</div>
 								</div>
 								

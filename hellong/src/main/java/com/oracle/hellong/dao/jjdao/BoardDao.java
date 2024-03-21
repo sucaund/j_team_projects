@@ -29,5 +29,6 @@ public interface BoardDao {
 	void 		jjAddComment(Board board);
 	Board 		jsCallComment(Board board);
 	void 		jsDeleteComment(int b_number);
+	int 		delrecommBoard(int b_number);
 
 }

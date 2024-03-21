@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				<input type="hidden" name="bId" value="${board.b_number}">
 				<div class="row">
 					<div class="col-10 col-sm-10 col-md-11 col-lg-11 mb-2" style="padding: 0">
-						<textarea name="comment_body" class="form-control" style="height: 100px;" placeholder="댓글을 입력하세요..." id="re_content"></textarea>
+						<textarea name="comment_body" class="form-control" style="height: 100px; width:100%;" placeholder="댓글을 입력하세요..." id="re_content"></textarea>
 					</div>
 					<div class="col-2 col-sm-2 col-md-1 col-lg-1 mb-2" style="padding: 0">
 						<button type="button" class="btn btn-primary w-100 h-100" style="height: 100px; font-size: 17px" id="repInsert">확인</button>
